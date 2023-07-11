@@ -1,6 +1,9 @@
 import React from "react";
 
-import { ButtonFull, ButtonLight } from "../Buttons/buttons";
+import {
+  ButtonFull,
+  ButtonLight,
+} from "../../LandingPageComponents/Buttons/buttons";
 
 const Header = () => {
   return (
@@ -19,7 +22,7 @@ const Header = () => {
         present in the moment.
       </p>
       <div className="w-full flex place-content-center mt-5">
-        <img src="./images/heroIllustration.png" alt="illustrator image" />
+        <img src="./images/herolIlustrator.svg" alt="illustrator image" />
       </div>
       <div className="mt-10 mx-auto flex justify-between w-full">
         <ButtonFull>Sign Up</ButtonFull>

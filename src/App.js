@@ -2,7 +2,7 @@ import React from "react";
 
 import { Routes, Route } from "react-router";
 
-import Header from "./Components/Header/header";
+// import Header from "./Components/LandingPageComponents/Header/header";
 import LandingPage from "./Components/Landing Page/landingPage";
 
 function App() {
