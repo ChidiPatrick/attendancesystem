@@ -6,7 +6,7 @@ const Features = () => {
       <div className="my-5 p-2">
         <h2 className="font-bold text-2xl text-center mb-4">Features</h2>
         <figure className="w-full flex place-content-center">
-          <img src="/images/Features.svg" />
+          <img src="/images/Gif/face id gif.gif" />
         </figure>
         <div>
           <h3 className="text-center font-bold text-5 mt-4">Face Scanner</h3>
@@ -24,7 +24,7 @@ const Features = () => {
       </div>
       <div className="mt-5">
         <figure className="w-full flex place-content-center">
-          <img src="/images/gpsIllustration.svg" />
+          <img src="/images/Gif/gps gif.gif" />
         </figure>
         <div>
           <h3 className="text-center font-bold text-5 mt-4">GPS</h3>
@@ -41,7 +41,7 @@ const Features = () => {
       </div>
       <div className="mt-5">
         <figure className="w-full flex place-content-center">
-          <img src="/images/timeIllustrator.svg" />
+          <img src="/images/Gif/timer gif.gif" />
         </figure>
         <div>
           <h3 className="text-center font-bold text-5 mt-4">Timer</h3>

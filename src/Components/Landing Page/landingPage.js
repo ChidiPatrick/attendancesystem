@@ -5,6 +5,7 @@ import Description from "../LandingPageComponents/Description/description";
 import Features from "../LandingPageComponents/LandingPageFeatures/features";
 import Footer from "../LandingPageComponents/Footer/footer";
 import SignUp from "../AppComponents/SignUpComp/signUpComp";
+import Login from "../AppComponents/LoginComp/login";
 
 const LandingPage = () => {
   return (
@@ -14,6 +15,7 @@ const LandingPage = () => {
       <Features />
       <Footer />
       <SignUp />
+      <Login />
     </div>
   );
 };

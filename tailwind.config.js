@@ -10,6 +10,8 @@ module.exports = {
         "lp-gradient-end": "#6B19A600",
         "lp-font-color": "#333333",
         "lp-footer-bg": "#263238",
+        "signup-gray": "#79747E",
+        "signup-lc": "#FEF7FF",
       },
     },
   },
