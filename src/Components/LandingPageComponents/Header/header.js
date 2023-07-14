@@ -1,11 +1,28 @@
+/// React in-built packages imports //////////
 import React from "react";
 
+///// Third party imports /////////////
 import {
   ButtonFull,
   ButtonLight,
 } from "../../LandingPageComponents/Buttons/buttons";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+
+// HiChevronLeft
+
+/// Local directory imports ///////////////////
 
 const Header = () => {
+  //// Initializtions /////////////
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const btnClickHandler = () => {
+    console.log("Clicked!");
+    navigate("/signup");
+  };
+
   return (
     <header className="p-2">
       <h1 className="flex flex-col">
@@ -25,7 +42,7 @@ const Header = () => {
         <img src="./images/herolIlustrator.svg" alt="illustrator image" />
       </div>
       <div className="mt-10 mx-auto flex justify-between w-full">
-        <ButtonFull>Sign Up</ButtonFull>
+        <ButtonFull handleClick={btnClickHandler}>Sign Up</ButtonFull>
         <ButtonLight>Sign Up</ButtonLight>
       </div>
     </header>

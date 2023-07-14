@@ -14,7 +14,6 @@ const LandingPage = () => {
       <Description />
       <Features />
       <Footer />
-      <SignUp />
       <Login />
     </div>
   );
