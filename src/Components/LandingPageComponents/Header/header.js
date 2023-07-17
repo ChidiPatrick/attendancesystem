@@ -18,11 +18,14 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const btnClickHandler = () => {
+  const signupBtnClickHandler = () => {
     console.log("Clicked!");
     navigate("/signup");
   };
 
+  const signinBtnClickHandler = () => {
+    navigate("/signin");
+  };
   return (
     <header className="p-2">
       <h1 className="flex flex-col">
@@ -42,8 +45,8 @@ const Header = () => {
         <img src="./images/herolIlustrator.svg" alt="illustrator image" />
       </div>
       <div className="mt-10 mx-auto flex justify-between w-full">
-        <ButtonFull handleClick={btnClickHandler}>Sign Up</ButtonFull>
-        <ButtonLight>Sign Up</ButtonLight>
+        <ButtonFull handleClick={signupBtnClickHandler}>Sign Up</ButtonFull>
+        <ButtonLight handleSignin={signinBtnClickHandler}>Sign Up</ButtonLight>
       </div>
     </header>
   );

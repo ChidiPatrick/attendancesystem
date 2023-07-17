@@ -4,18 +4,55 @@ import React from "react";
 ///Third Party Imports //////////////////
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { ColorRing } from "react-loader-spinner";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 ////// Local directory Imports ///////////////
 import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../Firebase/firebase";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
+import { showSpinner, hideSpinner } from "../../Redux Slices/signupSlice";
+import NetworkFeedback from "../Modal/networkFeedback";
+import {
+  showNetworkFeedback,
+  hideNetworkFeedback,
+} from "../../Redux Slices/signupSlice";
+import { useNavigate } from "react-router";
 
-const Login = () => {
+const Signin = () => {
+  ///// Initialisations////////
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const displaySpinner = useSelector(
+    (state) => state.signupSlice.displaySpinner
+  );
+  const displayNetWorkFeedback = useSelector(
+    (state) => state.signupSlice.displayNetWorkFeedback
+  );
+  console.log(displayNetWorkFeedback);
+  const signinHandler = async (values) => {
+    try {
+      if (navigator.onLine) {
+        await signInWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        ).then(() => {
+          dispatch(hideSpinner());
+        });
+      } else {
+        console.log("Your'r offline");
+        dispatch(showNetworkFeedback());
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
       email: "",
       password: "",
     },
@@ -26,26 +63,48 @@ const Login = () => {
         .required("Required"),
     }),
     onSubmit: (values) => {
-      console.log("called");
+      dispatch(showSpinner());
+      signinHandler(values);
     },
   });
-  return (
-    <div className="relative h-screen mt-16 p-2 border-t border-lp-primary">
+
+  const componentBody = (
+    <div className="relative h-screen p-2">
+      <HiChevronLeft
+        className="text-3xl text-start"
+        onClick={() => navigate("/")}
+      />
       <h3 className="my-5  flex flex-col justify-start item-start">
         <span className="font-bold text-xl text-lp-primary">Hello Techie!</span>
         <span className="text-lg mt-2">Welcome Back</span>
       </h3>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <fieldset className="px-2 mb-4 border-2 border-solid border-signup-gray rounded py-2">
           <legend className="text-lp-primary">Email</legend>
-          <input className="w-full h-full focus:outline-none" type="text" />
+          <input
+            className="w-full h-full focus:outline-none"
+            type="text"
+            id="email"
+            name="email"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.email}
+          />
           {formik.errors.email ? (
             <div className="text-red-800">{formik.errors.email}</div>
           ) : null}
         </fieldset>
         <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
           <legend className="text-lp-primary">Password</legend>
-          <input className="w-full h-full focus:outline-none" type="text" />
+          <input
+            className="w-full h-full focus:outline-none"
+            type="password"
+            id="password"
+            name="password"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.password}
+          />
           {formik.errors.password ? (
             <div className="text-red-800">{formik.errors.password}</div>
           ) : null}
@@ -53,6 +112,7 @@ const Login = () => {
         <div className="w-3/2 mt-4 flex place-content-center">
           <button
             type="submit"
+            // onClick={() => console.log("Clicked")}
             className="text-white mt-8 font-bold p-4 w-3/4 border rounded-2xl bg-lp-secondary"
           >
             Login
@@ -60,9 +120,12 @@ const Login = () => {
         </div>
         <ul className="mt-7">
           <li className="py-2">
-            <a href="#" className="text-lp-primary border-b border-lp-primary">
+            <button
+              onClick={() => navigate("/signup")}
+              className="text-lp-primary border-b border-lp-primary"
+            >
               Create account
-            </a>
+            </button>
           </li>
           <li className="py-2">
             <a href="#" className="text-lp-primary border-b border-lp-primary">
@@ -71,18 +134,11 @@ const Login = () => {
           </li>
         </ul>
       </form>
-      <ColorRing
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="blocks-loading"
-        wrapperStyle={{}}
-        wrapperClass="blocks-wrapper"
-        colors={["#fcb05e", "#f47e60", "#3f71dc", "#034be6", "#F78F1E"]}
-      />
-      <SpinnerSmall />
+      {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
     </div>
   );
+
+  return componentBody;
 };
 
-export default Login;
+export default Signin;

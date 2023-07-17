@@ -12,7 +12,12 @@ import { doc, setDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import { Await, useNavigate } from "react-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import SpinnerSmall from "../Loading spinners/spinnerSmall";
+import NetworkFeedback from "../Modal/networkFeedback";
+import FaceScan from "../Face Scan component/faceScan";
+import {
+  showNetworkFeedback,
+  hideNetworkFeedback,
+} from "../../Redux Slices/signupSlice";
 
 ////////////////Sign up component//////////////////////////////
 const SignUp = () => {
@@ -20,11 +25,13 @@ const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState("#ffffff");
   /// Redux states ///////////////
   const userId = useSelector((state) => state.attendanceRecord.userId);
+  const displayNetworkFeedback = useSelector(
+    (state) => state.signupSlice.displayNetWorkFeedback
+  );
 
+  console.log(displayNetworkFeedback);
   //// User firebase reference ///////////
   const attendanceRecordRef = doc(
     db,
@@ -61,22 +68,32 @@ const SignUp = () => {
   };
 
   const signUpUserHandler = async (values) => {
-    console.log("Function called");
-    let userId = "";
-    await createUserWithEmailAndPassword(auth, values.email, values.password)
-      .then((res) => {
-        console.log("Creating user Collection");
-        console.log(res.user);
-        userId = res.user.uid;
-        createUserInfoState(values, userId);
-      })
-      .then(() => {
-        console.log("Creating attendance Collection");
-        createAttendanceRecordDatabase(values, userId);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      if (navigator.onLine) {
+        let userId = "";
+        await createUserWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        )
+          .then((res) => {
+            console.log("Creating user Collection");
+            console.log(res.user);
+            userId = res.user.uid;
+            createUserInfoState(values, userId);
+          })
+          .then(() => {
+            console.log("Creating attendance Collection");
+            createAttendanceRecordDatabase(values, userId);
+          })
+          .then(() => {
+            navigate();
+          });
+      } else {
+        console.log("Got here");
+        dispatch(showNetworkFeedback());
+      }
+    } catch (err) {}
   };
 
   const formik = useFormik({
@@ -101,8 +118,9 @@ const SignUp = () => {
       signUpUserHandler(values);
     },
   });
-  return (
-    <div className=" h-screen ">
+
+  const comp = (
+    <div className=" h-screen relative">
       <HiChevronLeft
         className="text-3xl text-start"
         onClick={() => navigate("/")}
@@ -200,17 +218,10 @@ const SignUp = () => {
           </button>
         </div>
       </form>
-      {/* <PuffLoader
-        color={color}
-        loading={loading}
-        // cssOverride={override}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      /> */}
-      <SpinnerSmall />
+      <FaceScan />
     </div>
   );
+  return displayNetworkFeedback === true ? <NetworkFeedback /> : comp;
 };
 
 export default SignUp;
