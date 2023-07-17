@@ -1,6 +1,42 @@
 import React from "react";
 
+//// Third party imports /////////
+import { useGeolocated } from "react-geolocated";
+
 function FaceScanSuccessful() {
+  console.log(navigator.geolocation);
+
+  // navigator.geolocation.getCurrentPosition(success, error, options);
+
+  let id, target, options2;
+  const success = (pos) => {
+    const cords = pos.coords;
+    console.log(pos);
+    if (
+      target.latitude === cords.latitude &&
+      target.longitude === cords.longitude
+    ) {
+      console.log("Congratulations, you reached the target");
+      navigator.geolocation.clearWatch(id);
+    }
+  };
+
+  const error = (err) => {
+    console.log(err.code, err.message);
+  };
+
+  target = {
+    latitude: 0,
+    longitude: 0,
+  };
+  const options = {
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 0,
+  };
+
+  id = navigator.geolocation.watchPosition(success, error, options);
+  console.log(id);
   return (
     <div className="h-screen w-full bg-fbc p-4 border-t-2 border-lp-primary">
       <h2 className="text-center text-black font-bold text-2xl mt-5">
