@@ -14,6 +14,7 @@ module.exports = {
         "lp-footer-bg": "#263238",
         "signup-gray": "#79747E",
         "signup-lc": "#FEF7FF",
+        fbc: "#FFFDFA",
       },
     },
   },

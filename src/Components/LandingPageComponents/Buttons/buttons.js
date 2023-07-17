@@ -4,7 +4,7 @@ export const ButtonFull = ({ children, handleClick }) => {
   return (
     <button
       onClick={handleClick}
-      className="p-2 w-40 bg-lp-secondary hover:bg-green-600 text-white text-lg border rounded-full"
+      className="p-2 w-40 bg-lp-secondary text-white text-lg border rounded-full"
     >
       {children}
     </button>

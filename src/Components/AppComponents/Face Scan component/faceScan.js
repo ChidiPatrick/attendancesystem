@@ -2,7 +2,7 @@ import React from "react";
 
 function FaceScan() {
   return (
-    <div className="h-screen w-full p-4 border-t-2 border-lp-primary">
+    <div className="h-screen bg-fbc w-full p-4 border-t-2 border-lp-primary">
       <h2 className="text-center text-black font-bold text-2xl mt-5">
         Set up face id
       </h2>
