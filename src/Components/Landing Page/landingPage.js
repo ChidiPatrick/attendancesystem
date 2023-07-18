@@ -6,7 +6,7 @@ import Features from "../LandingPageComponents/LandingPageFeatures/features";
 import Footer from "../LandingPageComponents/Footer/footer";
 import SignUp from "../AppComponents/SignUpComp/signUpComp";
 import FaceScanSuccessful from "../AppComponents/Face Scan component/faceScanSuccessful";
-
+import FeedbackInfo from "../AppComponents/Modal/feedbackModal";
 const LandingPage = () => {
   return (
     <div>

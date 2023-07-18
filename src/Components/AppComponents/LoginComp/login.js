@@ -14,9 +14,12 @@ import { auth } from "../../Firebase/firebase";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import { showSpinner, hideSpinner } from "../../Redux Slices/signupSlice";
 import NetworkFeedback from "../Modal/networkFeedback";
+import FeedbackModal from "../Modal/feedbackModal";
 import {
   showNetworkFeedback,
   hideNetworkFeedback,
+  showFeedback,
+  hideFeedback,
 } from "../../Redux Slices/signupSlice";
 import { useNavigate } from "react-router";
 
@@ -25,13 +28,27 @@ const Signin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  ///// Store state retreivals /////////////
   const displaySpinner = useSelector(
     (state) => state.signupSlice.displaySpinner
   );
+
   const displayNetWorkFeedback = useSelector(
     (state) => state.signupSlice.displayNetWorkFeedback
   );
-  console.log(displayNetWorkFeedback);
+
+  const displayFeedback = useSelector(
+    (state) => state.signupSlice.displayFeedback
+  );
+
+  ///////// HANDLER FUNCTIONS ////////////////////
+  const cancleBtnHandler = () => {
+    console.log("BTN HANDLER CALLED");
+    navigate(0);
+    dispatch(hideFeedback());
+  };
+
+  ////////////////// SIGNIN COMPONENT /////////////
   const signinHandler = async (values) => {
     try {
       if (navigator.onLine) {
@@ -47,7 +64,7 @@ const Signin = () => {
         dispatch(showNetworkFeedback());
       }
     } catch (err) {
-      console.log(err);
+      dispatch(showFeedback());
     }
   };
 
@@ -63,7 +80,7 @@ const Signin = () => {
         .required("Required"),
     }),
     onSubmit: (values) => {
-      dispatch(showSpinner());
+      console.log("Submit called");
       signinHandler(values);
     },
   });
@@ -135,6 +152,12 @@ const Signin = () => {
         </ul>
       </form>
       {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
+      {displayFeedback === true ? (
+        <FeedbackModal handleClick={cancleBtnHandler}>
+          Please enter correct email and password. If you're not registered
+          user, you can easily setup your account in few minutes
+        </FeedbackModal>
+      ) : null}
     </div>
   );
 

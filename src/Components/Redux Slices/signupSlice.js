@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   displaySpinner: false,
   displayNetWorkFeedback: false,
+  displayFeedback: false,
 };
 
 const signupSlice = createSlice({
@@ -22,6 +23,13 @@ const signupSlice = createSlice({
     hideNetworkFeedback(state, action) {
       state.displayNetWorkFeedback = false;
     },
+    showFeedback(state, action) {
+      console.log("Network function called");
+      state.displayFeedback = true;
+    },
+    hideFeedback(state, action) {
+      state.displayFeedback = false;
+    },
   },
 });
 
@@ -30,6 +38,8 @@ export const {
   hideSpinner,
   showNetworkFeedback,
   hideNetworkFeedback,
+  showFeedback,
+  hideFeedback,
 } = signupSlice.actions;
 
 export default signupSlice.reducer;

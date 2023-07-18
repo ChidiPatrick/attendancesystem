@@ -8,7 +8,7 @@ import SignUp from "./Components/AppComponents/SignUpComp/signUpComp";
 import Signin from "./Components/AppComponents/LoginComp/login";
 function App() {
   return (
-    <div className="">
+    <div className="relative">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUp />} />

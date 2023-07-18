@@ -21,3 +21,14 @@ export const ButtonLight = ({ children, handleSignin }) => {
     </button>
   );
 };
+
+export const ButtonSmall = ({ children, handleClick }) => {
+  return (
+    <button
+      onClick={handleClick}
+      className="p-2 bg-lp-secondary text-white w-28  border rounded-xl"
+    >
+      {children}
+    </button>
+  );
+};
