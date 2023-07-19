@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router";
 import LandingPage from "./Components/Landing Page/landingPage";
 import SignUp from "./Components/AppComponents/SignUpComp/signUpComp";
 import Signin from "./Components/AppComponents/LoginComp/login";
+import FaceScanTesting from "./Components/AppComponents/Face Scan component/faceScanTesting";
 function App() {
   return (
     <div className="relative">
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<Signin />} />
+        <Route path="/testing" element={<FaceScanTesting />} />
       </Routes>
     </div>
   );

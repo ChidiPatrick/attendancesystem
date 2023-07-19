@@ -2,20 +2,22 @@ import React, { useEffect } from "react";
 
 /////// Third party imports ///////////////
 import faceIO from "@faceio/fiojs";
+import { useNavigate } from "react-router";
 
 /////// FACE SCAN COMPONENTS ////////////
 function FaceScan() {
   //// Initializations ////
+  const navigate = useNavigate();
 
   ///// Component handler functions ///////////////
-  let faceio;
-  useEffect(() => {
-    faceio = new faceIO("fioa59dc");
-  }, []);
+  // let faceio;
+  // useEffect(() => {
+  //   faceio = new faceIO("fioa59dc");
+  // }, []);
 
-  const onBorderNewUser = () => {
-    faceio.enroll();
-  };
+  // const onBorderNewUser = () => {
+  //   faceio.enroll();
+  // };
   /// Component body /////////////////////
   return (
     <div className="h-screen bg-fbc w-full p-4 border-t-2 border-lp-primary">
@@ -46,7 +48,10 @@ function FaceScan() {
           hidden
         />
       </label> */}
-      <button className="bg-lp-secondary p-2 " onClick={onBorderNewUser}>
+      <button
+        className="bg-lp-secondary p-2 "
+        onClick={() => navigate("/testing")}
+      >
         Enroll
       </button>
     </div>
