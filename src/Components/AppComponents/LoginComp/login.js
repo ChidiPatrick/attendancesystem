@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { useNavigate } from "react-router";
 
 ////// Local directory Imports ///////////////
 import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
@@ -21,7 +22,7 @@ import {
   showFeedback,
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
-import { useNavigate } from "react-router";
+import UserProfile from "../Pages/userProfile";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -158,6 +159,8 @@ const Signin = () => {
           user, you can easily setup your account in few minutes
         </FeedbackModal>
       ) : null}
+
+      <UserProfile />
     </div>
   );
 

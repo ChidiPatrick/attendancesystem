@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 /////// Third party imports ///////////////
-import faceIO from "@faceio/fiojs";
+
 import { useNavigate } from "react-router";
 
 /////// FACE SCAN COMPONENTS ////////////

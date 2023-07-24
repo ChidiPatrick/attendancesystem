@@ -1,7 +1,6 @@
 import React from "react";
 
 //// Third party imports /////////
-import { useGeolocated } from "react-geolocated";
 
 function FaceScanSuccessful() {
   console.log(navigator.geolocation);

@@ -1,49 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import faceIO from "@faceio/fiojs";
+import haversine from "../Handlers/haversine";
 
 function FaceScanTesting() {
-  // let faceio;
-  // useEffect(() => {
-  //   faceio = new faceIO("fioa59dc");
-  // }, []);
+  const [faceio, setFaceio] = useState(null);
 
-  const onBorderNewUser = async () => {
-    const faceio = new faceIO("fioa59dc");
-    try {
-      const res = await faceio.enroll({
-        locale: "auto",
-        permissionTimeout: 20000,
-        payload: {
-          email: "okaforpat@gmail.com",
-        },
-      });
-    } catch (err) {}
+  function daysInMonth(month, year, day) {
+    console.log(new Date(year, month, day));
+    return new Date(year, month, 0).getDate();
+  }
+
+  daysInMonth(6, 2023, 0);
+
+  const successCallback = (position) => {
+    console.log(position);
   };
-  let response;
-  const authenticateUser = async () => {
-    try {
-      const faceio = new faceIO("fioa59dc");
-      const res = await faceio.authenticate({
-        locale: "auto",
-        permissionTimeout: 20000,
-        payload: {
-          email: "okaforpat@gmail.com",
-        },
-      });
-      response = res;
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+
+  const errorCallback = (error) => {
+    console.log(error);
   };
+
+  navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+
+  const distance = haversine(6.204061, 7.067757, 6.2040729, 7.06752523);
+  console.log(distance);
 
   return (
     <div className=" w-screen h-screen">
       <h1>Welcome</h1>
-      <button className="bg-lp-secondary p-2 " onClick={authenticateUser}>
-        Enroll
-      </button>
+      <button className="bg-lp-secondary p-2 ">Enroll</button>
     </div>
   );
 }
