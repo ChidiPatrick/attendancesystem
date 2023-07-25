@@ -32,3 +32,14 @@ export const ButtonSmall = ({ children, handleClick }) => {
     </button>
   );
 };
+
+export const ButtonSmallLight = ({ children, handleClick }) => {
+  return (
+    <button
+      onClick={handleClick}
+      className="p-2   w-28  border rounded-xl border-lp-secondary text-lp-secondary"
+    >
+      {children}
+    </button>
+  );
+};

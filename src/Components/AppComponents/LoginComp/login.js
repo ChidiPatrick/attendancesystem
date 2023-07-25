@@ -24,6 +24,7 @@ import {
 } from "../../Redux Slices/signupSlice";
 import UserProfile from "../Pages/userProfile";
 import History from "../Pages/history";
+import Permission from "../Pages/permission";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -162,7 +163,8 @@ const Signin = () => {
       ) : null}
 
       {/* <UserProfile /> */}
-      <History />
+      {/* <History /> */}
+      <Permission />
     </div>
   );
 

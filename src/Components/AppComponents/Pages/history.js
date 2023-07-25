@@ -3,19 +3,13 @@ import React from "react";
 /// Third Party Input /////
 import { HiMenu } from "react-icons/hi";
 
+/// Local Directory imports ///////////
+import NavBar from "./navBar";
+
 function History() {
   return (
     <div className="w-full h-screen bg-user-profile border-t border-blue-400 ">
-      <div className="grid grid-cols-8 mt-5">
-        <div className="flex justify-center items-centers flex-col">
-          <div>
-            <HiMenu className="font-bold text-xl" />
-          </div>
-        </div>
-        <h3 className="text-xl col-start-2 col-end-9 font-bold p-2 text-center ">
-          Attendance History
-        </h3>
-      </div>
+      <NavBar>Attendance History</NavBar>
       <table className="table-fixed mt-10">
         <thead>
           <tr>
