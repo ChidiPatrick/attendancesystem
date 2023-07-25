@@ -23,6 +23,7 @@ import {
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
 import UserProfile from "../Pages/userProfile";
+import History from "../Pages/history";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -160,7 +161,8 @@ const Signin = () => {
         </FeedbackModal>
       ) : null}
 
-      <UserProfile />
+      {/* <UserProfile /> */}
+      <History />
     </div>
   );
 
