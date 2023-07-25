@@ -43,3 +43,14 @@ export const ButtonSmallLight = ({ children, handleClick }) => {
     </button>
   );
 };
+
+export const ButtonFullLong = ({ children, handleClick }) => {
+  return (
+    <button
+      onClick={handleClick}
+      className="p-2 w-3/4  bg-lp-secondary text-white text-lg border rounded-full"
+    >
+      {children}
+    </button>
+  );
+};

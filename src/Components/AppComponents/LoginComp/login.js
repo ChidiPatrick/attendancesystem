@@ -25,6 +25,7 @@ import {
 import UserProfile from "../Pages/userProfile";
 import History from "../Pages/history";
 import Permission from "../Pages/permission";
+import MarkAttendance from "../Pages/markAttendance";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -164,7 +165,8 @@ const Signin = () => {
 
       {/* <UserProfile /> */}
       {/* <History /> */}
-      <Permission />
+      {/* <Permission /> */}
+      <MarkAttendance />
     </div>
   );
 
