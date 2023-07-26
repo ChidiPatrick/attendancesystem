@@ -3,10 +3,11 @@ import React from "react";
 import { Routes, Route } from "react-router";
 
 // import Header from "./Components/LandingPageComponents/Header/header";
-import LandingPage from "./Components/Landing Page/landingPage";
+import LandingPage from "./Components/AppComponents/Pages/landingPage";
 import SignUp from "./Components/AppComponents/SignUpComp/signUpComp";
 import Signin from "./Components/AppComponents/LoginComp/login";
-import FaceScanTesting from "./Components/AppComponents/Face Scan component/faceScanTesting";
+import UserProfile from "./Components/AppComponents/Pages/userProfile";
+
 function App() {
   return (
     <div className="relative">
@@ -14,7 +15,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<Signin />} />
-        <Route path="/testing" element={<FaceScanTesting />} />
+        <Route path="/home" element={<UserProfile />} />
       </Routes>
     </div>
   );

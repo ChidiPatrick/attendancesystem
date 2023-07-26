@@ -13,11 +13,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Await, useNavigate } from "react-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import NetworkFeedback from "../Modal/networkFeedback";
-import FaceScan from "../Face Scan component/faceScan";
 import {
   showNetworkFeedback,
   hideNetworkFeedback,
 } from "../../Redux Slices/signupSlice";
+import { firestoreRefCreator } from "../../General app handlers/general.handlers";
+import {
+  userProfileModelCreator,
+  attendanceCollectionModelCreator,
+  permissionCollectionModelCreator,
+  announcementCollectionModelCreator,
+} from "./signup.handlers";
 
 ////////////////Sign up component//////////////////////////////
 const SignUp = () => {
@@ -31,41 +37,7 @@ const SignUp = () => {
     (state) => state.signupSlice.displayNetWorkFeedback
   );
 
-  console.log(displayNetworkFeedback);
-  //// User firebase reference ///////////
-  const attendanceRecordRef = doc(
-    db,
-    "users",
-    `${userId}`,
-    `monthlyRecord`,
-    "attendance"
-  );
-
   ////// Account creation functions //////////////
-  const createUserInfoState = async (values, userId) => {
-    const userBioRef = doc(
-      db,
-      "users",
-      `${userId}`,
-      `userBioCollection`,
-      `userBio`
-    );
-
-    await setDoc(userBioRef, {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      userName: values.userName,
-      email: values.email,
-    });
-  };
-
-  const createAttendanceRecordDatabase = async (values, userId) => {
-    const date = new Date();
-    const data = {
-      date: date.toUTCString(),
-      monthlyAttendance: [],
-    };
-  };
 
   const signUpUserHandler = async (values) => {
     try {
@@ -77,18 +49,41 @@ const SignUp = () => {
           values.password
         )
           .then((res) => {
-            console.log("Creating user Collection");
+            console.log("Creating user Profile");
             console.log(res.user);
             userId = res.user.uid;
-            createUserInfoState(values, userId);
+            userProfileModelCreator(
+              db,
+              userId,
+              "userProfileCollection",
+              "profile"
+            );
           })
           .then(() => {
-            console.log("Creating attendance Collection");
-            createAttendanceRecordDatabase(values, userId);
+            attendanceCollectionModelCreator(
+              db,
+              userId,
+              "attendanceCollection",
+              "attendanceRecords"
+            );
           })
           .then(() => {
-            navigate();
-          });
+            permissionCollectionModelCreator(
+              db,
+              userId,
+              "permissionCollection",
+              "permissionsRecord"
+            );
+          })
+          .then(() => {
+            announcementCollectionModelCreator(
+              db,
+              userId,
+              "announcementsCollection",
+              "announcements"
+            );
+          })
+          .then(() => navigate("/home"));
       } else {
         console.log("Got here");
         dispatch(showNetworkFeedback());
@@ -211,14 +206,13 @@ const SignUp = () => {
         <div className="w-3/2 mt-8 flex place-content-center">
           <button
             type="submit"
-            // onClick={() => console.log("Clicked!")}
+            onClick={() => firestoreRefCreator(db, userId, "mycoll", "docs")}
             className=" hover:bg-lp-secondary-dark text-white font-bold p-4 w-3/4 border rounded-2xl bg-lp-secondary"
           >
             Submit
           </button>
         </div>
       </form>
-      <FaceScan />
     </div>
   );
   return displayNetworkFeedback === true ? <NetworkFeedback /> : comp;

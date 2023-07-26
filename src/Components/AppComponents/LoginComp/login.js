@@ -159,8 +159,6 @@ const Signin = () => {
           user, you can easily setup your account in few minutes
         </FeedbackModal>
       ) : null}
-
-      <Announcement />
     </div>
   );
 
