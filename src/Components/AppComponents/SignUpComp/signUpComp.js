@@ -56,7 +56,8 @@ const SignUp = () => {
               db,
               userId,
               "userProfileCollection",
-              "profile"
+              "profile",
+              values
             );
           })
           .then(() => {
