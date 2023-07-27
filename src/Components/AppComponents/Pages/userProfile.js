@@ -1,8 +1,11 @@
 import React from "react";
 
+/// Local directory imports /////
+import NavBar from "./navBar";
 function UserProfile() {
   return (
     <div className="bg-user-profile p-4 w-full h-screen">
+      <NavBar>Profile</NavBar>
       <figure className="h-80 w-full bg-signup-gray border rounded-3xl"></figure>
       <div className="grid grid-cols-8 w-full h-40 text-sm  mt-10 grid-rows-2">
         <div className="col-start-1 p-1 flex flex-col justify-between items-center col-end-3 row-start-1 row-end-3 shadow-xl bg-profile-white border border-white rounded-xl">

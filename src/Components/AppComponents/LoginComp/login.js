@@ -23,6 +23,7 @@ import {
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
 import { ButtonFullLong } from "../../LandingPageComponents/Buttons/buttons";
+import AttendanceFeedback from "../Pages/attendanceFeedback";
 
 const Signin = () => {
   ///// Initialisations////////
