@@ -7,14 +7,14 @@ import {
   ButtonLight,
 } from "../../LandingPageComponents/Buttons/buttons";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 /// Local directory imports ///////////////////
 
 const Header = () => {
   //// Initializtions /////////////
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const signupBtnClickHandler = () => {
     console.log("Clicked!");
@@ -25,6 +25,30 @@ const Header = () => {
     navigate("/signin");
   };
   return (
+<<<<<<< HEAD
+    <header className=" w-full py-6">
+      <div className=" w-[90%] md:w-[80%] mx-auto">
+        <h1 className="flex flex-col">
+          <span className="mt-3 text-sm md:text-md font-bold text-center text-[#333]">
+            GPS ENABLED
+          </span>
+          <span className=" text-xl md:text-2xl text-center text-lp-primary font-bold my-4">
+            ATTENDANCE MANAGEMENT SYSTEM
+          </span>
+        </h1>
+        <p className="text-[14px] md:text-base text-center mt-4 text-lp-font-color">
+          Attendance made easy, with a touch of technology! Let our GPS and
+          facial recognition technology work their wonders, while you focus on
+          being present in the moment.
+        </p>
+        <div className="w-full flex place-content-center mt-5">
+          {/* <img src="./images/herolIlustrator.svg" alt="illustrator image" /> */}
+        </div>
+        <div className="mt-10 mx-auto flex justify-between w-full gap-3">
+          <ButtonFull handleClick={signupBtnClickHandler}>Sign Up</ButtonFull>
+          <ButtonLight handleSignin={signinBtnClickHandler}>Log In</ButtonLight>
+        </div>
+=======
     <header className="p-2">
       <h1 className="flex flex-col">
         <span className="mt-3 text-md font-bold text-center text-lp-font-color-300">
@@ -45,6 +69,7 @@ const Header = () => {
       <div className="mt-10 mx-auto flex justify-between w-full">
         <ButtonFull handleClick={signupBtnClickHandler}>Sign Up</ButtonFull>
         <ButtonLight handleSignin={signinBtnClickHandler}>Log in</ButtonLight>
+>>>>>>> origin/main
       </div>
     </header>
   );
