@@ -1,4 +1,4 @@
-text-c/// React in-built packages imports //////////
+/// React in-built packages imports //////////
 import React from "react";
 
 ///// Third party imports /////////////
