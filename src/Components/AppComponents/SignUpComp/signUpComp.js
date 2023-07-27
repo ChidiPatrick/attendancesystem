@@ -24,6 +24,8 @@ import {
   permissionCollectionModelCreator,
   announcementCollectionModelCreator,
 } from "./signup.handlers";
+import SpinnerSmall from "../Loading spinners/spinnerSmall";
+import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
 
 ////////////////Sign up component//////////////////////////////
 const SignUp = () => {
@@ -31,10 +33,13 @@ const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  /// Redux states ///////////////
+  ///// Redux states ///////////////
   const userId = useSelector((state) => state.attendanceRecord.userId);
   const displayNetworkFeedback = useSelector(
     (state) => state.signupSlice.displayNetWorkFeedback
+  );
+  const displaySpinner = useSelector(
+    (state) => state.signupSlice.displaySpinner
   );
 
   ////// Account creation functions //////////////
@@ -42,6 +47,7 @@ const SignUp = () => {
   const signUpUserHandler = async (values) => {
     try {
       if (navigator.onLine) {
+        dispatch(showSpinner());
         let userId = "";
         await createUserWithEmailAndPassword(
           auth,
@@ -84,7 +90,10 @@ const SignUp = () => {
               "announcements"
             );
           })
-          .then(() => navigate("/home"));
+          .then(() => {
+            dispatch(hideSpinner());
+            navigate("/home");
+          });
       } else {
         console.log("Got here");
         dispatch(showNetworkFeedback());
@@ -214,6 +223,7 @@ const SignUp = () => {
           </button>
         </div>
       </form>
+      {displaySpinner === true ? <SpinnerSmall /> : null}
     </div>
   );
   return displayNetworkFeedback === true ? <NetworkFeedback /> : comp;

@@ -22,7 +22,7 @@ import {
   showFeedback,
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
-import Announcement from "../Pages/announcement";
+import { ButtonFullLong } from "../../LandingPageComponents/Buttons/buttons";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -53,12 +53,14 @@ const Signin = () => {
   const signinHandler = async (values) => {
     try {
       if (navigator.onLine) {
+        dispatch(showSpinner());
         await signInWithEmailAndPassword(
           auth,
           values.email,
           values.password
-        ).then(() => {
+        ).then((user) => {
           dispatch(hideSpinner());
+          navigate("/home");
         });
       } else {
         console.log("Your'r offline");
@@ -130,7 +132,6 @@ const Signin = () => {
         <div className="w-3/2 mt-4 flex place-content-center">
           <button
             type="submit"
-            // onClick={() => console.log("Clicked")}
             className="text-white mt-8 font-bold p-4 w-3/4 border rounded-2xl bg-lp-secondary"
           >
             Login
@@ -159,6 +160,7 @@ const Signin = () => {
           user, you can easily setup your account in few minutes
         </FeedbackModal>
       ) : null}
+      {displaySpinner === true ? <SpinnerSmall /> : null}
     </div>
   );
 

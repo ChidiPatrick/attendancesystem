@@ -9,8 +9,6 @@ import {
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 
-// HiChevronLeft
-
 /// Local directory imports ///////////////////
 
 const Header = () => {
@@ -46,18 +44,10 @@ const Header = () => {
       </div>
       <div className="mt-10 mx-auto flex justify-between w-full">
         <ButtonFull handleClick={signupBtnClickHandler}>Sign Up</ButtonFull>
-        <ButtonLight handleSignin={signinBtnClickHandler}>Sign Up</ButtonLight>
+        <ButtonLight handleSignin={signinBtnClickHandler}>Log in</ButtonLight>
       </div>
     </header>
   );
 };
 
 export default Header;
-
-// colors: {
-//   "lp-primary": "#1946A6",
-//   "lp-secondary": "#F78F1E0D",
-//   "lp-gradient-start": "#1946A6",
-//   "lp-gradient-end": "#6B19A600",
-//   "lp-font-color": "#333333",
-// },
