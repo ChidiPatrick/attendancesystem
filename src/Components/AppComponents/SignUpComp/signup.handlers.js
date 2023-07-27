@@ -34,7 +34,7 @@ const userProfileModelCreator = async (
       totalRequestDenied: 0,
       totalRequestsApproved: 0,
     },
-    date: new Date(),
+    date: new Date().toDateString(),
     monthlyRecords: [],
   };
 
