@@ -25,7 +25,6 @@ const Header = () => {
     navigate("/signin");
   };
   return (
-<<<<<<< HEAD
     <header className=" w-full py-6">
       <div className=" w-[90%] md:w-[80%] mx-auto">
         <h1 className="flex flex-col">
@@ -48,7 +47,7 @@ const Header = () => {
           <ButtonFull handleClick={signupBtnClickHandler}>Sign Up</ButtonFull>
           <ButtonLight handleSignin={signinBtnClickHandler}>Log In</ButtonLight>
         </div>
-=======
+        {/* =======
     <header className="p-2">
       <h1 className="flex flex-col">
         <span className="mt-3 text-md font-bold text-center text-lp-font-color-300">
@@ -70,6 +69,7 @@ const Header = () => {
         <ButtonFull handleClick={signupBtnClickHandler}>Sign Up</ButtonFull>
         <ButtonLight handleSignin={signinBtnClickHandler}>Log in</ButtonLight>
 >>>>>>> origin/main
+      </div> */}
       </div>
     </header>
   );
