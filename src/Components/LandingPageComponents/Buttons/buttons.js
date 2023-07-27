@@ -4,7 +4,7 @@ export const ButtonFull = ({ children, handleClick }) => {
   return (
     <button
       onClick={handleClick}
-      className="p-2 w-40 bg-lp-secondary text-white text-lg border rounded-full"
+      className="p-1 md:p-2 w-40 bg-lp-secondary text-white text-lg border rounded-full"
     >
       {children}
     </button>
@@ -15,7 +15,7 @@ export const ButtonLight = ({ children, handleSignin }) => {
   return (
     <button
       onClick={handleSignin}
-      className="p-2 shadow-lg w-40 bg-white text-lp-secondary text-lg border border-solid border-lp-secondary rounded-full"
+      className="p-1 md:p-2 shad w-40 bg-white text-lp-secondary text-lg border-[0.5] border-solid border-lp-secondary rounded-full"
     >
       {children}
     </button>
