@@ -2,9 +2,18 @@ import React from "react";
 
 /// Local directory imports /////
 import NavBar from "./navBar";
+import Menu from "./menu";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 function UserProfile() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  ///// Redux states //////////////
+  const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
+
   return (
-    <div className="bg-user-profile p-4 w-full h-screen">
+    <div className="bg-user-profile p-4 w-full h-screen relative">
       <NavBar>Profile</NavBar>
       <figure className="h-80 w-full bg-signup-gray border rounded-3xl"></figure>
       <div className="grid grid-cols-8 w-full h-40 text-sm  mt-10 grid-rows-2">
@@ -92,6 +101,7 @@ function UserProfile() {
           </div>
         </div>
       </div>
+      {displayMenu === true ? <Menu /> : null}
     </div>
   );
 }

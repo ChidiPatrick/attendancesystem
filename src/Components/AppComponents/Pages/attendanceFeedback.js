@@ -1,10 +1,17 @@
 import React from "react";
 import NavBar from "./navBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Local directory imports ///
-
+import Menu from "./menu";
+import { useDispatch, useSelector } from "react-redux";
 function AttendanceFeedback() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //////// Redux state //////
+  const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
+
   return (
     <div className="p-2 bg-user-profile h-screen w-full">
       <NavBar>Welcome</NavBar>
@@ -30,6 +37,7 @@ function AttendanceFeedback() {
           View history
         </Link>
       </div>
+      {displayMenu === true ? <Menu /> : null}
     </div>
   );
 }

@@ -21,9 +21,7 @@ function Menu() {
   return (
     <div
       className={
-        displayMenu === true
-          ? "w-full h-screen bg-black bg-opacity-10 absolute top-0 left-0"
-          : "hidden"
+        "w-full h-screen bg-black bg-opacity-10 absolute top-0 left-0 p-2"
       }
     >
       {/* <div>close</div> */}
@@ -36,14 +34,48 @@ function Menu() {
         </li>
         <li
           className="p-2 font-bold"
-          onClick={() => handleNavigation(navigate, "home")}
+          onClick={() => handleNavigation(navigate, "home", dispatch, hideMenu)}
         >
           Home
         </li>
-        <li className="p-2 font-bold">My Profile</li>
-        <li className="p-2 font-bold">Seek Permission</li>
-        <li className="p-2 font-bold">History</li>
-        <li className="p-2 font-bold">Announcement</li>
+        <li
+          className="p-2 font-bold"
+          onClick={() => handleNavigation(navigate, "home", dispatch, hideMenu)}
+        >
+          My Profile
+        </li>
+        <li
+          className="p-2 font-bold"
+          onClick={() =>
+            handleNavigation(navigate, "permission", dispatch, hideMenu)
+          }
+        >
+          Seek Permission
+        </li>
+        <li
+          className="p-2 font-bold"
+          onClick={() =>
+            handleNavigation(navigate, "history", dispatch, hideMenu)
+          }
+        >
+          History
+        </li>
+        <li
+          className="p-2 font-bold"
+          onClick={() =>
+            handleNavigation(navigate, "markAttendance", dispatch, hideMenu)
+          }
+        >
+          Mark attendance
+        </li>
+        <li
+          className="p-2 font-bold"
+          onClick={() =>
+            handleNavigation(navigate, "announcement", dispatch, hideMenu)
+          }
+        >
+          Announcement
+        </li>
         <li className="p-2 font-bold">Log out</li>
       </ul>
     </div>

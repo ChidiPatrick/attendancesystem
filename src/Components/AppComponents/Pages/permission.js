@@ -3,6 +3,7 @@ import React from "react";
 //// Third Party imports ////
 import NavBar from "./navBar";
 import { BsCalendar4 } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 /// Local directory imports ///
 import {
@@ -11,8 +12,14 @@ import {
   ButtonSmall,
   ButtonSmallLight,
 } from "../../LandingPageComponents/Buttons/buttons";
+import Menu from "./menu";
+import { useDispatch } from "react-redux";
 
 function Permission() {
+  const dispatch = useDispatch();
+
+  const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
+
   return (
     <div className="w-full h-screen bg-user-profile p-2">
       <NavBar>Permission</NavBar>
@@ -67,6 +74,7 @@ function Permission() {
           <ButtonSmallLight>Cancel</ButtonSmallLight>
         </div>
       </div>
+      {displayMenu === true ? <Menu /> : null}
     </div>
   );
 }

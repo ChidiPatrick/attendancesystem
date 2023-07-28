@@ -2,17 +2,27 @@ import React from "react";
 
 /// Third party imports ///////////
 import { HiMenu } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 // Local directory imports /////
 import { ButtonFullLong } from "../../LandingPageComponents/Buttons/buttons";
+import Menu from "./menu";
+import NavBar from "./navBar";
 
 function MarkAttendance() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  /// Redux states /////
+  const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
+
   return (
     <div className="bg-user-profile w-full h-screen p-2">
       <div className="grid grid-cols-8 ">
         <div className="col-start-1 col-end-3 flex justify-between items-center">
           <div>
-            <HiMenu className="text-xl" />
+            <NavBar />
           </div>
           <figure>
             <img src="images/logo.svg" />
@@ -53,6 +63,7 @@ function MarkAttendance() {
       <div className="w-full flex justify-center items-center">
         <ButtonFullLong>Mark Attendance</ButtonFullLong>
       </div>
+      {displayMenu === true ? <Menu /> : null}
     </div>
   );
 }
