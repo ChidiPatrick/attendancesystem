@@ -1,7 +1,6 @@
-import { useDispatch } from "react-redux";
-
 // Page navigation handler ///
-const handleNavigation = (navigate, page) => {
+const handleNavigation = (navigate, page, dispatch, hideMenu) => {
+  dispatch(hideMenu());
   navigate(`/${page}`);
 };
 

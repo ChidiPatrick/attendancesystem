@@ -2,6 +2,7 @@ import React from "react";
 
 /// Third party Imports
 import { HiMenu } from "react-icons/hi";
+import { useSelector } from "react-redux";
 
 // Local directory imports ///
 import { toggleMenu } from "../Handlers/menu.handlers";
@@ -10,6 +11,8 @@ import { useDispatch } from "react-redux";
 
 function NavBar({ children }) {
   const dispatch = useDispatch();
+
+  const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
 
   return (
     <div>
