@@ -12,7 +12,7 @@ import AttendanceFeedback from "./attendanceFeedback";
 
 const LandingPage = () => {
   return (
-    <div>
+    <div className=" overflow-x-hidden">
       <PageNavbar />
       <Header />
       <Description />
