@@ -24,6 +24,8 @@ import {
 } from "../../Redux Slices/signupSlice";
 import { ButtonFullLong } from "../../LandingPageComponents/Buttons/buttons";
 import AttendanceFeedback from "../Pages/attendanceFeedback";
+import { setUserId, GetUsers } from "../../Redux Slices/menu.slice";
+import { db } from "../../Firebase/firebase";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -43,6 +45,10 @@ const Signin = () => {
     (state) => state.signupSlice.displayFeedback
   );
 
+  const userId = useSelector((state) => state.menuSlice.userId);
+
+  console.log(db);
+
   ///////// HANDLER FUNCTIONS ////////////////////
   const cancleBtnHandler = () => {
     console.log("BTN HANDLER CALLED");
@@ -60,6 +66,9 @@ const Signin = () => {
           values.email,
           values.password
         ).then((user) => {
+          dispatch(setUserId(user.user.uid));
+          dispatch(GetUsers(user.user.uid));
+          console.log(user);
           dispatch(hideSpinner());
           navigate("/home");
         });

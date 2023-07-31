@@ -17,12 +17,16 @@ import {
   showNetworkFeedback,
   hideNetworkFeedback,
 } from "../../Redux Slices/signupSlice";
-import { firestoreRefCreator } from "../../General app handlers/general.handlers";
+import {
+  firestoreRefCreator,
+  firestoreAdminRefCreatore,
+} from "../../General app handlers/general.handlers";
 import {
   userProfileModelCreator,
   attendanceCollectionModelCreator,
   permissionCollectionModelCreator,
   announcementCollectionModelCreator,
+  addStudentBioToAdminDatabase,
 } from "./signup.handlers";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
@@ -62,7 +66,7 @@ const SignUp = () => {
               db,
               userId,
               "userProfileCollection",
-              "profile",
+              "profileDocument",
               values
             );
           })
@@ -71,7 +75,7 @@ const SignUp = () => {
               db,
               userId,
               "attendanceCollection",
-              "attendanceRecords"
+              "attendanceDocument"
             );
           })
           .then(() => {
@@ -79,7 +83,7 @@ const SignUp = () => {
               db,
               userId,
               "permissionCollection",
-              "permissionsRecord"
+              "permissionsDocument"
             );
           })
           .then(() => {
@@ -87,8 +91,11 @@ const SignUp = () => {
               db,
               userId,
               "announcementsCollection",
-              "announcements"
+              "announcementsDocument"
             );
+          })
+          .then(() => {
+            addStudentBioToAdminDatabase(db, userId);
           })
           .then(() => {
             dispatch(hideSpinner());

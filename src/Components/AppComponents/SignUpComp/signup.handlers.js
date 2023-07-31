@@ -2,7 +2,10 @@
 import { setDoc, doc } from "firebase/firestore";
 
 /// Local directory imports ///
-import { firestoreRefCreator } from "../../General app handlers/general.handlers";
+import {
+  firestoreRefCreator,
+  firestoreAdminRefCreatore,
+} from "../../General app handlers/general.handlers";
 
 //// User profile model creator ///
 const userProfileModelCreator = async (
@@ -109,9 +112,23 @@ const announcementCollectionModelCreator = async (
   await setDoc(announcementCollectionRef, data);
 };
 
+// Add student collection to the admin database
+const addStudentBioToAdminDatabase = async (db, studentId) => {
+  const adminCollectionRef = firestoreAdminRefCreatore(db, studentId);
+
+  const data = {
+    weeklyAttendance: [false, false, false, false, false],
+    monthlyAttendanceRecords: [],
+    userBio: {},
+  };
+
+  await setDoc(adminCollectionRef, data);
+};
+
 export {
   userProfileModelCreator,
   attendanceCollectionModelCreator,
   permissionCollectionModelCreator,
   announcementCollectionModelCreator,
+  addStudentBioToAdminDatabase,
 };
