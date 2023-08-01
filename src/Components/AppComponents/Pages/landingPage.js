@@ -2,6 +2,7 @@
 import React from "react";
 
 /// Local directory Imports ////
+import PageNavbar from "../../LandingPageComponents/Navbar/landingPageNavbar";
 import Header from "../../LandingPageComponents/Header/header";
 import Description from "../../LandingPageComponents/Description/description";
 import Features from "../../LandingPageComponents/LandingPageFeatures/features";
@@ -11,7 +12,8 @@ import AttendanceFeedback from "./attendanceFeedback";
 
 const LandingPage = () => {
   return (
-    <div>
+    <div className=" overflow-x-hidden">
+      <PageNavbar />
       <Header />
       <Description />
       <Features />
