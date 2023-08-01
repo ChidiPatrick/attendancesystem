@@ -113,16 +113,22 @@ const announcementCollectionModelCreator = async (
 };
 
 // Add student collection to the admin database
-const addStudentBioToAdminDatabase = async (db, studentId) => {
-  const adminCollectionRef = firestoreAdminRefCreatore(db, studentId);
+const addStudentBioToAdminDatabase = async (db, studentId, values) => {
+  const adminDocumentRef = firestoreAdminRefCreatore(db, studentId);
 
   const data = {
     weeklyAttendance: [false, false, false, false, false],
     monthlyAttendanceRecords: [],
-    userBio: {},
+    userBio: {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      userName: values.userName,
+      tel: values.tel,
+    },
   };
 
-  await setDoc(adminCollectionRef, data);
+  await setDoc(adminDocumentRef, data);
 };
 
 export {

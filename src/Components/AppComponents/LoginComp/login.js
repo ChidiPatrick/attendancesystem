@@ -26,6 +26,7 @@ import { ButtonFullLong } from "../../LandingPageComponents/Buttons/buttons";
 import AttendanceFeedback from "../Pages/attendanceFeedback";
 import { setUserId, GetUsers } from "../../Redux Slices/menu.slice";
 import { db } from "../../Firebase/firebase";
+import { invokeAllThunks } from "../../General app handlers/general.handlers";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -47,8 +48,6 @@ const Signin = () => {
 
   const userId = useSelector((state) => state.menuSlice.userId);
 
-  console.log(db);
-
   ///////// HANDLER FUNCTIONS ////////////////////
   const cancleBtnHandler = () => {
     console.log("BTN HANDLER CALLED");
@@ -59,28 +58,31 @@ const Signin = () => {
   ////////////////// SIGNIN COMPONENT /////////////
   const signinHandler = async (values) => {
     try {
+      let userId;
       if (navigator.onLine) {
         dispatch(showSpinner());
-        await signInWithEmailAndPassword(
-          auth,
-          values.email,
-          values.password
-        ).then((user) => {
-          dispatch(setUserId(user.user.uid));
-          dispatch(GetUsers(user.user.uid));
-          console.log(user);
-          dispatch(hideSpinner());
-          navigate("/home");
-        });
-      } else {
-        console.log("Your'r offline");
+        await signInWithEmailAndPassword(auth, values.email, values.password)
+          .then(async (user) => {
+            userId = user.user.uid;
+            console.log("Calling invokeAllThunks");
+            invokeAllThunks(userId, dispatch);
+          })
+          .then(() => {
+            dispatch(setUserId(userId));
+            dispatch(hideSpinner());
+            navigate("/home");
+          });
+      } else if (!navigator.onLine) {
+        dispatch(hideSpinner());
         dispatch(showNetworkFeedback());
       }
     } catch (err) {
+      dispatch(hideSpinner());
       dispatch(showFeedback());
     }
   };
 
+  /// Formik Logic ////
   const formik = useFormik({
     initialValues: {
       email: "",

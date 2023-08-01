@@ -14,8 +14,10 @@ const initialState = {
   attendanceDocument: {},
 };
 
+/// Redux thunks for Getting user information //////
+
 /// Get user document /////
-export const GetUserDocument = createAsyncThunk(
+const GetUserDocument = createAsyncThunk(
   "userProfileDocument/getUserProfileDocument",
   async (userId, { dispatch, getState }) => {
     try {
@@ -27,6 +29,7 @@ export const GetUserDocument = createAsyncThunk(
       );
 
       const userProfileDocument = await getDoc(userProfileDocumentRef);
+      console.log(userProfileDocument.data().profileDocument);
 
       if (userProfileDocument.exists()) {
         dispatch(setUserProfileDocument(userProfileDocument.data()));
@@ -79,6 +82,8 @@ const GetAttendanceRecord = createAsyncThunk(
   }
 );
 
+/// Get Per  /////
+
 const loginSlice = createSlice({
   name: "loginSlice",
   initialState,
@@ -102,5 +107,7 @@ export const {
   setAnnouncementDocument,
   setAttendanceDocument,
 } = loginSlice.actions;
+
+export { GetAnnouncementDocument, GetAttendanceRecord, GetUserDocument };
 
 export default loginSlice.reducer;

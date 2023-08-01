@@ -95,18 +95,23 @@ const SignUp = () => {
             );
           })
           .then(() => {
-            addStudentBioToAdminDatabase(db, userId);
+            addStudentBioToAdminDatabase(db, userId, values);
           })
           .then(() => {
             dispatch(hideSpinner());
             navigate("/home");
           });
-      } else {
+      } else if (!navigator.onLine) {
         console.log("Got here");
+        dispatch(hideSpinner());
         dispatch(showNetworkFeedback());
       }
-    } catch (err) {}
+    } catch (err) {
+      prompt("Email already in use");
+    }
   };
+
+  // TODO: Validate phone number
 
   const formik = useFormik({
     initialValues: {
@@ -115,6 +120,7 @@ const SignUp = () => {
       userName: "",
       email: "",
       password: "",
+      tel: "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Required"),
@@ -124,6 +130,7 @@ const SignUp = () => {
       password: Yup.string()
         .min(8, "Password must be at least 8 alpha-numeric characters")
         .required("Required"),
+      tel: Yup.number().required("Required"),
     }),
     onSubmit: (values) => {
       console.log("Submit called");
@@ -159,6 +166,7 @@ const SignUp = () => {
             <div className="text-red-800">{formik.errors.firstName}</div>
           ) : null}
         </fieldset>
+
         <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
           <legend className="text-lp-primary">Last Name</legend>
           <input
@@ -174,6 +182,7 @@ const SignUp = () => {
             <div className="text-red-800">{formik.errors.lastName}</div>
           ) : null}
         </fieldset>
+
         <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
           <legend className="text-lp-primary">User Name</legend>
           <input
@@ -189,6 +198,7 @@ const SignUp = () => {
             <div className="text-red-800">{formik.errors.userName}</div>
           ) : null}
         </fieldset>
+
         <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
           <legend className="text-lp-primary">Email</legend>
           <input
@@ -204,6 +214,7 @@ const SignUp = () => {
             <div className="text-red-800">{formik.errors.email}</div>
           ) : null}
         </fieldset>
+
         <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
           <legend className="text-lp-primary">Password</legend>
           <input
@@ -217,6 +228,22 @@ const SignUp = () => {
           />
           {formik.errors.password ? (
             <div className="text-red-800">{formik.errors.password}</div>
+          ) : null}
+        </fieldset>
+
+        <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+          <legend className="text-lp-primary">Tel</legend>
+          <input
+            id="tel"
+            className="w-full h-full focus:outline-none"
+            type="tel"
+            name="tel"
+            value={formik.values.tel}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          {formik.errors.tel ? (
+            <div className="text-red-800">{formik.errors.tel}</div>
           ) : null}
         </fieldset>
 
