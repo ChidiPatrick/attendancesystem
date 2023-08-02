@@ -22,6 +22,7 @@ function Menu() {
   console.log(displayMenu);
   return (
     <div
+      onClick={() => toggleMenu(dispatch, hideMenu)}
       className={
         "w-full h-screen bg-black bg-opacity-10 absolute top-0 left-0 p-2"
       }
@@ -42,7 +43,9 @@ function Menu() {
         </div>
         <div
           className="p-2 font-bold"
-          onClick={() => handleNavigation(navigate, "home", dispatch, hideMenu)}
+          onClick={() =>
+            handleNavigation(navigate, "userprofile", dispatch, hideMenu)
+          }
         >
           My Profile
         </div>
@@ -64,11 +67,9 @@ function Menu() {
         </div>
         <div
           className="p-2 font-bold"
-          onClick={() =>
-            handleNavigation(navigate, "markAttendance", dispatch, hideMenu)
-          }
+          onClick={() => handleNavigation(navigate, "home", dispatch, hideMenu)}
         >
-          Mark attendance
+          Home
         </div>
         <div
           className="p-2 font-bold"

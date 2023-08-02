@@ -6,9 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 // Local directory imports /////
-import { ButtonFullLong } from "../../LandingPageComponents/Buttons/buttons";
+import {
+  ButtonFull,
+  ButtonFullLong,
+  ButtonLight,
+} from "../../LandingPageComponents/Buttons/buttons";
 import Menu from "./menu";
 import NavBar from "./navBar";
+import { navigateToClockIn } from "../Handlers/mark.attendance";
+import ClockLaunchCamera from "./clockin.launch.camera";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -60,10 +66,14 @@ function MarkAttendance() {
           <figure className="w-24 h-24 bg-gray-200 border rounded-full border-lp-primary"></figure>
         </div>
       </div>
-      <div className="w-full flex justify-center items-center">
-        <ButtonFullLong>Mark Attendance</ButtonFullLong>
+      <div className="w-[80%] my-0 mx-auto flex justify-between items-center">
+        <ButtonFull onClick={() => navigateToClockIn(navigate, "clockin")}>
+          Clock in
+        </ButtonFull>
+        <ButtonLight>Clock out</ButtonLight>
       </div>
       {displayMenu === true ? <Menu /> : null}
+      <ClockLaunchCamera />
     </div>
   );
 }

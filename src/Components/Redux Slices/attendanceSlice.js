@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   userId: "dfjdfsl",
+  geoCoords: {},
 };
 
 const attendanceSlice = createSlice({
@@ -11,9 +12,12 @@ const attendanceSlice = createSlice({
     setUserId(state, action) {
       state.userId = action.payload;
     },
+    setGeoCoords(state, action) {
+      state.geoCoords = action.payload;
+    },
   },
 });
 
-export const { setUserId } = attendanceSlice.actions;
+export const { setUserId, setGeoCoords } = attendanceSlice.actions;
 
 export default attendanceSlice.reducer;

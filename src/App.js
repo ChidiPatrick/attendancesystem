@@ -8,7 +8,7 @@ import SignUp from "./Components/AppComponents/SignUpComp/signUpComp";
 import Signin from "./Components/AppComponents/LoginComp/login";
 import UserProfile from "./Components/AppComponents/Pages/userProfile";
 import History from "./Components/AppComponents/Pages/history";
-import MarkAttendance from "./Components/AppComponents/Pages/markAttendance";
+import Home from "./Components/AppComponents/Pages/home";
 import Permission from "./Components/AppComponents/Pages/permission";
 import Announcement from "./Components/AppComponents/Pages/announcement";
 
@@ -19,11 +19,11 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<Signin />} />
-        <Route path="/home" element={<UserProfile />} />
-        <Route path="history" element={<History />} />
-        <Route path="markAttendance" element={<MarkAttendance />} />
-        <Route path="permission" element={<Permission />} />
-        <Route path="Announcement" element={<Announcement />} />
+        <Route path="/userprofile" element={<UserProfile />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/permission" element={<Permission />} />
+        <Route path="/announcement" element={<Announcement />} />
       </Routes>
     </div>
   );
