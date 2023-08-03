@@ -11,7 +11,6 @@ const options = {
 function success(pos) {
   const geoData = pos.coords;
   console.log(geoData);
-
   return geoData;
 }
 
@@ -22,14 +21,4 @@ function error(err) {
   );
 }
 
-function getGoelocation(dispatch, setGeoCoords) {
-  const locationCoords = navigator.geolocation.getCurrentPosition(
-    success,
-    error,
-    options
-  );
-  console.log(locationCoords);
-  return locationCoords;
-}
-
-export { getGoelocation };
+export { success, error, options };

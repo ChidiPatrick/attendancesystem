@@ -11,6 +11,8 @@ import History from "./Components/AppComponents/Pages/history";
 import Home from "./Components/AppComponents/Pages/home";
 import Permission from "./Components/AppComponents/Pages/permission";
 import Announcement from "./Components/AppComponents/Pages/announcement";
+import WebCam from "./Components/AppComponents/Pages/webCamera";
+import ClockLaunchCamera from "./Components/AppComponents/Pages/clockin.launch.camera";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/permission" element={<Permission />} />
         <Route path="/announcement" element={<Announcement />} />
+        <Route path="/webcam" element={<WebCam />} />
+        <Route path="/clockIn" element={<ClockLaunchCamera />} />
       </Routes>
     </div>
   );
