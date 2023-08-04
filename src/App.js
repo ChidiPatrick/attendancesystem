@@ -26,7 +26,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/permission" element={<Permission />} />
         <Route path="/announcement" element={<Announcement />} />
-        <Route path="/webcam" element={<WebCam />} />
+        <Route path="clockIn/webcam" element={<WebCam />} />
         <Route path="/clockIn" element={<ClockLaunchCamera />} />
       </Routes>
     </div>

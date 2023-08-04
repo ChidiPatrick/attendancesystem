@@ -11,8 +11,9 @@ import {
   setUserImage,
 } from "../../Redux Slices/attendanceSlice";
 import { useNavigate } from "react-router";
-import { showFeedback } from "../../Redux Slices/signupSlice";
+import { hideFeedback, showFeedback } from "../../Redux Slices/signupSlice";
 import FeedbackModal from "../Modal/feedbackModal";
+import { HiX, HiOutlineCheck } from "react-icons/hi";
 
 function WebCam() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function WebCam() {
 
   const [image, setImage] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [showDoneBtn, setShowDoneBtn] = useState(false);
 
   // Web camera configuration ////
   const videoConstraints = {
@@ -42,6 +44,7 @@ function WebCam() {
     dispatch(setUserImage(image));
     setImage(image);
     setShowPreview(true);
+    setShowDoneBtn(true);
   };
 
   const retakePicture = () => {
@@ -51,17 +54,26 @@ function WebCam() {
 
   /// Save image ///
   const saveImage = () => {
-    if (!image) {
-      dispatch(showFeedback());
-    }
     dispatch(setUserImage(image));
+    navigate("/clockIn");
   };
 
   return (
-    <div className={"top-0 left-0 absolute"}>
-      <div className="flex justify-between items-center">
-        <div onClick={() => navigate("/clockIn")}>X</div>
-        <div>Ok</div>
+    <div className={"top-0 left-0 absolute p-2 w-full "}>
+      <div className="flex justify-between items-center text-4xl">
+        <div onClick={() => navigate("/clockIn")}>
+          <HiX className="w-5 text-2xl h-5 hover:bg-gray-200 hover:text-black text-red-600 border border-white hover:rounded-full cursor-pointer" />
+        </div>
+        <button
+          className={
+            showDoneBtn === true
+              ? "w-5 h-5 text-2xl  hover:bg-gray-200 hover:text-black text-red-300 border border-white hover:rounded-full cursor-pointer"
+              : "hidden"
+          }
+          onClick={saveImage}
+        >
+          <HiOutlineCheck />
+        </button>
       </div>
       <div className={showPreview === false ? "hidden" : "visible"}>
         <h3>Preview</h3>
@@ -70,9 +82,9 @@ function WebCam() {
           src={image}
         />
       </div>
-      <div>
+      <div className="w-full  ">
         <Webcam
-          className="mt-10 border rounded-xl border-lp-secondary "
+          className="mt-10 border w-full rounded-xl border-lp-secondary "
           audio={false}
           height={300}
           screenshotFormat="image/*"
@@ -98,7 +110,9 @@ function WebCam() {
         </Webcam>
       </div>
       {displayFeedback === true ? (
-        <FeedbackModal>Please take a picture before saving</FeedbackModal>
+        <FeedbackModal handleClick={() => dispatch(hideFeedback())}>
+          Please take a picture before saving
+        </FeedbackModal>
       ) : null}
     </div>
   );

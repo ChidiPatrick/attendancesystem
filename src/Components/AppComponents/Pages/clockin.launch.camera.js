@@ -11,8 +11,10 @@ import FeedbackModal from "../Modal/feedbackModal";
 import {
   showNetworkFeedback,
   showFeedback,
+  hideFeedback,
 } from "../../Redux Slices/signupSlice";
 import { useNavigate } from "react-router";
+import MarkUser from "./mark.attendance";
 
 function ClockLaunchCamera() {
   const dispatch = useDispatch();
@@ -71,7 +73,7 @@ function ClockLaunchCamera() {
       dispatch(showNetworkFeedback());
       return;
     } else if (locationInMeters >= 0 && locationInMeters <= 10) {
-      navigate("/webcam");
+      navigate("/clockIn/webcam");
     } else {
       dispatch(showFeedback());
     }
@@ -81,16 +83,6 @@ function ClockLaunchCamera() {
 
   return (
     <div className="relative p-2 w-full h-screen bg-[#FFFDFA] flex flex-col items-center justify-center">
-      <div
-        className={
-          showFeedback === false
-            ? "hidden"
-            : "text-[#d60808] w-full text-center"
-        }
-      >
-        You're not within the hub's proximity. Ensure your in the hub so that
-        you can clock in
-      </div>
       <h2 className="font-bold text-lp-primary text-xl text-center">
         Today’s attendance location is at the Reception
       </h2>
@@ -125,8 +117,11 @@ function ClockLaunchCamera() {
         <img src={image} />
       </div>
       {displayFeedback === true ? (
-        <FeedbackModal>You're not within the hub's proximity</FeedbackModal>
+        <FeedbackModal handleClick={() => dispatch(hideFeedback())}>
+          You're not within the hub's proximity
+        </FeedbackModal>
       ) : null}
+      <MarkUser />
     </div>
   );
 }
