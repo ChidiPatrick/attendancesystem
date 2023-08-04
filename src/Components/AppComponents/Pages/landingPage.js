@@ -18,7 +18,7 @@ const LandingPage = () => {
       <Description />
       <Features />
       <Footer />
-      {/* <UserProfile /> */}
+      <UserProfile />
       <AttendanceFeedback />
     </div>
   );

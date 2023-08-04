@@ -32,6 +32,9 @@ module.exports = {
         "late-color": "#A68923",
         "absent-color": "#A63323",
       },
+      backgroundColor: {
+        grey: "#EEF0F4",
+      },
     },
   },
 
