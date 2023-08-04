@@ -9,6 +9,8 @@ const initialState = {
   image: "",
   isOnTime: false,
   currTime: 0,
+  date: null,
+  latenessHour: 11,
 };
 
 const attendanceSlice = createSlice({
@@ -45,6 +47,10 @@ const attendanceSlice = createSlice({
     setTime(state, action) {
       state.currTime = action.payload;
     },
+
+    setDate(state, action) {
+      state.date = action.payload;
+    },
   },
 });
 
@@ -57,6 +63,7 @@ export const {
   setUserImage,
   setOnTime,
   setTime,
+  setDate,
 } = attendanceSlice.actions;
 
 export default attendanceSlice.reducer;

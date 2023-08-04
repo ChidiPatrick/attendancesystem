@@ -31,8 +31,6 @@ function ClockLaunchCamera() {
     (state) => state.signupSlice.displayFeedback
   );
 
-  // const [showFeedback, setShowFeedback] = useState(false);
-
   const [image, setImage] = useState(null);
 
   const { latitude, longitude } = geoCoords;

@@ -41,20 +41,24 @@ function WebCam() {
   ///Capture user ///
   const captureUser = (getScreenshot, setImage) => {
     const image = getScreenshot();
-    dispatch(setUserImage(image));
+
     setImage(image);
+
     setShowPreview(true);
+
     setShowDoneBtn(true);
   };
 
   const retakePicture = () => {
     setImage(null);
+
     setShowPreview(false);
   };
 
   /// Save image ///
   const saveImage = () => {
     dispatch(setUserImage(image));
+
     navigate("/clockIn");
   };
 
