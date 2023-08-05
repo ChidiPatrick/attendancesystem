@@ -8,7 +8,7 @@ import Description from "../../LandingPageComponents/Description/description";
 import Features from "../../LandingPageComponents/LandingPageFeatures/features";
 import Footer from "../../LandingPageComponents/Footer/footer";
 import UserProfile from "./userProfile";
-import AttendanceFeedback from "./attendanceFeedback";
+import AttendanceFeedback from "./attendance.feedback";
 import ClockLaunchCamera from "./clockin.launch.camera";
 
 const LandingPage = () => {
@@ -20,8 +20,8 @@ const LandingPage = () => {
       <Features />
       <Footer />
 
-      <UserProfile />
-      <AttendanceFeedback />
+      {/* <UserProfile /> */}
+      {/* <AttendanceFeedback /> */}
       <ClockLaunchCamera />
     </div>
   );

@@ -5,7 +5,7 @@ const initialState = {
   userId: "dfjdfsl",
   geoCoords: {},
   displayWebCam: false,
-  dailyAttendance: [],
+  weeklyAttendance: [],
   image: "",
   isOnTime: false,
   currTime: 0,
@@ -42,7 +42,7 @@ const attendanceSlice = createSlice({
     },
 
     setOnTime(state, action) {
-      state.isOnTime = true;
+      state.isOnTime = action.payload;
     },
     setTime(state, action) {
       state.currTime = action.payload;
@@ -50,6 +50,9 @@ const attendanceSlice = createSlice({
 
     setDate(state, action) {
       state.date = action.payload;
+    },
+    updateWeeklyAttendance(state, action) {
+      state.weeklyAttendance.push(action.payload);
     },
   },
 });
@@ -64,6 +67,7 @@ export const {
   setOnTime,
   setTime,
   setDate,
+  updateWeeklyAttendance,
 } = attendanceSlice.actions;
 
 export default attendanceSlice.reducer;

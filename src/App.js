@@ -13,6 +13,7 @@ import Permission from "./Components/AppComponents/Pages/permission";
 import Announcement from "./Components/AppComponents/Pages/announcement";
 import WebCam from "./Components/AppComponents/Pages/webCamera";
 import ClockLaunchCamera from "./Components/AppComponents/Pages/clockin.launch.camera";
+import AttendanceFeedback from "./Components/AppComponents/Pages/attendance.feedback";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/announcement" element={<Announcement />} />
         <Route path="clockIn/webcam" element={<WebCam />} />
         <Route path="/clockIn" element={<ClockLaunchCamera />} />
+        <Route path="/attendanceSuccessful" element={<AttendanceFeedback />} />
       </Routes>
     </div>
   );

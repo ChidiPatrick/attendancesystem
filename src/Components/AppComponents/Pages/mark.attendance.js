@@ -2,7 +2,12 @@ import React, { useImperativeHandle, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import { useNavigate } from "react-router";
-import { setTime, setCurrDate } from "../../Redux Slices/attendanceSlice";
+import {
+  setTime,
+  setCurrDate,
+  setOnTime,
+  updateWeeklyAttendance,
+} from "../../Redux Slices/attendanceSlice";
 
 function MarkUser() {
   const dispatch = useDispatch();
@@ -13,6 +18,9 @@ function MarkUser() {
   const userImage = useSelector((state) => state.attendanceRecord.image);
   const currTime = useSelector((state) => state.attendanceRecord.currTime);
   const date = useSelector((state) => state.attendanceRecord.date);
+  const latenessHour = useSelector(
+    (state) => state.attendanceRecord.latenessHour
+  );
 
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
@@ -23,20 +31,31 @@ function MarkUser() {
   /// Mark attendance ///
   const markAttendance = () => {
     const date = new Date();
-
     const time = date.toLocaleTimeString("en-US");
+    const currHour = date.getUTCHours();
 
     setTime(time);
 
-    setCurrTime(time);
+    // setCurrTime(time);
 
     setCurrDate(date.toLocaleDateString());
 
-    const currHour = date.getUTCHours();
+    if (currHour > latenessHour) {
+      dispatch(setOnTime(false));
+    } else {
+      dispatch(setOnTime(true));
+    }
 
-    setCurrHour(currHour);
-
-    setShowClockInDetails(true);
+    const data = {
+      date,
+      time,
+      userImage,
+      isOnTime,
+    };
+    console.log(data);
+    dispatch(updateWeeklyAttendance(data));
+    // setCurrHour(currHour);
+    navigate("/attendanceSuccessful");
   };
 
   //TODO:

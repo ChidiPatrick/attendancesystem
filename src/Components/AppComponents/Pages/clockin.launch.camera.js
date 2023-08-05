@@ -70,7 +70,7 @@ function ClockLaunchCamera() {
     if (!navigator.onLine) {
       dispatch(showNetworkFeedback());
       return;
-    } else if (locationInMeters >= 0 && locationInMeters <= 10) {
+    } else if (locationInMeters >= 0 && locationInMeters <= 12000) {
       navigate("/clockIn/webcam");
     } else {
       dispatch(showFeedback());

@@ -23,7 +23,6 @@ import {
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
 import { ButtonFullLong } from "../../LandingPageComponents/Buttons/buttons";
-import AttendanceFeedback from "../Pages/attendanceFeedback";
 import { setUserId, GetUsers } from "../../Redux Slices/menu.slice";
 import { db } from "../../Firebase/firebase";
 import { invokeAllThunks } from "../../General app handlers/general.handlers";
