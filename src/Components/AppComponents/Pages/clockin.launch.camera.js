@@ -46,6 +46,7 @@ function ClockLaunchCamera() {
   function success(pos) {
     const geoData = pos.coords;
     console.log(geoData);
+
     dispatch(setGeoCoords(geoData));
 
     return geoData;
@@ -62,9 +63,11 @@ function ClockLaunchCamera() {
 
   ///Proximity checking algorithm /////
   const location = haversine(6.204055, 7.067484, latitude, longitude);
+  console.log(location);
 
   function checkProximity(location) {
     // convert location from Kilometer to meter
+
     const locationInMeters = location * 1000;
 
     if (!navigator.onLine) {

@@ -99,6 +99,9 @@ const loginSlice = createSlice({
     setAttendanceDocument(state, action) {
       state.attendanceDocument = action.payload;
     },
+    setUserId(state, action) {
+      state.userId = action.payload;
+    },
   },
 });
 
@@ -106,6 +109,7 @@ export const {
   setUserProfileDocument,
   setAnnouncementDocument,
   setAttendanceDocument,
+  setUserId,
 } = loginSlice.actions;
 
 export { GetAnnouncementDocument, GetAttendanceRecord, GetUserDocument };

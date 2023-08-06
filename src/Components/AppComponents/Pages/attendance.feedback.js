@@ -21,19 +21,32 @@ function AttendanceFeedback() {
   const latenessHour = useSelector(
     (state) => state.attendanceRecord.latenessHour
   );
+  const attendanceData = useSelector(
+    (state) => state.attendanceRecord.weeklyAttendance
+  );
+  const displayClockInDetails = useSelector(
+    (state) => state.attendanceRecord.displayClockInDetails
+  );
+  const currHour = useSelector((state) => state.attendanceRecord.currHour);
+
+  const currAttendanceData = attendanceData[attendanceData.length - 1];
+  console.log(isOnTime);
 
   //////  Local states  ////
   const [image, setImage] = useState(userImage);
   const [time, setCurrTime] = useState(currTime);
   const [currDate, setCurrDate] = useState(date);
-  const [currHour, setCurrHour] = useState(0);
-  const [showClockInDetails, setShowClockInDetails] = useState(false);
+  // const [showClockInDetails, setShowClockInDetails] = useState(false);
 
   return (
     <div className="p-2 bg-user-profile h-screen w-full">
       <NavBar>Welcome</NavBar>
-      <figure className="h-80 w-full bg-signup-gray border rounded-3xl">
-        <img src={image} alt="user" />
+      <figure className="w-full flex justify-center items-center ">
+        <img
+          src={image}
+          alt="user"
+          className="w-[300px] h-[300px] border rounded-3xl"
+        />
       </figure>
       <div className="mt-5 flex justify-center items-center flex-col">
         <div className="text-lp-primary font-bold text-xl">
@@ -42,7 +55,7 @@ function AttendanceFeedback() {
         <div className="font-md">You look good today</div>
         <div className="text-xs">Happy learning</div>
       </div>
-      {showClockInDetails === true ? (
+      {displayClockInDetails === true ? (
         <div className="w-full p-2 border  border-gray-300 my-10 flex bg-gray-100  justify-between items-center">
           <div
             className={
@@ -52,13 +65,13 @@ function AttendanceFeedback() {
             }
           ></div>
 
-          <div className=" ml-5 text-lp-secondary font-bold text-l">
+          <div className=" ml-5 text-lp-primary font-bold text-l">
             {currHour > 11 ? "Late" : "Early"}
           </div>
 
           <div className="w-[250px] text-lp-primary font-bold text-l flex flex-col items-end mr-2">
-            <div> {time}</div>
-            <div> {currDate}</div>
+            <div> {currAttendanceData.time}</div>
+            <div> {currAttendanceData.currDate}</div>
           </div>
         </div>
       ) : null}

@@ -22,10 +22,8 @@ import {
   showFeedback,
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
-import { ButtonFullLong } from "../../LandingPageComponents/Buttons/buttons";
-import { setUserId, GetUsers } from "../../Redux Slices/menu.slice";
-import { db } from "../../Firebase/firebase";
 import { invokeAllThunks } from "../../General app handlers/general.handlers";
+import { setUserId } from "../../Redux Slices/login.slice";
 
 const Signin = () => {
   ///// Initialisations////////

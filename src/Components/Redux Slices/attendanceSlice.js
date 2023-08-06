@@ -11,6 +11,8 @@ const initialState = {
   currTime: 0,
   date: null,
   latenessHour: 11,
+  displayClockInDetails: false,
+  currHour: 0,
 };
 
 const attendanceSlice = createSlice({
@@ -51,8 +53,21 @@ const attendanceSlice = createSlice({
     setDate(state, action) {
       state.date = action.payload;
     },
+
     updateWeeklyAttendance(state, action) {
       state.weeklyAttendance.push(action.payload);
+    },
+
+    showClockInDetails(state, action) {
+      state.displayClockInDetails = true;
+    },
+
+    hideClockInDetails(state, action) {
+      state.displayClockInDetails = false;
+    },
+
+    setCurrHour(state, action) {
+      state.currHour = action.payload;
     },
   },
 });
@@ -68,6 +83,9 @@ export const {
   setTime,
   setDate,
   updateWeeklyAttendance,
+  showClockInDetails,
+  hideClockInDetails,
+  setCurrHour,
 } = attendanceSlice.actions;
 
 export default attendanceSlice.reducer;
