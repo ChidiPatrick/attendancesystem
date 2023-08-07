@@ -76,6 +76,7 @@ const GetAttendanceRecord = createAsyncThunk(
       const attendanceDocument = await getDoc(attendanceDocumentRef);
 
       if (attendanceDocument.exists()) {
+        console.log(attendanceDocument);
         dispatch(setAttendanceDocument(attendanceDocument.data()));
       }
     } catch (err) {}

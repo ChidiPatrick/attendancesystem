@@ -9,10 +9,7 @@ import {
   showClockInDetails,
   setCurrHour,
 } from "../../Redux Slices/attendanceSlice";
-import { updateDoc } from "firebase/firestore";
 import { updateAttendanceRecord } from "../Handlers/mark.attendance";
-import { firestoreRefCreator } from "../../General app handlers/general.handlers";
-import { db } from "../../Firebase/firebase";
 
 function MarkUser() {
   const dispatch = useDispatch();
@@ -26,7 +23,7 @@ function MarkUser() {
   const latenessHour = useSelector(
     (state) => state.attendanceRecord.latenessHour
   );
-  const userId = useSelector((state) => state.login.userId);
+  const userId = useSelector((state) => state.loginSlice.userId);
 
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
@@ -60,13 +57,9 @@ function MarkUser() {
     dispatch(showClockInDetails());
     dispatch(setCurrHour(currHour));
 
-    await updateAttendanceRecord(
-      updateDoc,
-      userId,
-      firestoreRefCreator,
-      data,
-      db
-    );
+    // TODOs:
+    // link data to firebase
+    await updateAttendanceRecord(data, userId);
 
     navigate("/attendanceSuccessful");
   };

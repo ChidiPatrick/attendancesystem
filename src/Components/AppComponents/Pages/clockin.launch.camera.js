@@ -14,8 +14,8 @@ import {
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
 import { useNavigate } from "react-router";
-import MarkUser from "./mark.attendance";
 
+/// Clock in component
 function ClockLaunchCamera() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -122,7 +122,6 @@ function ClockLaunchCamera() {
           You're not within the hub's proximity
         </FeedbackModal>
       ) : null}
-      <MarkUser />
     </div>
   );
 }

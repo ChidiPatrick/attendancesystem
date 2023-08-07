@@ -8,13 +8,11 @@ import { useNavigate } from "react-router";
 // Local directory imports /////
 import {
   ButtonFull,
-  ButtonFullLong,
   ButtonLight,
 } from "../../LandingPageComponents/Buttons/buttons";
 import Menu from "./menu";
 import NavBar from "./navBar";
 import { navigateToClockIn } from "../Handlers/mark.attendance";
-import ClockLaunchCamera from "./clockin.launch.camera";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -22,6 +20,7 @@ function MarkAttendance() {
 
   /// Redux states /////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
+  const userData = useSelector((state) => state.loginSlice.userProfileDocument);
 
   return (
     <div className="bg-user-profile w-full h-screen p-2">
@@ -36,7 +35,7 @@ function MarkAttendance() {
         </div>
         <figure className="col-start-8 col-end-9 w-10 h-10 border border-lp-primary rounded-full bg-gray-400 "></figure>
       </div>
-      <h2 className="font-bold text-xl mb-3">Hello Victoria</h2>
+      <h2 className="font-bold text-xl mb-3">Hello {userData.firstName}</h2>
       <p className="border-b border-signup-gray">
         Welcome, please clock in and get yourself prepared for today's class and
         extracurricula activities.
@@ -67,13 +66,12 @@ function MarkAttendance() {
         </div>
       </div>
       <div className="w-[80%] my-0 mx-auto flex justify-between items-center">
-        <ButtonFull onClick={() => navigateToClockIn(navigate, "clockin")}>
+        <ButtonFull handleClick={() => navigateToClockIn(navigate, "clockin")}>
           Clock in
         </ButtonFull>
         <ButtonLight>Clock out</ButtonLight>
       </div>
       {displayMenu === true ? <Menu /> : null}
-      <ClockLaunchCamera />
     </div>
   );
 }

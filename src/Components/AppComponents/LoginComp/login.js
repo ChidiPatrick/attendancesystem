@@ -30,6 +30,9 @@ const Signin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const date = new Date();
+  console.log(date.getDay());
+
   ///// Store state retreivals /////////////
   const displaySpinner = useSelector(
     (state) => state.signupSlice.displaySpinner
@@ -55,16 +58,17 @@ const Signin = () => {
   ////////////////// SIGNIN COMPONENT /////////////
   const signinHandler = async (values) => {
     try {
-      let userId;
+      // let userId;
       if (navigator.onLine) {
         dispatch(showSpinner());
         await signInWithEmailAndPassword(auth, values.email, values.password)
           .then(async (user) => {
-            userId = user.user.uid;
+            let userId = user.user.uid;
             console.log("Calling invokeAllThunks");
             invokeAllThunks(userId, dispatch);
+            return userId;
           })
-          .then(() => {
+          .then((userId) => {
             dispatch(setUserId(userId));
             dispatch(hideSpinner());
             navigate("/home");

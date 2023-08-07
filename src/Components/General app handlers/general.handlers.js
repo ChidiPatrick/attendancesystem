@@ -4,10 +4,13 @@ import {
   GetAnnouncementDocument,
   GetAttendanceRecord,
 } from "../Redux Slices/login.slice";
+import { GetStudentAttendanceRecord } from "../Redux Slices/adminSlice";
+
 import { userId } from "react";
 import { auth } from "../Firebase/firebase";
 import { signOut } from "firebase/auth";
 import { hideMenu } from "../Redux Slices/menu.slice";
+import { db } from "../Firebase/firebase";
 
 /// Firestore ref creator ////
 const firestoreRefCreator = (db, userId, collection, document) => {
@@ -30,6 +33,7 @@ const invokeAllThunks = async (userId, dispatch) => {
   dispatch(GetUserDocument(userId));
   dispatch(GetAnnouncementDocument(userId));
   dispatch(GetAttendanceRecord(userId));
+  dispatch(GetStudentAttendanceRecord(userId));
 };
 
 /// Sign out function /////
@@ -40,9 +44,20 @@ const logout = async (auth, navigate, dispatch, hideMenu) => {
   });
 };
 
+/// Admin users ref creator ///
+const getStudentDocumentRef = (userId) => {
+  return doc(
+    db,
+    "adminCollection",
+    "adminDocument",
+    `${userId}`,
+    "studentInfo"
+  );
+};
 export {
   firestoreRefCreator,
   firestoreAdminRefCreatore,
   invokeAllThunks,
   logout,
+  getStudentDocumentRef,
 };
