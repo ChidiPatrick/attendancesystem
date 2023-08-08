@@ -1,6 +1,7 @@
+import { disableNetwork } from "firebase/firestore";
 import React from "react";
 
-export const ButtonFull = ({ children, handleClick }) => {
+export const ButtonFull = ({ children, handleClick, disble }) => {
   return (
     <button
       onClick={handleClick}

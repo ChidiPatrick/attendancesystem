@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 /// Third party imports ///////////
 import { HiMenu } from "react-icons/hi";
@@ -13,6 +13,7 @@ import {
 import Menu from "./menu";
 import NavBar from "./navBar";
 import { navigateToClockIn } from "../Handlers/mark.attendance";
+import { invokeAllThunks } from "../../General app handlers/general.handlers";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -20,7 +21,10 @@ function MarkAttendance() {
 
   /// Redux states /////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
-  const userData = useSelector((state) => state.loginSlice.userProfileDocument);
+  const userProfileDocument = useSelector(
+    (state) => state.loginSlice.userProfileDocument
+  );
+  const userId = useSelector((state) => state.loginSlice.userId);
 
   return (
     <div className="bg-user-profile w-full h-screen p-2">
@@ -33,9 +37,17 @@ function MarkAttendance() {
             <img src="images/logo.svg" />
           </figure>
         </div>
-        <figure className="col-start-8 col-end-9 w-10 h-10 border border-lp-primary rounded-full bg-gray-400 "></figure>
+        <figure className="col-start-8 col-end-9 w-10 h-10 border border-lp-primary rounded-full bg-gray-400 ">
+          <img
+            src={userProfileDocument.profilePictureURL}
+            alt="profile picture"
+            className="w-10 h-10  border border-lp-primary rounded-full"
+          />
+        </figure>
       </div>
-      <h2 className="font-bold text-xl mb-3">Hello {userData.firstName}</h2>
+      <h2 className="font-bold text-xl mb-3">
+        Hello {userProfileDocument.firstName}
+      </h2>
       <p className="border-b border-signup-gray">
         Welcome, please clock in and get yourself prepared for today's class and
         extracurricula activities.

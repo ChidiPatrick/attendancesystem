@@ -3,15 +3,51 @@ import { getDoc } from "firebase/firestore";
 
 // Local directory imports ///
 import { db } from "../Firebase/firebase";
+import { firestoreRefCreator } from "../General app handlers/general.handlers";
 
-const initialState = {};
+export const GetUserProfile = createAsyncThunk(
+  "userProfile/getUserProfile",
+  async (userId, { dispatch, getState }) => {
+    try {
+      const userProfileDocumentRef = firestoreRefCreator(
+        db,
+        userId,
+        "userProfileCollection",
+        "userProfileDocument"
+      );
+
+      const userProfileDocument = await getDoc(userProfileDocumentRef);
+
+      if (userProfileDocument.exists()) {
+        const userProfileData = userProfileDocument.data();
+        dispatch(setUserProfileData(userProfileData));
+        // dispatch(setProfilePictureUrl(userProfileData.));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+const initialState = {
+  userProfileData: {},
+  userProfilePictureUrl: "",
+};
 
 const profileSlice = createSlice({
-  name: "adninDashBoard",
+  name: "userProfileSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    setProfilePictureData(state, action) {
+      state.userProfileData = action.payload;
+    },
+    setProfilePictureUrl(state, action) {
+      state.userProfilePictureUrl = action.payload;
+    },
+  },
 });
 
-export const { setWeeklyAttendance } = profileSlice.actions;
+export const { setUserProfileData, setProfilePictureUrl } =
+  profileSlice.actions;
 
 export default profileSlice.reducer;

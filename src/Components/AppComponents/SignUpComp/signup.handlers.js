@@ -28,6 +28,7 @@ const userProfileModelCreator = async (
     lastName: values.lastName,
     userName: values.userName,
     email: values.email,
+    profilePictureURL: "",
     currMonthRecord: {
       totalDaysPresent: 0,
       totalDaysAbsentWithPermission: 0,

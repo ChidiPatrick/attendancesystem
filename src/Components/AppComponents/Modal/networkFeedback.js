@@ -13,8 +13,11 @@ function NetworkFeedback({ children }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  /// HANDLE RELOAD SIGN IN /////
-  const reloadHandler = () => {};
+  ///Close modal /////
+  const closeModel = () => {
+    console.log("modal closing...");
+    dispatch(hideNetworkFeedback());
+  };
 
   return (
     <div className="flex w-full absolute left-0 top-0 justify-center items-center h-screen bg-black bg-opacity-30 ">
@@ -31,7 +34,7 @@ function NetworkFeedback({ children }) {
         </p>
         <div className="flex justify-end p-2 mt-4">
           <button
-            onClick={() => dispatch(hideNetworkFeedback())}
+            onClick={closeModel}
             className="w-36 text-white bg-lp-secondary p-2 border rounded-xl "
           >
             Retry

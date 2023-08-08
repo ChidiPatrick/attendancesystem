@@ -12,6 +12,12 @@ function UserProfile() {
 
   ///// Redux states //////////////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
+  const userProfilePictureUrl = useSelector(
+    (state) => state.profileSlice.userProfilePictureUrl
+  );
+  const userProfileDocument = useSelector(
+    (state) => state.loginSlice.userProfileDocument
+  );
 
   const handleBack = () => {
     navigate(-1);
@@ -48,13 +54,13 @@ function UserProfile() {
             </div>
           </div>
           <div className=" text-center font-bold leading-6 md:leading-8 capitalize text-[14px] md:text-base mt-4">
-            <p>mohammed jaruma Express</p>
-            <p>08167557678</p>
             <p>
-              <a href="/" className=" underline text-blue-800">
-                mohammedjaruma@gmail.com
-              </a>
+              {userProfileDocument.firstName} {userProfileDocument.lastName}
             </p>
+            <p className=" underline text-blue-800">
+              {userProfileDocument.email}
+            </p>
+            <p className=" ">{userProfileDocument.userName}</p>
           </div>
         </div>
 

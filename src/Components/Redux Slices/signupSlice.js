@@ -17,14 +17,12 @@ const signupSlice = createSlice({
       state.displaySpinner = false;
     },
     showNetworkFeedback(state, action) {
-      console.log("Network function called");
       state.displayNetWorkFeedback = true;
     },
     hideNetworkFeedback(state, action) {
       state.displayNetWorkFeedback = false;
     },
     showFeedback(state, action) {
-      console.log("Network function called");
       state.displayFeedback = true;
     },
     hideFeedback(state, action) {

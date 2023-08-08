@@ -5,6 +5,7 @@ import {
   GetAttendanceRecord,
 } from "../Redux Slices/login.slice";
 import { GetStudentAttendanceRecord } from "../Redux Slices/adminSlice";
+import { GetUserProfile } from "../Redux Slices/profileSlice";
 
 import { userId } from "react";
 import { auth } from "../Firebase/firebase";
@@ -34,6 +35,7 @@ const invokeAllThunks = async (userId, dispatch) => {
   dispatch(GetAnnouncementDocument(userId));
   dispatch(GetAttendanceRecord(userId));
   dispatch(GetStudentAttendanceRecord(userId));
+  dispatch(GetUserProfile(userId));
 };
 
 /// Sign out function /////
