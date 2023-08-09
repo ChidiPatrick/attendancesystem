@@ -2,15 +2,11 @@ import { doc } from "firebase/firestore";
 import {
   GetUserDocument,
   GetAnnouncementDocument,
-  GetAttendanceRecord,
 } from "../Redux Slices/login.slice";
 import { GetStudentAttendanceRecord } from "../Redux Slices/adminSlice";
+import { GetAttendanceRecord } from "../Redux Slices/attendanceSlice";
 import { GetUserProfile } from "../Redux Slices/profileSlice";
-
-import { userId } from "react";
-import { auth } from "../Firebase/firebase";
 import { signOut } from "firebase/auth";
-import { hideMenu } from "../Redux Slices/menu.slice";
 import { db } from "../Firebase/firebase";
 
 /// Firestore ref creator ////

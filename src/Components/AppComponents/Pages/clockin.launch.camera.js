@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 /// Third-party imports ////
 import { useDispatch, useSelector } from "react-redux";
+import { LuCamera } from "react-icons/lu";
 
 /// Local directory imports /////
 import haversine from "../Handlers/haversine";
@@ -85,10 +86,10 @@ function ClockLaunchCamera() {
   return (
     <div className="relative p-2 w-full h-screen bg-[#FFFDFA] flex flex-col items-center justify-center">
       <h2 className="font-bold text-lp-primary text-xl text-center">
-        Today’s attendance location is at the Reception
+        Take a picture to clock in or clock out
       </h2>
-      <figure className="w-14 mt-10 h-14 bg-green-400">
-        <img src="" className="w-full h-full " />
+      <figure className="mt-10  w-[80px] h-[80px] ">
+        <LuCamera className="w-[80px] h-[80px]" />
       </figure>
       <div className="font-bold text-xl mt-10">Launch Camera</div>
       <p className="mt-10 text-center">

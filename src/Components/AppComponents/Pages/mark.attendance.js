@@ -10,6 +10,7 @@ import {
   setCurrHour,
 } from "../../Redux Slices/attendanceSlice";
 import { updateAttendanceRecord } from "../Handlers/mark.attendance";
+import ClockOut from "./clockOut";
 
 function MarkUser() {
   const dispatch = useDispatch();
@@ -20,10 +21,10 @@ function MarkUser() {
   const userImage = useSelector((state) => state.attendanceRecord.image);
   const currTime = useSelector((state) => state.attendanceRecord.currTime);
   const date = useSelector((state) => state.attendanceRecord.date);
+  const userId = useSelector((state) => state.loginSlice.userId);
   const latenessHour = useSelector(
     (state) => state.attendanceRecord.latenessHour
   );
-  const userId = useSelector((state) => state.loginSlice.userId);
 
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
@@ -45,10 +46,11 @@ function MarkUser() {
     }
 
     const data = {
+      id: "Clock in",
       date,
+      isOnTime,
       time,
       userImage,
-      isOnTime,
     };
 
     console.log(data);
@@ -64,13 +66,21 @@ function MarkUser() {
     navigate("/attendanceSuccessful");
   };
 
+  const clockOut = () => {
+    // Get time ///
+    //
+  };
+
   return (
     <div className="w-full p-2 shadow-md h-screen flex flex-col justify-center border border-bg-lp-secondary items-center">
-      <figure className="w-24 h-24 border rounded-full border-bg-lp-secondary">
-        <img src={userImage} alt="user" />
-      </figure>
+      <img
+        className="w-[200px] mb-[100px] h-[200px]  border rounded-full border-lp-secondary"
+        src={userImage}
+        alt="user"
+      />
 
       <ButtonFull handleClick={markAttendance}>Mark attendance</ButtonFull>
+      <ClockOut />
     </div>
   );
 }

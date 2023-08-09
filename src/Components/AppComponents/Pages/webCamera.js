@@ -59,7 +59,7 @@ function WebCam() {
   const saveImage = () => {
     dispatch(setUserImage(image));
 
-    navigate("/clockIn");
+    navigate("/markAttendance");
   };
 
   return (

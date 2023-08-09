@@ -1,5 +1,33 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+/// Third-party import
+import { getDoc } from "firebase/firestore";
+
+// local directory imports ///
+import { db } from "../Firebase/firebase";
+import { firestoreRefCreator } from "../General app handlers/general.handlers";
+
+// Get attendance records ////
+export const GetAttendanceRecord = createAsyncThunk(
+  "attendanceRecord/getAttendanceRecord",
+  async (userId, { dispatch, getState }) => {
+    try {
+      const attendanceDocumentRef = firestoreRefCreator(
+        db,
+        userId,
+        "attendanceCollection",
+        "attendanceDocument"
+      );
+
+      const attendanceDocument = await getDoc(attendanceDocumentRef);
+
+      if (attendanceDocument.exists()) {
+        console.log(attendanceDocument);
+        dispatch(setAttendanceData(attendanceDocument.data()));
+      }
+    } catch (err) {}
+  }
+);
 
 const initialState = {
   userId: "dfjdfsl",
@@ -13,6 +41,8 @@ const initialState = {
   latenessHour: 11,
   displayClockInDetails: false,
   currHour: 0,
+  clockOutObj: null,
+  attendanceData: null,
 };
 
 const attendanceSlice = createSlice({
@@ -69,6 +99,14 @@ const attendanceSlice = createSlice({
     setCurrHour(state, action) {
       state.currHour = action.payload;
     },
+
+    setClockOutObj(state, action) {
+      state.clockOutObj = action.payload;
+    },
+
+    setAttendanceData(state, action) {
+      state.attendanceData = action.payload;
+    },
   },
 });
 
@@ -86,6 +124,8 @@ export const {
   showClockInDetails,
   hideClockInDetails,
   setCurrHour,
+  setClockOutObj,
+  setAttendanceData,
 } = attendanceSlice.actions;
 
 export default attendanceSlice.reducer;

@@ -46,7 +46,7 @@ const Header = () => {
         </div>
         <div className="mt-10 mx-auto flex justify-between md:justify-center w-full gap-3 md:gap-6">
           <ButtonFull handleClick={signupBtnClickHandler}>Sign Up</ButtonFull>
-          <ButtonLight handleSignin={signinBtnClickHandler}>Log In</ButtonLight>
+          <ButtonLight handleClick={signinBtnClickHandler}>Log In</ButtonLight>
         </div>
       </div>
     </header>

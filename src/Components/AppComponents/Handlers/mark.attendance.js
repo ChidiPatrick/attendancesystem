@@ -4,6 +4,18 @@ import {
   firestoreRefCreator,
   getStudentDocumentRef,
 } from "../../General app handlers/general.handlers";
+import { GetAttendanceRecord } from "../../Redux Slices/attendanceSlice";
+import { showSpinner } from "../../Redux Slices/signupSlice";
+
+/*  
+   TODOs:
+    1. Include a loading spinner for both clock in and out logic
+    2. Add error handler for potential errors in both clockin and clockout logic
+    3. Add fetch logic to undate the UI after clock in and out
+    4. Add validation and restriction of clock in and out if the user has already done that to avoid uploading multiple data
+    
+    
+    */
 
 const navigateToClockIn = (navigate, clockinPage) => {
   console.log("called...");
@@ -20,17 +32,41 @@ const updateAttendanceRecord = async (attendanceData, userId) => {
     );
 
     const data = {
-      dailyAttendanceRecords: arrayUnion(attendanceData),
+      dailyClockIns: arrayUnion(attendanceData),
     };
 
     await updateDoc(attendanceRef, data).then(
       () => {
         alert("uploaded");
       },
-      () => {
-        alert("Network error!");
+      (err) => {
+        console.log(err);
       }
     );
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+/// Add clock in data //
+const updateClockOutData = async (clockOutData, userId, dispatch) => {
+  try {
+    dispatch(showSpinner());
+    const attendanceDocumentRef = firestoreRefCreator(
+      db,
+      userId,
+      "attendanceCollection",
+      "attendanceDocument"
+    );
+
+    const data = {
+      dailyClockOuts: arrayUnion(clockOutData),
+    };
+
+    await updateDoc(attendanceDocumentRef, data).then(() => {
+      alert("uploaded");
+      dispatch(GetAttendanceRecord(userId));
+    });
   } catch (err) {
     console.log(err);
   }
@@ -54,4 +90,4 @@ const addAttendanceToAdminCollection = (
   const data = { weeklyAttendance: newArr };
 };
 
-export { navigateToClockIn, updateAttendanceRecord };
+export { navigateToClockIn, updateAttendanceRecord, updateClockOutData };

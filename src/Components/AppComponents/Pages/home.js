@@ -26,6 +26,10 @@ function MarkAttendance() {
   );
   const userId = useSelector((state) => state.loginSlice.userId);
 
+  const clockout = () => {
+    console.log("clock out");
+  };
+
   return (
     <div className="bg-user-profile w-full h-screen p-2">
       <div className="grid grid-cols-8 ">
@@ -81,7 +85,9 @@ function MarkAttendance() {
         <ButtonFull handleClick={() => navigateToClockIn(navigate, "clockin")}>
           Clock in
         </ButtonFull>
-        <ButtonLight>Clock out</ButtonLight>
+        <ButtonLight handleClick={() => navigateToClockIn(navigate, "clockin")}>
+          Clock oout
+        </ButtonLight>
       </div>
       {displayMenu === true ? <Menu /> : null}
     </div>

@@ -12,10 +12,10 @@ export const ButtonFull = ({ children, handleClick, disble }) => {
   );
 };
 
-export const ButtonLight = ({ children, handleSignin }) => {
+export const ButtonLight = ({ children, handleClick }) => {
   return (
     <button
-      onClick={handleSignin}
+      onClick={handleClick}
       className="px-1 py-2 md:px-2 md:py-3 shad font-semibold w-40 bg-white text-lp-secondary text-lg border-[0.5] border-solid border-lp-secondary rounded-3xl"
     >
       {children}
