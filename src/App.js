@@ -15,7 +15,7 @@ import WebCam from "./Components/AppComponents/Pages/webCamera";
 import ClockLaunchCamera from "./Components/AppComponents/Pages/clockin.launch.camera";
 import AttendanceFeedback from "./Components/AppComponents/Pages/attendance.feedback";
 import MarkUser from "./Components/AppComponents/Pages/mark.attendance";
-
+import ClockOut from "./Components/AppComponents/Pages/clockOut";
 function App() {
   return (
     <div className="relative">
@@ -32,6 +32,7 @@ function App() {
         <Route path="/clockIn" element={<ClockLaunchCamera />} />
         <Route path="/attendanceSuccessful" element={<AttendanceFeedback />} />
         <Route path="/markAttendance" element={<MarkUser />} />
+        <Route path="/clockOut" element={<ClockOut />} />
       </Routes>
     </div>
   );

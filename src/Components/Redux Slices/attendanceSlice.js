@@ -6,6 +6,7 @@ import { getDoc } from "firebase/firestore";
 // local directory imports ///
 import { db } from "../Firebase/firebase";
 import { firestoreRefCreator } from "../General app handlers/general.handlers";
+import { act } from "react-dom/test-utils";
 
 // Get attendance records ////
 export const GetAttendanceRecord = createAsyncThunk(
@@ -43,6 +44,8 @@ const initialState = {
   currHour: 0,
   clockOutObj: null,
   attendanceData: null,
+  linkToClockIn: false,
+  linkToClockOut: false,
 };
 
 const attendanceSlice = createSlice({
@@ -107,6 +110,14 @@ const attendanceSlice = createSlice({
     setAttendanceData(state, action) {
       state.attendanceData = action.payload;
     },
+
+    setLinkToClockIn(state, action) {
+      state.linkToClockIn = true;
+    },
+
+    setLinkToClockOut(state, action) {
+      state.linkToClockOut = true;
+    },
   },
 });
 
@@ -126,6 +137,8 @@ export const {
   setCurrHour,
   setClockOutObj,
   setAttendanceData,
+  setLinkToClockIn,
+  setLinkToClockOut,
 } = attendanceSlice.actions;
 
 export default attendanceSlice.reducer;

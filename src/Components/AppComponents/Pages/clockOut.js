@@ -8,6 +8,9 @@ import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { updateClockOutData } from "../Handlers/mark.attendance";
+import { showFeedback } from "../../Redux Slices/signupSlice";
+import NetworkFeedback from "../Modal/networkFeedback";
+import FeedbackModal from "../Modal/feedbackModal";
 
 function ClockOut() {
   const dispatch = useDispatch();
@@ -16,8 +19,12 @@ function ClockOut() {
   /// Redux states ///
   const userImage = useSelector((state) => state.attendanceRecord.image);
   const userId = useSelector((state) => state.loginSlice.userId);
-  // const attendanceData = useSelector((state) => state.attendanceRecord.)
-
+  const displayFeedback = useSelector(
+    (state) => state.signupSlice.displayFeedback
+  );
+  const displayNetWorkFeedback = useSelector(
+    (state) => state.signupSlice.displayNetWorkFeedback
+  );
   /// Clock out handler ///
   const clockOut = async () => {
     const date = new Date().toDateString();
@@ -30,18 +37,23 @@ function ClockOut() {
       userImage,
     };
 
-    await updateClockOutData(data, userId);
+    await updateClockOutData(data, userId, dispatch);
   };
 
   return (
-    <div className="w-full p-2 shadow-md h-screen flex flex-col justify-center border border-bg-lp-secondary items-center">
+    <div className="w-full relative p-2 shadow-md h-screen flex flex-col justify-center border border-bg-lp-secondary items-center">
       <img
         className="w-[100px] mb-[100px] h-[100px]  border rounded-full border-lp-secondary"
         src={userImage}
         alt="user"
       />
-
       <ButtonFull handleClick={clockOut}>Clock out</ButtonFull>
+      {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
+      {displayFeedback === true ? (
+        <FeedbackModal>
+          Something went wrong, please log out and log in again
+        </FeedbackModal>
+      ) : null}
     </div>
   );
 }

@@ -22,12 +22,6 @@ function NetworkFeedback({ children }) {
   return (
     <div className="flex w-full absolute left-0 top-0 justify-center items-center h-screen bg-black bg-opacity-30 ">
       <div className="bg-white h-80 w-3/4 border rounded-xl">
-        {/* <div className="p-2">
-          <HiX
-            className="text-3xl text-red-700"
-            onClick={() => dispatch(hideNetworkFeedback())}
-          /> */}
-        {/* </div> */}
         <p className="p-2 mt-20">
           Oops! No internet connection. Please check your internet connectivity
           and try again

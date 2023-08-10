@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+
+//// Third-party imports ////
 import { useDispatch, useSelector } from "react-redux";
-import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import { useNavigate } from "react-router";
+
+/// Local directory imports ///
 import {
   setTime,
   setOnTime,
@@ -11,6 +14,16 @@ import {
 } from "../../Redux Slices/attendanceSlice";
 import { updateAttendanceRecord } from "../Handlers/mark.attendance";
 import ClockOut from "./clockOut";
+import SpinnerSmall from "../Loading spinners/spinnerSmall";
+import {
+  showSpinner,
+  hideSpinner,
+  hideFeedback,
+} from "../../Redux Slices/signupSlice";
+import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
+import { showFeedback } from "../../Redux Slices/signupSlice";
+import FeedbackModal from "../Modal/feedbackModal";
+import NetworkFeedback from "../Modal/networkFeedback";
 
 function MarkUser() {
   const dispatch = useDispatch();
@@ -22,6 +35,15 @@ function MarkUser() {
   const currTime = useSelector((state) => state.attendanceRecord.currTime);
   const date = useSelector((state) => state.attendanceRecord.date);
   const userId = useSelector((state) => state.loginSlice.userId);
+  const displayFeedback = useSelector(
+    (state) => state.signupSlice.displayFeedback
+  );
+  const displayNetWorkFeedback = useSelector(
+    (state) => state.signupSlice.displayNetWorkFeedback
+  );
+  const displaySpinner = useSelector(
+    (state) => state.signupSlice.displaySpinner
+  );
   const latenessHour = useSelector(
     (state) => state.attendanceRecord.latenessHour
   );
@@ -32,6 +54,7 @@ function MarkUser() {
 
   /// Mark attendance ///
   const markAttendance = async () => {
+    // dispatch(showSpinner());
     const date = new Date();
     const time = date.toLocaleTimeString("en-US");
     const currHour = date.getUTCHours();
@@ -53,26 +76,15 @@ function MarkUser() {
       userImage,
     };
 
-    console.log(data);
-
     dispatch(updateWeeklyAttendance(data));
     dispatch(showClockInDetails());
     dispatch(setCurrHour(currHour));
 
-    // TODOs:
-    // link data to firebase
-    await updateAttendanceRecord(data, userId);
-
-    navigate("/attendanceSuccessful");
-  };
-
-  const clockOut = () => {
-    // Get time ///
-    //
+    updateAttendanceRecord(data, userId, dispatch, navigate);
   };
 
   return (
-    <div className="w-full p-2 shadow-md h-screen flex flex-col justify-center border border-bg-lp-secondary items-center">
+    <div className="w-full relative p-2 shadow-md h-screen flex flex-col justify-center border border-bg-lp-secondary items-center">
       <img
         className="w-[200px] mb-[100px] h-[200px]  border rounded-full border-lp-secondary"
         src={userImage}
@@ -80,7 +92,14 @@ function MarkUser() {
       />
 
       <ButtonFull handleClick={markAttendance}>Mark attendance</ButtonFull>
-      <ClockOut />
+      {displaySpinner === true ? <SpinnerSmall /> : null}
+      {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
+      {displayFeedback === true ? (
+        <FeedbackModal handleClick={() => dispatch(hideFeedback())}>
+          Something went wrong, please login out and log in again
+        </FeedbackModal>
+      ) : null}
+      {/* <ClockOut /> */}
     </div>
   );
 }

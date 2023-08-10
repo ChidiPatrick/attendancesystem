@@ -26,6 +26,12 @@ function WebCam() {
   const displayFeedback = useSelector(
     (state) => state.signupSlice.displayFeedback
   );
+  const linkToClockIn = useSelector(
+    (state) => state.attendanceRecord.linkToClockIn
+  );
+  const linkToClockOut = useSelector(
+    (state) => state.attendanceRecord.linkToClockOut
+  );
 
   const [image, setImage] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
@@ -41,17 +47,13 @@ function WebCam() {
   ///Capture user ///
   const captureUser = (getScreenshot, setImage) => {
     const image = getScreenshot();
-
     setImage(image);
-
     setShowPreview(true);
-
     setShowDoneBtn(true);
   };
 
   const retakePicture = () => {
     setImage(null);
-
     setShowPreview(false);
   };
 
@@ -59,13 +61,17 @@ function WebCam() {
   const saveImage = () => {
     dispatch(setUserImage(image));
 
-    navigate("/markAttendance");
+    if (linkToClockIn) {
+      navigate("/markAttendance");
+    } else {
+      navigate("/clockOut");
+    }
   };
 
   return (
     <div className={"top-0 left-0 absolute p-2 w-full "}>
       <div className="flex justify-between items-center text-4xl">
-        <div onClick={() => navigate("/clockIn")}>
+        <div onClick={() => navigate("/clockin")}>
           <HiX className="w-5 text-2xl h-5 hover:bg-gray-200 hover:text-black text-red-600 border border-white hover:rounded-full cursor-pointer" />
         </div>
         <button

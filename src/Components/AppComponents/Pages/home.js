@@ -14,6 +14,10 @@ import Menu from "./menu";
 import NavBar from "./navBar";
 import { navigateToClockIn } from "../Handlers/mark.attendance";
 import { invokeAllThunks } from "../../General app handlers/general.handlers";
+import {
+  setLinkToClockIn,
+  setLinkToClockOut,
+} from "../../Redux Slices/attendanceSlice";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -26,8 +30,16 @@ function MarkAttendance() {
   );
   const userId = useSelector((state) => state.loginSlice.userId);
 
-  const clockout = () => {
-    console.log("clock out");
+  // Clock in handler ///
+  const navigateToClockIn = () => {
+    dispatch(setLinkToClockIn());
+    navigate("/clockIn");
+  };
+
+  // Clock out handler ///
+  const navigateToClockOut = () => {
+    dispatch(setLinkToClockOut());
+    navigate("/clockIn");
   };
 
   return (
@@ -82,12 +94,8 @@ function MarkAttendance() {
         </div>
       </div>
       <div className="w-[80%] my-0 mx-auto flex justify-between items-center">
-        <ButtonFull handleClick={() => navigateToClockIn(navigate, "clockin")}>
-          Clock in
-        </ButtonFull>
-        <ButtonLight handleClick={() => navigateToClockIn(navigate, "clockin")}>
-          Clock oout
-        </ButtonLight>
+        <ButtonFull handleClick={navigateToClockIn}>Clock in</ButtonFull>
+        <ButtonLight handleClick={navigateToClockOut}>Clock out</ButtonLight>
       </div>
       {displayMenu === true ? <Menu /> : null}
     </div>
