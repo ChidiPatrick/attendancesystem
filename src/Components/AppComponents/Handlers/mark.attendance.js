@@ -20,10 +20,12 @@ import {
        done that to avoid uploading multiple data
     5. Rearrange the population of UI data call during login such that concerns are
        separated accurately
+ START HERE:
+    6. Add fix to clockout bugs and complete the logic 
+    7. Mark your redux thunks in  invokeAllThunks functions to be called sequentially
     */
 
 const navigateToClockIn = (navigate, clockinPage) => {
-  console.log("called...");
   navigate(`/${clockinPage}`);
 };
 
@@ -67,14 +69,28 @@ const updateAttendanceRecord = async (
 };
 
 /// Add clock in data //
-const updateClockOutData = async (clockOutData, userId, dispatch) => {
+const updateClockOutData = async (
+  clockOutData,
+  userId,
+  dispatch,
+  attendanceData
+) => {
+  const clockOuts = [...attendanceData.dailyClockOuts];
+  const lastClockOutObj = clockOuts[clockOuts.length - 1];
+
   try {
     if (!navigator.onLine) {
       dispatch(showFeedback());
       return;
     }
 
+    if (lastClockOutObj.Date === new Date().toDateString()) {
+      alert("Already clocked out for today!");
+      console.log("Already clocked out for today!");
+    }
+
     dispatch(showSpinner());
+
     const attendanceDocumentRef = firestoreRefCreator(
       db,
       userId,
@@ -88,7 +104,7 @@ const updateClockOutData = async (clockOutData, userId, dispatch) => {
 
     await updateDoc(attendanceDocumentRef, data)
       .then(() => {
-        alert("uploaded");
+        console.log("Uploaded...");
         dispatch(GetAttendanceRecord(userId));
       })
       .then(() => {

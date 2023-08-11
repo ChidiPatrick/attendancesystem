@@ -8,7 +8,7 @@ import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { updateClockOutData } from "../Handlers/mark.attendance";
-import { showFeedback } from "../../Redux Slices/signupSlice";
+import { hideFeedback, showFeedback } from "../../Redux Slices/signupSlice";
 import NetworkFeedback from "../Modal/networkFeedback";
 import FeedbackModal from "../Modal/feedbackModal";
 
@@ -19,6 +19,9 @@ function ClockOut() {
   /// Redux states ///
   const userImage = useSelector((state) => state.attendanceRecord.image);
   const userId = useSelector((state) => state.loginSlice.userId);
+  const attendanceData = useSelector(
+    (state) => state.attendanceRecord.attendanceData
+  );
   const displayFeedback = useSelector(
     (state) => state.signupSlice.displayFeedback
   );
@@ -37,7 +40,7 @@ function ClockOut() {
       userImage,
     };
 
-    await updateClockOutData(data, userId, dispatch);
+    await updateClockOutData(data, userId, dispatch, attendanceData);
   };
 
   return (
@@ -50,7 +53,7 @@ function ClockOut() {
       <ButtonFull handleClick={clockOut}>Clock out</ButtonFull>
       {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
       {displayFeedback === true ? (
-        <FeedbackModal>
+        <FeedbackModal handleClick={() => dispatch(hideFeedback())}>
           Something went wrong, please log out and log in again
         </FeedbackModal>
       ) : null}
