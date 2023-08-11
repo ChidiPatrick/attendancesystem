@@ -66,7 +66,6 @@ const Signin = () => {
             let userId = user.user.uid;
             console.log("Calling invokeAllThunks");
             invokeAllThunks(userId, dispatch);
-            return userId;
           })
           .then((userId) => {
             dispatch(setUserId(userId));

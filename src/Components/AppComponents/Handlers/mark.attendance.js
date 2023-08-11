@@ -4,7 +4,7 @@ import {
   firestoreRefCreator,
   getStudentDocumentRef,
 } from "../../General app handlers/general.handlers";
-import { GetAttendanceRecord } from "../../Redux Slices/attendanceSlice";
+import { getAttendanceRecords } from "../../Redux Slices/attendanceSlice";
 import {
   hideSpinner,
   showFeedback,
@@ -22,7 +22,8 @@ import {
        separated accurately
  START HERE:
     6. Add fix to clockout bugs and complete the logic 
-    7. Mark your redux thunks in  invokeAllThunks functions to be called sequentially
+    7. Make your redux thunks in invokeAllThunks functions to be called sequentially
+    8. Change all your firebase queries from the use of redux thunk to use async functions
     */
 
 const navigateToClockIn = (navigate, clockinPage) => {
@@ -55,7 +56,7 @@ const updateAttendanceRecord = async (
     await updateDoc(attendanceRef, data)
       .then(() => {
         dispatch(showSpinner());
-        dispatch(GetAttendanceRecord(userId));
+        getAttendanceRecords(userId);
       })
       .then(() => {
         dispatch(hideSpinner());
@@ -105,7 +106,7 @@ const updateClockOutData = async (
     await updateDoc(attendanceDocumentRef, data)
       .then(() => {
         console.log("Uploaded...");
-        dispatch(GetAttendanceRecord(userId));
+        dispatch(getAttendanceRecords(userId));
       })
       .then(() => {
         dispatch(hideSpinner());

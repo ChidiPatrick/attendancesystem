@@ -6,29 +6,46 @@ import { getDoc } from "firebase/firestore";
 // local directory imports ///
 import { db } from "../Firebase/firebase";
 import { firestoreRefCreator } from "../General app handlers/general.handlers";
-import { act } from "react-dom/test-utils";
 
 // Get attendance records ////
-export const GetAttendanceRecord = createAsyncThunk(
-  "attendanceRecord/getAttendanceRecord",
-  async (userId, { dispatch, getState }) => {
-    try {
-      const attendanceDocumentRef = firestoreRefCreator(
-        db,
-        userId,
-        "attendanceCollection",
-        "attendanceDocument"
-      );
+export const getAttendanceRecords = async (userId, dispatch) => {
+  try {
+    const attendanceDocumentRef = firestoreRefCreator(
+      db,
+      userId,
+      "attendanceCollection",
+      "attendanceDocument"
+    );
 
-      const attendanceDocument = await getDoc(attendanceDocumentRef);
+    const attendanceDocument = await getDoc(attendanceDocumentRef);
 
-      if (attendanceDocument.exists()) {
-        console.log(attendanceDocument);
-        dispatch(setAttendanceData(attendanceDocument.data()));
-      }
-    } catch (err) {}
-  }
-);
+    if (attendanceDocument.exists()) {
+      console.log(attendanceDocument);
+      dispatch(setAttendanceData(attendanceDocument.data()));
+    }
+  } catch (err) {}
+};
+
+// export const GetAttendanceRecord = createAsyncThunk(
+//   "attendanceRecord/getAttendanceRecord",
+//   async (userId, { dispatch, getState }) => {
+//     try {
+//       const attendanceDocumentRef = firestoreRefCreator(
+//         db,
+//         userId,
+//         "attendanceCollection",
+//         "attendanceDocument"
+//       );
+
+//       const attendanceDocument = await getDoc(attendanceDocumentRef);
+
+//       if (attendanceDocument.exists()) {
+//         console.log(attendanceDocument);
+//         dispatch(setAttendanceData(attendanceDocument.data()));
+//       }
+//     } catch (err) {}
+//   }
+// );
 
 const initialState = {
   userId: "dfjdfsl",

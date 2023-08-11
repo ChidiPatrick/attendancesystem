@@ -1,4 +1,4 @@
-import { doc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import {
   GetUserDocument,
   GetAnnouncementDocument,
@@ -8,6 +8,8 @@ import { GetAttendanceRecord } from "../Redux Slices/attendanceSlice";
 import { GetUserProfile } from "../Redux Slices/profileSlice";
 import { signOut } from "firebase/auth";
 import { db } from "../Firebase/firebase";
+import { setUserProfileDocument } from "../Redux Slices/login.slice";
+import { setAttendanceDocument } from "../Redux Slices/login.slice";
 
 /// Firestore ref creator ////
 const firestoreRefCreator = (db, userId, collection, document) => {
@@ -22,16 +24,6 @@ const firestoreAdminRefCreatore = (db, studentId) => {
     `${studentId}`,
     "studentInfo"
   );
-};
-
-// Invoke all redux thunks for the user data ///
-const invokeAllThunks = async (userId, dispatch) => {
-  console.log("Getting all thunks!");
-  dispatch(GetUserDocument(userId));
-  dispatch(GetAnnouncementDocument(userId));
-  dispatch(GetAttendanceRecord(userId));
-  dispatch(GetStudentAttendanceRecord(userId));
-  dispatch(GetUserProfile(userId));
 };
 
 /// Sign out function /////
@@ -52,10 +44,60 @@ const getStudentDocumentRef = (userId) => {
     "studentInfo"
   );
 };
+
+/// Get user document from firebase ////
+const getUserDocument = async (userId, dispatch) => {
+  try {
+    const userProfileDocumentRef = firestoreRefCreator(
+      db,
+      userId,
+      "userProfileCollection",
+      "profileDocument"
+    );
+
+    const userProfileDocument = await getDoc(userProfileDocumentRef);
+    console.log(userProfileDocument.data().profileDocument);
+
+    if (userProfileDocument.exists()) {
+      dispatch(setUserProfileDocument(userProfileDocument.data()));
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+/// Get attendance document ///
+const getAttendanceDocument = async (userId, dispatch) => {
+  try {
+    const attendanceDocumentRef = firestoreRefCreator(
+      db,
+      userId,
+      "attendanceCollection",
+      "attendanceDocument"
+    );
+
+    const attendanceDocument = await getDoc(attendanceDocumentRef);
+
+    if (attendanceDocument.exists()) {
+      console.log(attendanceDocument);
+      dispatch(setAttendanceDocument(attendanceDocument.data()));
+    }
+  } catch (err) {}
+};
+
+// Invoke all redux thunks for the user data ///
+const invokeAllThunks = async (userId, dispatch) => {
+  const initialResponse = await getUserDocument(userId, dispatch).then(
+    async () => await getAttendanceDocument(userId, dispatch)
+  );
+};
+
 export {
   firestoreRefCreator,
   firestoreAdminRefCreatore,
   invokeAllThunks,
   logout,
   getStudentDocumentRef,
+  getUserDocument,
+  getAttendanceDocument,
 };
