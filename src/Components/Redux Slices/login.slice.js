@@ -5,8 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   userId: "",
-  userProfileDocument: {},
-  announcementsDocument: {},
+
   attendanceDocument: {},
 };
 
@@ -18,10 +17,6 @@ const loginSlice = createSlice({
       state.userProfileDocument = action.payload;
     },
 
-    setAnnouncementDocument(state, action) {
-      state.announcementsDocument = action.payload;
-    },
-
     setAttendanceDocument(state, action) {
       state.attendanceDocument = action.payload;
     },
@@ -31,11 +26,6 @@ const loginSlice = createSlice({
   },
 });
 
-export const {
-  setUserProfileDocument,
-  setAnnouncementDocument,
-  setAttendanceDocument,
-  setUserId,
-} = loginSlice.actions;
+export const { setAttendanceDocument, setUserId } = loginSlice.actions;
 
 export default loginSlice.reducer;

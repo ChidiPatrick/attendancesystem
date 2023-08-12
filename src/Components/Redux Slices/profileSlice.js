@@ -5,29 +5,49 @@ import { getDoc } from "firebase/firestore";
 import { db } from "../Firebase/firebase";
 import { firestoreRefCreator } from "../General app handlers/general.handlers";
 
-export const GetUserProfile = createAsyncThunk(
-  "userProfile/getUserProfile",
-  async (userId, { dispatch, getState }) => {
-    try {
-      const userProfileDocumentRef = firestoreRefCreator(
-        db,
-        userId,
-        "userProfileCollection",
-        "userProfileDocument"
-      );
+export const getUserProfileData = async (userId, dispatch) => {
+  try {
+    const userProfileDocumentRef = firestoreRefCreator(
+      db,
+      userId,
+      "userProfileCollection",
+      "userProfileDocument"
+    );
 
-      const userProfileDocument = await getDoc(userProfileDocumentRef);
+    const userProfileDocument = await getDoc(userProfileDocumentRef);
 
-      if (userProfileDocument.exists()) {
-        const userProfileData = userProfileDocument.data();
-        dispatch(setUserProfileData(userProfileData));
-        // dispatch(setProfilePictureUrl(userProfileData.));
-      }
-    } catch (err) {
-      console.log(err);
+    if (userProfileDocument.exists()) {
+      const userProfileData = userProfileDocument.data();
+      dispatch(setUserProfileData(userProfileData));
     }
+  } catch (err) {
+    console.log(err);
   }
-);
+};
+
+// export const GetUserProfile = createAsyncThunk(
+//   "userProfile/getUserProfile",
+//   async (userId, { dispatch, getState }) => {
+//     try {
+//       const userProfileDocumentRef = firestoreRefCreator(
+//         db,
+//         userId,
+//         "userProfileCollection",
+//         "userProfileDocument"
+//       );
+
+//       const userProfileDocument = await getDoc(userProfileDocumentRef);
+
+//       if (userProfileDocument.exists()) {
+//         const userProfileData = userProfileDocument.data();
+//         dispatch(setUserProfileData(userProfileData));
+//         // dispatch(setProfilePictureUrl(userProfileData.));
+//       }
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   }
+// );
 
 const initialState = {
   userProfileData: {},
@@ -43,6 +63,9 @@ const profileSlice = createSlice({
     },
     setProfilePictureUrl(state, action) {
       state.userProfilePictureUrl = action.payload;
+    },
+    setUserProfileDocument(state, action) {
+      state.userProfileData = action.payload;
     },
   },
 });

@@ -21,9 +21,9 @@ import {
     5. Rearrange the population of UI data call during login such that concerns are
        separated accurately
  START HERE:
-    6. Add fix to clockout bugs and complete the logic 
-    7. Make your redux thunks in invokeAllThunks functions to be called sequentially
-    8. Change all your firebase queries from the use of redux thunk to use async functions
+  * 6. Add fix to clockout bugs and complete the logic 
+  * 7. Make your redux thunks in invokeAllThunks functions to be called sequentially
+  * 8. Change all your firebase queries from the use of redux thunk to use async functions
     */
 
 const navigateToClockIn = (navigate, clockinPage) => {
@@ -37,8 +37,16 @@ const updateAttendanceRecord = async (
   navigate
 ) => {
   try {
+    const clockOuts = [...attendanceData.dailyClockOuts];
+    const lastClockOutObj = clockOuts[clockOuts.length - 1];
+
     if (!navigator.onLine) {
       dispatch(showFeedback());
+      return;
+    }
+
+    if (lastClockOutObj.Date === new Date().toDateString()) {
+      console.log("Already clocked in for today!");
       return;
     }
 
@@ -86,8 +94,8 @@ const updateClockOutData = async (
     }
 
     if (lastClockOutObj.Date === new Date().toDateString()) {
-      alert("Already clocked out for today!");
       console.log("Already clocked out for today!");
+      return;
     }
 
     dispatch(showSpinner());
@@ -113,6 +121,7 @@ const updateClockOutData = async (
       });
   } catch (err) {
     dispatch(showFeedback());
+    dispatch(hideSpinner());
   }
 };
 

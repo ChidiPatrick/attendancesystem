@@ -13,12 +13,8 @@ import { setProfilePictureUrl } from "../../Redux Slices/profileSlice";
 import { useNavigate } from "react-router";
 import { updateDoc } from "firebase/firestore";
 import { db } from "../../Firebase/firebase";
-import { GetUserProfile } from "../../Redux Slices/profileSlice";
-import {
-  showSpinner,
-  hideSpinner,
-  showNetworkFeedback,
-} from "../../Redux Slices/signupSlice";
+import { getUserProfileData } from "../../Redux Slices/profileSlice";
+import { showNetworkFeedback } from "../../Redux Slices/signupSlice";
 import NetworkFeedback from "../Modal/networkFeedback";
 
 /// Main component ////
@@ -63,7 +59,7 @@ function UploadProfilePicture() {
     try {
       await updateDoc(userProfileRef, data)
         .then(() => {
-          dispatch(GetUserProfile(userId));
+          dispatch(getUserProfileData(userId));
         })
         .then(() => {
           navigate("/home");

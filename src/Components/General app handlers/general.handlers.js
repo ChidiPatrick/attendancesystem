@@ -1,15 +1,12 @@
 import { doc, getDoc } from "firebase/firestore";
-import {
-  GetUserDocument,
-  GetAnnouncementDocument,
-} from "../Redux Slices/login.slice";
-import { GetStudentAttendanceRecord } from "../Redux Slices/adminSlice";
-import { GetAttendanceRecord } from "../Redux Slices/attendanceSlice";
-import { GetUserProfile } from "../Redux Slices/profileSlice";
+
+// Thir-party imports ///
 import { signOut } from "firebase/auth";
+
+//// Local directory imports ////
+import { getAttendanceRecords } from "../Redux Slices/attendanceSlice";
 import { db } from "../Firebase/firebase";
-import { setUserProfileDocument } from "../Redux Slices/login.slice";
-import { setAttendanceDocument } from "../Redux Slices/login.slice";
+import { setUserProfileData } from "../Redux Slices/profileSlice";
 
 /// Firestore ref creator ////
 const firestoreRefCreator = (db, userId, collection, document) => {
@@ -59,36 +56,17 @@ const getUserDocument = async (userId, dispatch) => {
     console.log(userProfileDocument.data().profileDocument);
 
     if (userProfileDocument.exists()) {
-      dispatch(setUserProfileDocument(userProfileDocument.data()));
+      dispatch(setUserProfileData(userProfileDocument.data()));
     }
   } catch (err) {
     console.log(err);
   }
 };
 
-/// Get attendance document ///
-const getAttendanceDocument = async (userId, dispatch) => {
-  try {
-    const attendanceDocumentRef = firestoreRefCreator(
-      db,
-      userId,
-      "attendanceCollection",
-      "attendanceDocument"
-    );
-
-    const attendanceDocument = await getDoc(attendanceDocumentRef);
-
-    if (attendanceDocument.exists()) {
-      console.log(attendanceDocument);
-      dispatch(setAttendanceDocument(attendanceDocument.data()));
-    }
-  } catch (err) {}
-};
-
 // Invoke all redux thunks for the user data ///
 const invokeAllThunks = async (userId, dispatch) => {
   const initialResponse = await getUserDocument(userId, dispatch).then(
-    async () => await getAttendanceDocument(userId, dispatch)
+    async () => await getAttendanceRecords(userId, dispatch)
   );
 };
 
@@ -99,5 +77,4 @@ export {
   logout,
   getStudentDocumentRef,
   getUserDocument,
-  getAttendanceDocument,
 };

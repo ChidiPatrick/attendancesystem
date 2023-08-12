@@ -12,8 +12,6 @@ import {
 } from "../../LandingPageComponents/Buttons/buttons";
 import Menu from "./menu";
 import NavBar from "./navBar";
-import { navigateToClockIn } from "../Handlers/mark.attendance";
-import { invokeAllThunks } from "../../General app handlers/general.handlers";
 import {
   setLinkToClockIn,
   setLinkToClockOut,
