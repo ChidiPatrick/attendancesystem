@@ -18,7 +18,8 @@ export const getUserProfileData = async (userId, dispatch) => {
 
     if (userProfileDocument.exists()) {
       const userProfileData = userProfileDocument.data();
-      dispatch(setUserProfileData(userProfileData));
+      dispatch(setUserProfileDocument(userProfileData));
+      dispatch(setProfilePictureUrl(userProfileData.profilePicutureURL));
     }
   } catch (err) {
     console.log(err);
@@ -58,9 +59,6 @@ const profileSlice = createSlice({
   name: "userProfileSlice",
   initialState,
   reducers: {
-    setProfilePictureData(state, action) {
-      state.userProfileData = action.payload;
-    },
     setProfilePictureUrl(state, action) {
       state.userProfilePictureUrl = action.payload;
     },
@@ -70,7 +68,7 @@ const profileSlice = createSlice({
   },
 });
 
-export const { setUserProfileData, setProfilePictureUrl } =
+export const { setUserProfileDocument, setProfilePictureUrl } =
   profileSlice.actions;
 
 export default profileSlice.reducer;

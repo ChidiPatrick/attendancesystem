@@ -24,10 +24,10 @@ function MarkAttendance() {
   /// Redux states /////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
   const userProfileDocument = useSelector(
-    (state) => state.loginSlice.userProfileDocument
+    (state) => state.profileSlice.userProfileData
   );
-  const userId = useSelector((state) => state.loginSlice.userId);
 
+  console.log(userProfileDocument);
   // Clock in handler ///
   const navigateToClockIn = () => {
     dispatch(setLinkToClockIn());

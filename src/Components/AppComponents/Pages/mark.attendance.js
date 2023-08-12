@@ -35,6 +35,9 @@ function MarkUser() {
   const currTime = useSelector((state) => state.attendanceRecord.currTime);
   const date = useSelector((state) => state.attendanceRecord.date);
   const userId = useSelector((state) => state.loginSlice.userId);
+  const attendanceRecordArrays = useSelector(
+    (state) => state.attendanceRecord.attendanceData
+  );
   const displayFeedback = useSelector(
     (state) => state.signupSlice.displayFeedback
   );
@@ -51,6 +54,9 @@ function MarkUser() {
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
   const [currDate, setCurrDate] = useState(date);
+
+  const attendanceClockInArray = attendanceRecordArrays.dailyClockIns;
+  console.log(attendanceClockInArray);
 
   /// Mark attendance ///
   const markAttendance = async () => {
@@ -80,7 +86,13 @@ function MarkUser() {
     dispatch(showClockInDetails());
     dispatch(setCurrHour(currHour));
 
-    updateAttendanceRecord(data, userId, dispatch, navigate);
+    updateAttendanceRecord(
+      data,
+      userId,
+      dispatch,
+      navigate,
+      attendanceClockInArray
+    );
   };
 
   return (

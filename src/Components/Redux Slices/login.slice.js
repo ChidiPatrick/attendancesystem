@@ -13,19 +13,15 @@ const loginSlice = createSlice({
   name: "loginSlice",
   initialState,
   reducers: {
-    setUserProfileDocument(state, action) {
-      state.userProfileDocument = action.payload;
-    },
-
     setAttendanceDocument(state, action) {
       state.attendanceDocument = action.payload;
     },
-    setUserId(state, action) {
+    setLoginUserId(state, action) {
       state.userId = action.payload;
     },
   },
 });
 
-export const { setAttendanceDocument, setUserId } = loginSlice.actions;
+export const { setAttendanceDocument, setLoginUserId } = loginSlice.actions;
 
 export default loginSlice.reducer;

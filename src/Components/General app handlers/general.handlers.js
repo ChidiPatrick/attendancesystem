@@ -6,7 +6,7 @@ import { signOut } from "firebase/auth";
 //// Local directory imports ////
 import { getAttendanceRecords } from "../Redux Slices/attendanceSlice";
 import { db } from "../Firebase/firebase";
-import { setUserProfileData } from "../Redux Slices/profileSlice";
+import { setUserProfileDocument } from "../Redux Slices/profileSlice";
 
 /// Firestore ref creator ////
 const firestoreRefCreator = (db, userId, collection, document) => {
@@ -56,7 +56,7 @@ const getUserDocument = async (userId, dispatch) => {
     console.log(userProfileDocument.data().profileDocument);
 
     if (userProfileDocument.exists()) {
-      dispatch(setUserProfileData(userProfileDocument.data()));
+      dispatch(setUserProfileDocument(userProfileDocument.data()));
     }
   } catch (err) {
     console.log(err);

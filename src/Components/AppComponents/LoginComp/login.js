@@ -18,12 +18,12 @@ import NetworkFeedback from "../Modal/networkFeedback";
 import FeedbackModal from "../Modal/feedbackModal";
 import {
   showNetworkFeedback,
-  hideNetworkFeedback,
   showFeedback,
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
 import { invokeAllThunks } from "../../General app handlers/general.handlers";
-import { setUserId } from "../../Redux Slices/login.slice";
+import { setLoginUserId } from "../../Redux Slices/login.slice";
+import { setUserId } from "../../Redux Slices/attendanceSlice";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -65,6 +65,7 @@ const Signin = () => {
           .then(async (user) => {
             let userId = user.user.uid;
             console.log("Calling invokeAllThunks");
+            dispatch(setLoginUserId(userId));
             invokeAllThunks(userId, dispatch);
           })
           .then((userId) => {

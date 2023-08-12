@@ -13,17 +13,7 @@ import {
 
 /*  
    TODOs:
-   * 1. Include a loading spinner for both clock in and out logic
-   * 2. Add error handler for potential errors in both clockin and clockout logic
-   * 3. Add fetch logic to update the UI after clock in and out
-    4. Add validation and restriction of clock in and out if the user has already 
-       done that to avoid uploading multiple data
-    5. Rearrange the population of UI data call during login such that concerns are
-       separated accurately
- START HERE:
-  * 6. Add fix to clockout bugs and complete the logic 
-  * 7. Make your redux thunks in invokeAllThunks functions to be called sequentially
-  * 8. Change all your firebase queries from the use of redux thunk to use async functions
+   1. Check out why clock in validation is not working and fix it.
     */
 
 const navigateToClockIn = (navigate, clockinPage) => {
@@ -34,11 +24,12 @@ const updateAttendanceRecord = async (
   attendanceData,
   userId,
   dispatch,
-  navigate
+  navigate,
+  clockInAttendanceArray
 ) => {
   try {
-    const clockOuts = [...attendanceData.dailyClockOuts];
-    const lastClockOutObj = clockOuts[clockOuts.length - 1];
+    const clockOutIns = [...clockInAttendanceArray];
+    const lastClockOutObj = clockOutIns[clockOutIns.length - 1];
 
     if (!navigator.onLine) {
       dispatch(showFeedback());
@@ -77,15 +68,15 @@ const updateAttendanceRecord = async (
   }
 };
 
-/// Add clock in data //
+// /// Add clock in data //
 const updateClockOutData = async (
   clockOutData,
   userId,
   dispatch,
   attendanceData
 ) => {
-  const clockOuts = [...attendanceData.dailyClockOuts];
-  const lastClockOutObj = clockOuts[clockOuts.length - 1];
+  const clockOutsArray = [...attendanceData.dailyClockOuts];
+  const lastClockOutObj = clockOutsArray[clockOutsArray.length - 1];
 
   try {
     if (!navigator.onLine) {
