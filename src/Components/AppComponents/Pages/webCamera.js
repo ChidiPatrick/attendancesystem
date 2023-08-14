@@ -1,4 +1,4 @@
-import React, { useState, useSyncExternalStore } from "react";
+import React, { useEffect, useState, useSyncExternalStore } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Third-party imports ///
@@ -9,6 +9,7 @@ import {
   showWebCam,
   hideWebCam,
   setUserImage,
+  setLinkToClockIn,
 } from "../../Redux Slices/attendanceSlice";
 import { useNavigate } from "react-router";
 import { hideFeedback, showFeedback } from "../../Redux Slices/signupSlice";
@@ -32,6 +33,17 @@ function WebCam() {
   const linkToClockOut = useSelector(
     (state) => state.attendanceRecord.linkToClockOut
   );
+
+  console.log(linkToClockIn);
+  useEffect(() => {
+    return function () {
+      if (linkToClockIn) {
+        dispatch(setLinkToClockIn(false));
+      } else {
+        dispatch(setLinkToClockIn(false));
+      }
+    };
+  });
 
   const [image, setImage] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
@@ -61,11 +73,7 @@ function WebCam() {
   const saveImage = () => {
     dispatch(setUserImage(image));
 
-    if (linkToClockIn) {
-      navigate("/markAttendance");
-    } else {
-      navigate("/clockOut");
-    }
+    navigate(linkToClockIn === true ? "/markAttendance" : "/clockOut");
   };
 
   return (

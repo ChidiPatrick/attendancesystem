@@ -35,8 +35,8 @@ function MarkUser() {
   const currTime = useSelector((state) => state.attendanceRecord.currTime);
   const date = useSelector((state) => state.attendanceRecord.date);
   const userId = useSelector((state) => state.loginSlice.userId);
-  const attendanceRecordArrays = useSelector(
-    (state) => state.attendanceRecord.attendanceData
+  const dailyClockInsArray = useSelector(
+    (state) => state.attendanceRecord.dailyClockIns
   );
   const displayFeedback = useSelector(
     (state) => state.signupSlice.displayFeedback
@@ -54,9 +54,6 @@ function MarkUser() {
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
   const [currDate, setCurrDate] = useState(date);
-
-  const attendanceClockInArray = attendanceRecordArrays.dailyClockIns;
-  console.log(attendanceClockInArray);
 
   /// Mark attendance ///
   const markAttendance = async () => {
@@ -76,7 +73,7 @@ function MarkUser() {
 
     const data = {
       id: "Clock in",
-      date,
+      date: date.toDateString(),
       isOnTime,
       time,
       userImage,
@@ -91,10 +88,14 @@ function MarkUser() {
       userId,
       dispatch,
       navigate,
-      attendanceClockInArray
+      dailyClockInsArray
     );
   };
-
+  /**
+   * UI LAYOUT TODOs
+   * Add a back button to navigate user back to the previous page
+   *
+   */
   return (
     <div className="w-full relative p-2 shadow-md h-screen flex flex-col justify-center border border-bg-lp-secondary items-center">
       <img

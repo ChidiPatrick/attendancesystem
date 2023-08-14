@@ -23,21 +23,22 @@ function MarkAttendance() {
 
   /// Redux states /////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
+  const linkToClockIn = useSelector(
+    (state) => state.attendanceRecord.linkToClockIn
+  );
   const userProfileDocument = useSelector(
     (state) => state.profileSlice.userProfileData
   );
 
-  console.log(userProfileDocument);
   // Clock in handler ///
-  const navigateToClockIn = () => {
-    dispatch(setLinkToClockIn());
+  const navigateToClockIn = async () => {
     navigate("/clockIn");
   };
 
   // Clock out handler ///
   const navigateToClockOut = () => {
-    dispatch(setLinkToClockOut());
-    navigate("/clockIn");
+    dispatch(setLinkToClockIn(false));
+    navigate("/clockOut");
   };
 
   return (

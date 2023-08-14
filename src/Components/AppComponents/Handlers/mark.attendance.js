@@ -8,13 +8,15 @@ import { getAttendanceRecords } from "../../Redux Slices/attendanceSlice";
 import {
   hideSpinner,
   showFeedback,
+  showNetworkFeedback,
   showSpinner,
 } from "../../Redux Slices/signupSlice";
 
-/*  
-   TODOs:
-   1. Check out why clock in validation is not working and fix it.
-    */
+/* 
+TODOs:
+  1. Add validation for clock out handler
+  2. Add a clean up function to delete the previous day's image from the database
+*/
 
 const navigateToClockIn = (navigate, clockinPage) => {
   navigate(`/${clockinPage}`);
@@ -28,16 +30,18 @@ const updateAttendanceRecord = async (
   clockInAttendanceArray
 ) => {
   try {
-    const clockOutIns = [...clockInAttendanceArray];
-    const lastClockOutObj = clockOutIns[clockOutIns.length - 1];
-
+    dispatch(showSpinner());
+    const clockIns = [...clockInAttendanceArray];
+    const lastClockInObj = clockIns[clockIns.length - 1];
+    console.log(clockIns);
     if (!navigator.onLine) {
-      dispatch(showFeedback());
+      dispatch(showNetworkFeedback());
       return;
     }
 
-    if (lastClockOutObj.Date === new Date().toDateString()) {
-      console.log("Already clocked in for today!");
+    if (lastClockInObj.date === new Date().toDateString()) {
+      alert("You have already clocked in today");
+      dispatch(hideSpinner());
       return;
     }
 
@@ -54,7 +58,6 @@ const updateAttendanceRecord = async (
 
     await updateDoc(attendanceRef, data)
       .then(() => {
-        dispatch(showSpinner());
         getAttendanceRecords(userId);
       })
       .then(() => {
@@ -75,21 +78,26 @@ const updateClockOutData = async (
   dispatch,
   attendanceData
 ) => {
-  const clockOutsArray = [...attendanceData.dailyClockOuts];
+  console.log(attendanceData);
+  const clockOutsArray = [...attendanceData];
   const lastClockOutObj = clockOutsArray[clockOutsArray.length - 1];
 
+  dispatch(showSpinner());
   try {
     if (!navigator.onLine) {
-      dispatch(showFeedback());
+      dispatch(hideSpinner());
+      dispatch(showNetworkFeedback());
       return;
     }
 
-    if (lastClockOutObj.Date === new Date().toDateString()) {
-      console.log("Already clocked out for today!");
+    if (
+      clockOutsArray.length > 0 &&
+      lastClockOutObj.date === new Date().toDateString()
+    ) {
+      alert("Already clocked out for today!");
+      dispatch(hideSpinner());
       return;
     }
-
-    dispatch(showSpinner());
 
     const attendanceDocumentRef = firestoreRefCreator(
       db,
@@ -111,6 +119,7 @@ const updateClockOutData = async (
         dispatch(hideSpinner());
       });
   } catch (err) {
+    console.log(err);
     dispatch(showFeedback());
     dispatch(hideSpinner());
   }

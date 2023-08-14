@@ -20,32 +20,12 @@ export const getAttendanceRecords = async (userId, dispatch) => {
     const attendanceDocument = await getDoc(attendanceDocumentRef);
 
     if (attendanceDocument.exists()) {
-      console.log(attendanceDocument);
-      dispatch(setAttendanceData(attendanceDocument.data()));
+      console.log(attendanceDocument.data().dailyClockIns);
+      dispatch(setDailyClockIns(attendanceDocument.data().dailyClockIns));
+      dispatch(setDailyClockOuts(attendanceDocument.data().dailyClockOuts));
     }
   } catch (err) {}
 };
-
-// export const GetAttendanceRecord = createAsyncThunk(
-//   "attendanceRecord/getAttendanceRecord",
-//   async (userId, { dispatch, getState }) => {
-//     try {
-//       const attendanceDocumentRef = firestoreRefCreator(
-//         db,
-//         userId,
-//         "attendanceCollection",
-//         "attendanceDocument"
-//       );
-
-//       const attendanceDocument = await getDoc(attendanceDocumentRef);
-
-//       if (attendanceDocument.exists()) {
-//         console.log(attendanceDocument);
-//         dispatch(setAttendanceData(attendanceDocument.data()));
-//       }
-//     } catch (err) {}
-//   }
-// );
 
 const initialState = {
   userId: "dfjdfsl",
@@ -60,8 +40,9 @@ const initialState = {
   displayClockInDetails: false,
   currHour: 0,
   clockOutObj: null,
-  attendanceData: null,
-  linkToClockIn: false,
+  dailyClockIns: null,
+  dailyClockOuts: null,
+  linkToClockIn: true,
   linkToClockOut: false,
 };
 
@@ -124,16 +105,20 @@ const attendanceSlice = createSlice({
       state.clockOutObj = action.payload;
     },
 
-    setAttendanceData(state, action) {
-      state.attendanceData = action.payload;
+    setDailyClockIns(state, action) {
+      state.dailyClockIns = action.payload;
+    },
+
+    setDailyClockOuts(state, action) {
+      state.dailyClockOuts = action.payload;
     },
 
     setLinkToClockIn(state, action) {
-      state.linkToClockIn = true;
+      state.linkToClockIn = action.payload;
     },
 
     setLinkToClockOut(state, action) {
-      state.linkToClockOut = true;
+      state.linkToClockOut = action.payload;
     },
   },
 });
@@ -153,7 +138,8 @@ export const {
   hideClockInDetails,
   setCurrHour,
   setClockOutObj,
-  setAttendanceData,
+  setDailyClockIns,
+  setDailyClockOuts,
   setLinkToClockIn,
   setLinkToClockOut,
 } = attendanceSlice.actions;

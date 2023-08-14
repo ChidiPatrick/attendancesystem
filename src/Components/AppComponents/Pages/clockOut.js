@@ -11,6 +11,7 @@ import { updateClockOutData } from "../Handlers/mark.attendance";
 import { hideFeedback, showFeedback } from "../../Redux Slices/signupSlice";
 import NetworkFeedback from "../Modal/networkFeedback";
 import FeedbackModal from "../Modal/feedbackModal";
+import SpinnerSmall from "../Loading spinners/spinnerSmall";
 
 function ClockOut() {
   const dispatch = useDispatch();
@@ -19,8 +20,11 @@ function ClockOut() {
   /// Redux states ///
   const userImage = useSelector((state) => state.attendanceRecord.image);
   const userId = useSelector((state) => state.loginSlice.userId);
+  const displaySpinner = useSelector(
+    (state) => state.signupSlice.displaySpinner
+  );
   const attendanceData = useSelector(
-    (state) => state.attendanceRecord.attendanceData
+    (state) => state.attendanceRecord.dailyClockOuts
   );
   const displayFeedback = useSelector(
     (state) => state.signupSlice.displayFeedback
@@ -43,6 +47,9 @@ function ClockOut() {
     await updateClockOutData(data, userId, dispatch, attendanceData);
   };
 
+  /* TODO:
+  1. Add button for navigating backwards here
+  */
   return (
     <div className="w-full relative p-2 shadow-md h-screen flex flex-col justify-center border border-bg-lp-secondary items-center">
       <img
@@ -57,6 +64,7 @@ function ClockOut() {
           Something went wrong, please log out and log in again
         </FeedbackModal>
       ) : null}
+      {displaySpinner === true ? <SpinnerSmall /> : null}
     </div>
   );
 }
