@@ -14,7 +14,7 @@ import {
 
 /* 
 TODOs:
-  1. Add validation for clock out handler
+ * 1. Add validation for clock out handler
   2. Add a clean up function to delete the previous day's image from the database
 */
 
@@ -43,27 +43,30 @@ const updateAttendanceRecord = async (
       alert("You have already clocked in today");
       dispatch(hideSpinner());
       return;
+    } else if (
+      clockIns.length === 0 ||
+      lastClockInObj.date !== new Date().toDateString()
+    ) {
+      const attendanceRef = firestoreRefCreator(
+        db,
+        userId,
+        "attendanceCollection",
+        "attendanceDocument"
+      );
+
+      const data = {
+        dailyClockIns: arrayUnion(attendanceData),
+      };
+
+      await updateDoc(attendanceRef, data)
+        .then(() => {
+          getAttendanceRecords(userId);
+        })
+        .then(() => {
+          dispatch(hideSpinner());
+          navigate("/attendanceSuccessful");
+        });
     }
-
-    const attendanceRef = firestoreRefCreator(
-      db,
-      userId,
-      "attendanceCollection",
-      "attendanceDocument"
-    );
-
-    const data = {
-      dailyClockIns: arrayUnion(attendanceData),
-    };
-
-    await updateDoc(attendanceRef, data)
-      .then(() => {
-        getAttendanceRecords(userId);
-      })
-      .then(() => {
-        dispatch(hideSpinner());
-        navigate("/attendanceSuccessful");
-      });
   } catch (err) {
     dispatch(hideSpinner());
     dispatch(showFeedback());
@@ -81,6 +84,7 @@ const updateClockOutData = async (
   console.log(attendanceData);
   const clockOutsArray = [...attendanceData];
   const lastClockOutObj = clockOutsArray[clockOutsArray.length - 1];
+  console.log(clockOutData);
 
   dispatch(showSpinner());
   try {
@@ -95,29 +99,34 @@ const updateClockOutData = async (
       lastClockOutObj.date === new Date().toDateString()
     ) {
       alert("Already clocked out for today!");
+
       dispatch(hideSpinner());
+
       return;
+    } else if (
+      clockOutsArray === 0 ||
+      lastClockOutObj.date !== new Date().toDateString()
+    ) {
+      const attendanceDocumentRef = firestoreRefCreator(
+        db,
+        userId,
+        "attendanceCollection",
+        "attendanceDocument"
+      );
+
+      const data = {
+        dailyClockOuts: arrayUnion(clockOutData),
+      };
+
+      await updateDoc(attendanceDocumentRef, data)
+        .then(() => {
+          console.log("Uploaded...");
+          dispatch(getAttendanceRecords(userId));
+        })
+        .then(() => {
+          dispatch(hideSpinner());
+        });
     }
-
-    const attendanceDocumentRef = firestoreRefCreator(
-      db,
-      userId,
-      "attendanceCollection",
-      "attendanceDocument"
-    );
-
-    const data = {
-      dailyClockOuts: arrayUnion(clockOutData),
-    };
-
-    await updateDoc(attendanceDocumentRef, data)
-      .then(() => {
-        console.log("Uploaded...");
-        dispatch(getAttendanceRecords(userId));
-      })
-      .then(() => {
-        dispatch(hideSpinner());
-      });
   } catch (err) {
     console.log(err);
     dispatch(showFeedback());

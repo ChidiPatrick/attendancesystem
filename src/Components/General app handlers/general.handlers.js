@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 // Thir-party imports ///
 import { signOut } from "firebase/auth";
@@ -21,6 +21,35 @@ const firestoreAdminRefCreatore = (db, studentId) => {
     `${studentId}`,
     "studentInfo"
   );
+};
+
+/* 
+1. Complete the clean up function and test it with raw data
+2. implement the clean up function for clock in and clock out
+
+*/
+
+const deletePreviousDayImage = async (attendanceArray, userId) => {
+  const oldAttendanceArray = [...attendanceArray];
+
+  const prevLastRecord = oldAttendanceArray[oldAttendanceArray.length - 1];
+
+  const newLastRecord = { ...prevLastRecord, userImage: "" };
+
+  oldAttendanceArray.pop();
+
+  oldAttendanceArray.push(newLastRecord);
+
+  const newAttendanceArray = [...oldAttendanceArray];
+
+  const attendanceRef = firestoreRefCreator(
+    db,
+    userId,
+    "attendanceCollection",
+    "attendanceDocument"
+  );
+
+  await updateDoc;
 };
 
 /// Sign out function /////
