@@ -35,15 +35,15 @@ function WebCam() {
   );
 
   console.log(linkToClockIn);
-  useEffect(() => {
-    return function () {
-      if (linkToClockIn) {
-        dispatch(setLinkToClockIn(false));
-      } else {
-        dispatch(setLinkToClockIn(false));
-      }
-    };
-  });
+  // useEffect(() => {
+  //   return function () {
+  //     if (linkToClockIn) {
+  //       dispatch(setLinkToClockIn(false));
+  //     } else {
+  //       dispatch(setLinkToClockIn(false));
+  //     }
+  //   };
+  // });
 
   const [image, setImage] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
@@ -73,7 +73,7 @@ function WebCam() {
   const saveImage = () => {
     dispatch(setUserImage(image));
 
-    navigate(linkToClockIn === true ? "/markAttendance" : "/clockOut");
+    navigate("/markAttendance");
   };
 
   return (

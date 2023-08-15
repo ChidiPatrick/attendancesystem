@@ -24,19 +24,17 @@ const firestoreAdminRefCreatore = (db, studentId) => {
 };
 
 /* 
-1. Complete the clean up function and test it with raw data
-2. implement the clean up function for clock in and clock out
+* 1. Complete the clean up function and test it with raw data
+  2. implement the clean up function for clock in and clock out
 
 */
 
 const deletePreviousDayImage = async (attendanceArray, userId) => {
   const oldAttendanceArray = [...attendanceArray];
 
-  const prevLastRecord = oldAttendanceArray[oldAttendanceArray.length - 1];
+  const prevLastRecord = oldAttendanceArray.pop();
 
   const newLastRecord = { ...prevLastRecord, userImage: "" };
-
-  oldAttendanceArray.pop();
 
   oldAttendanceArray.push(newLastRecord);
 
@@ -49,7 +47,11 @@ const deletePreviousDayImage = async (attendanceArray, userId) => {
     "attendanceDocument"
   );
 
-  await updateDoc;
+  const data = {
+    dailyClockIns: newAttendanceArray,
+  };
+
+  await updateDoc(attendanceRef, data).then(() => true);
 };
 
 /// Sign out function /////
@@ -106,4 +108,5 @@ export {
   logout,
   getStudentDocumentRef,
   getUserDocument,
+  deletePreviousDayImage,
 };

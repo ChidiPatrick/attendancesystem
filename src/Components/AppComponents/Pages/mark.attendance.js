@@ -57,7 +57,6 @@ function MarkUser() {
 
   /// Mark attendance ///
   const markAttendance = async () => {
-    // dispatch(showSpinner());
     const date = new Date();
     const time = date.toLocaleTimeString("en-US");
     const currHour = date.getUTCHours();

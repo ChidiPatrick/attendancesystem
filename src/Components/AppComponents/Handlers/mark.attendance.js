@@ -3,6 +3,7 @@ import { db } from "../../Firebase/firebase";
 import {
   firestoreRefCreator,
   getStudentDocumentRef,
+  deletePreviousDayImage,
 } from "../../General app handlers/general.handlers";
 import { getAttendanceRecords } from "../../Redux Slices/attendanceSlice";
 import {
@@ -32,8 +33,8 @@ const updateAttendanceRecord = async (
   try {
     dispatch(showSpinner());
     const clockIns = [...clockInAttendanceArray];
-    const lastClockInObj = clockIns[clockIns.length - 1];
-    console.log(clockIns);
+    const lastClockInObj = clockIns.pop();
+
     if (!navigator.onLine) {
       dispatch(showNetworkFeedback());
       return;
@@ -58,10 +59,13 @@ const updateAttendanceRecord = async (
         dailyClockIns: arrayUnion(attendanceData),
       };
 
-      await updateDoc(attendanceRef, data)
-        .then(() => {
-          getAttendanceRecords(userId);
+      await deletePreviousDayImage(clockInAttendanceArray, userId)
+        .then(async () => await updateDoc(attendanceRef, data))
+
+        .then(async () => {
+          await getAttendanceRecords(userId);
         })
+
         .then(() => {
           dispatch(hideSpinner());
           navigate("/attendanceSuccessful");
