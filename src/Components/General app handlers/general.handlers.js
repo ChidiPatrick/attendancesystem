@@ -24,11 +24,25 @@ const firestoreAdminRefCreatore = (db, studentId) => {
 };
 
 /* 
-* 1. Complete the clean up function and test it with raw data
-  2. implement the clean up function for clock in and clock out
-
+  1. Implement weekly clean up function for both clock in and clock out
+  2. Implement admin document updating for every student's log in
 */
 
+/// Clean up previous week's clock in and clock out data ///
+const cleanUpPreviousWeekData = async (userId) => {
+  const attendanceRef = firestoreRefCreator(
+    db,
+    userId,
+    "attendanceCollection",
+    "attendanceDocument"
+  );
+
+  const data = { dailyClockIns: [], dailyClockOuts: [] };
+
+  await updateDoc(attendanceRef, data);
+};
+
+/// Delete previous day's clock in image ///
 const deletePreviousDayImage = async (attendanceArray, userId) => {
   const oldAttendanceArray = [...attendanceArray];
 
@@ -109,4 +123,5 @@ export {
   getStudentDocumentRef,
   getUserDocument,
   deletePreviousDayImage,
+  cleanUpPreviousWeekData,
 };

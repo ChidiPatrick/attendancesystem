@@ -4,6 +4,7 @@ import {
   firestoreRefCreator,
   getStudentDocumentRef,
   deletePreviousDayImage,
+  cleanUpPreviousWeekData,
 } from "../../General app handlers/general.handlers";
 import { getAttendanceRecords } from "../../Redux Slices/attendanceSlice";
 import {
@@ -12,12 +13,6 @@ import {
   showNetworkFeedback,
   showSpinner,
 } from "../../Redux Slices/signupSlice";
-
-/* 
-TODOs:
- * 1. Add validation for clock out handler
-  2. Add a clean up function to delete the previous day's image from the database
-*/
 
 const navigateToClockIn = (navigate, clockinPage) => {
   navigate(`/${clockinPage}`);
@@ -31,7 +26,9 @@ const updateAttendanceRecord = async (
   clockInAttendanceArray
 ) => {
   try {
+    const date = new Date();
     dispatch(showSpinner());
+
     const clockIns = [...clockInAttendanceArray];
     const lastClockInObj = clockIns.pop();
 
@@ -59,17 +56,31 @@ const updateAttendanceRecord = async (
         dailyClockIns: arrayUnion(attendanceData),
       };
 
-      await deletePreviousDayImage(clockInAttendanceArray, userId)
-        .then(async () => await updateDoc(attendanceRef, data))
+      if (date.getDay() === 1) {
+        await cleanUpPreviousWeekData(userId)
+          .then(async () => await updateDoc(attendanceRef, data))
 
-        .then(async () => {
-          await getAttendanceRecords(userId);
-        })
+          .then(async () => {
+            await getAttendanceRecords(userId);
+          })
 
-        .then(() => {
-          dispatch(hideSpinner());
-          navigate("/attendanceSuccessful");
-        });
+          .then(() => {
+            dispatch(hideSpinner());
+            navigate("/attendanceSuccessful");
+          });
+      } else {
+        await deletePreviousDayImage(clockInAttendanceArray, userId)
+          .then(async () => await updateDoc(attendanceRef, data))
+
+          .then(async () => {
+            await getAttendanceRecords(userId);
+          })
+
+          .then(() => {
+            dispatch(hideSpinner());
+            navigate("/attendanceSuccessful");
+          });
+      }
     }
   } catch (err) {
     dispatch(hideSpinner());
