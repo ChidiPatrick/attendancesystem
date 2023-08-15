@@ -24,6 +24,7 @@ import {
 import { invokeAllThunks } from "../../General app handlers/general.handlers";
 import { setLoginUserId } from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
+import { Link } from "react-router-dom";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -160,9 +161,12 @@ const Signin = () => {
             </button>
           </li>
           <li className="py-2">
-            <a href="#" className="text-lp-primary border-b border-lp-primary">
+            <Link
+              to={"/resetpassword"}
+              className="text-lp-primary border-b border-lp-primary"
+            >
               Reset Password
-            </a>
+            </Link>
           </li>
         </ul>
       </form>

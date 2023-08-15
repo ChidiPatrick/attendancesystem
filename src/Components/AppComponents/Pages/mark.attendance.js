@@ -21,7 +21,6 @@ import {
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
 import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
-import { showFeedback } from "../../Redux Slices/signupSlice";
 import FeedbackModal from "../Modal/feedbackModal";
 import NetworkFeedback from "../Modal/networkFeedback";
 

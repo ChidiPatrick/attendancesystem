@@ -16,6 +16,9 @@ import ClockLaunchCamera from "./Components/AppComponents/Pages/clockin.launch.c
 import AttendanceFeedback from "./Components/AppComponents/Pages/attendance.feedback";
 import MarkUser from "./Components/AppComponents/Pages/mark.attendance";
 import ClockOut from "./Components/AppComponents/Pages/clockOut";
+import ResetEmailAndPassword from "./Components/AppComponents/Pages/reset.email.password";
+
+//// Root component ///
 function App() {
   return (
     <div className="relative">
@@ -33,6 +36,7 @@ function App() {
         <Route path="/attendanceSuccessful" element={<AttendanceFeedback />} />
         <Route path="/markAttendance" element={<MarkUser />} />
         <Route path="/clockOut" element={<ClockOut />} />
+        <Route path="/resetpassword" element={<ResetEmailAndPassword />} />
       </Routes>
     </div>
   );

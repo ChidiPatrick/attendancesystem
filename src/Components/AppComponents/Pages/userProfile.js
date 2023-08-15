@@ -16,7 +16,7 @@ function UserProfile() {
     (state) => state.profileSlice.userProfilePictureUrl
   );
   const userProfileDocument = useSelector(
-    (state) => state.loginSlice.userProfileDocument
+    (state) => state.profileSlice.userProfileData
   );
 
   const handleBack = () => {

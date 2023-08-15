@@ -10,7 +10,7 @@ import Footer from "../../LandingPageComponents/Footer/footer";
 import UserProfile from "./userProfile";
 import AttendanceFeedback from "./attendance.feedback";
 import ClockLaunchCamera from "./clockin.launch.camera";
-import UploadProfilePicture from "./upload.profile.pic";
+import ResetEmailAndPassword from "./reset.email.password";
 
 const LandingPage = () => {
   return (
@@ -20,7 +20,7 @@ const LandingPage = () => {
       <Description />
       <Features />
       <Footer />
-      <UploadProfilePicture />
+      <ResetEmailAndPassword />
     </div>
   );
 };

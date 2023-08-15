@@ -14,6 +14,20 @@ import {
   showSpinner,
 } from "../../Redux Slices/signupSlice";
 
+/* 
+TODOs:
+  1. Implement admin database updating algorithm for all clock in and outs
+* 2. Fix bug in user profile line 57
+* 3. Add password reset logic
+  4. Add updating logic
+  5. Rearrange admin database structure
+  6. Populate attendance history page with data
+* 7. Create password reset page and implement the logic
+  
+
+
+*/
+
 const navigateToClockIn = (navigate, clockinPage) => {
   navigate(`/${clockinPage}`);
 };

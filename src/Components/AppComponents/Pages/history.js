@@ -14,7 +14,14 @@ function History() {
   const navigate = useNavigate();
 
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
+  const clockIns = useSelector((state) => state.attendanceRecord.dailyClockIns);
+  console.log(clockIns);
 
+  /* 
+  TODOs: 
+  1. style the table to make the date and the rest of the UI more refined
+  
+  */
   return (
     <div className="w-full h-screen bg-user-profile border-t border-blue-400 ">
       <NavBar>Attendance History</NavBar>
@@ -28,32 +35,19 @@ function History() {
               <th className="w-24">Grade</th>
             </tr>
           </thead>
-          <tbody>
-            <tr className="odd:bg-white even:bg-slate-400 border-b border-border-signup-gray p-2 my-2 ">
-              <td className="text-center">May 06</td>
-              <td className="text-center">09:30am</td>
-              <td className="text-center">On time</td>
-              <td className="text-center">2/2</td>
-            </tr>
-            <tr className="odd:bg-white even:bg-slate-200">
-              <td className="text-center">May 06</td>
-              <td className="text-center">09:30am</td>
-              <td className="text-center">On time</td>
-              <td className="text-center">2/2</td>
-            </tr>
-            <tr className="odd:bg-white even:bg-slate-200">
-              <td className="text-center">May 06</td>
-              <td className="text-center">09:30am</td>
-              <td className="text-center">On time</td>
-              <td className="text-center">2/2</td>
-            </tr>
-            <tr className="odd:bg-white even:bg-slate-200">
-              <td className="text-center">May 06</td>
-              <td className="text-center">09:30am</td>
-              <td className="text-center">On time</td>
-              <td className="text-center">2/2</td>
-            </tr>
-          </tbody>
+          {clockIns?.map((clockInObj) => {
+            return (
+              <tr className="odd:bg-white even:bg-slate-400 border-b border-border-signup-gray p-2 my-2 ">
+                <td className="text-center">{clockInObj.date}</td>
+                <td className="text-center">{clockInObj.time}</td>
+                <td className="text-center">
+                  {clockInObj.isOnTime === true ? "Early" : "Late"}
+                </td>
+                <td className="text-center">2/2</td>
+              </tr>
+            );
+          })}
+          <tbody></tbody>
         </table>
       </div>
       {displayMenu === true ? <Menu /> : null}
