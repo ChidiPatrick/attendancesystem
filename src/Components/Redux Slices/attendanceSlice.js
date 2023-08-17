@@ -44,6 +44,7 @@ const initialState = {
   dailyClockOuts: null,
   linkToClockIn: true,
   linkToClockOut: false,
+  clockInImage: null,
 };
 
 const attendanceSlice = createSlice({
@@ -72,6 +73,10 @@ const attendanceSlice = createSlice({
 
     setUserImage(state, action) {
       state.image = action.payload;
+    },
+
+    resetClockInImage(state, action) {
+      state.image = null;
     },
 
     setOnTime(state, action) {
@@ -142,6 +147,7 @@ export const {
   setDailyClockOuts,
   setLinkToClockIn,
   setLinkToClockOut,
+  resetClockInImage,
 } = attendanceSlice.actions;
 
 export default attendanceSlice.reducer;

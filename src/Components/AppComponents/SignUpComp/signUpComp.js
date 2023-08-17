@@ -1,26 +1,19 @@
 //// Import from react ////////////
-import React, { useState } from "react";
+import React from "react";
 
 /////// Third party imports /////////////
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { HiChevronLeft } from "react-icons/hi";
 
 /// Local directory imports ////////////////
 import { db, auth } from "../../Firebase/firebase";
-import { doc, setDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import { Await, useNavigate } from "react-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import NetworkFeedback from "../Modal/networkFeedback";
-import {
-  showNetworkFeedback,
-  hideNetworkFeedback,
-} from "../../Redux Slices/signupSlice";
-import {
-  firestoreRefCreator,
-  firestoreAdminRefCreatore,
-} from "../../General app handlers/general.handlers";
+import { showNetworkFeedback } from "../../Redux Slices/signupSlice";
+import { firestoreRefCreator } from "../../General app handlers/general.handlers";
 import {
   userProfileModelCreator,
   attendanceCollectionModelCreator,

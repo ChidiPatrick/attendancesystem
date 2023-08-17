@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 /// Third party imports ///////////
-import { HiMenu } from "react-icons/hi";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -12,10 +12,8 @@ import {
 } from "../../LandingPageComponents/Buttons/buttons";
 import Menu from "./menu";
 import NavBar from "./navBar";
-import {
-  setLinkToClockIn,
-  setLinkToClockOut,
-} from "../../Redux Slices/attendanceSlice";
+import { setLinkToClockIn } from "../../Redux Slices/attendanceSlice";
+import ImagePreview from "./image.preview";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -23,9 +21,7 @@ function MarkAttendance() {
 
   /// Redux states /////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
-  const linkToClockIn = useSelector(
-    (state) => state.attendanceRecord.linkToClockIn
-  );
+
   const userProfileDocument = useSelector(
     (state) => state.profileSlice.userProfileData
   );
@@ -40,7 +36,10 @@ function MarkAttendance() {
     dispatch(setLinkToClockIn(false));
     navigate("/clockOut");
   };
-
+  /* 
+     *1. Create edit profile UI and implement the functionality
+      2. Modify the clock in picture taking UI 
+*/
   return (
     <div className="bg-user-profile w-full h-screen p-2">
       <div className="grid grid-cols-8 ">
@@ -97,6 +96,7 @@ function MarkAttendance() {
         <ButtonLight handleClick={navigateToClockOut}>Clock out</ButtonLight>
       </div>
       {displayMenu === true ? <Menu /> : null}
+      <ImagePreview />
     </div>
   );
 }

@@ -35,15 +35,6 @@ function WebCam() {
   );
 
   console.log(linkToClockIn);
-  // useEffect(() => {
-  //   return function () {
-  //     if (linkToClockIn) {
-  //       dispatch(setLinkToClockIn(false));
-  //     } else {
-  //       dispatch(setLinkToClockIn(false));
-  //     }
-  //   };
-  // });
 
   const [image, setImage] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
@@ -64,16 +55,10 @@ function WebCam() {
     setShowDoneBtn(true);
   };
 
-  const retakePicture = () => {
-    setImage(null);
-    setShowPreview(false);
-  };
-
   /// Save image ///
   const saveImage = () => {
     dispatch(setUserImage(image));
-
-    navigate("/markAttendance");
+    navigate("/previewImage");
   };
 
   return (
@@ -117,12 +102,12 @@ function WebCam() {
               >
                 Capture
               </button>
-              <button
+              {/* <button
                 onClick={retakePicture}
                 className="p-2 bg-white w-[100px] text-lp-secondary border rounded-xl border-lp-secondary cursor-pointer hover:bg-[#cb8400]"
               >
                 Retake
-              </button>
+              </button> */}
             </div>
           )}
         </Webcam>

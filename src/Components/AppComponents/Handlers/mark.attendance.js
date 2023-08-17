@@ -21,7 +21,7 @@ TODOs:
 * 3. Add password reset logic
   4. Add updating logic
   5. Rearrange admin database structure
-  6. Populate attendance history page with data
+* 6. Populate attendance history page with data
 * 7. Create password reset page and implement the logic
   
 

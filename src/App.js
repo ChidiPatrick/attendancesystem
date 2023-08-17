@@ -17,6 +17,8 @@ import AttendanceFeedback from "./Components/AppComponents/Pages/attendance.feed
 import MarkUser from "./Components/AppComponents/Pages/mark.attendance";
 import ClockOut from "./Components/AppComponents/Pages/clockOut";
 import ResetEmailAndPassword from "./Components/AppComponents/Pages/reset.email.password";
+import UploadProfilePicture from "./Components/AppComponents/Pages/upload.profile.pic";
+import ImagePreview from "./Components/AppComponents/Pages/image.preview";
 
 //// Root component ///
 function App() {
@@ -37,6 +39,11 @@ function App() {
         <Route path="/markAttendance" element={<MarkUser />} />
         <Route path="/clockOut" element={<ClockOut />} />
         <Route path="/resetpassword" element={<ResetEmailAndPassword />} />
+        <Route path="/imagePreview" element={<ImagePreview />} />
+        <Route
+          path="/uploadProfilePicture"
+          element={<UploadProfilePicture />}
+        />
       </Routes>
     </div>
   );

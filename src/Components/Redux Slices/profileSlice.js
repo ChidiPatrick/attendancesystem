@@ -26,30 +26,6 @@ export const getUserProfileData = async (userId, dispatch) => {
   }
 };
 
-// export const GetUserProfile = createAsyncThunk(
-//   "userProfile/getUserProfile",
-//   async (userId, { dispatch, getState }) => {
-//     try {
-//       const userProfileDocumentRef = firestoreRefCreator(
-//         db,
-//         userId,
-//         "userProfileCollection",
-//         "userProfileDocument"
-//       );
-
-//       const userProfileDocument = await getDoc(userProfileDocumentRef);
-
-//       if (userProfileDocument.exists()) {
-//         const userProfileData = userProfileDocument.data();
-//         dispatch(setUserProfileData(userProfileData));
-//         // dispatch(setProfilePictureUrl(userProfileData.));
-//       }
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   }
-// );
-
 const initialState = {
   userProfileData: {},
   userProfilePictureUrl: "",
