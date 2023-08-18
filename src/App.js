@@ -22,6 +22,9 @@ import ImagePreview from "./Components/AppComponents/Pages/image.preview";
 
 //// Root component ///
 function App() {
+  window.addEventListener("offline", () => console.log("Offline"));
+  window.addEventListener("online", () => console.log("online"));
+
   return (
     <div className="relative">
       <Routes>
@@ -39,7 +42,7 @@ function App() {
         <Route path="/markAttendance" element={<MarkUser />} />
         <Route path="/clockOut" element={<ClockOut />} />
         <Route path="/resetpassword" element={<ResetEmailAndPassword />} />
-        <Route path="/imagePreview" element={<ImagePreview />} />
+        <Route path="/previewImage" element={<ImagePreview />} />
         <Route
           path="/uploadProfilePicture"
           element={<UploadProfilePicture />}

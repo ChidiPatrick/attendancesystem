@@ -23,7 +23,7 @@ TODOs:
   5. Rearrange admin database structure
 * 6. Populate attendance history page with data
 * 7. Create password reset page and implement the logic
-  
+
 
 
 */

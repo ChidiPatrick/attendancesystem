@@ -24,6 +24,8 @@ import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import FeedbackModal from "../Modal/feedbackModal";
 import NetworkFeedback from "../Modal/networkFeedback";
 
+// https://docs.google.com/spreadsheets/d/1pZWJNshdSodq_0hLtiAnqPmv_nx9WvinGHDRfQRJo0M/edit?usp=sharing
+
 function MarkUser() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,7 +60,7 @@ function MarkUser() {
   const markAttendance = async () => {
     const date = new Date();
     const time = date.toLocaleTimeString("en-US");
-    const currHour = date.getUTCHours();
+    const currHour = date.getHours();
 
     setTime(time);
     setCurrDate(date.toLocaleDateString());

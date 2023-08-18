@@ -36,7 +36,7 @@ const initialState = {
   isOnTime: false,
   currTime: 0,
   date: null,
-  latenessHour: 11,
+  latenessHour: 1,
   displayClockInDetails: false,
   currHour: 0,
   clockOutObj: null,

@@ -4,6 +4,7 @@ import React from "react";
 import { HiOutlineCheck } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { HiOutlineRefresh } from "react-icons/hi";
 
 // Local directory imports //
 import { resetClockInImage } from "../../Redux Slices/attendanceSlice";
@@ -34,9 +35,9 @@ function ImagePreview() {
             </div>
             <div
               onClick={retakePicture}
-              className="p-2 min-w-[50px] bg-lp-secondary"
+              className="p-2 min-w-[50px] bg-lp-secondary flex justify-center items-center text-white"
             >
-              Retake
+              <HiOutlineRefresh size={20} />
             </div>
           </div>
         </div>

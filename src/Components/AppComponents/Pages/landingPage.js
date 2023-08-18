@@ -20,7 +20,6 @@ const LandingPage = () => {
       <Description />
       <Features />
       <Footer />
-      <ResetEmailAndPassword />
     </div>
   );
 };

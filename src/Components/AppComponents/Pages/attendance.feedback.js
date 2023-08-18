@@ -36,10 +36,13 @@ function AttendanceFeedback() {
   const [image, setImage] = useState(userImage);
   const [time, setCurrTime] = useState(currTime);
   const [currDate, setCurrDate] = useState(date);
-  // const [showClockInDetails, setShowClockInDetails] = useState(false);
+
+  console.log(latenessHour);
+  const dateNow = new Date();
+  console.log(dateNow.getHours());
 
   return (
-    <div className="p-2 bg-user-profile h-screen w-full">
+    <div className="p-2 bg-user-profile h-screen w-full" on>
       <NavBar>Welcome</NavBar>
       <figure className="w-full flex justify-center items-center ">
         <img

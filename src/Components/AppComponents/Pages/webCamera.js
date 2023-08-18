@@ -50,9 +50,11 @@ function WebCam() {
   ///Capture user ///
   const captureUser = (getScreenshot, setImage) => {
     const image = getScreenshot();
-    setImage(image);
-    setShowPreview(true);
-    setShowDoneBtn(true);
+    // setImage(image);
+    // setShowPreview(true);
+    // setShowDoneBtn(true);
+    dispatch(setUserImage(image));
+    navigate("/previewImage");
   };
 
   /// Save image ///
@@ -95,12 +97,12 @@ function WebCam() {
           videoConstraints={videoConstraints}
         >
           {({ getScreenshot }) => (
-            <div className="w-[80] my-10 mx-auto flex  justify-between items-center">
+            <div className="w-[80%] my-10 mx-auto flex  justify-center items-center">
               <button
-                className="p-2 bg-lp-secondary w-[100px] text-white border rounded-xl cursor-pointer hover:bg-[#cb8400]"
+                className="bg-gradient-to-b from-[#F78F1E] to-[#F7BA1E] via-[#F7C71E00] p-2 bg-lp-secondary w-[50px] flex justify-center items-center h-[50px] text-black border rounded-full cursor-pointer hover:bg-[#cb8400]"
                 onClick={() => captureUser(getScreenshot, setImage)}
               >
-                Capture
+                <HiOutlineCheck size={30} />
               </button>
               {/* <button
                 onClick={retakePicture}
