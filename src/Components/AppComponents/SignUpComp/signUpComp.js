@@ -97,7 +97,6 @@ const SignUp = () => {
             navigate("/home");
           });
       } else if (!navigator.onLine) {
-        console.log("Got here");
         dispatch(hideSpinner());
         dispatch(showNetworkFeedback());
       }

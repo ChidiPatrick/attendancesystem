@@ -1,4 +1,4 @@
-import { getDoc } from "firebase/firestore";
+import { getDoc, updateDoc } from "firebase/firestore";
 import { firestoreAdminRefCreatore } from "../../General app handlers/general.handlers";
 import { db } from "../../Firebase/firebase";
 
@@ -15,4 +15,30 @@ const getStudentsArray = async (userId) => {
   }
 };
 
-export { getStudentsArray };
+const addClockInDataToAdminDocument = async (
+  clockInData,
+  studentsBioArray,
+  userId
+) => {
+  const studentsBioArrayRef = firestoreAdminRefCreatore(db, userId);
+
+  const newStudentBioArray = studentsBioArray.map((studentBio, index) => {
+    if (studentBio.id === userId) {
+      const { weeklyAttendance } = studentBio;
+
+      const date = new Date();
+
+      weeklyAttendance[date.getDay()] = clockInData;
+
+      const newStudentBioObject = { ...studentBio, weeklyAttendance };
+
+      return newStudentBioObject;
+    } else {
+      return studentBio;
+    }
+  });
+
+  await updateDoc(studentsBioArrayRef, newStudentBioArray);
+};
+
+export { getStudentsArray, addClockInDataToAdminDocument };
