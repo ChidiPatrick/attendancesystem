@@ -23,6 +23,7 @@ import {
 } from "./signup.handlers";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
+import { getStudentsArray } from "../Admin Dashboard/admin.handlers";
 
 ////////////////Sign up component//////////////////////////////
 const SignUp = () => {
@@ -87,8 +88,9 @@ const SignUp = () => {
               "announcementsDocument"
             );
           })
-          .then(() => {
-            addStudentBioToAdminDatabase(db, userId, values);
+          .then(() => getStudentsArray(userId))
+          .then((studentsBioArray) => {
+            addStudentBioToAdminDatabase(db, userId, values, studentsBioArray);
           })
           .then(() => {
             dispatch(hideSpinner());

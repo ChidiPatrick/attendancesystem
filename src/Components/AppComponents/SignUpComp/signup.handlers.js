@@ -1,5 +1,5 @@
 /// Third party imports ///
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, updateDoc } from "firebase/firestore";
 
 /// Local directory imports ///
 import {
@@ -114,11 +114,17 @@ const announcementCollectionModelCreator = async (
 };
 
 // Add student collection to the admin database
-const addStudentBioToAdminDatabase = async (db, studentId, values) => {
-  const adminDocumentRef = firestoreAdminRefCreatore(db, studentId);
+const addStudentBioToAdminDatabase = async (
+  db,
+  studentId,
+  values,
+  studentsBioArray
+) => {
+  const studentsBioDocumentRef = firestoreAdminRefCreatore(db, studentId);
 
-  const data = {
-    weeklyAttendance: [false, false, false, false, false],
+  const studentsAccount = {
+    id: `${studentId}`,
+    weeklyAttendance: ["Absent", "Absent", "Absent", "Absent", "Absent"],
     monthlyAttendanceRecords: [],
     userBio: {
       firstName: values.firstName,
@@ -129,7 +135,12 @@ const addStudentBioToAdminDatabase = async (db, studentId, values) => {
     },
   };
 
-  await setDoc(adminDocumentRef, data);
+  const data = {
+    studentsArray: [...studentsBioArray, studentsAccount],
+  };
+
+  // await setDoc(adminDocumentRef, data);
+  await updateDoc(studentsBioDocumentRef, data);
 };
 
 export {

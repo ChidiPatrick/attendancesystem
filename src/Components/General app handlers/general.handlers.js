@@ -14,17 +14,11 @@ const firestoreRefCreator = (db, userId, collection, document) => {
 };
 
 const firestoreAdminRefCreatore = (db, studentId) => {
-  return doc(
-    db,
-    "adminCollection",
-    "adminDocument",
-    `${studentId}`,
-    "studentInfo"
-  );
+  return doc(db, "adminCollection", "studentsBio");
 };
 
 /* 
-  1. Implement weekly clean up function for both clock in and clock out
+ *1. Implement weekly clean up function for both clock in and clock out
   2. Implement admin document updating for every student's log in
 */
 
