@@ -105,6 +105,7 @@ function UserProfile() {
             <div className=" font-bold text-[18px] md:text-[20px]">5</div>
           </div>
         </div>
+        <div className=" h-[200px] md:hidden"></div>
         {/* Patricks Version  */}
 
         {/* <div className="grid grid-cols-8 w-full h-40 text-sm mt-[270px]  md:mt-[360px] ">
