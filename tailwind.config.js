@@ -36,6 +36,7 @@ module.exports = {
       backgroundColor: {
         grey: "#EEF0F4",
         myshade: "rgba(0,0,0,0.2)",
+        mywhite: "rgba(255,255,255,0.3)",
       },
     },
   },

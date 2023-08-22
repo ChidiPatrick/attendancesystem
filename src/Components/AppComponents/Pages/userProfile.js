@@ -1,6 +1,7 @@
 import React from "react";
 import { ButtonSmall } from "../../LandingPageComponents/Buttons/buttons";
 import { GoUpload } from "react-icons/go";
+import { FaBars } from "react-icons/fa";
 
 /// Local directory imports /////
 // import NavBar from "./navBar";
@@ -29,26 +30,34 @@ function UserProfile() {
     <div className="w-full   py-6 h-auto  mx-auto bg-[#FFFDFA]">
       <div className=" mx-auto max-w-[650px] md:pb-32 lg:pb-20 pb-12  relative">
         <div className="  mx-auto fixed top-0 w-full md:w-[650px] ">
-          <div className=" h-[260px] md:h-[350px] w-[100%]   rounded-br-3xl rounded-bl-3xl overflow-hidden ">
+          <div className=" h-[270px] md:h-[350px] w-[100%]   rounded-br-3xl rounded-bl-3xl overflow-hidden ">
             <img
               src="/images/skalo.jpg"
               alt="pics_profile"
               className=" object-center object-fill h-full w-full relative"
             />
-            <div className="absolute bottom-0 text-white w-full ">
-              <div className=" flex justify-center pb-8 md:pb-12">
-                <span className=" bg-myshade rounded-full p-2 md:p-4">
-                  <GoUpload size={22} />
+            <div className="absolute bottom-0  top-0 flex flex-col justify-between text-white w-full ">
+              <div className=" flex items-center text-black bg-mywhite py-2 px-2  ">
+                <span>
+                  <FaBars size={20} />
                 </span>
+                <p className=" mx-auto font-semibold">Profile</p>
               </div>
-              <div className=" flex px-4 md:px-7 pt-3 pb-2 justify-between  bg-myshade  rounded-br-3xl rounded-bl-3xl ">
-                <div className=" tracking-wide text-[12px] md:text-base">
-                  <p>Okafor Chidi Patrick</p>
-                  <p>Chidosky</p>
-                  <p>chidi@gmail.com</p>
+              <div>
+                <div className=" flex justify-center pb-8 md:pb-12">
+                  <span className=" bg-myshade rounded-full p-2 md:p-4">
+                    <GoUpload size={22} />
+                  </span>
                 </div>
-                <div className=" flex flex-col self-end">
-                  <ButtonSmall>Edit profile</ButtonSmall>
+                <div className=" flex px-6 md:px-8 pt-3 pb-2 justify-between  bg-myshade  rounded-br-3xl rounded-bl-3xl ">
+                  <div className=" tracking-wide text-[13px] md:text-base">
+                    <p>Okafor Chidi Patrick</p>
+                    <p>Chidosky</p>
+                    <p>chidi@gmail.com</p>
+                  </div>
+                  <div className=" flex flex-col self-end">
+                    <ButtonSmall>Edit profile</ButtonSmall>
+                  </div>
                 </div>
               </div>
             </div>
