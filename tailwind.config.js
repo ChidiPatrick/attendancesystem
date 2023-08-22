@@ -31,9 +31,11 @@ module.exports = {
         "early-color": "#35A623",
         "late-color": "#A68923",
         "absent-color": "#A63323",
+        "my-grey": "#333",
       },
       backgroundColor: {
         grey: "#EEF0F4",
+        myshade: "rgba(0,0,0,0.2)",
       },
     },
   },

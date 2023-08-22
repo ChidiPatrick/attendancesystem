@@ -23,9 +23,7 @@ function Menu() {
   return (
     <div
       onClick={() => toggleMenu(dispatch, hideMenu)}
-      className={
-        "w-full h-screen bg-black bg-opacity-10 absolute top-0 left-0 p-2"
-      }
+      className={"w-full h-full bg-opacity-1 absolute"}
     >
       {/* <div>close</div> */}
       <ul className="w-1/2 bg-white cursor-pointer">
@@ -67,7 +65,7 @@ function Menu() {
         </div>
         <div
           className="p-2 font-bold"
-          onClick={() => handleNavigation(navigate, "home", dispatch, hideMenu)}
+          onClick={() => handleNavigation(navigate, "", dispatch, hideMenu)}
         >
           Home
         </div>

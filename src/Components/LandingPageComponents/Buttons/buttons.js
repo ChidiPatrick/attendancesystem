@@ -27,7 +27,7 @@ export const ButtonSmall = ({ children, handleClick }) => {
   return (
     <button
       onClick={handleClick}
-      className="p-2 bg-lp-secondary text-white w-28  border rounded-xl"
+      className="px-3 bg-lp-secondary text-white text-[12px] md:text-base py-1 border-none outline-none rounded-xl"
     >
       {children}
     </button>
