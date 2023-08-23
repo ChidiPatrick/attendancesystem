@@ -18,8 +18,8 @@ const LandingPageNavbar = () => {
   };
 
   return (
-    <nav className=" w-full py-6 ">
-      <div className="w-[90%] md:w-[80%] mx-auto flex justify-between items-center">
+    <nav className=" w-full py-6  ">
+      <div className="w-[90%] md:w-[80%] mx-auto flex justify-between items-center relative">
         <div className=" flex gap-3 items-center">
           <span className="md:hidden">
             <FaBars size={20} />
