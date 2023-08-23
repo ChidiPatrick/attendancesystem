@@ -123,7 +123,7 @@ const addStudentBioToAdminDatabase = async (
 ) => {
   const studentsBioDocumentRef = firestoreAdminRefCreatore(db, studentId);
 
-  const studentsAccount = {
+  const studentAccount = {
     id: `${studentId}`,
     weeklyAttendance: ["Absent", "Absent", "Absent", "Absent", "Absent"],
     monthlyAttendanceRecords: [],
@@ -137,7 +137,7 @@ const addStudentBioToAdminDatabase = async (
   };
 
   const data = {
-    studentsArray: [...studentsBioArray, studentsAccount],
+    studentsArray: [...studentsBioArray, studentAccount],
   };
 
   // await setDoc(adminDocumentRef, data);

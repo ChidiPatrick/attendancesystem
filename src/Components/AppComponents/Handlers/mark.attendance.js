@@ -13,6 +13,10 @@ import {
   showNetworkFeedback,
   showSpinner,
 } from "../../Redux Slices/signupSlice";
+import {
+  addClockInDataToAdminDocument,
+  getStudentsArray,
+} from "../Admin Dashboard/admin.handlers";
 
 /* 
 TODOs:
@@ -72,12 +76,19 @@ const updateAttendanceRecord = async (
         await cleanUpPreviousWeekData(userId)
           .then(async () => await updateDoc(attendanceRef, data))
 
+          .then(async () => await getStudentsArray(userId))
+
+          .then(async (studentBioArray) => {
+            await addClockInDataToAdminDocument(data, studentBioArray, userId);
+          })
+
           .then(async () => {
             await getAttendanceRecords(userId);
           })
 
           .then(() => {
             dispatch(hideSpinner());
+
             navigate("/attendanceSuccessful");
           });
       } else {
@@ -85,11 +96,22 @@ const updateAttendanceRecord = async (
           .then(async () => await updateDoc(attendanceRef, data))
 
           .then(async () => {
+            console.log("calling getStudentsArray()");
+            await getStudentsArray(userId);
+          })
+
+          .then(async (studentBioArray) => {
+            console.log("calling addClockInDataToAdminDocument()");
+            await addClockInDataToAdminDocument(data, studentBioArray, userId);
+          })
+
+          .then(async () => {
             await getAttendanceRecords(userId);
           })
 
           .then(() => {
             dispatch(hideSpinner());
+
             navigate("/attendanceSuccessful");
           });
       }

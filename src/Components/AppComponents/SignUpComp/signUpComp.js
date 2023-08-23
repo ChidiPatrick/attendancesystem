@@ -89,6 +89,7 @@ const SignUp = () => {
             );
           })
           .then(() => getStudentsArray(userId))
+
           .then((studentsBioArray) => {
             addStudentBioToAdminDatabase(db, userId, values, studentsBioArray);
           })

@@ -8,10 +8,17 @@ const getStudentsArray = async (userId) => {
 
   const studentsBioArray = await getDoc(studentsBioArrayRef);
 
+  if (
+    studentsBioArray.data().studentsArray === undefined ||
+    studentsBioArray.data().studentsArray.length === 0
+  ) {
+    return [];
+  }
+
   if (studentsBioArray.exists()) {
     console.log(studentsBioArray.data().studentsArray);
 
-    return studentsBioArray.data().studentsArray;
+    return studentsBioArray.data();
   }
 };
 
@@ -38,7 +45,11 @@ const addClockInDataToAdminDocument = async (
     }
   });
 
-  await updateDoc(studentsBioArrayRef, newStudentBioArray);
+  const data = {
+    studentsArray: newStudentBioArray,
+  };
+
+  await updateDoc(studentsBioArrayRef, data);
 };
 
 export { getStudentsArray, addClockInDataToAdminDocument };
