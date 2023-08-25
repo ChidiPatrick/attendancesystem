@@ -24,7 +24,9 @@ export const getAttendanceRecords = async (userId, dispatch) => {
       dispatch(setDailyClockIns(attendanceDocument.data().dailyClockIns));
       dispatch(setDailyClockOuts(attendanceDocument.data().dailyClockOuts));
     }
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const initialState = {

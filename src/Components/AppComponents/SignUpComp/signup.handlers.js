@@ -61,8 +61,8 @@ const attendanceCollectionModelCreator = async (
   );
 
   const data = {
-    dailyAttendanceRecords: [],
-    monthlyAttendanceRecords: [],
+    dailyClockIns: [],
+    dailyClockOuts: [],
   };
 
   await setDoc(userAttendanceRef, data);

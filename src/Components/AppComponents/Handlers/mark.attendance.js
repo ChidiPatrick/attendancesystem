@@ -1,4 +1,4 @@
-import { arrayUnion, updateDoc } from "firebase/firestore";
+import { arrayUnion, increment, updateDoc } from "firebase/firestore";
 import { db } from "../../Firebase/firebase";
 import {
   firestoreRefCreator,
@@ -70,6 +70,7 @@ const updateAttendanceRecord = async (
 
       const data = {
         dailyClockIns: arrayUnion(attendanceData),
+        totalDaysPresent: increment(1),
       };
 
       if (date.getDay() === 1) {

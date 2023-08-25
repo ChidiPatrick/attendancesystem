@@ -18,7 +18,7 @@ const getStudentsArray = async (userId) => {
   if (studentsBioArray.exists()) {
     console.log(studentsBioArray.data().studentsArray);
 
-    return studentsBioArray.data();
+    return studentsBioArray.data().studentsArray;
   }
 };
 

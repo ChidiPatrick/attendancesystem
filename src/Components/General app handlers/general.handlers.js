@@ -92,7 +92,6 @@ const getUserDocument = async (userId, dispatch) => {
     );
 
     const userProfileDocument = await getDoc(userProfileDocumentRef);
-    console.log(userProfileDocument.data().profileDocument);
 
     if (userProfileDocument.exists()) {
       dispatch(setUserProfileDocument(userProfileDocument.data()));
@@ -121,7 +120,7 @@ const calcNumWorkingDaysOfTheMonth = (year, month) => {
 
 // Invoke all redux thunks for the user data ///
 const invokeAllThunks = async (userId, dispatch) => {
-  const initialResponse = await getUserDocument(userId, dispatch).then(
+  await getUserDocument(userId, dispatch).then(
     async () => await getAttendanceRecords(userId, dispatch)
   );
 };

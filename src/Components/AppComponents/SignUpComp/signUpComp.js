@@ -13,7 +13,10 @@ import { Await, useNavigate } from "react-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import NetworkFeedback from "../Modal/networkFeedback";
 import { showNetworkFeedback } from "../../Redux Slices/signupSlice";
-import { firestoreRefCreator } from "../../General app handlers/general.handlers";
+import {
+  firestoreRefCreator,
+  invokeAllThunks,
+} from "../../General app handlers/general.handlers";
 import {
   userProfileModelCreator,
   attendanceCollectionModelCreator,
@@ -64,6 +67,7 @@ const SignUp = () => {
               values
             );
           })
+
           .then(() => {
             attendanceCollectionModelCreator(
               db,
@@ -72,6 +76,7 @@ const SignUp = () => {
               "attendanceDocument"
             );
           })
+
           .then(() => {
             permissionCollectionModelCreator(
               db,
@@ -80,6 +85,7 @@ const SignUp = () => {
               "permissionsDocument"
             );
           })
+
           .then(() => {
             announcementCollectionModelCreator(
               db,
@@ -88,11 +94,15 @@ const SignUp = () => {
               "announcementsDocument"
             );
           })
+
           .then(() => getStudentsArray(userId))
 
           .then((studentsBioArray) => {
             addStudentBioToAdminDatabase(db, userId, values, studentsBioArray);
           })
+
+          .then(() => invokeAllThunks(userId, dispatch))
+
           .then(() => {
             dispatch(hideSpinner());
             navigate("/home");

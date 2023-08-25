@@ -20,8 +20,7 @@ function UserProfile() {
 
   const { firstName, lastName, userName, profilePictureURL, currMonthRecord } =
     userProfileData;
-
-  const { totalDaysPresent } = currMonthRecord;
+  console.log(firstName);
 
   // Navigation function
   const navigateBack = () => {
@@ -95,7 +94,10 @@ function UserProfile() {
                 <div className="w-3 h-3 ml-1 border border-blue-100 bg-gradient-to-br from-profile-design-primary1 from-10% from-20% to-profile-design-primary2    via-profile-design-middle via-50% border rounded"></div>
               </div>
               <div className=" h-full flex items-center font-bold text-[18px] md:text-[20px]">
-                {totalDaysPresent} / {numberOfBusinessDays}
+                {userProfileData === true
+                  ? userProfileData.totalDaysPresent
+                  : 0}
+                /{numberOfBusinessDays}
               </div>
             </div>
             <div className=" w-[30%] md:w-[40%] p-3 bg-white shadow-md rounded-md">
