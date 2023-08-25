@@ -19,6 +19,7 @@ import ClockOut from "./Components/AppComponents/Pages/clockOut";
 import ResetEmailAndPassword from "./Components/AppComponents/Pages/reset.email.password";
 import UploadProfilePicture from "./Components/AppComponents/Pages/upload.profile.pic";
 import ImagePreview from "./Components/AppComponents/Pages/image.preview";
+import EditProfile from "./Components/AppComponents/Pages/edit.profile";
 
 //// Root component ///
 function App() {
@@ -47,6 +48,7 @@ function App() {
           path="/uploadProfilePicture"
           element={<UploadProfilePicture />}
         />
+        <Route path="/editProfile" element={<EditProfile />} />
       </Routes>
     </div>
   );

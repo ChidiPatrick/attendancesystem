@@ -68,7 +68,6 @@ function ClockLaunchCamera() {
 
   function checkProximity(location) {
     // convert location from Kilometer to meter
-
     const locationInMeters = location * 1000;
 
     if (!navigator.onLine) {

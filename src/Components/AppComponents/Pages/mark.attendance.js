@@ -13,18 +13,11 @@ import {
   setCurrHour,
 } from "../../Redux Slices/attendanceSlice";
 import { updateAttendanceRecord } from "../Handlers/mark.attendance";
-import ClockOut from "./clockOut";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
-import {
-  showSpinner,
-  hideSpinner,
-  hideFeedback,
-} from "../../Redux Slices/signupSlice";
+import { hideFeedback } from "../../Redux Slices/signupSlice";
 import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import FeedbackModal from "../Modal/feedbackModal";
 import NetworkFeedback from "../Modal/networkFeedback";
-
-// https://docs.google.com/spreadsheets/d/1pZWJNshdSodq_0hLtiAnqPmv_nx9WvinGHDRfQRJo0M/edit?usp=sharing
 
 function MarkUser() {
   const dispatch = useDispatch();

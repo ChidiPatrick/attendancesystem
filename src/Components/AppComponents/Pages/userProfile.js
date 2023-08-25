@@ -4,59 +4,80 @@ import { GoUpload } from "react-icons/go";
 import { FaBars } from "react-icons/fa";
 
 /// Local directory imports /////
-// import NavBar from "./navBar";
-import Menu from "./menu";
-// import { useDispatch, useSelector } from "react-redux";
-// import { useNavigate } from "react-router";
-// import { BsArrowLeft } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { calcNumWorkingDaysOfTheMonth } from "../../General app handlers/general.handlers";
+
 function UserProfile() {
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  ///// Redux states //////////////
-  // const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
-  // const userProfilePictureUrl = useSelector(
-  //   (state) => state.profileSlice.userProfilePictureUrl
-  // );
-  // const userProfileDocument = useSelector(
-  //   (state) => state.profileSlice.userProfileData
-  // );
+  /// Redux states //////////////
+  //
+  const userProfileData = useSelector(
+    (state) => state.profileSlice.userProfileData
+  );
 
-  // const handleBack = () => {
-  //   navigate(-1);
-  // };
+  const { firstName, lastName, userName, profilePictureURL, currMonthRecord } =
+    userProfileData;
+
+  const { totalDaysPresent } = currMonthRecord;
+
+  // Navigation function
+  const navigateBack = () => {
+    navigate(-1);
+  };
+
+  const navigateToEditProfile = () => {
+    navigate("/editProfile");
+  };
+
+  const date = new Date();
+
+  const numberOfBusinessDays = calcNumWorkingDaysOfTheMonth(
+    date.getFullYear(),
+    date.getMonth()
+  );
 
   return (
     <div className="w-full   py-6 h-auto  mx-auto bg-[#FFFDFA]">
       <div className=" mx-auto max-w-[650px] md:pb-32 lg:pb-20 pb-12  relative">
         <div className="  mx-auto fixed top-0 w-full md:w-[650px] ">
-          <div className=" h-[270px] md:h-[350px] w-[100%]   rounded-br-3xl rounded-bl-3xl overflow-hidden ">
-            <img
-              src="/images/skalo.jpg"
-              alt="pics_profile"
-              className=" object-center object-fill h-full w-full relative"
-            />
+          <div className="h-[270px] md:h-[350px] w-[100%]   rounded-br-3xl rounded-bl-3xl overflow-hidden ">
+            <figure className="h-[100%] w-[100%]">
+              <img
+                src={profilePictureURL}
+                alt="pics_profile"
+                className=" object-center object-fill h-[100%] w-[100%] relative"
+              />
+            </figure>
+
             <div className="absolute bottom-0  top-0 flex flex-col justify-between text-white w-full ">
               <div className=" flex items-center text-black bg-mywhite py-2 px-2  ">
                 <span>
-                  <FaBars size={20} />
+                  <FaBars size={20} onClick={navigateBack} />
                 </span>
                 <p className=" mx-auto font-semibold">Profile</p>
               </div>
               <div>
                 <div className=" flex justify-center pb-8 md:pb-12">
                   <span className=" bg-myshade rounded-full p-2 md:p-4">
-                    <GoUpload size={22} />
+                    <GoUpload
+                      size={22}
+                      onClick={() => navigate("/uploadProfilePicture")}
+                    />
                   </span>
                 </div>
                 <div className=" flex px-6 md:px-8 pt-3 pb-2 justify-between  bg-myshade  rounded-br-3xl rounded-bl-3xl ">
                   <div className=" tracking-wide text-[13px] md:text-base">
-                    <p>Okafor Chidi Patrick</p>
-                    <p>Chidosky</p>
-                    <p>chidi@gmail.com</p>
+                    <p>
+                      {firstName} {lastName},{userName}
+                    </p>
                   </div>
                   <div className=" flex flex-col self-end">
-                    <ButtonSmall>Edit profile</ButtonSmall>
+                    <ButtonSmall handleClick={navigateToEditProfile}>
+                      Edit profile
+                    </ButtonSmall>
                   </div>
                 </div>
               </div>
@@ -74,7 +95,7 @@ function UserProfile() {
                 <div className="w-3 h-3 ml-1 border border-blue-100 bg-gradient-to-br from-profile-design-primary1 from-10% from-20% to-profile-design-primary2    via-profile-design-middle via-50% border rounded"></div>
               </div>
               <div className=" h-full flex items-center font-bold text-[18px] md:text-[20px]">
-                40/40
+                {totalDaysPresent} / {numberOfBusinessDays}
               </div>
             </div>
             <div className=" w-[30%] md:w-[40%] p-3 bg-white shadow-md rounded-md">

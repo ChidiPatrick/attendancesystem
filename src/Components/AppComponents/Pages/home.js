@@ -96,7 +96,7 @@ function MarkAttendance() {
         <ButtonLight handleClick={navigateToClockOut}>Clock out</ButtonLight>
       </div>
       {displayMenu === true ? <Menu /> : null}
-      <ImagePreview />
+      {/* <ImagePreview /> */}
     </div>
   );
 }

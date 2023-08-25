@@ -102,6 +102,23 @@ const getUserDocument = async (userId, dispatch) => {
   }
 };
 
+const calcNumWorkingDaysOfTheMonth = (year, month) => {
+  const monthTotalDays = new Date(year, month, 0).getDate();
+
+  console.log(monthTotalDays);
+
+  let nummberOfBusinessDays = 0;
+
+  for (let i = 1; i <= monthTotalDays; i++) {
+    const day = new Date(year, month, i).getDay();
+
+    if (day !== 0 && day !== 6) {
+      nummberOfBusinessDays++;
+    }
+  }
+  return nummberOfBusinessDays;
+};
+
 // Invoke all redux thunks for the user data ///
 const invokeAllThunks = async (userId, dispatch) => {
   const initialResponse = await getUserDocument(userId, dispatch).then(
@@ -118,4 +135,5 @@ export {
   getUserDocument,
   deletePreviousDayImage,
   cleanUpPreviousWeekData,
+  calcNumWorkingDaysOfTheMonth,
 };
