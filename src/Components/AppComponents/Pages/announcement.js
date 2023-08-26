@@ -14,30 +14,72 @@ function Announcement() {
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
 
   return (
-    <div className="p-2">
-      <NavBar>Announcement</NavBar>
-      <div>
-        <div className="mt-5 border-b border-signup-gray py-3">
-          <div className="flex justify-between items-center mb-5">
-            <div>May 23, 2023</div>
-            <div>09:24am</div>
+    <div className="w-full   py-6 h-auto  mx-auto">
+      <div className="mx-auto max-w-[650px] w-[90%] md:w-full relative">
+        <div className=" flex items-center bg-mywhite sticky top-0 z-[999] mb-6">
+          <span className=" w-10 ">
+            <NavBar />
+          </span>
+          <h3 className=" mx-auto font-semibold text-xl ">Announcement</h3>
+          {displayMenu === true ? <Menu /> : null}
+        </div>
+        <div>
+          <div className=" flex justify-between items-center py-3 text-[#222] font-semibold text-[15px] md:text-base">
+            <p>May 23, 2023</p>
+            <p>09:24am</p>
           </div>
-          <p>
+          <p className=" pb-5 border-b-[#444] border-b-[0.2px]">
             Time for classes have changed from 10:00am to 11:00am, Kindly take
             note as changes will be effected on the attendance system on May 12,
-            2023.
+            2023
           </p>
         </div>
-        <div className="mt-5 border-b border-signup-gray py-3">
-          <div className="flex justify-between items-center mb-5">
-            <div>May 23, 2023</div>
-            <div>09:24am</div>
+
+        <div>
+          <div className=" flex justify-between items-center py-3 text-[#222] font-semibold text-[15px] md:text-base">
+            <p>May 05, 2023</p>
+            <p>09:44am</p>
           </div>
-          <p>Your request for permission was declined.</p>
+          <p className=" pb-5 border-b-[#444] border-b-[0.2px]">
+            Your request for permission was declined.
+          </p>
+        </div>
+
+        <div>
+          <div className=" flex justify-between items-center py-3 text-[#222] font-semibold text-[15px] md:text-base">
+            <p>May 05, 2023</p>
+            <p>09:44am</p>
+          </div>
+          <p className=" pb-5 border-b-[#444] border-b-[0.2px]">
+            Classes will be closed for public holidays
+          </p>
         </div>
       </div>
-      {displayMenu === true ? <Menu /> : null}
     </div>
+    // <div className="p-2">
+    //   <NavBar>Announcement</NavBar>
+    //   <div>
+    //     <div className="mt-5 border-b border-signup-gray py-3">
+    //       <div className="flex justify-between items-center mb-5">
+    //         <div>May 23, 2023</div>
+    //         <div>09:24am</div>
+    //       </div>
+    //       <p>
+    //         Time for classes have changed from 10:00am to 11:00am, Kindly take
+    //         note as changes will be effected on the attendance system on May 12,
+    //         2023.
+    //       </p>
+    //     </div>
+    //     <div className="mt-5 border-b border-signup-gray py-3">
+    //       <div className="flex justify-between items-center mb-5">
+    //         <div>May 23, 2023</div>
+    //         <div>09:24am</div>
+    //       </div>
+    //       <p>Your request for permission was declined.</p>
+    //     </div>
+    //   </div>
+    //   {displayMenu === true ? <Menu /> : null}
+    // </div>
   );
 }
 

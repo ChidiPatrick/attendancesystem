@@ -3,7 +3,7 @@ import React from "react";
 //// Third Party imports ////
 import NavBar from "./navBar";
 import { BsCalendar4 } from "react-icons/bs";
-import { FaBars } from "react-icons/fa";
+
 import { useDispatch, useSelector } from "react-redux";
 
 /// Local directory imports ///
@@ -44,7 +44,7 @@ function Permission() {
               className="w-full h-full"
             />
           </figure>
-          <div className="flex justify-center items-center flex-col mt-5 font-semibold">
+          <div className="flex justify-center items-center flex-col mt-5 font-semibold text-[14px] md:text-base text-[#222]">
             <div>
               {firstName} {lastName}
             </div>
