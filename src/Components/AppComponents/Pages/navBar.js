@@ -15,8 +15,8 @@ function NavBar({ children }) {
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
 
   return (
-    <div>
-      <div className="grid grid-cols-12 mt-5">
+    <div className="z-[999]">
+      <div className="grid grid-cols-12 ">
         <div className="flex justify-center items-centers flex-col">
           <div>
             <HiMenu
