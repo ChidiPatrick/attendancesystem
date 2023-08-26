@@ -59,9 +59,9 @@ function History() {
             <tbody>
               <tr className=" text-left text-[#333] text-[14px] md:text-base ">
                 <td className=" pt-2">09:55am</td>
-                <td>09:55am</td>
-                <td>On time</td>
-                <td>2/2</td>
+                <td className=" pt-2">09:55am</td>
+                <td className=" pt-2">On time</td>
+                <td className=" pt-2">2/2</td>
               </tr>
             </tbody>
           </table>
@@ -73,9 +73,9 @@ function History() {
             <thead className=" py-3 border-spacing-4 border-b-[0.5px] border-[#222]">
               <tr className=" text-left text-[#333] text-[14px] md:text-base py-3">
                 <th className=" pb-2">Clock In</th>
-                <th>Clock out</th>
-                <th>Remark</th>
-                <th>Grade</th>
+                <th className=" pb-2">Clock out</th>
+                <th className=" pb-2">Remark</th>
+                <th className=" pb-2">Grade</th>
               </tr>
             </thead>
             <tbody>
