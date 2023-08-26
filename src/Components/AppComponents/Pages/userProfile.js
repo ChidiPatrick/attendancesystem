@@ -47,7 +47,7 @@ function UserProfile() {
               <img
                 src={profilePictureURL}
                 alt="pics_profile"
-                className=" object-center object-cover h-[100%] w-[100%] relative"
+                className=" object-center object-fit h-[100%] w-[100%] relative"
               />
             </figure>
 
