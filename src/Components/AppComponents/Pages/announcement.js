@@ -28,7 +28,7 @@ function Announcement() {
             <p>May 23, 2023</p>
             <p>09:24am</p>
           </div>
-          <p className=" pb-5 border-b-[#444] border-b-[0.2px]">
+          <p className=" pb-5 border-b-[#444] border-b-[0.2px] text-[14px] md:text-base">
             Time for classes have changed from 10:00am to 11:00am, Kindly take
             note as changes will be effected on the attendance system on May 12,
             2023
@@ -40,7 +40,7 @@ function Announcement() {
             <p>May 05, 2023</p>
             <p>09:44am</p>
           </div>
-          <p className=" pb-5 border-b-[#444] border-b-[0.2px]">
+          <p className=" pb-5 border-b-[#444] border-b-[0.2px] text-[14px] md:text-base">
             Your request for permission was declined.
           </p>
         </div>
@@ -50,7 +50,7 @@ function Announcement() {
             <p>May 05, 2023</p>
             <p>09:44am</p>
           </div>
-          <p className=" pb-5 border-b-[#444] border-b-[0.2px]">
+          <p className=" pb-5 border-b-[#444] border-b-[0.2px] text-[14px] md:text-base">
             Classes will be closed for public holidays
           </p>
         </div>
