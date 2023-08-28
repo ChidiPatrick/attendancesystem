@@ -63,12 +63,12 @@ function Menu() {
         >
           History
         </div>
-        <div
+        {/* <div
           className="p-2 font-bold"
           onClick={() => handleNavigation(navigate, "", dispatch, hideMenu)}
         >
           Home
-        </div>
+        </div> */}
         <div
           className="p-2 font-bold"
           onClick={() =>

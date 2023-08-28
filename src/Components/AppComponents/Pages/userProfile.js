@@ -1,7 +1,7 @@
 import React from "react";
 import { ButtonSmall } from "../../LandingPageComponents/Buttons/buttons";
 import { GoUpload } from "react-icons/go";
-import { FaBars } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 
 /// Local directory imports /////
 import { useDispatch, useSelector } from "react-redux";
@@ -47,14 +47,14 @@ function UserProfile() {
               <img
                 src={profilePictureURL}
                 alt="pics_profile"
-                className=" object-center object-fill h-[100%] w-[100%] relative"
+                className=" object-center object-fit h-[100%] w-[100%] relative"
               />
             </figure>
 
             <div className="absolute bottom-0  top-0 flex flex-col justify-between text-white w-full ">
               <div className=" flex items-center text-black bg-mywhite py-2 px-2  ">
                 <span>
-                  <FaBars size={20} onClick={navigateBack} />
+                  <FaArrowLeft size={20} onClick={navigateBack} />
                 </span>
                 <p className=" mx-auto font-semibold">Profile</p>
               </div>
@@ -128,7 +128,7 @@ function UserProfile() {
             <div className=" font-bold text-[18px] md:text-[20px]">5</div>
           </div>
         </div>
-        <div className=" h-[200px] md:hidden"></div>
+        {/* <div className=" h-[200px] md:hidden"></div> */}
         {/* Patricks Version  */}
 
         {/* <div className="grid grid-cols-8 w-full h-40 text-sm mt-[270px]  md:mt-[360px] ">

@@ -16,6 +16,9 @@ body {
   color: #191970;
   color: #333333;
 }
+.shad2{
+  box-shadow: 0 2px 6px #CCC;
+}
 
 .myblack {
   color: #333;
