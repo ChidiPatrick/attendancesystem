@@ -1,43 +1,44 @@
-*{
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 body {
   background-color: #46146a00;
-  overflow-x: hidden
+  overflow-x: hidden;
 }
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-.shad{
-  box-shadow: 0 2px 7px #CCC;
+.shad {
+  box-shadow: 0 2px 7px #ccc;
+  color: #191970;
+  color: #333333;
 }
 
-.myblack{
+.myblack {
   color: #333;
 }
 
-.mygradient{
-  background: linear-gradient( 179.4deg,  #24499F 1.8%, #4B5893 97.1% );
+.mygradient {
+  background: linear-gradient(179.4deg, #24499f 1.8%, #4b5893 97.1%);
 }
 
-.number-center{
+.number-center {
   position: absolute;
   top: 50%;
-  left:50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   z-index: 800;
 }
-.img-center{
+.img-center {
   position: absolute;
   top: -20;
-  left:50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   z-index: 800;
 }
-.bg-num{
+.bg-num {
   background-color: rgba(255, 255, 255, 0.2);
 }

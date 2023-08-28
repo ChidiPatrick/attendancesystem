@@ -36,6 +36,10 @@ function MarkAttendance() {
     dispatch(setLinkToClockIn(false));
     navigate("/clockOut");
   };
+
+  // const arr = [];
+  // const value = arr.pop();
+  // console.log(arr.length);
   /* 
      *1. Create edit profile UI and implement the functionality
       2. Modify the clock in picture taking UI 

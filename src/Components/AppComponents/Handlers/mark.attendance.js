@@ -42,40 +42,97 @@ const updateAttendanceRecord = async (
   clockInAttendanceArray
 ) => {
   try {
-    const date = new Date();
-    dispatch(showSpinner());
+    //Create document reference
+    const attendanceRef = firestoreRefCreator(
+      db,
+      userId,
+      "attendanceCollection",
+      "attendanceDocument"
+    );
 
-    const clockIns = [...clockInAttendanceArray];
-    const lastClockInObj = clockIns.pop();
+    const userProfileDocumentRef = firestoreRefCreator(
+      db,
+      userId,
+      "userProfileCollection",
+      "profileDocument"
+    );
+
+    const date = new Date();
+
+    dispatch(showSpinner());
 
     if (!navigator.onLine) {
       dispatch(showNetworkFeedback());
       return;
     }
 
+    // if user is new to the system
+    if (clockInAttendanceArray.length === 0) {
+      const data = {
+        dailyClockIns: [...clockInAttendanceArray, attendanceData],
+      };
+
+      const userProfileData = {
+        totalDaysPresent: increment(1),
+      };
+
+      await updateDoc(attendanceRef, data)
+        .then(async () => {
+          await updateDoc(userProfileDocumentRef, userProfileData);
+        })
+
+        .then(async () => await getStudentsArray(userId))
+
+        .then(async (studentBioArray) => {
+          await addClockInDataToAdminDocument(
+            attendanceData,
+            studentBioArray,
+            userId
+          );
+        })
+
+        .then(async () => {
+          await getAttendanceRecords(userId);
+        })
+
+        .then(() => {
+          dispatch(hideSpinner());
+
+          navigate("/attendanceSuccessful");
+          return;
+        });
+    }
+
+    const clockIns = [...clockInAttendanceArray];
+    const lastClockInObj = clockIns.pop();
+
+    console.log(clockIns);
+    console.log(lastClockInObj);
+
+    // if last clockin date equals current date, return
     if (lastClockInObj.date === new Date().toDateString()) {
       alert("You have already clocked in today");
       dispatch(hideSpinner());
       return;
-    } else if (
-      clockIns.length === 0 ||
-      lastClockInObj.date !== new Date().toDateString()
-    ) {
-      const attendanceRef = firestoreRefCreator(
-        db,
-        userId,
-        "attendanceCollection",
-        "attendanceDocument"
-      );
+    }
 
+    if (lastClockInObj.date !== new Date().toDateString()) {
       const data = {
-        dailyClockIns: arrayUnion(attendanceData),
-        totalDaysPresent: increment(1),
+        dailyClockIns: [...clockInAttendanceArray, attendanceData],
+        // totalDaysPresent: increment(1),
+      };
+
+      const userProfileData = {
+        ["currMonthRecord.totalDaysPresent"]: increment(1),
       };
 
       if (date.getDay() === 1) {
         await cleanUpPreviousWeekData(userId)
           .then(async () => await updateDoc(attendanceRef, data))
+
+          .then(async () => {
+            await updateDoc(userProfileDocumentRef, userProfileData);
+          })
 
           .then(async () => await getStudentsArray(userId))
 
@@ -95,6 +152,10 @@ const updateAttendanceRecord = async (
       } else {
         await deletePreviousDayImage(clockInAttendanceArray, userId)
           .then(async () => await updateDoc(attendanceRef, data))
+
+          .then(async () => {
+            await updateDoc(userProfileDocumentRef, userProfileData);
+          })
 
           .then(async () => {
             console.log("calling getStudentsArray()");
