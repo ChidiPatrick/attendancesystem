@@ -18,7 +18,6 @@ import {
 import Menu from "./menu";
 import NavBar from "./navBar";
 import { setLinkToClockIn } from "../../Redux Slices/attendanceSlice";
-import ImagePreview from "./image.preview";
 
 function MarkAttendance() {
   const dispatch = useDispatch();

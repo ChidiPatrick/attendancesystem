@@ -84,6 +84,10 @@ const updateAttendanceRecord = async (
         .then(async () => await getStudentsArray(userId))
 
         .then(async (studentBioArray) => {
+          console.log(studentBioArray);
+          /* 
+why is admin collection showing dailyClockings as a property?
+*/
           await addClockInDataToAdminDocument(
             attendanceData,
             studentBioArray,
@@ -159,7 +163,8 @@ const updateAttendanceRecord = async (
 
           .then(async () => {
             console.log("calling getStudentsArray()");
-            await getStudentsArray(userId);
+            const studentBioArray = await getStudentsArray(userId);
+            return studentBioArray;
           })
 
           .then(async (studentBioArray) => {
@@ -185,25 +190,50 @@ const updateAttendanceRecord = async (
   }
 };
 
-// /// Add clock in data //
+// Add clock in data
 const updateClockOutData = async (
   clockOutData,
   userId,
   dispatch,
   attendanceData
 ) => {
-  console.log(attendanceData);
-  const clockOutsArray = [...attendanceData];
-  const lastClockOutObj = clockOutsArray[clockOutsArray.length - 1];
-  console.log(clockOutData);
-
-  dispatch(showSpinner());
   try {
+    dispatch(showSpinner());
+
+    const attendanceDocumentRef = firestoreRefCreator(
+      db,
+      userId,
+      "attendanceCollection",
+      "attendanceDocument"
+    );
+
+    const data = {
+      dailyClockOuts: arrayUnion(clockOutData),
+    };
+
     if (!navigator.onLine) {
       dispatch(hideSpinner());
       dispatch(showNetworkFeedback());
       return;
     }
+
+    if (attendanceData.length === 0) {
+      await updateDoc(attendanceDocumentRef, data)
+        .then(() => {
+          console.log("Uploaded...");
+          dispatch(getAttendanceRecords(userId));
+        })
+        .then(() => {
+          dispatch(hideSpinner());
+        });
+
+      return;
+    }
+
+    console.log(attendanceData);
+    const clockOutsArray = [...attendanceData];
+    const lastClockOutObj = clockOutsArray[clockOutsArray.length - 1];
+    console.log(clockOutData);
 
     if (
       clockOutsArray.length > 0 &&
@@ -218,17 +248,6 @@ const updateClockOutData = async (
       clockOutsArray === 0 ||
       lastClockOutObj.date !== new Date().toDateString()
     ) {
-      const attendanceDocumentRef = firestoreRefCreator(
-        db,
-        userId,
-        "attendanceCollection",
-        "attendanceDocument"
-      );
-
-      const data = {
-        dailyClockOuts: arrayUnion(clockOutData),
-      };
-
       await updateDoc(attendanceDocumentRef, data)
         .then(() => {
           console.log("Uploaded...");

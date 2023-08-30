@@ -4,21 +4,24 @@ import { db } from "../../Firebase/firebase";
 
 // Get students bio array from admin collection
 const getStudentsArray = async (userId) => {
-  const studentsBioArrayRef = firestoreAdminRefCreatore(db, userId);
+  try {
+    const studentsBioArrayRef = firestoreAdminRefCreatore(db, userId);
 
-  const studentsBioArray = await getDoc(studentsBioArrayRef);
+    const studentsBioArray = await getDoc(studentsBioArrayRef);
 
-  if (
-    studentsBioArray.data().studentsArray === undefined ||
-    studentsBioArray.data().studentsArray.length === 0
-  ) {
-    return [];
-  }
+    if (
+      studentsBioArray.data().studentsArray === undefined ||
+      studentsBioArray.data().studentsArray.length === 0
+    ) {
+      return [];
+    }
 
-  if (studentsBioArray.exists()) {
-    console.log(studentsBioArray.data().studentsArray);
-
-    return studentsBioArray.data().studentsArray;
+    if (studentsBioArray.exists()) {
+      console.log(studentsBioArray.data().studentsArray);
+      return studentsBioArray.data().studentsArray;
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -27,6 +30,7 @@ const addClockInDataToAdminDocument = async (
   studentsBioArray,
   userId
 ) => {
+  console.log(studentsBioArray);
   const studentsBioArrayRef = firestoreAdminRefCreatore(db, userId);
 
   const newStudentBioArray = studentsBioArray.map((studentBio, index) => {
@@ -35,7 +39,7 @@ const addClockInDataToAdminDocument = async (
 
       const date = new Date();
 
-      weeklyAttendance[date.getDay() - 1] = clockInData;
+      weeklyAttendance[date.getDay() - 1] = { clockInData: clockInData };
 
       const newStudentBioObject = { ...studentBio, weeklyAttendance };
 
@@ -51,5 +55,11 @@ const addClockInDataToAdminDocument = async (
 
   await updateDoc(studentsBioArrayRef, data);
 };
+
+const addClockOutDataToAdminDocument = (
+  clockOutData,
+  studentsBioArray,
+  userId
+) => {};
 
 export { getStudentsArray, addClockInDataToAdminDocument };
