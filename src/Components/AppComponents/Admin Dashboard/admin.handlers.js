@@ -33,13 +33,18 @@ const addClockInDataToAdminDocument = async (
   console.log(studentsBioArray);
   const studentsBioArrayRef = firestoreAdminRefCreatore(db, userId);
 
+  console.log(clockInData);
+
   const newStudentBioArray = studentsBioArray.map((studentBio, index) => {
     if (studentBio.id === userId) {
       const { weeklyAttendance } = studentBio;
 
       const date = new Date();
 
-      weeklyAttendance[date.getDay() - 1] = { clockInData: clockInData };
+      weeklyAttendance[date.getDay() - 1] = {
+        clockInData: clockInData.dailyClockIns.pop(),
+        // clockOutData:
+      };
 
       const newStudentBioObject = { ...studentBio, weeklyAttendance };
 

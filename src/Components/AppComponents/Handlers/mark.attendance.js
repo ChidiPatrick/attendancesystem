@@ -86,8 +86,8 @@ const updateAttendanceRecord = async (
         .then(async (studentBioArray) => {
           console.log(studentBioArray);
           /* 
-why is admin collection showing dailyClockings as a property?
-*/
+            why is admin collection showing dailyClockings as a property?
+          */
           await addClockInDataToAdminDocument(
             attendanceData,
             studentBioArray,
