@@ -17,15 +17,20 @@ import {
   addClockInDataToAdminDocument,
   getStudentsArray,
 } from "../Admin Dashboard/admin.handlers";
+import { addClockOutDataToAdminDocument } from "../Admin Dashboard/admin.handlers";
 
 /* 
 TODOs:
-  1. Implement admin database updating algorithm for all clock in and outs
+* 1. Implement admin database updating algorithm for all clock in and outs
 * 2. Fix bug in user profile line 57
 * 3. Add password reset logic
 * 4. Rearrange admin database structure
 * 5. Populate attendance history page with data
 * 6. Create password reset page and implement the logic
+  7. Fix bug that makes clockout data not to enter in the admin document.
+  8. Add constraints for clocking out such that users will only be allowed to clock out if they have clocked in.
+  9. Add loading spinner for profile picture uploadin
+  10.Populate the rest of the UIs with required data
 
 
 */
@@ -85,9 +90,7 @@ const updateAttendanceRecord = async (
 
         .then(async (studentBioArray) => {
           console.log(studentBioArray);
-          /* 
-            why is admin collection showing dailyClockings as a property?
-          */
+
           await addClockInDataToAdminDocument(
             attendanceData,
             studentBioArray,
@@ -217,12 +220,28 @@ const updateClockOutData = async (
       return;
     }
 
+    console.log(attendanceData);
     if (attendanceData.length === 0) {
       await updateDoc(attendanceDocumentRef, data)
+        .then(async () => {
+          const studentsBioArray = await getAttendanceRecords(userId, dispatch);
+          console.log(studentsBioArray);
+          return studentsBioArray;
+        })
+
+        .then(async (studentsBioArray) => {
+          addClockOutDataToAdminDocument(
+            clockOutData,
+            studentsBioArray,
+            userId
+          );
+        })
+
         .then(() => {
           console.log("Uploaded...");
           dispatch(getAttendanceRecords(userId));
         })
+
         .then(() => {
           dispatch(hideSpinner());
         });

@@ -43,7 +43,6 @@ const addClockInDataToAdminDocument = async (
 
       weeklyAttendance[date.getDay() - 1] = {
         clockInData: clockInData.dailyClockIns.pop(),
-        // clockOutData:
       };
 
       const newStudentBioObject = { ...studentBio, weeklyAttendance };
@@ -61,10 +60,39 @@ const addClockInDataToAdminDocument = async (
   await updateDoc(studentsBioArrayRef, data);
 };
 
-const addClockOutDataToAdminDocument = (
+const addClockOutDataToAdminDocument = async (
   clockOutData,
   studentsBioArray,
   userId
-) => {};
+) => {
+  const studentsBioArrayRef = firestoreAdminRefCreatore(db, userId);
 
-export { getStudentsArray, addClockInDataToAdminDocument };
+  const studentsBioData = await getDoc(studentsBioArrayRef);
+
+  const modifiedBioArray = studentsBioArray.map((studentBio) => {
+    if (studentBio.id === userId) {
+      const { weeklyAttendance } = studentBio;
+
+      const date = new Date();
+
+      const attendanceData = weeklyAttendance[date.getDay() - 1];
+
+      weeklyAttendance[date.getDay() - 1] = {
+        ...attendanceData,
+        clockOutData: clockOutData,
+      };
+
+      const newStudentBioObject = { ...studentBio, weeklyAttendance };
+
+      return newStudentBioObject;
+    } else {
+      return studentBio;
+    }
+  });
+};
+
+export {
+  getStudentsArray,
+  addClockInDataToAdminDocument,
+  addClockOutDataToAdminDocument,
+};
