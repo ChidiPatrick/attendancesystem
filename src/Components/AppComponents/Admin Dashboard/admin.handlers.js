@@ -41,8 +41,10 @@ const addClockInDataToAdminDocument = async (
 
       const date = new Date();
 
+      console.log(clockInData);
+
       weeklyAttendance[date.getDay() - 1] = {
-        clockInData: clockInData.dailyClockIns.pop(),
+        clockInData: clockInData,
       };
 
       const newStudentBioObject = { ...studentBio, weeklyAttendance };

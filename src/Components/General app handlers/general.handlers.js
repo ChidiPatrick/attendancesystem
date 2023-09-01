@@ -38,15 +38,21 @@ const cleanUpPreviousWeekData = async (userId) => {
 
 /// Delete previous day's clock in image ///
 const deletePreviousDayImage = async (attendanceArray, userId) => {
+  console.log("deletePreviousDayImage() called");
   const oldAttendanceArray = [...attendanceArray];
 
   const prevLastRecord = oldAttendanceArray.pop();
-
+  console.log("Last record removed from the array");
+  console.log(prevLastRecord);
   const newLastRecord = { ...prevLastRecord, userImage: "" };
 
   oldAttendanceArray.push(newLastRecord);
+  console.log("Updated array");
+  console.log(oldAttendanceArray);
 
   const newAttendanceArray = [...oldAttendanceArray];
+
+  console.log(newAttendanceArray);
 
   const attendanceRef = firestoreRefCreator(
     db,
@@ -59,7 +65,7 @@ const deletePreviousDayImage = async (attendanceArray, userId) => {
     dailyClockIns: newAttendanceArray,
   };
 
-  await updateDoc(attendanceRef, data).then(() => true);
+  await updateDoc(attendanceRef, data);
 };
 
 /// Sign out function /////

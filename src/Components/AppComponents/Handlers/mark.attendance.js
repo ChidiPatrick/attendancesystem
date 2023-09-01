@@ -31,6 +31,7 @@ TODOs:
   8. Add constraints for clocking out such that users will only be allowed to clock out if they have clocked in.
   9. Add loading spinner for profile picture uploadin
   10.Populate the rest of the UIs with required data
+  11.Fix the bug in clockout feedback UI that makes it display message while async operation is stil on.
 
 
 */
@@ -66,6 +67,7 @@ const updateAttendanceRecord = async (
 
     dispatch(showSpinner());
 
+    // Check if user has internet connection
     if (!navigator.onLine) {
       dispatch(showNetworkFeedback());
       return;
@@ -73,6 +75,7 @@ const updateAttendanceRecord = async (
 
     // if user is new to the system
     if (clockInAttendanceArray.length === 0) {
+      console.log("Calling the first case...");
       const data = {
         dailyClockIns: [...clockInAttendanceArray, attendanceData],
       };
@@ -124,9 +127,14 @@ const updateAttendanceRecord = async (
     }
 
     if (lastClockInObj.date !== new Date().toDateString()) {
+      const adminData = {
+        id: "Clock in",
+        date: attendanceData.date,
+        isOnTime: attendanceData.isOnTime,
+        time: attendanceData.time,
+      };
       const data = {
         dailyClockIns: [...clockInAttendanceArray, attendanceData],
-        // totalDaysPresent: increment(1),
       };
 
       const userProfileData = {
@@ -144,7 +152,11 @@ const updateAttendanceRecord = async (
           .then(async () => await getStudentsArray(userId))
 
           .then(async (studentBioArray) => {
-            await addClockInDataToAdminDocument(data, studentBioArray, userId);
+            await addClockInDataToAdminDocument(
+              adminData,
+              studentBioArray,
+              userId
+            );
           })
 
           .then(async () => {
@@ -157,6 +169,7 @@ const updateAttendanceRecord = async (
             navigate("/attendanceSuccessful");
           });
       } else {
+        console.log("Calling the else statement");
         await deletePreviousDayImage(clockInAttendanceArray, userId)
           .then(async () => await updateDoc(attendanceRef, data))
 
@@ -172,7 +185,11 @@ const updateAttendanceRecord = async (
 
           .then(async (studentBioArray) => {
             console.log("calling addClockInDataToAdminDocument()");
-            await addClockInDataToAdminDocument(data, studentBioArray, userId);
+            await addClockInDataToAdminDocument(
+              adminData,
+              studentBioArray,
+              userId
+            );
           })
 
           .then(async () => {
