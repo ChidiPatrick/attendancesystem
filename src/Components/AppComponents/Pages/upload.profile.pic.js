@@ -8,14 +8,22 @@ import NavBar from "./navBar";
 import Menu from "./menu";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../Firebase/firebase";
-import { firestoreRefCreator } from "../../General app handlers/general.handlers";
+import {
+  firestoreRefCreator,
+  invokeAllThunks,
+} from "../../General app handlers/general.handlers";
 import { setProfilePictureUrl } from "../../Redux Slices/profileSlice";
 import { useNavigate } from "react-router";
 import { updateDoc } from "firebase/firestore";
 import { db } from "../../Firebase/firebase";
 import { getUserProfileData } from "../../Redux Slices/profileSlice";
-import { showNetworkFeedback } from "../../Redux Slices/signupSlice";
+import {
+  hideSpinner,
+  showNetworkFeedback,
+  showSpinner,
+} from "../../Redux Slices/signupSlice";
 import NetworkFeedback from "../Modal/networkFeedback";
+import SpinnerSmall from "../Loading spinners/spinnerSmall";
 
 /// Main component ////
 function UploadProfilePicture() {
@@ -32,7 +40,7 @@ function UploadProfilePicture() {
     (state) => state.signupSlice.displayNetWorkFeedback
   );
 
-  console.log(displayNetWorkFeedback);
+  console.log(displaySpinner);
   /// Local states ////
   const [file, setFile] = useState(null);
   const [uploadPercentage, setUploadPercentage] = useState(0);
@@ -56,22 +64,26 @@ function UploadProfilePicture() {
       profilePictureURL: profilePictureURL,
     };
 
-    try {
-      await updateDoc(userProfileRef, data)
-        .then(() => {
-          dispatch(getUserProfileData(userId));
-        })
-        .then(() => {
-          navigate("/home");
-        });
-    } catch (err) {
-      dispatch(showNetworkFeedback());
-    }
+    await updateDoc(userProfileRef, data)
+      .then(() => {
+        getUserProfileData(userId);
+        // invokeAllThunks(userId, dispatch);
+      })
+      .then(() => {
+        navigate("/home");
+      })
+      .catch((err) => {
+        console.log(err);
+        // dispatch(showNetworkFeedback());
+      });
   };
 
   /// File upload handlers /////
-  const handleUpload = (e) => {
+  const handleUpload = () => {
+    dispatch(showSpinner());
+
     if (!navigator.onLine) {
+      dispatch(hideSpinner());
       dispatch(showNetworkFeedback());
       return;
     }
@@ -95,12 +107,18 @@ function UploadProfilePicture() {
 
       // download url
       () => {
-        getDownloadURL(uploadObject.snapshot.ref).then((url) => {
-          // Update database redux store //
-          updateProfilePictureURL(url, userId);
-          dispatch(setProfilePictureUrl(url));
-          setVisible(false);
-        });
+        getDownloadURL(uploadObject.snapshot.ref)
+          .then((url) => {
+            // Update database redux store //
+            updateProfilePictureURL(url, userId);
+            return url;
+          })
+          .then((url) => {
+            // dispatch(setProfilePictureUrl(url));
+            setVisible(false);
+            dispatch(hideSpinner());
+          })
+          .catch((err) => console.log(err));
       }
     );
   };
@@ -153,6 +171,7 @@ function UploadProfilePicture() {
       </div>
       {displayMenu === true ? <Menu /> : null}
       {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
+      {displaySpinner === true ? <SpinnerSmall /> : null}
     </div>
   );
 }

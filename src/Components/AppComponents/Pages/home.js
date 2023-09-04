@@ -9,6 +9,7 @@ import "react-circular-progressbar/dist/styles.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { BsFillPersonFill } from "react-icons/bs";
 
 // Local directory imports /////
 import {
@@ -30,7 +31,10 @@ function MarkAttendance() {
     (state) => state.profileSlice.userProfileData
   );
 
-  const { firstName, profilePictureURL } = userProfileData;
+  const { firstName, profilePictureUrl } = userProfileData;
+
+  console.log(profilePictureUrl);
+
   // Clock in handler ///
   const navigateToClockIn = async () => {
     navigate("/clockIn");
@@ -58,11 +62,15 @@ function MarkAttendance() {
           </span>
 
           <figure className=" w-[40px] h-[40px] md:w-[50px] rounded-full md:h-[50px] overflow-hidden ">
-            <img
-              src={profilePictureURL}
-              alt="pics_profile"
-              className=" w-full h-full"
-            />
+            {userProfilePictureUrl === "" ? (
+              <BsFillPersonFill size={"100%"} />
+            ) : (
+              <img
+                src={profilePictureUrl}
+                alt="pics_profile"
+                className=" w-full h-full"
+              />
+            )}
           </figure>
           {displayMenu === true ? <Menu className=" z-[999]" /> : null}
         </div>
@@ -154,7 +162,7 @@ function MarkAttendance() {
     //     </div>
     //     <figure className="col-start-8 col-end-9 w-10 h-10 border border-lp-primary rounded-full bg-gray-400 ">
     //       <img
-    //         src={userProfileDocument.profilePictureURL}
+    //         src={userProfileDocument.userProfilePictureURL}
     //         alt="profile picture"
     //         className="w-10 h-10  border border-lp-primary rounded-full"
     //       />

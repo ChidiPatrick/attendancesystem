@@ -3,6 +3,7 @@ import React, { useState } from "react";
 //// Third-party imports ////
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { BsFillPersonFill } from "react-icons/bs";
 
 /// Local directory imports ///
 import {
@@ -45,6 +46,13 @@ function MarkUser() {
     (state) => state.attendanceRecord.latenessHour
   );
 
+  const userProfile = useSelector(
+    (state) => state.profileSlice.userProfileData
+  );
+
+  const { userProfilePictureURL } = userProfile;
+
+  console.log(userProfilePictureURL);
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
   const [currDate, setCurrDate] = useState(date);
@@ -91,12 +99,21 @@ function MarkUser() {
    */
   return (
     <div className="w-full relative p-2 shadow-md h-screen flex flex-col justify-center border border-bg-lp-secondary items-center">
-      <img
-        className="w-[200px] mb-[100px] h-[200px]  border rounded-full border-lp-secondary"
-        src={userImage}
-        alt="user"
-      />
-
+      {userProfilePictureURL !== true ? (
+        <BsFillPersonFill
+          size={50}
+          className="w-[200px] h-[40%] border rounded"
+        />
+      ) : (
+        <img
+          className="w-full mb-[100px] h-[40%]  border  border-lp-secondary"
+          src={userProfilePictureURL}
+          alt="user"
+        />
+      )}
+      <div className="mb-[50px] mt-[20px] text-center text-lp-primary font-bold">
+        Click the "Mark Attendance" button to clockin
+      </div>
       <ButtonFull handleClick={markAttendance}>Mark attendance</ButtonFull>
       {displaySpinner === true ? <SpinnerSmall /> : null}
       {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}

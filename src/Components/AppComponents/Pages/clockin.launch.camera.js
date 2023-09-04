@@ -74,7 +74,7 @@ function ClockLaunchCamera() {
       dispatch(showNetworkFeedback());
       return;
     } else if (locationInMeters >= 0 && locationInMeters <= 12000) {
-      navigate("/clockIn/webcam");
+      navigate("/markAttendance");
     } else {
       dispatch(showFeedback());
     }
@@ -96,7 +96,8 @@ function ClockLaunchCamera() {
           <p className=" mx-auto font-semibold text-[18px]">Clock In</p>
         </div> */}
         <h2 className="font-bold text-lp-primary text-lg md:text-xl text-center mt-6">
-          Take a picture to clock in or clock out
+          Ensure you have strong internet connectivity and you're in the hub's
+          proximity
         </h2>
         <figure className=" mt-4 md:mt-10  w-[80px] h-[80px] mx-auto ">
           <LuCamera className="w-[80px] h-[80px]" />
@@ -104,9 +105,9 @@ function ClockLaunchCamera() {
         <div className="font-bold text-lg md:text-xl mt-4 md:mt-10 text-center">
           Launch Camera
         </div>
-        <p className="mt-10 text-center text-[15px] md:text-base">
+        {/* <p className="mt-10 text-center text-[15px] md:text-base">
           To take attendance, LM Tech hub will launch your camera
-        </p>
+        </p> */}
 
         <div className=" flex justify-between items-center gap-3 w-[90%] mt-10 mx-auto ">
           <button
