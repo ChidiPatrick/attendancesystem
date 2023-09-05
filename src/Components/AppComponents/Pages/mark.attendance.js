@@ -50,9 +50,9 @@ function MarkUser() {
     (state) => state.profileSlice.userProfileData
   );
 
-  const { userProfilePictureURL } = userProfile;
+  const { profilePictureURL } = userProfile;
 
-  console.log(userProfilePictureURL);
+  console.log(profilePictureURL);
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
   const [currDate, setCurrDate] = useState(date);
@@ -99,15 +99,15 @@ function MarkUser() {
    */
   return (
     <div className="w-full relative p-2 shadow-md h-screen flex flex-col justify-center border border-bg-lp-secondary items-center">
-      {userProfilePictureURL !== true ? (
+      {profilePictureURL === "" || !navigator.onLine ? (
         <BsFillPersonFill
           size={50}
           className="w-[200px] h-[40%] border rounded"
         />
       ) : (
         <img
-          className="w-full mb-[100px] h-[40%]  border  border-lp-secondary"
-          src={userProfilePictureURL}
+          className="w-[200px] h-[40%] mb-[100px]   border rounded-xl  border-lp-secondary"
+          src={profilePictureURL}
           alt="user"
         />
       )}

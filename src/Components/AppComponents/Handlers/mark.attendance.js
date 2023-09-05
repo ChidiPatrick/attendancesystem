@@ -32,8 +32,8 @@ TODOs:
   9. Add loading spinner for profile picture uploading
   10.Populate the rest of the UIs with required data
   11.Fix the bug in clockout feedback UI that makes it display message while async operation is stil on.
-  12.Refactor clockin flow
-  13.Put a default avater for profile pictures
+* 12.Refactor clockin flow
+* 13.Put a default avater for profile pictures
 
 */
 

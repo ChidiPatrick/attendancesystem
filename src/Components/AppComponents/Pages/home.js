@@ -31,9 +31,9 @@ function MarkAttendance() {
     (state) => state.profileSlice.userProfileData
   );
 
-  const { firstName, profilePictureUrl } = userProfileData;
+  const { firstName, profilePictureURL } = userProfileData;
 
-  console.log(profilePictureUrl);
+  console.log(profilePictureURL);
 
   // Clock in handler ///
   const navigateToClockIn = async () => {
@@ -62,11 +62,11 @@ function MarkAttendance() {
           </span>
 
           <figure className=" w-[40px] h-[40px] md:w-[50px] rounded-full md:h-[50px] overflow-hidden ">
-            {userProfilePictureUrl === "" ? (
+            {profilePictureURL === "" || !navigator.onLine ? (
               <BsFillPersonFill size={"100%"} />
             ) : (
               <img
-                src={profilePictureUrl}
+                src={profilePictureURL}
                 alt="pics_profile"
                 className=" w-full h-full"
               />

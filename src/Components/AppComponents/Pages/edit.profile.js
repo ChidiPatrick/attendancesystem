@@ -3,6 +3,8 @@ import React from "react";
 // Third-party imports //
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { BsFillPersonFill } from "react-icons/bs";
+import { GoUpload } from "react-icons/go";
 
 /// Local directory imports ///
 import NavBar from "./navBar";
@@ -38,6 +40,12 @@ function EditProfie() {
 
   const userId = useSelector((state) => state.loginSlice.userId);
 
+  const userProfileData = useSelector(
+    (state) => state.profileSlice.userProfileData
+  );
+
+  const { firstName, profilePictureURL } = userProfileData;
+
   console.log(userProfile);
 
   const formik = useFormik({
@@ -60,17 +68,23 @@ function EditProfie() {
   return (
     <div className="w-full relative p-2 h-screen bg-user-profile ">
       <NavBar>Edit Profile</NavBar>
-      <figure className="w-full relative h-[300px] bg-blue-300 border rounded-xl">
-        <img
-          src={userProfile.profilePictureURL}
-          className="w-full h-[300px] bg-blue-300 border rounded-xl"
-        />
-        <Link
-          to={"/uploadProfilePicture"}
-          className="absolute top-[85%] right-[2%] min-w-[50px] p-2 bg-lp-secondary border rounded-md"
-        >
-          Upload icon
-        </Link>
+      <figure className="w-full relative h-[300px]  border rounded-xl">
+        {profilePictureURL === "" || !navigator.onLine ? (
+          <BsFillPersonFill className="w-full h-[300px] text-gray-500" />
+        ) : (
+          <img
+            src={userProfile.profilePictureURL}
+            className="w-full h-[300px] bg-blue-300 border rounded-xl"
+          />
+        )}
+        <div className="bg-myshade z-[1000] absolute top-[84%] h-[50px] w-full flex justify-end items-center">
+          <Link
+            to={"/uploadProfilePicture"}
+            className=" w-[40px] flex justify-center items-center h-[40px] p-2 bg-gray-100 border rounded-full"
+          >
+            <GoUpload size={20} className="" />
+          </Link>
+        </div>
       </figure>
 
       <form onSubmit={formik.handleSubmit} className="mt-[50px]">

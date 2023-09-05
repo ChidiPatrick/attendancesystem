@@ -7,6 +7,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { calcNumWorkingDaysOfTheMonth } from "../../General app handlers/general.handlers";
+import { BsFillPersonFill } from "react-icons/bs";
 
 function UserProfile() {
   const dispatch = useDispatch();
@@ -44,11 +45,15 @@ function UserProfile() {
         <div className="  mx-auto fixed top-0 w-full md:w-[650px] ">
           <div className="h-[270px] md:h-[350px] w-[100%]   rounded-br-3xl rounded-bl-3xl overflow-hidden ">
             <figure className="h-[100%] w-[100%]">
-              <img
-                src={profilePictureURL}
-                alt="pics_profile"
-                className=" object-center object-fit h-[100%] w-[100%] relative"
-              />
+              {profilePictureURL === "" || !navigator.onLine ? (
+                <BsFillPersonFill className=" text-gray-500 h-[100%] w-[100%]" />
+              ) : (
+                <img
+                  src={profilePictureURL}
+                  alt="pics_profile"
+                  className=" object-center object-fit h-[100%] w-[100%] relative"
+                />
+              )}
             </figure>
 
             <div className="absolute bottom-0  top-0 flex flex-col justify-between text-white w-full ">

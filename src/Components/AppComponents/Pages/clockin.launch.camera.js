@@ -15,6 +15,7 @@ import {
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
 import { useNavigate } from "react-router";
+import { HiLocationMarker } from "react-icons/hi";
 
 /// Clock in component
 function ClockLaunchCamera() {
@@ -100,11 +101,11 @@ function ClockLaunchCamera() {
           proximity
         </h2>
         <figure className=" mt-4 md:mt-10  w-[80px] h-[80px] mx-auto ">
-          <LuCamera className="w-[80px] h-[80px]" />
+          <HiLocationMarker className="w-[80px] h-[80px]" />
         </figure>
-        <div className="font-bold text-lg md:text-xl mt-4 md:mt-10 text-center">
+        {/* <div className="font-bold text-lg md:text-xl mt-4 md:mt-10 text-center">
           Launch Camera
-        </div>
+        </div> */}
         {/* <p className="mt-10 text-center text-[15px] md:text-base">
           To take attendance, LM Tech hub will launch your camera
         </p> */}

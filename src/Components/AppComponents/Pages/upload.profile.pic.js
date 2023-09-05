@@ -114,7 +114,7 @@ function UploadProfilePicture() {
             return url;
           })
           .then((url) => {
-            // dispatch(setProfilePictureUrl(url));
+            dispatch(setProfilePictureUrl(url));
             setVisible(false);
             dispatch(hideSpinner());
           })
