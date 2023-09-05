@@ -29,7 +29,7 @@ TODOs:
 * 6. Create password reset page and implement the logic
   7. Fix bug that makes clockout data not to enter in the admin document.
   8. Add constraints for clocking out such that users will only be allowed to clock out if they have clocked in.
-  9. Add loading spinner for profile picture uploading
+* 9. Add loading spinner for profile picture uploading
   10.Populate the rest of the UIs with required data
   11.Fix the bug in clockout feedback UI that makes it display message while async operation is stil on.
 * 12.Refactor clockin flow

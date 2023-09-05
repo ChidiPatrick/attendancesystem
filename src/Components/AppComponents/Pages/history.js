@@ -16,6 +16,10 @@ function History() {
 
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
   const clockIns = useSelector((state) => state.attendanceRecord.dailyClockIns);
+  const dailyClockOuts = useSelector(
+    (state) => state.attendanceRecord.dailyClockOuts
+  );
+
   console.log(clockIns);
 
   /* 
@@ -45,29 +49,36 @@ function History() {
             </button>
           </div>
         </form>
-        <div className=" mt-5">
-          <p className=" font-semibold mb-2">May 06</p>
-          <table class="table-fixed w-full">
-            <thead className=" py-3 border-spacing-4 border-b-[0.5px] border-[#222]">
-              <tr className=" text-left text-[#333] text-[14px] md:text-base py-3">
-                <th className=" pb-2">Clock In</th>
-                <th className=" pb-2">Clock out</th>
-                <th className=" pb-2">Remark</th>
-                <th className=" pb-2">Grade</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className=" text-left text-[#333] text-[14px] md:text-base ">
-                <td className=" pt-2">09:55am</td>
-                <td className=" pt-2">09:55am</td>
-                <td className=" pt-2">On time</td>
-                <td className=" pt-2">2/2</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
 
-        <div className=" mt-5">
+        {clockIns?.map((data, index) => {
+          return (
+            <div className=" mt-5">
+              <p className=" font-semibold mb-2">{data.date}</p>
+              <table class="table-fixed w-full">
+                <thead className=" py-3 border-spacing-4 border-b-[0.5px] border-[#222]">
+                  <tr className=" text-left text-[#333] text-[14px] md:text-base py-3">
+                    <th className=" pb-2">Clock In</th>
+                    <th className=" pb-2">Clock out</th>
+                    <th className=" pb-2">Remark</th>
+                    <th className=" pb-2">Grade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className=" text-left text-[#333] text-[14px] md:text-base ">
+                    <td className=" pt-2">{data.time}</td>
+                    <td className=" pt-2">{dailyClockOuts[index].time}</td>
+                    <td className=" pt-2">
+                      {data.isOnTime === true ? "Early" : "Late"}
+                    </td>
+                    <td className=" pt-2">2/2</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          );
+        })}
+
+        {/* <div className=" mt-5">
           <p className=" font-semibold mb-2">May 06</p>
           <table class="table-fixed w-full">
             <thead className=" py-3 border-spacing-4 border-b-[0.5px] border-[#222]">
@@ -87,7 +98,29 @@ function History() {
               </tr>
             </tbody>
           </table>
-        </div>
+        </div> */}
+
+        {/* <div className=" mt-5">
+          <p className=" font-semibold mb-2">May 06</p>
+          <table class="table-fixed w-full">
+            <thead className=" py-3 border-spacing-4 border-b-[0.5px] border-[#222]">
+              <tr className=" text-left text-[#333] text-[14px] md:text-base py-3">
+                <th className=" pb-2">Clock In</th>
+                <th className=" pb-2">Clock out</th>
+                <th className=" pb-2">Remark</th>
+                <th className=" pb-2">Grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className=" text-left text-[#333] text-[14px] md:text-base ">
+                <td className=" pt-2">09:55am</td>
+                <td className=" pt-2">09:55am</td>
+                <td className=" pt-2">On time</td>
+                <td className=" pt-2">2/2</td>
+              </tr>
+            </tbody>
+          </table>
+        </div> */}
       </div>
     </div>
     // {PATRICKS VERSION}
