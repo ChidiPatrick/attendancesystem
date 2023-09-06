@@ -17,7 +17,7 @@ function NavBar({ children }) {
 
   return (
     <nav className="z-[999] ">
-      <div className="grid grid-cols-12 justify-center">
+      <div className="grid grid-cols-12 justify-center w-full">
         {displayMenu !== true ? (
           <div>
             <HiMenu

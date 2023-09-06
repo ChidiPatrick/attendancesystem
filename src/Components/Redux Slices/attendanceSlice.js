@@ -16,7 +16,7 @@ export const getAttendanceRecords = async (userId, dispatch) => {
       "attendanceCollection",
       "attendanceDocument"
     );
-
+    // const dispatch = dispatch;
     const attendanceDocument = await getDoc(attendanceDocumentRef);
 
     if (attendanceDocument.exists()) {

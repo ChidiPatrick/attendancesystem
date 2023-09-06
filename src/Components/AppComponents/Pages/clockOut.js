@@ -89,8 +89,8 @@ function ClockOut() {
   };
 
   return (
-    <div className="w-full relative p-2 shadow-md h-screen flex flex-col  border border-bg-lp-secondary items-center">
-      <div>Clock Out</div>
+    <div className="w-full relative p-2 shadow-md h-screen flex flex-col  border border-bg-lp-secondary ">
+      <NavBar>Clock out</NavBar>
       <h2 className="my-[50px] text-lg">
         Clock out to mark the end of your hub's activities for today, and also
         signify the time you left the hub
@@ -106,13 +106,11 @@ function ClockOut() {
           </div>
         </div>
       ) : null}
-      <ButtonFull handleClick={clockOutUser}>Clock out</ButtonFull>
+      <div className="w-full flex justify-center">
+        <ButtonFull handleClick={clockOutUser}>Clock out</ButtonFull>
+      </div>
       {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
-      {displayFeedback === true ? (
-        <FeedbackModal handleClick={() => dispatch(hideFeedback())}>
-          Something went wrong, please log out and log in again
-        </FeedbackModal>
-      ) : null}
+
       {displaySpinner === true ? <SpinnerSmall /> : null}
     </div>
   );
