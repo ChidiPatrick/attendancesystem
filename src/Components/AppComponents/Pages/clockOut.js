@@ -45,7 +45,7 @@ function ClockOut() {
   const [clockOutData, setClockOutData] = useState(null);
 
   /// Clock out handler ///
-  const clockOut = async () => {
+  const clockOutUser = async () => {
     dispatch(showSpinner());
 
     const dailyClockOuts = [...attendanceData];
@@ -76,17 +76,18 @@ function ClockOut() {
 
     await updateClockOutData(data, userId, dispatch, attendanceData)
       .then(() => {
-        getAttendanceRecords(userId);
+        getAttendanceRecords(userId, dispatch);
       })
       .then(() => {
         setShowBack(true);
+        dispatch(hideSpinner());
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(hideSpinner());
       });
   };
 
-  /* TODO:
-  1. Add button for navigating backwards here
-  2. Add something before the clock out button to make the UI more refined
-  */
   return (
     <div className="w-full relative p-2 shadow-md h-screen flex flex-col  border border-bg-lp-secondary items-center">
       <div>Clock Out</div>
@@ -105,7 +106,7 @@ function ClockOut() {
           </div>
         </div>
       ) : null}
-      <ButtonFull handleClick={clockOut}>Clock out</ButtonFull>
+      <ButtonFull handleClick={clockOutUser}>Clock out</ButtonFull>
       {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
       {displayFeedback === true ? (
         <FeedbackModal handleClick={() => dispatch(hideFeedback())}>

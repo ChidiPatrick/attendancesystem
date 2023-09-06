@@ -258,7 +258,7 @@ const updateClockOutData = async (
 
         .then(() => {
           console.log("Uploaded...");
-          dispatch(getAttendanceRecords(userId));
+          dispatch(getAttendanceRecords(userId, dispatch));
         })
 
         .then(() => {
