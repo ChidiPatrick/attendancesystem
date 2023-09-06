@@ -38,7 +38,7 @@ const initialState = {
   isOnTime: false,
   currTime: 0,
   date: null,
-  latenessHour: 1,
+  latenessHour: 10,
   displayClockInDetails: false,
   currHour: 0,
   clockOutObj: null,

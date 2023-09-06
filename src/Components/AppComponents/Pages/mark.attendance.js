@@ -53,31 +53,35 @@ function MarkUser() {
   const { profilePictureURL } = userProfile;
 
   console.log(profilePictureURL);
+
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
   const [currDate, setCurrDate] = useState(date);
+  const [userIsOnTime, setUserIsOnTime] = useState(isOnTime);
 
   /// Mark attendance ///
   const markAttendance = async () => {
     const date = new Date();
     const time = date.toLocaleTimeString("en-US");
     const currHour = date.getHours();
+    console.log(`current hour: ${currHour}`);
+    console.log(`lateness hour: ${latenessHour}`);
 
     setTime(time);
     setCurrDate(date.toLocaleDateString());
 
-    if (currHour > latenessHour) {
-      dispatch(setOnTime(false));
-    } else {
+    if (currHour < latenessHour) {
+      setUserIsOnTime(true);
       dispatch(setOnTime(true));
+    } else {
+      dispatch(setOnTime(false));
     }
 
     const data = {
       id: "Clock in",
       date: date.toDateString(),
-      isOnTime,
+      isOnTime: userIsOnTime,
       time,
-      userImage,
     };
 
     dispatch(updateWeeklyAttendance(data));
@@ -112,7 +116,7 @@ function MarkUser() {
         />
       )}
       <div className="mb-[50px] mt-[20px] text-center text-lp-primary font-bold">
-        Click the "Mark Attendance" button to clockin
+        Click the "Mark Attendance" button to clock in
       </div>
       <ButtonFull handleClick={markAttendance}>Mark attendance</ButtonFull>
       {displaySpinner === true ? <SpinnerSmall /> : null}

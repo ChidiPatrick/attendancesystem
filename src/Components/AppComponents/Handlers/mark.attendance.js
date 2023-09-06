@@ -70,6 +70,7 @@ const updateAttendanceRecord = async (
 
     // Check if user has internet connection
     if (!navigator.onLine) {
+      dispatch(hideSpinner());
       dispatch(showNetworkFeedback());
       return;
     }

@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { toggleMenu } from "../Handlers/menu.handlers";
 import { showMenu, hideMenu } from "../../Redux Slices/menu.slice";
 import { useDispatch } from "react-redux";
+import Menu from "./menu";
 
 function NavBar({ children }) {
   const dispatch = useDispatch();
@@ -15,21 +16,23 @@ function NavBar({ children }) {
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
 
   return (
-    <div className="z-[999]">
-      <div className="grid grid-cols-12 ">
-        <div className="flex justify-center items-centers flex-col">
+    <nav className="z-[999] ">
+      <div className="grid grid-cols-12 justify-center">
+        {displayMenu !== true ? (
           <div>
             <HiMenu
               className="font-bold text-xl"
               onClick={() => toggleMenu(dispatch, showMenu)}
             />
           </div>
-        </div>
-        <h3 className="text-xl col-start-5 col-end-9 font-bold p-2 text-center ">
+        ) : (
+          <Menu />
+        )}
+        <h3 className="text-xl col-start-3 col-end-12 font-bold  text-center ">
           {children}
         </h3>
       </div>
-    </div>
+    </nav>
   );
 }
 

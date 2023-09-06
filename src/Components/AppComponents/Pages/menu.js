@@ -23,9 +23,8 @@ function Menu() {
   return (
     <div
       onClick={() => toggleMenu(dispatch, hideMenu)}
-      className={"w-full h-full bg-opacity-1 absolute"}
+      className={"w-full h-full bg-black bg-opacity-20 absolute "}
     >
-      {/* <div>close</div> */}
       <ul className="w-1/2 bg-white cursor-pointer">
         <div className="p-2 font-bold">
           <HiX

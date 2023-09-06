@@ -54,12 +54,12 @@ function MarkAttendance() {
       2. Modify the clock in picture taking UI 
 */
   return (
-    <div className="w-full   py-6 h-auto  mx-auto">
+    <div className="w-full py-6 h-auto  mx-auto">
       <div className="mx-auto max-w-[650px] w-[90%] md:w-full relative">
         <div className=" flex justify-between items-center bg-mywhite sticky  z-[999]">
-          <span>
-            <NavBar />
-          </span>
+          <div className="w-[90%]">
+            <NavBar>Home</NavBar>
+          </div>
 
           <figure className=" w-[40px] h-[40px] md:w-[50px] rounded-full md:h-[50px] overflow-hidden ">
             {profilePictureURL === "" || !navigator.onLine ? (
@@ -72,7 +72,6 @@ function MarkAttendance() {
               />
             )}
           </figure>
-          {displayMenu === true ? <Menu className=" z-[999]" /> : null}
         </div>
         <p className=" font-bold text-xl md:text-2xl py-3">
           Hello {firstName},
