@@ -5,7 +5,6 @@ import React from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { HiChevronLeft } from "react-icons/hi";
-import { Link } from "react-router-dom";
 
 /// Local directory imports ////////////////
 import { db, auth } from "../../Firebase/firebase";
@@ -30,7 +29,7 @@ import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
 import { getStudentsArray } from "../Admin Dashboard/admin.handlers";
 
 ////////////////Sign up component//////////////////////////////
-const SignUp = () => {
+const SignUpAsAdmin = () => {
   //// Initializations ///////////////
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -48,70 +47,73 @@ const SignUp = () => {
 
   const signUpUserHandler = async (values) => {
     try {
-      if (navigator.onLine) {
-        dispatch(showSpinner());
-        let userId = "";
-        await createUserWithEmailAndPassword(
-          auth,
-          values.email,
-          values.password
-        )
-          .then((res) => {
-            console.log("Creating user Profile");
-            console.log(res.user);
-            userId = res.user.uid;
-            userProfileModelCreator(
-              db,
-              userId,
-              "userProfileCollection",
-              "profileDocument",
-              values
-            );
-          })
+      const adminList = [
+        "okaforpatrick302@gmail.com",
+        "kencassidy16@gmail.com",
+      ];
 
-          .then(() => {
-            attendanceCollectionModelCreator(
-              db,
-              userId,
-              "attendanceCollection",
-              "attendanceDocument"
-            );
-          })
-
-          .then(() => {
-            permissionCollectionModelCreator(
-              db,
-              userId,
-              "permissionCollection",
-              "permissionsDocument"
-            );
-          })
-
-          .then(() => {
-            announcementCollectionModelCreator(
-              db,
-              userId,
-              "announcementsCollection",
-              "announcementsDocument"
-            );
-          })
-
-          .then(() => getStudentsArray(userId))
-
-          .then((studentsBioArray) => {
-            addStudentBioToAdminDatabase(db, userId, values, studentsBioArray);
-          })
-
-          .then(() => invokeAllThunks(userId, dispatch))
-
-          .then(() => {
-            dispatch(hideSpinner());
-            navigate("/home");
-          });
-      } else if (!navigator.onLine) {
+      // Check internet connection
+      if (!navigator.onLine) {
         dispatch(hideSpinner());
         dispatch(showNetworkFeedback());
+        return;
       }
+
+      dispatch(showSpinner());
+      let userId = "";
+      await createUserWithEmailAndPassword(auth, values.email, values.password)
+        .then((res) => {
+          console.log("Creating user Profile");
+          console.log(res.user);
+          userId = res.user.uid;
+          userProfileModelCreator(
+            db,
+            userId,
+            "userProfileCollection",
+            "profileDocument",
+            values
+          );
+        })
+
+        .then(() => {
+          attendanceCollectionModelCreator(
+            db,
+            userId,
+            "attendanceCollection",
+            "attendanceDocument"
+          );
+        })
+
+        .then(() => {
+          permissionCollectionModelCreator(
+            db,
+            userId,
+            "permissionCollection",
+            "permissionsDocument"
+          );
+        })
+
+        .then(() => {
+          announcementCollectionModelCreator(
+            db,
+            userId,
+            "announcementsCollection",
+            "announcementsDocument"
+          );
+        })
+
+        .then(() => getStudentsArray(userId))
+
+        .then((studentsBioArray) => {
+          addStudentBioToAdminDatabase(db, userId, values, studentsBioArray);
+        })
+
+        .then(() => invokeAllThunks(userId, dispatch))
+
+        .then(() => {
+          dispatch(hideSpinner());
+          navigate("/home");
+        });
     } catch (err) {
       prompt("Email already in use");
     }
@@ -263,17 +265,10 @@ const SignUp = () => {
           </button>
         </div>
       </form>
-      <div className="p-2 mt-[30px] text-lp-primary ">
-        <Link to={"/signUpAsAdmin"}>
-          <span className="border border-transparent border-b-lp-primary ">
-            Signup as Admin
-          </span>
-        </Link>
-      </div>
       {displaySpinner === true ? <SpinnerSmall /> : null}
     </div>
   );
   return displayNetworkFeedback === true ? <NetworkFeedback /> : comp;
 };
 
-export default SignUp;
+export default SignUpAsAdmin;

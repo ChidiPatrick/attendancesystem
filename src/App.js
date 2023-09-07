@@ -20,6 +20,7 @@ import ResetEmailAndPassword from "./Components/AppComponents/Pages/reset.email.
 import UploadProfilePicture from "./Components/AppComponents/Pages/upload.profile.pic";
 import ImagePreview from "./Components/AppComponents/Pages/image.preview";
 import EditProfile from "./Components/AppComponents/Pages/edit.profile";
+import SignUpAsAdmin from "./Components/AppComponents/SignUpComp/signup.as.admin";
 
 //// Root component ///
 function App() {
@@ -31,6 +32,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/signupAsAdmin" element={<SignUpAsAdmin />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/userprofile" element={<UserProfile />} />
         <Route path="/history" element={<History />} />
