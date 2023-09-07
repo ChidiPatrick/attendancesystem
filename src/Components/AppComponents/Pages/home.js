@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CircularProgressbarWithChildren,
   buildStyles,
@@ -10,6 +10,8 @@ import "react-circular-progressbar/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { BsFillPersonFill } from "react-icons/bs";
+import Clock from "react-clock";
+import "react-clock/dist/Clock.css";
 
 // Local directory imports /////
 import {
@@ -19,10 +21,14 @@ import {
 import Menu from "./menu";
 import NavBar from "./navBar";
 import { setLinkToClockIn } from "../../Redux Slices/attendanceSlice";
+import { getWeekNumber } from "../Handlers/get.current.week";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Local states
+  const [value, setValue] = useState(new Date());
 
   /// Redux states /////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
@@ -33,7 +39,13 @@ function MarkAttendance() {
 
   const { firstName, profilePictureURL } = userProfileData;
 
-  console.log(profilePictureURL);
+  useEffect(() => {
+    const interval = setInterval(() => setValue(new Date()), 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   // Clock in handler ///
   const navigateToClockIn = async () => {
@@ -119,7 +131,7 @@ function MarkAttendance() {
         </div>
 
         <div className=" w-[150px] h-[150px] mx-auto pt-8 z-10">
-          <CircularProgressbarWithChildren
+          {/* <CircularProgressbarWithChildren
             value={66}
             strokeWidth={6}
             styles={buildStyles({
@@ -130,7 +142,8 @@ function MarkAttendance() {
           >
             <p className=" font-bold text-xl">00:10</p>
             <p>mins</p>
-          </CircularProgressbarWithChildren>
+          </CircularProgressbarWithChildren> */}
+          <Clock value={value} />
         </div>
         <div className=" mt-16 flex justify-between md:justify-center items-center gap-3">
           <ButtonFull handleClick={navigateToClockIn}>Clock in</ButtonFull>

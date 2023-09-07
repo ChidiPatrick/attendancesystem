@@ -18,6 +18,7 @@ import {
   getStudentsArray,
 } from "../Admin Dashboard/admin.handlers";
 import { addClockOutDataToAdminDocument } from "../Admin Dashboard/admin.handlers";
+import { getWeekNumber } from "./get.current.week";
 
 /* 
 TODOs:
@@ -83,7 +84,7 @@ const updateAttendanceRecord = async (
       };
 
       const userProfileData = {
-        totalDaysPresent: increment(1),
+        ["currMonthRecord.totalDaysPresent"]: increment(1),
       };
 
       await updateDoc(attendanceRef, data)
@@ -91,17 +92,17 @@ const updateAttendanceRecord = async (
           await updateDoc(userProfileDocumentRef, userProfileData);
         })
 
-        .then(async () => await getStudentsArray(userId))
+        // .then(async () => await getStudentsArray(userId))
 
-        .then(async (studentBioArray) => {
-          console.log(studentBioArray);
+        // .then(async (studentBioArray) => {
+        //   console.log(studentBioArray);
 
-          await addClockInDataToAdminDocument(
-            attendanceData,
-            studentBioArray,
-            userId
-          );
-        })
+        //   await addClockInDataToAdminDocument(
+        //     attendanceData,
+        //     studentBioArray,
+        //     userId
+        //   );
+        // })
 
         .then(async () => {
           await getAttendanceRecords(userId);
@@ -143,7 +144,10 @@ const updateAttendanceRecord = async (
         ["currMonthRecord.totalDaysPresent"]: increment(1),
       };
 
-      if (date.getDay() === 1) {
+      if (
+        getWeekNumber(lastClockInObj.date) !==
+        getWeekNumber(new Date().toDateString())
+      ) {
         await cleanUpPreviousWeekData(userId)
           .then(async () => await updateDoc(attendanceRef, data))
 
@@ -151,15 +155,15 @@ const updateAttendanceRecord = async (
             await updateDoc(userProfileDocumentRef, userProfileData);
           })
 
-          .then(async () => await getStudentsArray(userId))
+          // .then(async () => await getStudentsArray(userId))
 
-          .then(async (studentBioArray) => {
-            await addClockInDataToAdminDocument(
-              adminData,
-              studentBioArray,
-              userId
-            );
-          })
+          // .then(async (studentBioArray) => {
+          //   await addClockInDataToAdminDocument(
+          //     adminData,
+          //     studentBioArray,
+          //     userId
+          //   );
+          // })
 
           .then(async () => {
             await getAttendanceRecords(userId);
@@ -172,27 +176,26 @@ const updateAttendanceRecord = async (
           });
       } else {
         console.log("Calling the else statement");
-        await deletePreviousDayImage(clockInAttendanceArray, userId)
-          .then(async () => await updateDoc(attendanceRef, data))
-
+        // await deletePreviousDayImage(clockInAttendanceArray, userId)
+        await updateDoc(attendanceRef, data)
           .then(async () => {
             await updateDoc(userProfileDocumentRef, userProfileData);
           })
 
-          .then(async () => {
-            console.log("calling getStudentsArray()");
-            const studentBioArray = await getStudentsArray(userId);
-            return studentBioArray;
-          })
+          // .then(async () => {
+          //   console.log("calling getStudentsArray()");
+          //   const studentBioArray = await getStudentsArray(userId);
+          //   return studentBioArray;
+          // })
 
-          .then(async (studentBioArray) => {
-            console.log("calling addClockInDataToAdminDocument()");
-            await addClockInDataToAdminDocument(
-              adminData,
-              studentBioArray,
-              userId
-            );
-          })
+          // .then(async (studentBioArray) => {
+          //   console.log("calling addClockInDataToAdminDocument()");
+          //   await addClockInDataToAdminDocument(
+          //     adminData,
+          //     studentBioArray,
+          //     userId
+          //   );
+          // })
 
           .then(async () => {
             await getAttendanceRecords(userId);
@@ -212,7 +215,7 @@ const updateAttendanceRecord = async (
   }
 };
 
-// Add clock in data
+// Add clock out data
 const updateClockOutData = async (
   clockOutData,
   userId,
