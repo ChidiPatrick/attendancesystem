@@ -131,6 +131,11 @@ const invokeAllThunks = async (userId, dispatch) => {
   );
 };
 
+const validateMembership = (member, adminList) => {
+  const result = adminList.find((adminMember, index) => adminMember === member);
+  return result;
+};
+
 export {
   firestoreRefCreator,
   firestoreAdminRefCreatore,
@@ -141,4 +146,5 @@ export {
   deletePreviousDayImage,
   cleanUpPreviousWeekData,
   calcNumWorkingDaysOfTheMonth,
+  validateMembership,
 };

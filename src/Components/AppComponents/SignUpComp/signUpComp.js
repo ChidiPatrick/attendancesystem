@@ -1,5 +1,5 @@
 //// Import from react ////////////
-import React from "react";
+import React, { useId } from "react";
 
 /////// Third party imports /////////////
 import * as Yup from "yup";
@@ -23,11 +23,12 @@ import {
   attendanceCollectionModelCreator,
   permissionCollectionModelCreator,
   announcementCollectionModelCreator,
-  addStudentBioToAdminDatabase,
+  // addStudentBioToAdminDatabase,
 } from "./signup.handlers";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
-import { getStudentsArray } from "../Admin Dashboard/admin.handlers";
+import { addStudentBioToAdminDatabase } from "../Admin Dashboard/admin.handlers";
+// import { getStudentsArray } from "../Admin Dashboard/admin.handlers";
 
 ////////////////Sign up component//////////////////////////////
 const SignUp = () => {
@@ -96,10 +97,10 @@ const SignUp = () => {
             );
           })
 
-          .then(() => getStudentsArray(userId))
+          // .then(() => getStudentsArray(userId))
 
-          .then((studentsBioArray) => {
-            addStudentBioToAdminDatabase(db, userId, values, studentsBioArray);
+          .then(() => {
+            addStudentBioToAdminDatabase(values, userId);
           })
 
           .then(() => invokeAllThunks(userId, dispatch))

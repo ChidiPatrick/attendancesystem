@@ -16,6 +16,7 @@ import { showNetworkFeedback } from "../../Redux Slices/signupSlice";
 import {
   firestoreRefCreator,
   invokeAllThunks,
+  validateMembership,
 } from "../../General app handlers/general.handlers";
 import {
   userProfileModelCreator,
@@ -43,15 +44,14 @@ const SignUpAsAdmin = () => {
     (state) => state.signupSlice.displaySpinner
   );
 
+  const adminList = ["okaforpatrick302@gmail.com", "kencassidy16@gmail.com"];
+
+  const feedback = validateMembership("kencassy16@gmail.com", adminList);
+  console.log(feedback);
   ////// Account creation functions //////////////
 
   const signUpUserHandler = async (values) => {
     try {
-      const adminList = [
-        "okaforpatrick302@gmail.com",
-        "kencassidy16@gmail.com",
-      ];
-
       // Check internet connection
       if (!navigator.onLine) {
         dispatch(hideSpinner());
@@ -59,61 +59,69 @@ const SignUpAsAdmin = () => {
         return;
       }
 
-      dispatch(showSpinner());
-      let userId = "";
-      await createUserWithEmailAndPassword(auth, values.email, values.password)
-        .then((res) => {
-          console.log("Creating user Profile");
-          console.log(res.user);
-          userId = res.user.uid;
-          userProfileModelCreator(
-            db,
-            userId,
-            "userProfileCollection",
-            "profileDocument",
-            values
-          );
-        })
+      if (validateMembership(values.email, adminList)) {
+        dispatch(showSpinner());
+        let userId = "";
+        await createUserWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        )
+          .then((res) => {
+            console.log("Creating user Profile");
+            console.log(res.user);
+            userId = res.user.uid;
+            userProfileModelCreator(
+              db,
+              userId,
+              "userProfileCollection",
+              "profileDocument",
+              values
+            );
+          })
 
-        .then(() => {
-          attendanceCollectionModelCreator(
-            db,
-            userId,
-            "attendanceCollection",
-            "attendanceDocument"
-          );
-        })
+          .then(() => {
+            attendanceCollectionModelCreator(
+              db,
+              userId,
+              "attendanceCollection",
+              "attendanceDocument"
+            );
+          })
 
-        .then(() => {
-          permissionCollectionModelCreator(
-            db,
-            userId,
-            "permissionCollection",
-            "permissionsDocument"
-          );
-        })
+          .then(() => {
+            permissionCollectionModelCreator(
+              db,
+              userId,
+              "permissionCollection",
+              "permissionsDocument"
+            );
+          })
 
-        .then(() => {
-          announcementCollectionModelCreator(
-            db,
-            userId,
-            "announcementsCollection",
-            "announcementsDocument"
-          );
-        })
+          .then(() => {
+            announcementCollectionModelCreator(
+              db,
+              userId,
+              "announcementsCollection",
+              "announcementsDocument"
+            );
+          })
 
-        .then(() => getStudentsArray(userId))
+          // .then(() => getStudentsArray(userId))
 
-        .then((studentsBioArray) => {
-          addStudentBioToAdminDatabase(db, userId, values, studentsBioArray);
-        })
+          // .then((studentsBioArray) => {
+          //   addStudentBioToAdminDatabase(db, userId, values, studentsBioArray);
+          // })
 
-        .then(() => invokeAllThunks(userId, dispatch))
+          .then(() => invokeAllThunks(userId, dispatch))
 
-        .then(() => {
-          dispatch(hideSpinner());
-          navigate("/home");
-        });
+          .then(() => {
+            dispatch(hideSpinner());
+            navigate("/home");
+          });
+      } else {
+        alert("You're not a recognised admin member");
+      }
     } catch (err) {
       prompt("Email already in use");
     }

@@ -13,11 +13,10 @@ import {
   showNetworkFeedback,
   showSpinner,
 } from "../../Redux Slices/signupSlice";
-import {
-  addClockInDataToAdminDocument,
-  getStudentsArray,
-} from "../Admin Dashboard/admin.handlers";
-import { addClockOutDataToAdminDocument } from "../Admin Dashboard/admin.handlers";
+import // addClockInDataToAdminDocument,
+// getStudentsArray,
+"../Admin Dashboard/admin.handlers";
+// import { addClockOutDataToAdminDocument } from "../Admin Dashboard/admin.handlers";
 import { getWeekNumber } from "./get.current.week";
 
 /* 
@@ -251,13 +250,13 @@ const updateClockOutData = async (
           return studentsBioArray;
         })
 
-        .then(async (studentsBioArray) => {
-          addClockOutDataToAdminDocument(
-            clockOutData,
-            studentsBioArray,
-            userId
-          );
-        })
+        // .then(async (studentsBioArray) => {
+        //   addClockOutDataToAdminDocument(
+        //     clockOutData,
+        //     studentsBioArray,
+        //     userId
+        //   );
+        // })
 
         .then(() => {
           console.log("Uploaded...");
