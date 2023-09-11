@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Menu from "./menu";
 import { useDispatch, useSelector } from "react-redux";
 import { setTime, setCurrDate } from "../../Redux Slices/attendanceSlice";
+import { BsFillPersonFill } from "react-icons/bs";
 
 /// Attendance feedback component ///
 function AttendanceFeedback() {
@@ -29,6 +30,12 @@ function AttendanceFeedback() {
   );
   const currHour = useSelector((state) => state.attendanceRecord.currHour);
 
+  const userProfile = useSelector(
+    (state) => state.profileSlice.userProfileData
+  );
+
+  const { profilePictureURL } = userProfile;
+
   const currAttendanceData = attendanceData[attendanceData.length - 1];
   console.log(isOnTime);
 
@@ -45,11 +52,15 @@ function AttendanceFeedback() {
     <div className="p-2 bg-user-profile h-screen w-full" on>
       <NavBar>Welcome</NavBar>
       <figure className="w-full flex justify-center items-center ">
-        <img
-          src={image}
-          alt="user"
-          className="w-[300px] h-[300px] border rounded-3xl"
-        />
+        {profilePictureURL === "" || !navigator.onLine ? (
+          <BsFillPersonFill size={40} className="w-[50%] h-[50%]" />
+        ) : (
+          <img
+            src={image}
+            alt="user"
+            className="w-[300px] h-[300px] border rounded-3xl"
+          />
+        )}
       </figure>
       <div className="mt-5 flex justify-center items-center flex-col">
         <div className="text-lp-primary font-bold text-xl">
@@ -92,7 +103,7 @@ function AttendanceFeedback() {
           View history
         </Link>
       </div>
-      {displayMenu === true ? <Menu /> : null}
+      {/* {displayMenu === true ? <Menu /> : null} */}
     </div>
   );
 }

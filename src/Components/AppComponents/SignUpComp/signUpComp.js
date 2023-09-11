@@ -149,7 +149,7 @@ const SignUp = () => {
     <div className=" h-screen relative">
       <HiChevronLeft
         className="text-3xl text-start"
-        onClick={() => navigate("/signup")}
+        onClick={() => navigate(-1)}
       />
       <h3 className="my-5 px-4 flex flex-col justify-start item-start">
         <span className="font-bold text-xl text-lp-primary">Hello Techie!</span>

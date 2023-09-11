@@ -24,6 +24,7 @@ const firestoreAdminRefCreatore = (db, studentId) => {
 
 /// Clean up previous week's clock in and clock out data ///
 const cleanUpPreviousWeekData = async (userId) => {
+  console.log("clean up function called!");
   const attendanceRef = firestoreRefCreator(
     db,
     userId,

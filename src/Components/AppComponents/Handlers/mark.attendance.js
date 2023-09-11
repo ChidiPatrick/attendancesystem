@@ -139,16 +139,17 @@ const updateAttendanceRecord = async (
         dailyClockIns: [...clockInAttendanceArray, attendanceData],
       };
 
+      const newEntryData = {
+        dailyClockIns: [attendanceData],
+      };
+
       const userProfileData = {
         ["currMonthRecord.totalDaysPresent"]: increment(1),
       };
 
-      if (
-        getWeekNumber(lastClockInObj.date) !==
-        getWeekNumber(new Date().toDateString())
-      ) {
+      if (getWeekNumber(lastClockInObj.date) !== getWeekNumber(new Date())) {
         await cleanUpPreviousWeekData(userId)
-          .then(async () => await updateDoc(attendanceRef, data))
+          .then(async () => await updateDoc(attendanceRef, newEntryData))
 
           .then(async () => {
             await updateDoc(userProfileDocumentRef, userProfileData);

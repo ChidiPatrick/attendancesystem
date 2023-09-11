@@ -19,6 +19,7 @@ import { hideFeedback } from "../../Redux Slices/signupSlice";
 import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import FeedbackModal from "../Modal/feedbackModal";
 import NetworkFeedback from "../Modal/networkFeedback";
+import { getWeekNumber } from "../Handlers/get.current.week";
 
 function MarkUser() {
   const dispatch = useDispatch();
@@ -51,8 +52,6 @@ function MarkUser() {
   );
 
   const { profilePictureURL } = userProfile;
-
-  console.log(profilePictureURL);
 
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
