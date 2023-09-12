@@ -12,6 +12,7 @@ import {
   hideFeedback,
   hideSpinner,
   showFeedback,
+  showNetworkFeedback,
   showSpinner,
 } from "../../Redux Slices/signupSlice";
 import NetworkFeedback from "../Modal/networkFeedback";
@@ -25,7 +26,7 @@ function ClockOut() {
   const navigate = useNavigate();
 
   /// Redux states ///
-  const userImage = useSelector((state) => state.attendanceRecord.image);
+  // const userImage = useSelector((state) => state.attendanceRecord.image);
   const userId = useSelector((state) => state.loginSlice.userId);
   const displaySpinner = useSelector(
     (state) => state.signupSlice.displaySpinner
@@ -40,37 +41,62 @@ function ClockOut() {
     (state) => state.signupSlice.displayNetWorkFeedback
   );
 
+  console.log(attendanceData);
+
   // Local states ///
   const [showFeedback, setShowBack] = useState(false);
   const [clockOutData, setClockOutData] = useState(null);
 
   /// Clock out handler ///
-  const clockOutUser = async () => {
+  const clockOutUser = async (attendanceData) => {
     dispatch(showSpinner());
-
-    const dailyClockOuts = [...attendanceData];
-    const lastClockOut = dailyClockOuts.pop();
 
     const date = new Date().toDateString();
     const time = new Date().toLocaleTimeString("en-US");
 
+    const data = {
+      id: "Clock out",
+      date,
+      time,
+    };
+
+    // Check Newtwork connection
     if (!navigator.onLine) {
       dispatch(hideSpinner());
+      dispatch(showNetworkFeedback());
       return;
     }
+
+    //Check array length
+    if (attendanceData.length === 0) {
+      const dailyClockOuts = [...attendanceData];
+
+      setClockOutData(data);
+
+      await updateClockOutData(data, userId, dispatch, attendanceData)
+        .then(() => {
+          getAttendanceRecords(userId, dispatch);
+        })
+        .then(() => {
+          setShowBack(true);
+          dispatch(hideSpinner());
+        })
+        .catch((err) => {
+          console.log(err);
+          dispatch(hideSpinner());
+        });
+
+      return;
+    }
+
+    const dailyClockOuts = [...attendanceData];
+    const lastClockOut = dailyClockOuts.pop();
 
     if (lastClockOut.date === date) {
       dispatch(hideSpinner());
       alert("Already clocked  out for today, you can't clockout twice!");
       return;
     }
-
-    const data = {
-      id: "Clock out",
-      date,
-      time,
-      userImage,
-    };
 
     setClockOutData(data);
 
@@ -107,7 +133,9 @@ function ClockOut() {
         </div>
       ) : null}
       <div className="w-full flex justify-center">
-        <ButtonFull handleClick={clockOutUser}>Clock out</ButtonFull>
+        <ButtonFull handleClick={() => clockOutUser(attendanceData)}>
+          Clock out
+        </ButtonFull>
       </div>
       {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
 

@@ -13,10 +13,10 @@ import {
   showNetworkFeedback,
   showSpinner,
 } from "../../Redux Slices/signupSlice";
-import // addClockInDataToAdminDocument,
-// getStudentsArray,
-"../Admin Dashboard/admin.handlers";
-// import { addClockOutDataToAdminDocument } from "../Admin Dashboard/admin.handlers";
+import {
+  addClockInDataToAdminDatabase,
+  addClockOutDataToAdminDatabase,
+} from "../Admin Dashboard/admin.handlers";
 import { getWeekNumber } from "./get.current.week";
 
 /* 
@@ -90,23 +90,13 @@ const updateAttendanceRecord = async (
         .then(async () => {
           await updateDoc(userProfileDocumentRef, userProfileData);
         })
-
-        // .then(async () => await getStudentsArray(userId))
-
-        // .then(async (studentBioArray) => {
-        //   console.log(studentBioArray);
-
-        //   await addClockInDataToAdminDocument(
-        //     attendanceData,
-        //     studentBioArray,
-        //     userId
-        //   );
-        // })
-
+        .then(async () => {
+          console.log("Calling addClockInDataToAdminDatabase...");
+          addClockInDataToAdminDatabase({ ...attendanceData, id: userId });
+        })
         .then(async () => {
           await getAttendanceRecords(userId);
         })
-
         .then(() => {
           dispatch(hideSpinner());
 
@@ -130,10 +120,11 @@ const updateAttendanceRecord = async (
 
     if (lastClockInObj.date !== new Date().toDateString()) {
       const adminData = {
-        id: "Clock in",
+        id: userId,
         date: attendanceData.date,
         isOnTime: attendanceData.isOnTime,
         time: attendanceData.time,
+        data: "Clock in",
       };
       const data = {
         dailyClockIns: [...clockInAttendanceArray, attendanceData],
@@ -152,18 +143,12 @@ const updateAttendanceRecord = async (
           .then(async () => await updateDoc(attendanceRef, newEntryData))
 
           .then(async () => {
-            await updateDoc(userProfileDocumentRef, userProfileData);
+            addClockInDataToAdminDatabase(adminData);
           })
 
-          // .then(async () => await getStudentsArray(userId))
-
-          // .then(async (studentBioArray) => {
-          //   await addClockInDataToAdminDocument(
-          //     adminData,
-          //     studentBioArray,
-          //     userId
-          //   );
-          // })
+          .then(async () => {
+            await updateDoc(userProfileDocumentRef, userProfileData);
+          })
 
           .then(async () => {
             await getAttendanceRecords(userId);
@@ -188,14 +173,9 @@ const updateAttendanceRecord = async (
           //   return studentBioArray;
           // })
 
-          // .then(async (studentBioArray) => {
-          //   console.log("calling addClockInDataToAdminDocument()");
-          //   await addClockInDataToAdminDocument(
-          //     adminData,
-          //     studentBioArray,
-          //     userId
-          //   );
-          // })
+          .then(async () => {
+            addClockInDataToAdminDatabase(adminData);
+          })
 
           .then(async () => {
             await getAttendanceRecords(userId);
@@ -246,22 +226,13 @@ const updateClockOutData = async (
     if (attendanceData.length === 0) {
       await updateDoc(attendanceDocumentRef, data)
         .then(async () => {
-          const studentsBioArray = await getAttendanceRecords(userId, dispatch);
-          console.log(studentsBioArray);
-          return studentsBioArray;
+          console.log("Adding clock out data to admin database");
+          addClockOutDataToAdminDatabase(clockOutData);
         })
-
-        // .then(async (studentsBioArray) => {
-        //   addClockOutDataToAdminDocument(
-        //     clockOutData,
-        //     studentsBioArray,
-        //     userId
-        //   );
-        // })
 
         .then(() => {
           console.log("Uploaded...");
-          dispatch(getAttendanceRecords(userId, dispatch));
+          getAttendanceRecords(userId, dispatch);
         })
 
         .then(() => {
@@ -290,6 +261,10 @@ const updateClockOutData = async (
       lastClockOutObj.date !== new Date().toDateString()
     ) {
       await updateDoc(attendanceDocumentRef, data)
+        .then(async () => {
+          console.log("Adding clock out data to admin database");
+          addClockOutDataToAdminDatabase(clockOutData);
+        })
         .then(() => {
           console.log("Uploaded...");
           dispatch(getAttendanceRecords(userId));

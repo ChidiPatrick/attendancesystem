@@ -59,7 +59,7 @@ function MarkUser() {
   const [userIsOnTime, setUserIsOnTime] = useState(isOnTime);
 
   /// Mark attendance ///
-  const markAttendance = async () => {
+  const markAttendance = async (userId) => {
     const date = new Date();
     const time = date.toLocaleTimeString("en-US");
     const currHour = date.getHours();
@@ -77,10 +77,10 @@ function MarkUser() {
     }
 
     const data = {
-      id: "Clock in",
       date: date.toDateString(),
       isOnTime: userIsOnTime,
       time,
+      id: "clockin",
     };
 
     dispatch(updateWeeklyAttendance(data));
@@ -117,7 +117,9 @@ function MarkUser() {
       <div className="mb-[50px] mt-[20px] text-center text-lp-primary font-bold">
         Click the "Mark Attendance" button to clock in
       </div>
-      <ButtonFull handleClick={markAttendance}>Mark attendance</ButtonFull>
+      <ButtonFull handleClick={() => markAttendance(userId)}>
+        Mark attendance
+      </ButtonFull>
       {displaySpinner === true ? <SpinnerSmall /> : null}
       {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
       {displayFeedback === true ? (

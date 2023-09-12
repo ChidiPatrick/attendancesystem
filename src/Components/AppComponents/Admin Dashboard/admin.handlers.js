@@ -4,8 +4,8 @@ import { db, rdb } from "../../Firebase/firebase";
 import { getDatabase, set, ref } from "firebase/database";
 
 //Add new user bio into admin dabase
-const addStudentBioToAdminDatabase = (valuesObject, userId) => {
-  set(ref(rdb, `admindashboard/studentsBio/${userId}`), {
+const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
+  await set(ref(rdb, `admindashboard/studentsBio/${userId}`), {
     firstName: valuesObject.firstName,
     lastName: valuesObject.lastName,
     userName: valuesObject.userName,
@@ -15,8 +15,17 @@ const addStudentBioToAdminDatabase = (valuesObject, userId) => {
 };
 
 //Add clockin data to admin database
-const addClockInDataToAdminDatabase = (attendanceData) => {
-  set(ref(rdb, `admindashboard/attendanceRecord`), {});
+const addClockInDataToAdminDatabase = async (clockInData) => {
+  await set(ref(rdb, `admindashboard/dailyClockIns`), {
+    ...clockInData,
+  });
+};
+
+// Add clockout data to admin database
+const addClockOutDataToAdminDatabase = (clockOutData) => {
+  set(ref(rdb, `admindashboard/ClockOuts`), {
+    ...clockOutData,
+  });
 };
 // Get students bio array from admin collection
 // const getStudentsArray = async (userId) => {
@@ -109,4 +118,8 @@ const addClockInDataToAdminDatabase = (attendanceData) => {
 //   });
 // };
 
-export { addStudentBioToAdminDatabase };
+export {
+  addStudentBioToAdminDatabase,
+  addClockInDataToAdminDatabase,
+  addClockOutDataToAdminDatabase,
+};
