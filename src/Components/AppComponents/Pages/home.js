@@ -23,7 +23,7 @@ import NavBar from "./navBar";
 import { setLinkToClockIn } from "../../Redux Slices/attendanceSlice";
 import { getWeekNumber } from "../Handlers/get.current.week";
 import { getClockInData } from "../Admin Dashboard/admin.handlers";
-import { onValue, ref } from "firebase/database";
+import { onValue, ref as rRef } from "firebase/database";
 import { rdb } from "../../Firebase/firebase";
 
 function MarkAttendance() {
@@ -46,7 +46,7 @@ function MarkAttendance() {
     const interval = setInterval(() => setValue(new Date()), 1000);
 
     // console.log(getClockInData());
-    const clockinListRef = ref(rdb, `admindashboard/clockoutList`);
+    const clockinListRef = rRef(rdb, `admindashboard/clockoutList`);
     onValue(clockinListRef, (snapshot) => {
       const data = snapshot.val();
       console.log(data);
@@ -68,13 +68,6 @@ function MarkAttendance() {
     navigate("/clockOut");
   };
 
-  // const arr = [];
-  // const value = arr.pop();
-  // console.log(arr.length);
-  /* 
-     *1. Create edit profile UI and implement the functionality
-      2. Modify the clock in picture taking UI 
-*/
   return (
     <div className="w-full py-6 h-auto  mx-auto">
       <div className="mx-auto max-w-[650px] w-[90%] md:w-full relative">

@@ -3,7 +3,6 @@ import { db } from "../../Firebase/firebase";
 import {
   firestoreRefCreator,
   getStudentDocumentRef,
-  deletePreviousDayImage,
   cleanUpPreviousWeekData,
 } from "../../General app handlers/general.handlers";
 import { getAttendanceRecords } from "../../Redux Slices/attendanceSlice";

@@ -1,26 +1,22 @@
 import { getDoc, updateDoc } from "firebase/firestore";
 import { firestoreAdminRefCreatore } from "../../General app handlers/general.handlers";
 import { db, rdb } from "../../Firebase/firebase";
-import { getDatabase, set, ref, onValue, push } from "firebase/database";
+import { set, ref, onValue, push } from "firebase/database";
 
 //Add new user bio into admin dabase
 const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
-  await set(ref(rdb, `admindashboard/studentsBio/${userId}`), {
-    firstName: valuesObject.firstName,
-    lastName: valuesObject.lastName,
-    userName: valuesObject.userName,
-    email: valuesObject.email,
-    password: valuesObject.password,
-  });
+  const databaseRef = ref(rdb, `admindashboard/studentsBio`);
+  const studentsBioRef = push(databaseRef);
+  await set(studentsBioRef, { ...valuesObject });
 };
 
 //Add clockin data to admin database
 const addClockInDataToAdminDatabase = async (clockInData) => {
-  const clockInDatabaseRef = ref(`admindashboard/clockInList`);
-
+  const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
   const clockInListRef = push(clockInDatabaseRef);
-
-  set(clockInListRef, { ...clockInData });
+  set(clockInListRef, { ...clockInData })
+    .then(() => console.log("Uploaded!!"))
+    .catch((err) => console.log(err));
 };
 
 // Add clockout data to admin database
@@ -29,7 +25,9 @@ const addClockOutDataToAdminDatabase = (clockOutData) => {
 
   const newListRef = push(clockOutListRef);
 
-  set(newListRef, { ...clockOutData });
+  set(newListRef, { ...clockOutData })
+    .then(() => console.log("Uploaded!!"))
+    .catch((err) => console.log(err));
 };
 
 const getClockInData = async () => {

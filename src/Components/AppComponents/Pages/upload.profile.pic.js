@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 /// Local directory imports ///
 import NavBar from "./navBar";
 import Menu from "./menu";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {
+  ref as rRef,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 import { storage } from "../../Firebase/firebase";
 import {
   firestoreRefCreator,
@@ -88,7 +92,7 @@ function UploadProfilePicture() {
       return;
     }
 
-    const storageRef = ref(storage, `files/${file.name}`);
+    const storageRef = rRef(storage, `files/${file.name}`);
     const uploadObject = uploadBytesResumable(storageRef, file);
 
     uploadObject.on(

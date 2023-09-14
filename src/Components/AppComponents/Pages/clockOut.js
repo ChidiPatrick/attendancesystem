@@ -73,11 +73,12 @@ function ClockOut() {
     }
 
     // Block user from clocking out without clocking in first
-    // if (lastClockin.date !== new Date().toDateString()) {
-    //   dispatch(hideSpinner());
-    //   alert("You can not clock out without clocking in first");
-    //   return;
-    // }
+    if (lastClockin.date !== new Date().toDateString()) {
+      dispatch(hideSpinner());
+      alert("You can not clock out without clocking in first");
+      return;
+    }
+
     if (attendanceData.length === 0) {
       //Check array length
       const dailyClockOuts = [...attendanceData];
