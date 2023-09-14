@@ -31,6 +31,9 @@ function ClockOut() {
   const displaySpinner = useSelector(
     (state) => state.signupSlice.displaySpinner
   );
+  const dailyClockInsArray = useSelector(
+    (state) => state.attendanceRecord.dailyClockIns
+  );
   const attendanceData = useSelector(
     (state) => state.attendanceRecord.dailyClockOuts
   );
@@ -41,14 +44,14 @@ function ClockOut() {
     (state) => state.signupSlice.displayNetWorkFeedback
   );
 
-  console.log(attendanceData);
+  console.log(dailyClockInsArray);
 
   // Local states ///
   const [showFeedback, setShowBack] = useState(false);
   const [clockOutData, setClockOutData] = useState(null);
 
   /// Clock out handler ///
-  const clockOutUser = async (attendanceData) => {
+  const clockOutUser = async (attendanceData, dailyClockInsArray) => {
     dispatch(showSpinner());
 
     const date = new Date().toDateString();
@@ -60,6 +63,8 @@ function ClockOut() {
       time,
     };
 
+    const lastClockin = dailyClockInsArray[dailyClockInsArray.length - 1];
+
     // Check Newtwork connection
     if (!navigator.onLine) {
       dispatch(hideSpinner());
@@ -67,8 +72,14 @@ function ClockOut() {
       return;
     }
 
-    //Check array length
+    // Block user from clocking out without clocking in first
+    // if (lastClockin.date !== new Date().toDateString()) {
+    //   dispatch(hideSpinner());
+    //   alert("You can not clock out without clocking in first");
+    //   return;
+    // }
     if (attendanceData.length === 0) {
+      //Check array length
       const dailyClockOuts = [...attendanceData];
 
       setClockOutData(data);
@@ -133,7 +144,9 @@ function ClockOut() {
         </div>
       ) : null}
       <div className="w-full flex justify-center">
-        <ButtonFull handleClick={() => clockOutUser(attendanceData)}>
+        <ButtonFull
+          handleClick={() => clockOutUser(attendanceData, dailyClockInsArray)}
+        >
           Clock out
         </ButtonFull>
       </div>

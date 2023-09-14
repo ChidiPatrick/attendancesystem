@@ -27,13 +27,14 @@ TODOs:
 * 4. Rearrange admin database structure
 * 5. Populate attendance history page with data
 * 6. Create password reset page and implement the logic
-  7. Fix bug that makes clockout data not to enter in the admin document.
-  8. Add constraints for clocking out such that users will only be allowed to clock out if they have clocked in.
+* 7. Fix bug that makes clockout data not to enter in the admin document.
+* 8. Add constraints for clocking out such that users will only be allowed to clock out if they have clocked in.
 * 9. Add loading spinner for profile picture uploading
   10.Populate the rest of the UIs with required data
-  11.Fix the bug in clockout feedback UI that makes it display message while async operation is stil on.
+* 11.Fix the bug in clockout feedback UI that makes it display message while async operation is stil on.
 * 12.Refactor clockin flow
 * 13.Put a default avater for profile pictures
+* 14 Add restriction to clockout such that you can only clock out from the office
 
 */
 
@@ -166,12 +167,6 @@ const updateAttendanceRecord = async (
           .then(async () => {
             await updateDoc(userProfileDocumentRef, userProfileData);
           })
-
-          // .then(async () => {
-          //   console.log("calling getStudentsArray()");
-          //   const studentBioArray = await getStudentsArray(userId);
-          //   return studentBioArray;
-          // })
 
           .then(async () => {
             addClockInDataToAdminDatabase(adminData);

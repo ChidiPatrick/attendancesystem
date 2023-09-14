@@ -22,6 +22,9 @@ import Menu from "./menu";
 import NavBar from "./navBar";
 import { setLinkToClockIn } from "../../Redux Slices/attendanceSlice";
 import { getWeekNumber } from "../Handlers/get.current.week";
+import { getClockInData } from "../Admin Dashboard/admin.handlers";
+import { onValue, ref } from "firebase/database";
+import { rdb } from "../../Firebase/firebase";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -41,6 +44,13 @@ function MarkAttendance() {
 
   useEffect(() => {
     const interval = setInterval(() => setValue(new Date()), 1000);
+
+    // console.log(getClockInData());
+    const clockinListRef = ref(rdb, `admindashboard/clockoutList`);
+    onValue(clockinListRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log(data);
+    });
 
     return () => {
       clearInterval(interval);

@@ -1,7 +1,7 @@
 import { getDoc, updateDoc } from "firebase/firestore";
 import { firestoreAdminRefCreatore } from "../../General app handlers/general.handlers";
 import { db, rdb } from "../../Firebase/firebase";
-import { getDatabase, set, ref } from "firebase/database";
+import { getDatabase, set, ref, onValue, push } from "firebase/database";
 
 //Add new user bio into admin dabase
 const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
@@ -16,15 +16,28 @@ const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
 
 //Add clockin data to admin database
 const addClockInDataToAdminDatabase = async (clockInData) => {
-  await set(ref(rdb, `admindashboard/dailyClockIns`), {
-    ...clockInData,
-  });
+  const clockInDatabaseRef = ref(`admindashboard/clockInList`);
+
+  const clockInListRef = push(clockInDatabaseRef);
+
+  set(clockInListRef, { ...clockInData });
 };
 
 // Add clockout data to admin database
 const addClockOutDataToAdminDatabase = (clockOutData) => {
-  set(ref(rdb, `admindashboard/ClockOuts`), {
-    ...clockOutData,
+  const clockOutListRef = ref(rdb, `admindashboard/clockoutList`);
+
+  const newListRef = push(clockOutListRef);
+
+  set(newListRef, { ...clockOutData });
+};
+
+const getClockInData = async () => {
+  const clockInDataRef = ref(rdb, `admindashboard/dailyClockIns`);
+
+  onValue(clockInDataRef, (snapshot) => {
+    const data = snapshot.val();
+    console.log(data);
   });
 };
 // Get students bio array from admin collection
@@ -122,4 +135,5 @@ export {
   addStudentBioToAdminDatabase,
   addClockInDataToAdminDatabase,
   addClockOutDataToAdminDatabase,
+  getClockInData,
 };
