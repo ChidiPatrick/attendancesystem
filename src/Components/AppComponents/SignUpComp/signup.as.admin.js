@@ -80,33 +80,6 @@ const SignUpAsAdmin = () => {
             );
           })
 
-          .then(() => {
-            attendanceCollectionModelCreator(
-              db,
-              userId,
-              "attendanceCollection",
-              "attendanceDocument"
-            );
-          })
-
-          .then(() => {
-            permissionCollectionModelCreator(
-              db,
-              userId,
-              "permissionCollection",
-              "permissionsDocument"
-            );
-          })
-
-          .then(() => {
-            announcementCollectionModelCreator(
-              db,
-              userId,
-              "announcementsCollection",
-              "announcementsDocument"
-            );
-          })
-
           // .then(() => getStudentsArray(userId))
 
           // .then((studentsBioArray) => {
