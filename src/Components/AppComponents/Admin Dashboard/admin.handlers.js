@@ -10,6 +10,13 @@ const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
   await set(studentsBioRef, { ...valuesObject });
 };
 
+// Add admin's bio data to the database
+const addAdminBioDataToDatabase = async (valuesObject) => {
+  const adminsBioDatabaseRef = ref(rdb, "admindashboard/adminsBioDatabase");
+  const adminRefNumber = push(adminsBioDatabaseRef);
+  await set(adminRefNumber, { ...valuesObject });
+};
+
 //Add clockin data to admin database
 const addClockInDataToAdminDatabase = async (clockInData) => {
   const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
@@ -30,14 +37,6 @@ const addClockOutDataToAdminDatabase = (clockOutData) => {
     .catch((err) => console.log(err));
 };
 
-const getClockInData = async () => {
-  const clockInDataRef = ref(rdb, `admindashboard/dailyClockIns`);
-
-  onValue(clockInDataRef, (snapshot) => {
-    const data = snapshot.val();
-    console.log(data);
-  });
-};
 // Get students bio array from admin collection
 // const getStudentsArray = async (userId) => {
 //   try {
@@ -133,5 +132,5 @@ export {
   addStudentBioToAdminDatabase,
   addClockInDataToAdminDatabase,
   addClockOutDataToAdminDatabase,
-  getClockInData,
+  addAdminBioDataToDatabase,
 };

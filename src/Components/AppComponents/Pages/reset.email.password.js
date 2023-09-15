@@ -120,7 +120,6 @@ function ResetEmailAndPassword() {
           Back to login
         </Link>
       </div>
-      <History />
     </div>
   );
 }

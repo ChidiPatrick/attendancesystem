@@ -21,9 +21,9 @@ const LandingPageNavbar = () => {
     <nav className=" w-full py-6  ">
       <div className="w-[90%] md:w-[80%] mx-auto flex justify-between items-center relative">
         <div className=" flex gap-3 items-center">
-          <span className="md:hidden">
+          {/* <span className="md:hidden">
             <FaBars size={20} />
-          </span>
+          </span> */}
           <span className=" md:w-[70px] md:h-[70px]">
             <img
               src="./images/logo.svg"

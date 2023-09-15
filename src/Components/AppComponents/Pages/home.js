@@ -32,6 +32,8 @@ function MarkAttendance() {
 
   // Local states
   const [value, setValue] = useState(new Date());
+  const [clockInList, setClockinList] = useState(null);
+  const [studentsBioList, setStudentsBioList] = useState(null);
 
   /// Redux states /////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
@@ -45,17 +47,25 @@ function MarkAttendance() {
   useEffect(() => {
     const interval = setInterval(() => setValue(new Date()), 1000);
 
-    // console.log(getClockInData());
+    // Get clockin list
     const clockinListRef = rRef(rdb, `admindashboard/clockoutList`);
-    onValue(clockinListRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-    });
+    // onValue(clockinListRef, (snapshot) => {
+    //   const data = snapshot.val();
+    //   console.log(data);
+    //   setClockinList(data);
+    // });
+
+    // // Get students bio list
+    // const studentsBioListRef = rRef(rdb, "admindashboard/studentsBio");
+    // onValue(studentsBioListRef, (snapshot) => {
+    //   const data = snapshot.val();
+    //   setStudentsBioList(data);
+    // });
 
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  });
 
   // Clock in handler ///
   const navigateToClockIn = async () => {
@@ -67,6 +77,9 @@ function MarkAttendance() {
     dispatch(setLinkToClockIn(false));
     navigate("/clockOut");
   };
+
+  console.log(clockInList);
+  console.log(studentsBioList);
 
   return (
     <div className="w-full py-6 h-auto  mx-auto">

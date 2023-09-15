@@ -21,6 +21,7 @@ import UploadProfilePicture from "./Components/AppComponents/Pages/upload.profil
 import ImagePreview from "./Components/AppComponents/Pages/image.preview";
 import EditProfile from "./Components/AppComponents/Pages/edit.profile";
 import SignUpAsAdmin from "./Components/AppComponents/SignUpComp/signup.as.admin";
+import SigninAsAdmin from "./Components/AppComponents/LoginComp/login.admin";
 
 //// Root component ///
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signupAsAdmin" element={<SignUpAsAdmin />} />
+        <Route path="/adminLogin" element={<SigninAsAdmin />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/userprofile" element={<UserProfile />} />
         <Route path="/history" element={<History />} />

@@ -15,19 +15,11 @@ import NetworkFeedback from "../Modal/networkFeedback";
 import { showNetworkFeedback } from "../../Redux Slices/signupSlice";
 import {
   firestoreRefCreator,
-  invokeAllThunks,
   validateMembership,
 } from "../../General app handlers/general.handlers";
-import {
-  userProfileModelCreator,
-  attendanceCollectionModelCreator,
-  permissionCollectionModelCreator,
-  announcementCollectionModelCreator,
-  addStudentBioToAdminDatabase,
-} from "./signup.handlers";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
-import { getStudentsArray } from "../Admin Dashboard/admin.handlers";
+import { addAdminBioDataToDatabase } from "../Admin Dashboard/admin.handlers";
 
 ////////////////Sign up component//////////////////////////////
 const SignUpAsAdmin = () => {
@@ -44,12 +36,12 @@ const SignUpAsAdmin = () => {
     (state) => state.signupSlice.displaySpinner
   );
 
+  //TO BE MODIFIED LATER!!!!!!!
   const adminList = ["okaforpatrick302@gmail.com", "kencassidy16@gmail.com"];
 
   const feedback = validateMembership("kencassy16@gmail.com", adminList);
-  console.log(feedback);
-  ////// Account creation functions //////////////
 
+  ////// Sign up admin //////////////
   const signUpUserHandler = async (values) => {
     try {
       // Check internet connection
@@ -67,30 +59,13 @@ const SignUpAsAdmin = () => {
           values.email,
           values.password
         )
-          .then((res) => {
-            console.log("Creating user Profile");
-            console.log(res.user);
-            userId = res.user.uid;
-            userProfileModelCreator(
-              db,
-              userId,
-              "userProfileCollection",
-              "profileDocument",
-              values
-            );
+          .then(() => {
+            addAdminBioDataToDatabase(values);
           })
-
-          // .then(() => getStudentsArray(userId))
-
-          // .then((studentsBioArray) => {
-          //   addStudentBioToAdminDatabase(db, userId, values, studentsBioArray);
-          // })
-
-          .then(() => invokeAllThunks(userId, dispatch))
 
           .then(() => {
             dispatch(hideSpinner());
-            navigate("/home");
+            navigate("/adminDashboard");
           });
       } else {
         alert("You're not a recognised admin member");
@@ -131,7 +106,7 @@ const SignUpAsAdmin = () => {
     <div className=" h-screen relative">
       <HiChevronLeft
         className="text-3xl text-start"
-        onClick={() => navigate("/signup")}
+        onClick={() => navigate("/")}
       />
       <h3 className="my-5 px-4 flex flex-col justify-start item-start">
         <span className="font-bold text-xl text-lp-primary">Hello Techie!</span>

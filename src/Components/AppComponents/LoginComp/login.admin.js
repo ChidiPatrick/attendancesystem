@@ -26,7 +26,7 @@ import { setLoginUserId } from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 
-const Signin = () => {
+const SigninAsAdmin = () => {
   ///// Initialisations////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,12 +63,7 @@ const Signin = () => {
       if (navigator.onLine) {
         dispatch(showSpinner());
         await signInWithEmailAndPassword(auth, values.email, values.password)
-          .then(async (user) => {
-            let userId = user.user.uid;
-            console.log("Calling invokeAllThunks");
-            dispatch(setLoginUserId(userId));
-            invokeAllThunks(userId, dispatch);
-          })
+          .then(async (user) => {})
           .then((userId) => {
             dispatch(setUserId(userId));
             dispatch(hideSpinner());
@@ -109,7 +104,7 @@ const Signin = () => {
         onClick={() => navigate("/")}
       />
       <h3 className="my-5  flex flex-col justify-start item-start">
-        <span className="font-bold text-xl text-lp-primary">Hello Techie!</span>
+        <span className="font-bold text-xl text-lp-primary">Hello Admin!</span>
         <span className="text-lg mt-2">Welcome Back</span>
       </h3>
       <form onSubmit={formik.handleSubmit}>
@@ -153,16 +148,8 @@ const Signin = () => {
         </div>
         <ul className="mt-7">
           <li className="py-2">
-            <Link
-              to={"/adminLogin"}
-              className="text-lp-primary border-b border-lp-primary"
-            >
-              Login as admin
-            </Link>
-          </li>
-          <li className="py-2">
             <button
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/signupAsAdmin")}
               className="text-lp-primary border-b border-lp-primary"
             >
               Create account
@@ -192,4 +179,4 @@ const Signin = () => {
   return componentBody;
 };
 
-export default Signin;
+export default SigninAsAdmin;
