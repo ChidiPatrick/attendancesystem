@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, progress } from "react";
 import {
   CircularProgressbarWithChildren,
   buildStyles,
@@ -22,9 +22,7 @@ import Menu from "./menu";
 import NavBar from "./navBar";
 import { setLinkToClockIn } from "../../Redux Slices/attendanceSlice";
 import { getWeekNumber } from "../Handlers/get.current.week";
-import { getClockInData } from "../Admin Dashboard/admin.handlers";
-import { onValue, ref as rRef } from "firebase/database";
-import { rdb } from "../../Firebase/firebase";
+import { getStudentsLogins } from "../Admin Dashboard/admin.handlers";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -32,8 +30,6 @@ function MarkAttendance() {
 
   // Local states
   const [value, setValue] = useState(new Date());
-  const [clockInList, setClockinList] = useState(null);
-  const [studentsBioList, setStudentsBioList] = useState(null);
 
   /// Redux states /////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
@@ -42,25 +38,12 @@ function MarkAttendance() {
     (state) => state.profileSlice.userProfileData
   );
 
-  const { firstName, profilePictureURL } = userProfileData;
+  const { firstName, profilePictureURL, lastName } = userProfileData;
+
+  const studentsClockInList = getStudentsLogins();
 
   useEffect(() => {
     const interval = setInterval(() => setValue(new Date()), 1000);
-
-    // Get clockin list
-    const clockinListRef = rRef(rdb, `admindashboard/clockoutList`);
-    // onValue(clockinListRef, (snapshot) => {
-    //   const data = snapshot.val();
-    //   console.log(data);
-    //   setClockinList(data);
-    // });
-
-    // // Get students bio list
-    // const studentsBioListRef = rRef(rdb, "admindashboard/studentsBio");
-    // onValue(studentsBioListRef, (snapshot) => {
-    //   const data = snapshot.val();
-    //   setStudentsBioList(data);
-    // });
 
     return () => {
       clearInterval(interval);
@@ -78,8 +61,7 @@ function MarkAttendance() {
     navigate("/clockOut");
   };
 
-  console.log(clockInList);
-  console.log(studentsBioList);
+  console.log(studentsClockInList);
 
   return (
     <div className="w-full py-6 h-auto  mx-auto">
@@ -168,73 +150,24 @@ function MarkAttendance() {
 
         <div className=" rounded-tl-md rounded-tr-md shadow-lg h-[100px] md:h-[200px] relative overflow-y-scroll  mt-3">
           <div className="sticky top-0 left-0 right-0 h-6 bg-white"></div>
-          <p>name of student</p>
-          <p>name of student</p>
-          <p>name of student</p>
-          <p>name of student</p>
-          <p>name of student</p>
+
+          {studentsClockInList?.map((clockinObj) => (
+            <div className="odd:bg-white even:bg-gray-100 p-[10px] flex justify-between items-center m-b[30px]">
+              <p className="">{clockinObj?.name}</p>
+              <div className="text-lp-primary text-[10px] flex justify-end">
+                {clockinObj?.time}
+              </div>
+            </div>
+          ))}
         </div>
+        <progress
+          value={0.5}
+          max={1}
+          className=""
+          style={{ backgroundColor: "blue", width: "100%", fill: "blue" }}
+        />
       </div>
     </div>
-    // {PATRICKS VERSION}
-
-    // <div className="bg-user-profile w-full h-screen p-2">
-    //   <div className="grid grid-cols-8 ">
-    //     <div className="col-start-1 col-end-3 flex justify-between items-center">
-    //       <div>
-    //         <NavBar />
-    //       </div>
-    //       <figure>
-    //         <img src="images/logo.svg" />
-    //       </figure>
-    //     </div>
-    //     <figure className="col-start-8 col-end-9 w-10 h-10 border border-lp-primary rounded-full bg-gray-400 ">
-    //       <img
-    //         src={userProfileDocument.userProfilePictureURL}
-    //         alt="profile picture"
-    //         className="w-10 h-10  border border-lp-primary rounded-full"
-    //       />
-    //     </figure>
-    //   </div>
-    //   <h2 className="font-bold text-xl mb-3">
-    //     Hello {userProfileDocument.firstName}
-    //   </h2>
-    //   <p className="border-b border-signup-gray">
-    //     Welcome, please clock in and get yourself prepared for today's class and
-    //     extracurricula activities.
-    //   </p>
-    //   <div className="my-5">
-    //     <div className="flex justify-between">
-    //       <div className="flex justify-between items-center">
-    //         <div className="mr-2 w-4 border rounded h-4 bg-early-color"></div>
-    //         <div>Early</div>
-    //       </div>
-    //       <div>9:00am - 10:00am</div>
-    //     </div>
-    //     <div className="flex justify-between">
-    //       <div className="flex justify-between items-center">
-    //         <div className="mr-2 w-4 border rounded h-4 bg-late-color"></div>
-    //         <div>late</div>
-    //       </div>
-    //       <div>10:05am - 10:30am</div>
-    //     </div>
-    //     <div className="flex justify-between">
-    //       <div className="flex justify-between items-center">
-    //         <div className="mr-2 w-4 border rounded h-4 bg-absent-color"></div>
-    //         <div>Absent</div>
-    //       </div>
-    //     </div>
-    //     <div className="w-full h-48 bg-gray-200 mt-5 flex justify-center items-center">
-    //       <figure className="w-24 h-24 bg-gray-200 border rounded-full border-lp-primary"></figure>
-    //     </div>
-    //   </div>
-    //   <div className="w-[80%] my-0 mx-auto flex justify-between items-center">
-    //     <ButtonFull handleClick={navigateToClockIn}>Clock in</ButtonFull>
-    //     <ButtonLight handleClick={navigateToClockOut}>Clock out</ButtonLight>
-    //   </div>
-    //   {displayMenu === true ? <Menu /> : null}
-    //   {/* <ImagePreview /> */}
-    // </div>
   );
 }
 

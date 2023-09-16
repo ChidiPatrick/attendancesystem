@@ -62,13 +62,15 @@ const SigninAsAdmin = () => {
       // let userId;
       if (navigator.onLine) {
         dispatch(showSpinner());
-        await signInWithEmailAndPassword(auth, values.email, values.password)
-          .then(async (user) => {})
-          .then((userId) => {
-            dispatch(setUserId(userId));
-            dispatch(hideSpinner());
-            navigate("/home");
-          });
+        await signInWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        ).then((userId) => {
+          dispatch(setUserId(userId));
+          dispatch(hideSpinner());
+          navigate("/");
+        });
       } else if (!navigator.onLine) {
         dispatch(hideSpinner());
         dispatch(showNetworkFeedback());

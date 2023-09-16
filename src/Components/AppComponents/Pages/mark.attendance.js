@@ -51,7 +51,8 @@ function MarkUser() {
     (state) => state.profileSlice.userProfileData
   );
 
-  const { profilePictureURL } = userProfile;
+  const { profilePictureURL, firstName, lastName } = userProfile;
+  console.log(firstName);
 
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
@@ -65,7 +66,6 @@ function MarkUser() {
     const currHour = date.getHours();
     console.log(`current hour: ${currHour}`);
     console.log(`lateness hour: ${latenessHour}`);
-
     setTime(time);
     setCurrDate(date.toLocaleDateString());
 
@@ -80,7 +80,7 @@ function MarkUser() {
       date: date.toDateString(),
       isOnTime: userIsOnTime,
       time,
-      id: "clockin",
+      name: `${firstName} ${lastName}`,
     };
 
     dispatch(updateWeeklyAttendance(data));

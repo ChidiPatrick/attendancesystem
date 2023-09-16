@@ -37,100 +37,36 @@ const addClockOutDataToAdminDatabase = (clockOutData) => {
     .catch((err) => console.log(err));
 };
 
-// Get students bio array from admin collection
-// const getStudentsArray = async (userId) => {
-//   try {
-//     const studentsBioArrayRef = firestoreAdminRefCreatore(db, userId);
+// Get students logins
+const getStudentsLogins = () => {
+  const clockinListRef = ref(rdb, "admindashboard/clockInList");
+  let data, clockinArray, filteredArr;
+  onValue(clockinListRef, (snapshot) => {
+    data = snapshot.val();
+    clockinArray = Object.values(data);
+    filteredArr = clockinArray.filter(
+      (item, index) => item.date === new Date().toDateString()
+    );
+  });
+  return filteredArr;
+};
 
-//     const studentsBioArray = await getDoc(studentsBioArrayRef);
+const getStudentsBios = () => {
+  const studentsBioRef = ref(rdb, "admindashboard/studentsBio");
+  onValue(studentsBioRef, (snapshot) => {
+    const data = snapshot.val();
+    console.log(data);
+    return data;
+  });
+};
 
-//     if (
-//       studentsBioArray.data().studentsArray === undefined ||
-//       studentsBioArray.data().studentsArray.length === 0
-//     ) {
-//       return [];
-//     }
-
-//     if (studentsBioArray.exists()) {
-//       console.log(studentsBioArray.data().studentsArray);
-//       return studentsBioArray.data().studentsArray;
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
-// const addClockInDataToAdminDocument = async (
-//   clockInData,
-//   studentsBioArray,
-//   userId
-// ) => {
-//   console.log(studentsBioArray);
-//   const studentsBioArrayRef = firestoreAdminRefCreatore(db, userId);
-
-//   console.log(clockInData);
-
-//   const newStudentBioArray = studentsBioArray.map((studentBio, index) => {
-//     if (studentBio.id === userId) {
-//       const { weeklyAttendance } = studentBio;
-
-//       const date = new Date();
-
-//       console.log(clockInData);
-
-//       weeklyAttendance[date.getDay() - 1] = {
-//         clockInData: clockInData,
-//       };
-
-//       const newStudentBioObject = { ...studentBio, weeklyAttendance };
-
-//       return newStudentBioObject;
-//     } else {
-//       return studentBio;
-//     }
-//   });
-
-//   const data = {
-//     studentsArray: newStudentBioArray,
-//   };
-
-//   await updateDoc(studentsBioArrayRef, data);
-// };
-
-// const addClockOutDataToAdminDocument = async (
-//   clockOutData,
-//   studentsBioArray,
-//   userId
-// ) => {
-//   const studentsBioArrayRef = firestoreAdminRefCreatore(db, userId);
-
-//   const studentsBioData = await getDoc(studentsBioArrayRef);
-
-//   const modifiedBioArray = studentsBioArray.map((studentBio) => {
-//     if (studentBio.id === userId) {
-//       const { weeklyAttendance } = studentBio;
-
-//       const date = new Date();
-
-//       const attendanceData = weeklyAttendance[date.getDay() - 1];
-
-//       weeklyAttendance[date.getDay() - 1] = {
-//         ...attendanceData,
-//         clockOutData: clockOutData,
-//       };
-
-//       const newStudentBioObject = { ...studentBio, weeklyAttendance };
-
-//       return newStudentBioObject;
-//     } else {
-//       return studentBio;
-//     }
-//   });
-// };
+// Get students bio list
 
 export {
   addStudentBioToAdminDatabase,
   addClockInDataToAdminDatabase,
   addClockOutDataToAdminDatabase,
   addAdminBioDataToDatabase,
+  getStudentsLogins,
+  getStudentsBios,
 };

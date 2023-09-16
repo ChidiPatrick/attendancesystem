@@ -1,8 +1,6 @@
 import React from "react";
 
 /// Third Party Input /////
-import { HiMenu } from "react-icons/hi";
-import { BsSearch } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
