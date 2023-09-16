@@ -30,6 +30,7 @@ function MarkAttendance() {
 
   // Local states
   const [value, setValue] = useState(new Date());
+  const [time, setTime] = useState(new Date().getTime());
 
   /// Redux states /////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
@@ -43,8 +44,12 @@ function MarkAttendance() {
   const studentsClockInList = getStudentsLogins();
 
   useEffect(() => {
-    const interval = setInterval(() => setValue(new Date()), 1000);
-
+    const interval = setInterval(() => {
+      if (new Date().getHours() === 14) {
+        console.log("You're late");
+      }
+      setTime(new Date().toLocaleTimeString());
+    }, 1000);
     return () => {
       clearInterval(interval);
     };
@@ -61,7 +66,7 @@ function MarkAttendance() {
     navigate("/clockOut");
   };
 
-  console.log(studentsClockInList);
+  // console.log(currTime);
 
   return (
     <div className="w-full py-6 h-auto  mx-auto">
@@ -129,7 +134,7 @@ function MarkAttendance() {
         </div>
 
         <div className=" w-[150px] h-[150px] mx-auto pt-8 z-10">
-          {/* <CircularProgressbarWithChildren
+          <CircularProgressbarWithChildren
             value={66}
             strokeWidth={6}
             styles={buildStyles({
@@ -138,9 +143,9 @@ function MarkAttendance() {
               strokeLinecap: "butt",
             })}
           >
-            <p className=" font-bold text-xl">00:10</p>
-            <p>mins</p>
-          </CircularProgressbarWithChildren> */}
+            <p className=" font-bold text-xl"></p>
+            <p>{time}</p>
+          </CircularProgressbarWithChildren>
           <Clock value={value} />
         </div>
         <div className=" mt-16 flex justify-between md:justify-center items-center gap-3">
@@ -160,12 +165,6 @@ function MarkAttendance() {
             </div>
           ))}
         </div>
-        <progress
-          value={0.5}
-          max={1}
-          className=""
-          style={{ backgroundColor: "blue", width: "100%", fill: "blue" }}
-        />
       </div>
     </div>
   );

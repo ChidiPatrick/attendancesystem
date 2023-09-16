@@ -35,6 +35,7 @@ TODOs:
 * 13.Put a default avater for profile pictures
 * 14 Add restriction to clockout such that you can only clock out from the office
 * 15 Complete admin signup features. Start from checking invokeallThunks function and write functions unique for admins
+  16 write an algorithm to alter the timer from digital clock to coundown timer with progress bar linked to it
 
 */
 
