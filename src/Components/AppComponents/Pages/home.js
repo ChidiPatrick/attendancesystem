@@ -31,6 +31,10 @@ function MarkAttendance() {
   // Local states
   const [value, setValue] = useState(new Date());
   const [time, setTime] = useState(new Date().getTime());
+  const [startTime, setStartTime] = useState(new Date().getTime());
+  const [percentage, setPercentage] = useState(100);
+
+  const timerTime = new Date();
 
   /// Redux states /////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
@@ -43,18 +47,24 @@ function MarkAttendance() {
 
   const studentsClockInList = getStudentsLogins();
 
+  const practiceTimer = new Date();
+
   useEffect(() => {
     const interval = setInterval(() => {
-      if (new Date().getHours() === 14) {
-        console.log("You're late");
-      }
-      setTime(new Date().toLocaleTimeString());
+      setValue(new Date());
     }, 1000);
     return () => {
       clearInterval(interval);
     };
   });
 
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     setPercentage((startTime / new Date().getTime()) * 100);
+  //   }, 60000);
+  // });
+
+  // console.log(percentage);
   // Clock in handler ///
   const navigateToClockIn = async () => {
     navigate("/clockIn");
@@ -133,9 +143,9 @@ function MarkAttendance() {
           </div>
         </div>
 
-        <div className=" w-[150px] h-[150px] mx-auto pt-8 z-10">
-          <CircularProgressbarWithChildren
-            value={66}
+        <div className=" w-[150px] h-[150px] flex justify-center items-center mx-auto pt-8 z-10">
+          {/* <CircularProgressbarWithChildren
+            value={percentage}
             strokeWidth={6}
             styles={buildStyles({
               pathColor: "#4CAF50",
@@ -144,9 +154,10 @@ function MarkAttendance() {
             })}
           >
             <p className=" font-bold text-xl"></p>
-            <p>{time}</p>
-          </CircularProgressbarWithChildren>
+            <p className="text-md font-bold">{time}</p>
+          </CircularProgressbarWithChildren> */}
           <Clock value={value} />
+          {/* <CountDownTimer expiryTimestamp={timerTime} /> */}
         </div>
         <div className=" mt-16 flex justify-between md:justify-center items-center gap-3">
           <ButtonFull handleClick={navigateToClockIn}>Clock in</ButtonFull>
