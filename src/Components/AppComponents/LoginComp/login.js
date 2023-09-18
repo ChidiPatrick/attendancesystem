@@ -25,6 +25,7 @@ import { invokeAllThunks } from "../../General app handlers/general.handlers";
 import { setLoginUserId } from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
+import { persistor } from "../../Store/store";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -67,6 +68,7 @@ const Signin = () => {
             let userId = user.user.uid;
             console.log("Calling invokeAllThunks");
             dispatch(setLoginUserId(userId));
+            persistor.purge();
             invokeAllThunks(userId, dispatch);
           })
           .then((userId) => {

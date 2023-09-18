@@ -1,7 +1,7 @@
 import { getDoc, updateDoc } from "firebase/firestore";
 import { firestoreAdminRefCreatore } from "../../General app handlers/general.handlers";
 import { db, rdb } from "../../Firebase/firebase";
-import { set, ref, onValue, push } from "firebase/database";
+import { set, ref, onValue, push, off } from "firebase/database";
 
 //Add new user bio into admin dabase
 const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
@@ -42,6 +42,10 @@ const getStudentsLogins = () => {
   const clockinListRef = ref(rdb, "admindashboard/clockInList");
   let data, clockinArray, filteredArr;
   onValue(clockinListRef, (snapshot) => {
+    if (!snapshot.exists()) {
+      return;
+    }
+
     data = snapshot.val();
     clockinArray = Object.values(data);
     filteredArr = clockinArray.filter(

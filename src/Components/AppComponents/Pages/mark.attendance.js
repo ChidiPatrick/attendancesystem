@@ -64,8 +64,6 @@ function MarkUser() {
     const date = new Date();
     const time = date.toLocaleTimeString("en-US");
     const currHour = date.getHours();
-    console.log(`current hour: ${currHour}`);
-    console.log(`lateness hour: ${latenessHour}`);
     setTime(time);
     setCurrDate(date.toLocaleDateString());
 

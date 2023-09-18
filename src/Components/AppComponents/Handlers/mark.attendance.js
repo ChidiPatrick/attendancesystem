@@ -68,6 +68,21 @@ const updateAttendanceRecord = async (
 
     const date = new Date();
 
+    //User attendance data
+    const userAttendanceData = {
+      date: attendanceData.date,
+      isOnTime: attendanceData.isOnTime,
+      time: attendanceData.time,
+    };
+
+    //Admin data
+    const adminData = {
+      name: attendanceData.name,
+      date: attendanceData.date,
+      isOnTime: attendanceData.isOnTime,
+      time: attendanceData.time,
+    };
+
     dispatch(showSpinner());
 
     // Check if user has internet connection
@@ -77,11 +92,11 @@ const updateAttendanceRecord = async (
       return;
     }
 
-    // if user is new to the system
+    // if user is new to the system or it's a new week
     if (clockInAttendanceArray.length === 0) {
       console.log("Calling the first case...");
       const data = {
-        dailyClockIns: [...clockInAttendanceArray, attendanceData],
+        dailyClockIns: [...clockInAttendanceArray, userAttendanceData],
       };
 
       const userProfileData = {
@@ -94,17 +109,16 @@ const updateAttendanceRecord = async (
         })
         .then(async () => {
           console.log("Calling addClockInDataToAdminDatabase...");
-          addClockInDataToAdminDatabase({ ...attendanceData, id: userId });
+          addClockInDataToAdminDatabase(adminData);
         })
         .then(async () => {
           await getAttendanceRecords(userId);
         })
         .then(() => {
           dispatch(hideSpinner());
-
           navigate("/attendanceSuccessful");
-          return;
         });
+      return;
     }
 
     const clockIns = [...clockInAttendanceArray];
@@ -121,15 +135,8 @@ const updateAttendanceRecord = async (
     }
 
     if (lastClockInObj.date !== new Date().toDateString()) {
-      const adminData = {
-        id: userId,
-        date: attendanceData.date,
-        isOnTime: attendanceData.isOnTime,
-        time: attendanceData.time,
-        data: "Clock in",
-      };
       const data = {
-        dailyClockIns: [...clockInAttendanceArray, attendanceData],
+        dailyClockIns: [...clockInAttendanceArray, userAttendanceData],
       };
 
       const newEntryData = {

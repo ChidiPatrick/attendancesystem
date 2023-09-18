@@ -18,10 +18,8 @@ import {
   ButtonFull,
   ButtonLight,
 } from "../../LandingPageComponents/Buttons/buttons";
-import Menu from "./menu";
 import NavBar from "./navBar";
 import { setLinkToClockIn } from "../../Redux Slices/attendanceSlice";
-import { getWeekNumber } from "../Handlers/get.current.week";
 import { getStudentsLogins } from "../Admin Dashboard/admin.handlers";
 
 function MarkAttendance() {
@@ -30,9 +28,6 @@ function MarkAttendance() {
 
   // Local states
   const [value, setValue] = useState(new Date());
-  const [time, setTime] = useState(new Date().getTime());
-  const [startTime, setStartTime] = useState(new Date().getTime());
-  const [percentage, setPercentage] = useState(100);
 
   const timerTime = new Date();
 
@@ -47,8 +42,6 @@ function MarkAttendance() {
 
   const studentsClockInList = getStudentsLogins();
 
-  const practiceTimer = new Date();
-
   useEffect(() => {
     const interval = setInterval(() => {
       setValue(new Date());
@@ -58,13 +51,6 @@ function MarkAttendance() {
     };
   });
 
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     setPercentage((startTime / new Date().getTime()) * 100);
-  //   }, 60000);
-  // });
-
-  // console.log(percentage);
   // Clock in handler ///
   const navigateToClockIn = async () => {
     navigate("/clockIn");
