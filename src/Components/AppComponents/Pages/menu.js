@@ -23,65 +23,65 @@ function Menu() {
   return (
     <div
       onClick={() => toggleMenu(dispatch, hideMenu)}
-      className={"w-full h-full bg-black bg-opacity-20 absolute "}
+      className="w-full z-1200 absolute top-0 left-0 h-full bg-blue-300 bg-opacity-20"
     >
-      <ul className="w-1/2 bg-white cursor-pointer">
-        <div className="p-2 font-bold">
+      <ul className="w-full bg-gray-100 cursor-pointer flex flex-col ">
+        <li className="p-2 font-bold">
           <HiX
             className="text-2xl"
             onClick={() => toggleMenu(dispatch, hideMenu)}
           />
-        </div>
-        <div
+        </li>
+        <li
           className="p-2 font-bold"
           onClick={() => handleNavigation(navigate, "home", dispatch, hideMenu)}
         >
           Home
-        </div>
-        <div
+        </li>
+        <li
           className="p-2 font-bold"
           onClick={() =>
             handleNavigation(navigate, "userprofile", dispatch, hideMenu)
           }
         >
           My Profile
-        </div>
-        <div
+        </li>
+        {/* <li
           className="p-2 font-bold"
           onClick={() =>
             handleNavigation(navigate, "permission", dispatch, hideMenu)
           }
         >
           Seek Permission
-        </div>
-        <div
+        </li> */}
+        <li
           className="p-2 font-bold"
           onClick={() =>
             handleNavigation(navigate, "history", dispatch, hideMenu)
           }
         >
           History
-        </div>
-        {/* <div
+        </li>
+        {/* <li
           className="p-2 font-bold"
           onClick={() => handleNavigation(navigate, "", dispatch, hideMenu)}
         >
           Home
-        </div> */}
-        <div
+        </li> */}
+        {/* <li
           className="p-2 font-bold"
           onClick={() =>
             handleNavigation(navigate, "announcement", dispatch, hideMenu)
           }
         >
           Announcement
-        </div>
-        <div
+        </li> */}
+        <li
           onClick={() => logout(auth, navigate, dispatch, hideMenu)}
           className="p-2 font-bold"
         >
           Log out
-        </div>
+        </li>
       </ul>
     </div>
   );

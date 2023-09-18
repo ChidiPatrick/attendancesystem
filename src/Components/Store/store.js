@@ -1,6 +1,12 @@
+// Third-party imports
+import { persistReducer, persistStore } from "redux-persist";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import attendanceSlice from "../Redux Slices/attendanceSlice";
+import storage from "redux-persist/lib/storage";
+import autoMergeLevel1 from "redux-persist/es/stateReconciler/autoMergeLevel1";
+import thunk from "redux-thunk";
 
+//Local imports
+import attendanceSlice from "../Redux Slices/attendanceSlice";
 import signupSlice from "../Redux Slices/signupSlice";
 import faceScanSlice from "../AppComponents/Face Scan component/faceScanSlice";
 import menuSlice from "../Redux Slices/menu.slice";
@@ -9,15 +15,30 @@ import adminSlice from "../Redux Slices/adminSlice";
 import profileSlice from "../Redux Slices/profileSlice";
 import permissionSlice from "../Redux Slices/permission.slice";
 
-export const Store = configureStore({
-  reducer: {
-    attendanceRecord: attendanceSlice,
-    signupSlice,
-    faceScanSlice,
-    menuSlice,
-    loginSlice,
-    adminSlice,
-    profileSlice,
-    permissionSlice,
-  },
+// Configure redux persist
+const persistConfig = {
+  key: "root",
+  storage,
+  stateReconciler: autoMergeLevel1,
+  blacklist: ["signupSlice", "menuSlice"],
+};
+
+const rootReducer = combineReducers({
+  attendanceRecord: attendanceSlice,
+  signupSlice,
+  faceScanSlice,
+  menuSlice,
+  loginSlice,
+  adminSlice,
+  profileSlice,
+  permissionSlice,
 });
+
+export const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const Store = configureStore({
+  reducer: persistedReducer,
+  middleware: [thunk],
+});
+
+export const persistor = persistStore(Store);

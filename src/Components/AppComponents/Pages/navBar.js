@@ -16,7 +16,7 @@ function NavBar({ children }) {
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
 
   return (
-    <nav className="z-[999] ">
+    <nav className="z-[999] relative">
       <div className="grid grid-cols-12 justify-center w-full">
         {displayMenu !== true ? (
           <div>

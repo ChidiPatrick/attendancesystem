@@ -18,7 +18,7 @@ function History() {
     (state) => state.attendanceRecord.dailyClockOuts
   );
 
-  console.log(clockIns);
+  console.log(dailyClockOuts);
 
   /* 
   TODOs: 
@@ -53,7 +53,7 @@ function History() {
                   <td className="text-center">
                     {clockInObj.isOnTime === true ? "Early" : "Late"}
                   </td>
-                  <td className="text-center">{dailyClockOuts[index].time}</td>
+                  <td className="text-center">{dailyClockOuts[index]?.time}</td>
                 </tr>
               );
             })}
