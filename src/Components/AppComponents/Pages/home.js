@@ -91,7 +91,7 @@ function MarkAttendance() {
           Welcome, please clock in and get yourself prepared for today's class
           and extracurricula activities.
         </p>
-        <div className=" w-[80%] md:w-[70%] pt-4">
+        <div className=" w-[100%] mx-auto pt-4">
           <div className="flex justify-between">
             <div className="flex justify-between items-center">
               <div className=" w-3 md:w-4 mr-2 border rounded h-4 bg-early-color"></div>

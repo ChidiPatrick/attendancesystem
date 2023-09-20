@@ -35,7 +35,6 @@ TODOs:
 * 13.Put a default avater for profile pictures
 * 14 Add restriction to clockout such that you can only clock out from the office
 * 15 Complete admin signup features. Start from checking invokeallThunks function and write functions unique for admins
-  16 write an algorithm to alter the timer from digital clock to coundown timer with progress bar linked to it
 
 */
 
@@ -73,6 +72,7 @@ const updateAttendanceRecord = async (
       date: attendanceData.date,
       isOnTime: attendanceData.isOnTime,
       time: attendanceData.time,
+      clockoutObj: null,
     };
 
     //Admin data
@@ -181,7 +181,7 @@ const updateAttendanceRecord = async (
           })
 
           .then(async () => {
-            await getAttendanceRecords(userId);
+            await getAttendanceRecords(userId, dispatch);
           })
 
           .then(() => {
@@ -203,7 +203,7 @@ const updateClockOutData = async (
   clockOutData,
   userId,
   dispatch,
-  attendanceData
+  dailyClockInsArray
 ) => {
   try {
     dispatch(showSpinner());
@@ -215,8 +215,17 @@ const updateClockOutData = async (
       "attendanceDocument"
     );
 
+    // const data = {
+    //   dailyClockOuts: arrayUnion(clockOutData),
+    // };
+
+    const currClockinsArray = [...dailyClockInsArray];
+    const lastClockinObject = currClockinsArray.pop();
+    const newClockinObj = { ...lastClockinObject, clockoutObj: clockOutData };
+    currClockinsArray.push(newClockinObj);
+
     const data = {
-      dailyClockOuts: arrayUnion(clockOutData),
+      dailyClockIns: currClockinsArray,
     };
 
     if (!navigator.onLine) {
@@ -225,57 +234,71 @@ const updateClockOutData = async (
       return;
     }
 
-    console.log(attendanceData);
-    if (attendanceData.length === 0) {
-      await updateDoc(attendanceDocumentRef, data)
-        .then(async () => {
-          console.log("Adding clock out data to admin database");
-          addClockOutDataToAdminDatabase(clockOutData);
-        })
+    // console.log(attendanceData);
+    // if (attendanceData.length === 0) {
+    //   await updateDoc(attendanceDocumentRef, data)
+    //     .then(async () => {
+    //       console.log("Adding clock out data to admin database");
+    //       addClockOutDataToAdminDatabase(clockOutData);
+    //     })
 
-        .then(() => {
-          console.log("Uploaded...");
-          getAttendanceRecords(userId, dispatch);
-        })
+    //     .then(() => {
+    //       console.log("Uploaded...");
+    //       getAttendanceRecords(userId, dispatch);
+    //     })
 
-        .then(() => {
-          dispatch(hideSpinner());
-        });
+    //     .then(() => {
+    //       dispatch(hideSpinner());
+    //     });
 
-      return;
-    }
+    //   return;
+    // }
 
-    console.log(attendanceData);
-    const clockOutsArray = [...attendanceData];
-    const lastClockOutObj = clockOutsArray[clockOutsArray.length - 1];
-    console.log(clockOutData);
+    // console.log(attendanceData);
+    // const clockOutsArray = [...attendanceData];
+    // const lastClockOutObj = clockOutsArray[clockOutsArray.length - 1];
+    // console.log(clockOutData);
 
-    if (
-      clockOutsArray.length > 0 &&
-      lastClockOutObj.date === new Date().toDateString()
-    ) {
-      alert("Already clocked out for today!");
+    // if (
+    //   clockOutsArray.length > 0 &&
+    //   lastClockOutObj.date === new Date().toDateString()
+    // ) {
+    //   alert("Already clocked out for today!");
 
-      dispatch(hideSpinner());
+    //   dispatch(hideSpinner());
 
-      return;
-    } else if (
-      clockOutsArray === 0 ||
-      lastClockOutObj.date !== new Date().toDateString()
-    ) {
-      await updateDoc(attendanceDocumentRef, data)
-        .then(async () => {
-          console.log("Adding clock out data to admin database");
-          addClockOutDataToAdminDatabase(clockOutData);
-        })
-        .then(() => {
-          console.log("Uploaded...");
-          dispatch(getAttendanceRecords(userId));
-        })
-        .then(() => {
-          dispatch(hideSpinner());
-        });
-    }
+    //   return;
+    // } else if (
+    //   clockOutsArray === 0 ||
+    //   lastClockOutObj.date !== new Date().toDateString()
+    // ) {
+    //   await updateDoc(attendanceDocumentRef, data)
+    //     .then(async () => {
+    //       console.log("Adding clock out data to admin database");
+    //       addClockOutDataToAdminDatabase(clockOutData);
+    //     })
+    //     .then(() => {
+    //       console.log("Uploaded...");
+    //       dispatch(getAttendanceRecords(userId));
+    //     })
+    //     .then(() => {
+    //       dispatch(hideSpinner());
+    //     });
+    // }
+
+    ///////////////////////////////////////////////////////
+    await updateDoc(attendanceDocumentRef, data)
+      .then(async () => {
+        console.log("Adding clock out data to admin database");
+        addClockOutDataToAdminDatabase(clockOutData);
+      })
+      .then(() => {
+        console.log("Uploaded...");
+        dispatch(getAttendanceRecords(userId));
+      })
+      .then(() => {
+        dispatch(hideSpinner());
+      });
   } catch (err) {
     console.log(err);
     dispatch(showFeedback());

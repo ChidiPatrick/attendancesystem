@@ -51,7 +51,16 @@ function ClockOut() {
   const [clockOutData, setClockOutData] = useState(null);
 
   /// Clock out handler ///
-  const clockOutUser = async (attendanceData, dailyClockInsArray) => {
+  const clockOutUser = async (dailyClockInsArray) => {
+    /**
+     * TODOs:
+     * Check internet connectivity
+     * Check if user has already clocked in
+     * Check if user has already clocked out
+     * Add clockout data to the day's clockin object
+     * Block double clockouts
+     */
+
     dispatch(showSpinner());
 
     const date = new Date().toDateString();
@@ -73,46 +82,51 @@ function ClockOut() {
     }
 
     // Block user from clocking out without clocking in first
-    if (lastClockin.date !== new Date().toDateString()) {
+    if (
+      lastClockin === undefined ||
+      lastClockin.date !== new Date().toDateString()
+    ) {
       dispatch(hideSpinner());
       alert("You can not clock out without clocking in first");
       return;
     }
 
-    if (attendanceData.length === 0) {
-      //Check array length
-      const dailyClockOuts = [...attendanceData];
+    // if (attendanceData.length === 0) {
+    //   //Check array length
+    //   const dailyClockOuts = [...attendanceData];
 
-      setClockOutData(data);
+    //   setClockOutData(data);
 
-      await updateClockOutData(data, userId, dispatch, attendanceData)
-        .then(() => {
-          getAttendanceRecords(userId, dispatch);
-        })
-        .then(() => {
-          setShowBack(true);
-          dispatch(hideSpinner());
-        })
-        .catch((err) => {
-          console.log(err);
-          dispatch(hideSpinner());
-        });
+    //   await updateClockOutData(data, userId, dispatch, attendanceData)
+    //     .then(() => {
+    //       getAttendanceRecords(userId, dispatch);
+    //     })
+    //     .then(() => {
+    //       setShowBack(true);
+    //       dispatch(hideSpinner());
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       dispatch(hideSpinner());
+    //     });
 
-      return;
-    }
+    //   return;
+    // }
 
-    const dailyClockOuts = [...attendanceData];
-    const lastClockOut = dailyClockOuts.pop();
+    // const dailyClockOuts = [...attendanceData];
+    // const lastClockOut = dailyClockOuts.pop();
 
-    if (lastClockOut.date === date) {
+    if (lastClockin.clockoutObj !== null) {
       dispatch(hideSpinner());
-      alert("Already clocked  out for today, you can't clockout twice!");
+      alert(
+        "You have already clocked  out for today, you can't clockout twice!"
+      );
       return;
     }
 
     setClockOutData(data);
 
-    await updateClockOutData(data, userId, dispatch, attendanceData)
+    await updateClockOutData(data, userId, dispatch, dailyClockInsArray)
       .then(() => {
         getAttendanceRecords(userId, dispatch);
       })
@@ -145,9 +159,7 @@ function ClockOut() {
         </div>
       ) : null}
       <div className="w-full flex justify-center">
-        <ButtonFull
-          handleClick={() => clockOutUser(attendanceData, dailyClockInsArray)}
-        >
+        <ButtonFull handleClick={() => clockOutUser(dailyClockInsArray)}>
           Clock out
         </ButtonFull>
       </div>

@@ -22,7 +22,7 @@ export const getAttendanceRecords = async (userId, dispatch) => {
     if (attendanceDocument.exists()) {
       console.log(attendanceDocument.data().dailyClockIns);
       dispatch(setDailyClockIns(attendanceDocument.data().dailyClockIns));
-      dispatch(setDailyClockOuts(attendanceDocument.data().dailyClockOuts));
+      // dispatch(setDailyClockOuts(attendanceDocument.data().dailyClockOuts));
     }
   } catch (err) {
     console.log(err);
