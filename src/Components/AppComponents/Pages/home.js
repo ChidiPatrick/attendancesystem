@@ -29,8 +29,6 @@ function MarkAttendance() {
   // Local states
   const [value, setValue] = useState(new Date());
 
-  const timerTime = new Date();
-
   /// Redux states /////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
 
@@ -38,9 +36,12 @@ function MarkAttendance() {
     (state) => state.profileSlice.userProfileData
   );
 
-  const { firstName, profilePictureURL, lastName } = userProfileData;
+  const { firstName, profilePictureURL, lastName, currMonthRecord } =
+    userProfileData;
+  console.log(currMonthRecord.totalDaysPresent);
 
   const studentsClockInList = getStudentsLogins();
+  console.log(studentsClockInList);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -65,8 +66,8 @@ function MarkAttendance() {
   // console.log(currTime);
 
   return (
-    <div className="w-full py-6 h-auto  mx-auto">
-      <div className="mx-auto max-w-[650px] w-[90%] md:w-full relative">
+    <div className="w-full">
+      <div className="min-w-[400px] mx-auto px-[10px] sm:w-[70%] bg-gray-50 relative">
         <div className=" flex justify-between items-center bg-mywhite sticky  z-[999]">
           <div className="w-[90%]">
             <NavBar>Home</NavBar>
@@ -91,7 +92,7 @@ function MarkAttendance() {
           Welcome, please clock in and get yourself prepared for today's class
           and extracurricula activities.
         </p>
-        <div className=" w-[100%] mx-auto pt-4">
+        <div className=" w-[100%] sm:w-[80%] mx-auto pt-4">
           <div className="flex justify-between">
             <div className="flex justify-between items-center">
               <div className=" w-3 md:w-4 mr-2 border rounded h-4 bg-early-color"></div>
@@ -123,45 +124,32 @@ function MarkAttendance() {
                 Absent
               </div>
             </div>
-            <div className=" font-semibold text-[14px] md:text-base">
-              12:01pm
-            </div>
+            <div className=" font-semibold text-[14px] md:text-base"></div>
           </div>
         </div>
 
         <div className=" w-[150px] h-[150px] flex justify-center items-center mx-auto pt-8 z-10">
-          {/* <CircularProgressbarWithChildren
-            value={percentage}
-            strokeWidth={6}
-            styles={buildStyles({
-              pathColor: "#4CAF50",
-              trailColor: "#EDF7EE",
-              strokeLinecap: "butt",
-            })}
-          >
-            <p className=" font-bold text-xl"></p>
-            <p className="text-md font-bold">{time}</p>
-          </CircularProgressbarWithChildren> */}
           <Clock value={value} />
-          {/* <CountDownTimer expiryTimestamp={timerTime} /> */}
         </div>
-        <div className=" mt-16 flex justify-between md:justify-center items-center gap-3">
+        <div className="my-[30px] flex justify-between md:justify-center items-center gap-3">
           <ButtonFull handleClick={navigateToClockIn}>Clock in</ButtonFull>
           <ButtonLight handleClick={navigateToClockOut}>Clock out</ButtonLight>
         </div>
 
-        <div className=" rounded-tl-md rounded-tr-md shadow-lg h-[100px] md:h-[200px] relative overflow-y-scroll  mt-3">
-          <div className="sticky top-0 left-0 right-0 h-6 bg-white"></div>
+        {studentsClockInList === undefined ? null : (
+          <div className=" rounded-tl-md rounded-tr-md shadow-lg px-[10px] h-[100px] md:h-[200px] relative overflow-y-scroll  mt-3">
+            <div className="sticky top-0 left-0 right-0 h-6 bg-white"></div>
 
-          {studentsClockInList?.map((clockinObj) => (
-            <div className="odd:bg-white even:bg-gray-100 p-[10px] flex justify-between items-center m-b[30px]">
-              <p className="">{clockinObj?.name}</p>
-              <div className="text-lp-primary text-[10px] flex justify-end">
-                {clockinObj?.time}
+            {studentsClockInList?.map((clockinObj) => (
+              <div className="odd:bg-white even:bg-gray-100 p-[10px] flex justify-between items-center m-b[30px]">
+                <p className="">{clockinObj?.name}</p>
+                <div className="text-lp-primary text-[10px] flex justify-end">
+                  {clockinObj?.time}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

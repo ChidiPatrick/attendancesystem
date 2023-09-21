@@ -146,7 +146,7 @@ const SignUp = () => {
   });
 
   const comp = (
-    <div className=" h-screen relative">
+    <div className=" h-screen relative w-[400px] bg-gray-50 my-[10%] mx-auto">
       <HiChevronLeft
         className="text-3xl text-start"
         onClick={() => navigate(-1)}

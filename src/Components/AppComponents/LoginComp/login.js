@@ -105,7 +105,7 @@ const Signin = () => {
   });
 
   const componentBody = (
-    <div className="relative h-screen p-2">
+    <div className="relative h-screen p-2 bg-gray-50 w-[400px] my-[20px] mx-auto ">
       <HiChevronLeft
         className="text-3xl text-start"
         onClick={() => navigate("/")}

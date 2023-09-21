@@ -18,16 +18,8 @@ function History() {
     (state) => state.attendanceRecord.dailyClockOuts
   );
 
-  console.log(dailyClockOuts[2]);
-  console.log(clockIns);
-
-  /* 
-  TODOs: 
-  1. style the table to make the date and the rest of the UI more refined
-  
-  */
   return (
-    <div className="w-full relative p-2  h-auto  mx-auto ">
+    <div className="min-w-[400px] sm:w-full relative p-2  h-auto  mx-auto ">
       <div className="w-full h-screen bg-user-profile  bg-white">
         <NavBar>Attendance History</NavBar>
         <div className="flex justify-center items-center w-full ">
