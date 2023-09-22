@@ -20,7 +20,7 @@ import {
 } from "../../LandingPageComponents/Buttons/buttons";
 import NavBar from "./navBar";
 import { setLinkToClockIn } from "../../Redux Slices/attendanceSlice";
-import { getStudentsLogins } from "../Admin Dashboard/admin.handlers";
+import { getStudentsLogins } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 
 function MarkAttendance() {
   const dispatch = useDispatch();

@@ -19,7 +19,7 @@ import {
 } from "../../General app handlers/general.handlers";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
-import { addAdminBioDataToDatabase } from "../Admin Dashboard/admin.handlers";
+import { addAdminBioDataToDatabase } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 
 ////////////////Sign up component//////////////////////////////
 const SignUpAsAdmin = () => {

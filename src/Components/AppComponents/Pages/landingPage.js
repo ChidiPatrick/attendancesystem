@@ -7,10 +7,7 @@ import Header from "../../LandingPageComponents/Header/header";
 import Description from "../../LandingPageComponents/Description/description";
 import Features from "../../LandingPageComponents/LandingPageFeatures/features";
 import Footer from "../../LandingPageComponents/Footer/footer";
-import UserProfile from "./userProfile";
-import AttendanceFeedback from "./attendance.feedback";
-import ClockLaunchCamera from "./clockin.launch.camera";
-import ResetEmailAndPassword from "./reset.email.password";
+import DashboardComponent from "../Admin Dashboard/admin dashboard components/dashboard.comp";
 
 const LandingPage = () => {
   return (
@@ -20,6 +17,7 @@ const LandingPage = () => {
       <Description />
       <Features />
       <Footer />
+      <DashboardComponent />
     </div>
   );
 };

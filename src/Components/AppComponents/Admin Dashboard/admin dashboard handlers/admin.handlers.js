@@ -1,6 +1,6 @@
 import { getDoc, updateDoc } from "firebase/firestore";
-import { firestoreAdminRefCreatore } from "../../General app handlers/general.handlers";
-import { db, rdb } from "../../Firebase/firebase";
+import { firestoreAdminRefCreatore } from "../../../General app handlers/general.handlers";
+import { db, rdb } from "../../../Firebase/firebase";
 import { set, ref, onValue, push, off } from "firebase/database";
 
 //Add new user bio into admin dabase

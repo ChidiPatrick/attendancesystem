@@ -15,26 +15,12 @@ import {
 import {
   addClockInDataToAdminDatabase,
   addClockOutDataToAdminDatabase,
-} from "../Admin Dashboard/admin.handlers";
+} from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 import { getWeekNumber } from "./get.current.week";
 
 /* 
 TODOs:
-* 1. Implement admin database updating algorithm for all clock in and outs
-* 2. Fix bug in user profile line 57
-* 3. Add password reset logic
-* 4. Rearrange admin database structure
-* 5. Populate attendance history page with data
-* 6. Create password reset page and implement the logic
-* 7. Fix bug that makes clockout data not to enter in the admin document.
-* 8. Add constraints for clocking out such that users will only be allowed to clock out if they have clocked in.
-* 9. Add loading spinner for profile picture uploading
-  10.Populate the rest of the UIs with required data
-* 11.Fix the bug in clockout feedback UI that makes it display message while async operation is stil on.
-* 12.Refactor clockin flow
-* 13.Put a default avater for profile pictures
-* 14 Add restriction to clockout such that you can only clock out from the office
-* 15 Complete admin signup features. Start from checking invokeallThunks function and write functions unique for admins
+   Complete making userProfile UI responsive
 
 */
 
