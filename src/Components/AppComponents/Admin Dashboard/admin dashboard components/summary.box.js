@@ -1,23 +1,12 @@
 import React from "react";
 
 // Third-party imports
-import {
-  HiOutlineAcademicCap,
-  HiOutlineCircleStack,
-  HiListBullet,
-  HiOutlineUser,
-} from "react-icons/hi2";
 
-function SummaryBox({
-  backgroundColor,
-  title,
-  IconName,
-  number,
-  valueIdentifier,
-}) {
+function SummaryBox({ bgValue, title, IconName, number, valueIdentifier }) {
+  const color = "#2926B8";
   return (
     <div
-      className={`w-[320px] text-white border rounded-xl bg-[${backgroundColor}] h-[200px] p-[10px]`}
+      className={`w-[320px] text-white border rounded-xl ${bgValue} h-[200px] p-[10px]`}
     >
       <div className="flex justify-between items-center ">
         <p className="text-[#D5D5F6]">{title}</p>
