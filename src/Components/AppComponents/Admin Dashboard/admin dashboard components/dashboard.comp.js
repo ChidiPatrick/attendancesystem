@@ -8,6 +8,8 @@ import SideNavigation from "./sidenav.comp";
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import SummaryBox from "./summary.box";
 import DailyAttendanceDisplayUI from "./attendance.display.UI";
+import StudentsInclass from "./students.inclasss";
+import StudentsBio from "./students.bio";
 
 function DashboardComponent() {
   return (
@@ -16,7 +18,7 @@ function DashboardComponent() {
         <SideNavigation />
       </div>
       <div className="w-full h-screen ">
-        <DashboardNavigationComponent />
+        <DashboardNavigationComponent title="Dashboard" />
         <div className="w-full flex justify-between p-[10px] mt-[20px]">
           <div className="w-full flex justify-between items-center mr-[20px]">
             <SummaryBox
@@ -59,7 +61,17 @@ function DashboardComponent() {
             </div>
           </div>
         </div>
+        <div className="flex justify-between items-center p-[10px]">
+          <div className="bg-blue-200 w-[400px] h-[300px] border rounded-md flex items-center justify-center">
+            Graph here
+          </div>
+          <div className="bg-blue-200 w-[400px] h-[300px] border rounded-md flex items-center justify-center">
+            Graph here
+          </div>
+          <StudentsInclass />
+        </div>
         <DailyAttendanceDisplayUI />
+        <StudentsBio />
       </div>
     </div>
   );

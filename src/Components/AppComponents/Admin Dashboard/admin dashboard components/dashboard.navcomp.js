@@ -5,10 +5,10 @@ import { HiOutlineAcademicCap, HiOutlineCircleStack } from "react-icons/hi2";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { AiOutlineSearch } from "react-icons/ai";
 
-function DashboardNavigationComponent() {
+function DashboardNavigationComponent({ title }) {
   return (
     <div className="w-full bg-white grid grid-cols-12 items-center p-[10px] h-[100px]">
-      <div className="font-bold text-xl col-start-1 col-end-2">Dashboard</div>
+      <div className="font-bold text-xl col-start-1 col-end-3">{title}</div>
       <div className="flex justify-between  items-center w-[300px] border border-[#4A4A4A] rounded-full col-start-5 col-end-8 bg-white h-[40px] p-[5px]">
         <input
           type="text"
