@@ -7,9 +7,8 @@ import { HiOutlineAcademicCap, HiOutlineCircleStack } from "react-icons/hi2";
 import SideNavigation from "./sidenav.comp";
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import SummaryBox from "./summary.box";
-import DailyAttendanceDisplayUI from "./attendance.display.UI";
 import StudentsInclass from "./students.inclasss";
-import StudentsBio from "./students.bio";
+import AttendanceReport from "./attendance.report";
 
 function DashboardComponent() {
   return (
@@ -70,8 +69,7 @@ function DashboardComponent() {
           </div>
           <StudentsInclass />
         </div>
-        <DailyAttendanceDisplayUI />
-        <StudentsBio />
+        <AttendanceReport />
       </div>
     </div>
   );
