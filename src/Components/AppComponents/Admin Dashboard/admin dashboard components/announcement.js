@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+// Third-party imports
+import { Link } from "react-router-dom";
+// Local Directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import { HiDotsVertical } from "react-icons/hi";
+import NotificationBar from "./notification.bar";
 
 function Announcement() {
+  // Local states
+  const [showShortcut, setShowShortcut] = useState(false);
+
   return (
     <div className="w-full bg-[#FFFDFA] min-h-screen p-[10px]">
       <div className="border border-transparent border-b-gray-600">
@@ -77,41 +84,10 @@ function Announcement() {
           <h3 className="font-bold text-[20px]">Notifications</h3>
           <div>
             <h4 className="font-bold py-[10px] mt-[10px]">Today</h4>
-            <div>
-              <div className="w-[100%] my-[10px] flex items-center bg-[#d7d7d7] p-[10px] border border-transparent rounded-md">
-                <figure className="w-[40px] h-[40px] mr-[10px] border border-transparent rounded-full bg-gray-600"></figure>
-                <div className="w-[100%]">
-                  <div className="font-bold flex justify-between items-center mb-[10px]">
-                    <span>Charlse Soludo</span>
-                    <HiDotsVertical />
-                  </div>
-                  <div className="flex justify-between items-center w-[100%]">
-                    <div>Permission Request</div>
-                    <div className="">
-                      <span className="mr-[20px]">27/09/2023</span>
-                      <span>8:14am</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="w-[100%] my-[10px] flex items-center bg-[#d7d7d7] p-[10px] border border-transparent rounded-md">
-                <figure className="w-[40px] h-[40px] mr-[10px] border border-transparent rounded-full bg-gray-600"></figure>
-                <div className="w-[100%]">
-                  <div className="font-bold flex justify-between items-center mb-[10px]">
-                    <span>Charlse Soludo</span>
-                    <HiDotsVertical />
-                  </div>
-                  <div className="flex justify-between items-center w-[100%]">
-                    <div>Permission Request</div>
-                    <div className="">
-                      <span className="mr-[20px]">27/09/2023</span>
-                      <span>8:14am</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div></div>
           </div>
+          <NotificationBar />
+          <NotificationBar />
         </div>
       </div>
     </div>
