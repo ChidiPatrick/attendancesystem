@@ -1,27 +1,28 @@
 import React from "react";
 import DashboardNavigationComponent from "./dashboard.navcomp";
+import { HiDotsVertical } from "react-icons/hi";
 
 function Announcement() {
   return (
-    <div className="w-full bg-[#F7F7F7] h-screen p-[10px]">
+    <div className="w-full bg-[#FFFDFA] min-h-screen p-[10px]">
       <div className="border border-transparent border-b-gray-600">
         <DashboardNavigationComponent title="Announcement" />
       </div>
       <div className="flex justify-between  mt-[10px] ">
-        <div className="w-[48%] min-h-[500px] ">
-          <div className="w-[100%] h-[500px] bg-white border border-transparent rounded-xl p-[10px]">
+        <div className="w-[48%] min-h-[500px] bg-[#FFFDFA] p-[10px]">
+          <div className="w-[100%] h-[500px] bg-[#f1f1f1] border border-transparent rounded-xl p-[10px]">
             <h2 className="font-bold text-[19px]">Type Announcement</h2>
             <div className="w-full mt-[20px]">
               <h4 className="text-[20px] pb-[10px]">Title</h4>
               <input
-                className="p-[10px] w-[100%] border border-gray-700 rounded-md "
+                className="p-[10px] w-[100%] bg-transparent border border-gray-700 rounded-md "
                 placeholder="Enter holiday title"
               />
             </div>
             <div className="w-[100%] mt-[20px]">
               <h4 className="text-[20px] pb-[10px]">Content</h4>
               <textarea
-                className="w-[100%] border border-gray-700 px-[10px] min-h-[200px] rounded-md"
+                className="w-[100%] bg-transparent border border-gray-700 px-[10px] min-h-[200px] rounded-md"
                 placeholder="Type announcement here"
               ></textarea>
             </div>
@@ -34,8 +35,84 @@ function Announcement() {
               </button>
             </div>
           </div>
+          <div className="w-[100%] my-[20px]">
+            <h3 className="font-bold text-[18px]">History</h3>
+            <div>
+              <div>
+                <h4 className="font-bold py-[10px]">Public Holiday</h4>
+                <p>
+                  Tomorrow is holiday with no title, please just stay at home.
+                  I'm just trying to write something for this paragraph. So just
+                  know that you have holiday for the day in the day that we
+                  having coming for the holiday!
+                </p>
+                <div className="text-lp-primary font-bold flex justify-between items-center mt-[20px]">
+                  <div className="w-[20%] flex justify-between">
+                    <span>06/19</span>
+                    <span>7:31am</span>
+                  </div>
+                  <span className="text-lp-secondary">Sent</span>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-bold py-[10px]">Public Holiday</h4>
+                <p>
+                  Tomorrow is holiday with no title, please just stay at home.
+                  I'm just trying to write something for this paragraph. So just
+                  know that you have holiday for the day in the day that we
+                  having coming for the holiday!
+                </p>
+                <div className="text-lp-primary font-bold flex justify-between items-center mt-[20px]">
+                  <div className="w-[20%] flex justify-between">
+                    <span>06/19</span>
+                    <span>7:31am</span>
+                  </div>
+                  <span className="text-lp-secondary">Sent</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="w-[48%] bg-blue-400"></div>
+        <div className="w-[48%] min-h-screen bg-[#FFFDFA] p-[10px]">
+          <h3 className="font-bold text-[20px]">Notifications</h3>
+          <div>
+            <h4 className="font-bold py-[10px] mt-[10px]">Today</h4>
+            <div>
+              <div className="w-[100%] my-[10px] flex items-center bg-[#d7d7d7] p-[10px] border border-transparent rounded-md">
+                <figure className="w-[40px] h-[40px] mr-[10px] border border-transparent rounded-full bg-gray-600"></figure>
+                <div className="w-[100%]">
+                  <div className="font-bold flex justify-between items-center mb-[10px]">
+                    <span>Charlse Soludo</span>
+                    <HiDotsVertical />
+                  </div>
+                  <div className="flex justify-between items-center w-[100%]">
+                    <div>Permission Request</div>
+                    <div className="">
+                      <span className="mr-[20px]">27/09/2023</span>
+                      <span>8:14am</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-[100%] my-[10px] flex items-center bg-[#d7d7d7] p-[10px] border border-transparent rounded-md">
+                <figure className="w-[40px] h-[40px] mr-[10px] border border-transparent rounded-full bg-gray-600"></figure>
+                <div className="w-[100%]">
+                  <div className="font-bold flex justify-between items-center mb-[10px]">
+                    <span>Charlse Soludo</span>
+                    <HiDotsVertical />
+                  </div>
+                  <div className="flex justify-between items-center w-[100%]">
+                    <div>Permission Request</div>
+                    <div className="">
+                      <span className="mr-[20px]">27/09/2023</span>
+                      <span>8:14am</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
