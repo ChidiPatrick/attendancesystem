@@ -10,6 +10,7 @@ import SummaryBox from "./summary.box";
 import StudentsInclass from "./students.inclasss";
 import AttendanceReport from "./attendance.report";
 import Announcement from "./announcement";
+import ClassSetup from "./class.setup";
 
 function DashboardComponent() {
   return (
@@ -70,7 +71,7 @@ function DashboardComponent() {
           </div>
           <StudentsInclass />
         </div>
-        <Announcement />
+        <ClassSetup />
       </div>
     </div>
   );
