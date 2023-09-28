@@ -8,8 +8,7 @@ import SideNavigation from "./sidenav.comp";
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import SummaryBox from "./summary.box";
 import StudentsInclass from "./students.inclasss";
-import AttendanceReport from "./attendance.report";
-import Announcement from "./announcement";
+import Session from "./Session";
 import ClassSetup from "./class.setup";
 
 function DashboardComponent() {
@@ -72,6 +71,7 @@ function DashboardComponent() {
           <StudentsInclass />
         </div>
         <ClassSetup />
+        <Session />
       </div>
     </div>
   );
