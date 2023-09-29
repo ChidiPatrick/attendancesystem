@@ -1,4 +1,9 @@
 import React from "react";
+
+//Third-party imports
+import { HiArrowNarrowRight } from "react-icons/hi";
+
+// Local directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import StudentHistoryCard from "./student.history.card";
 
@@ -115,7 +120,73 @@ function AdminStudentProfile() {
             </div>
           </div>
         </div>
-        <div className="w-[50%] min-h-screen bg-white">Side two</div>
+        <div className="w-[50%] p-[20px] min-h-screen ">
+          <h3 className="font-bold text-[20px] py-[10px]">Request History</h3>
+          <div>
+            <div className="w-[100%] p-[10px] overflow-auto h-[250px] border mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md">
+              <h4 className="flex justify-between items-center">
+                <span className="font-bold text-[18px]">
+                  Permission to be late
+                </span>
+                <span className="text-gray-500 font-bold">
+                  {new Date().toDateString()}
+                </span>
+              </h4>
+              <p className="mt-[20px] ">
+                I will be absent because I have not been absent since I started
+                this program. This is my privilage to be absent for once so that
+                I would be absent. I know the paragraph is weird, leave am like
+                that!
+              </p>
+              <div className="mt-[20px] flex justify-between items-center">
+                <span className="text-black font-semibold">Duration</span>
+                <div className="text-[18px] font-semibold w-[47%] flex justify-between items-center text-gray-800">
+                  Oct 02,2023 <HiArrowNarrowRight /> Oct 04,2023
+                </div>
+              </div>
+              <div className="mt-[20px] flex justify-between items-center">
+                <span className="text-black font-semibold">Status</span>
+                <span className="text-[18px] font-semibold text-lp-secondary w-[47%] flex justify-end items-center">
+                  Pending
+                </span>
+              </div>
+            </div>
+            <div className="w-[100%] p-[10px] overflow-auto h-[250px] border mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md">
+              <h4 className="flex justify-between items-center">
+                <span className="font-bold text-[18px]">
+                  Permission to be late
+                </span>
+                <span className="text-gray-500 font-bold">
+                  {new Date().toDateString()}
+                </span>
+              </h4>
+              <p className="mt-[20px] ">
+                I will be absent because I have not been absent since I started
+                this program. This is my privilage to be absent for once so that
+                I would be absent. I know the paragraph is weird, leave am like
+                that!
+              </p>
+              <div className="mt-[20px] flex justify-between items-center">
+                <span className="text-black font-semibold">Duration</span>
+                <div className="text-[18px] font-semibold w-[47%] flex justify-between items-center text-gray-800">
+                  Oct 02,2023 <HiArrowNarrowRight /> Oct 04,2023
+                </div>
+              </div>
+              <div className="mt-[20px] flex justify-between items-center">
+                <span className="text-black font-semibold">Status</span>
+                <span className="text-[18px] font-semibold text-green-500 w-[47%] flex justify-end items-center">
+                  Approved
+                </span>
+              </div>
+              <div className="mt-[20px] flex justify-between items-center">
+                <span className="text-black font-semibold">Admin</span>
+                <span className="text-[18px] font-semibold  w-[47%] flex justify-end items-center">
+                  Director
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
