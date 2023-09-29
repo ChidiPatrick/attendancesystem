@@ -13,7 +13,7 @@ import { BiLogIn } from "react-icons/bi";
 
 function SideNavigation() {
   return (
-    <div className="bg-[#F6F9FE] flex flex-col justify-between  items-center p-[20px] h-screen w-[260px]">
+    <div className="bg-[#F6F9FE] flex flex-col justify-between  items-center p-[20px] min-h-screen w-[260px]">
       <div>
         <figure className="w-full">
           <img src="images/logo.svg" />

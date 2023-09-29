@@ -10,6 +10,7 @@ import SummaryBox from "./summary.box";
 import StudentsInclass from "./students.inclasss";
 import Session from "./Session";
 import ClassSetup from "./class.setup";
+import AdminStudentProfile from "./admin.student.profile";
 
 function DashboardComponent() {
   return (
@@ -17,7 +18,7 @@ function DashboardComponent() {
       <div>
         <SideNavigation />
       </div>
-      <div className="w-full h-screen ">
+      <div className="w-full h-screen bg-user-profile">
         <DashboardNavigationComponent title="Dashboard" />
         <div className="w-full flex justify-between p-[10px] mt-[20px]">
           <div className="w-full flex justify-between items-center mr-[20px]">
@@ -70,8 +71,7 @@ function DashboardComponent() {
           </div>
           <StudentsInclass />
         </div>
-        <ClassSetup />
-        <Session />
+        <AdminStudentProfile />
       </div>
     </div>
   );
