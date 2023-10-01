@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 //Third-party imports
 import { HiOutlineAcademicCap, HiOutlineCircleStack } from "react-icons/hi2";
@@ -11,8 +11,15 @@ import StudentsInclass from "./students.inclasss";
 import Session from "./Session";
 import ClassSetup from "./class.setup";
 import AdminStudentProfile from "./admin.student.profile";
+import { onValue } from "firebase/database";
+import { getStudentsTotalNumber } from "../admin dashboard handlers/dashboard.summary.comp";
 
 function DashboardComponent() {
+  // Local states
+  const [totalStudentsNumber, setTotalStudentsNumber] = useState(0);
+
+  //Action to take after mounting
+
   return (
     <div className="w-full p-[10px] flex h-screen  bg-[#F7F7F773]">
       <div>
@@ -72,6 +79,7 @@ function DashboardComponent() {
           <StudentsInclass />
         </div>
         <AdminStudentProfile />
+        <ClassSetup />
       </div>
     </div>
   );

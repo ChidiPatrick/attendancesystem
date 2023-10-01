@@ -22,7 +22,7 @@ import {
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
 import { invokeAllThunks } from "../../General app handlers/general.handlers";
-import { setLoginUserId } from "../../Redux Slices/login.slice";
+import { setLoginUserId, setUser } from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 import { persistor } from "../../Store/store";
@@ -66,7 +66,7 @@ const Signin = () => {
         await signInWithEmailAndPassword(auth, values.email, values.password)
           .then(async (user) => {
             let userId = user.user.uid;
-            console.log("Calling invokeAllThunks");
+            dispatch(setUser(user));
             dispatch(setLoginUserId(userId));
             persistor.purge();
             invokeAllThunks(userId, dispatch);

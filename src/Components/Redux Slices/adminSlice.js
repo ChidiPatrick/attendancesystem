@@ -8,6 +8,7 @@ import { getStudentDocumentRef } from "../General app handlers/general.handlers"
 const initialState = {
   userId: "",
   weeklyAttendanceRecord: null,
+  totalStudents: 0,
 };
 
 export const GetStudentAttendanceRecord = createAsyncThunk(
@@ -38,9 +39,12 @@ const adminDashBoard = createSlice({
     setWeeklyAttendance(state, action) {
       state.weeklyAttendanceRecord = action.payload;
     },
+    setTotalStudents(state, action) {
+      state.totalStudents = action.payload;
+    },
   },
 });
 
-export const { setWeeklyAttendance } = adminDashBoard.actions;
+export const { setWeeklyAttendance, setTotalStudents } = adminDashBoard.actions;
 
 export default adminDashBoard.reducer;

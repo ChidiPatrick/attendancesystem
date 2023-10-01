@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Routes, Route } from "react-router";
+import { Routes, Route, useNavigate } from "react-router";
 import { ErrorBoundary } from "react-error-boundary";
 
 // import Header from "./Components/LandingPageComponents/Header/header";
@@ -23,11 +23,17 @@ import ImagePreview from "./Components/AppComponents/Pages/image.preview";
 import EditProfile from "./Components/AppComponents/Pages/edit.profile";
 import SignUpAsAdmin from "./Components/AppComponents/SignUpComp/signup.as.admin";
 import SigninAsAdmin from "./Components/AppComponents/LoginComp/login.admin";
+import { ProtectedRoute } from "./Components/General app handlers/general.handlers";
+import { useSelector } from "react-redux";
 
 //// Root component ///
 function App() {
   window.addEventListener("offline", () => console.log("Offline"));
   window.addEventListener("online", () => console.log("online"));
+
+  const user = useSelector((state) => state.loginSlice.user);
+
+  const navigate = useNavigate();
 
   return (
     <div className="relative">
@@ -39,7 +45,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/userprofile" element={<UserProfile />} />
         <Route path="/history" element={<History />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<ProtectedRoute component={<Home />} />} />
         <Route path="/permission" element={<Permission />} />
         <Route path="/announcement" element={<Announcement />} />
         <Route path="clockIn/webcam" element={<WebCam />} />

@@ -7,6 +7,10 @@ import { signOut } from "firebase/auth";
 import { getAttendanceRecords } from "../Redux Slices/attendanceSlice";
 import { db } from "../Firebase/firebase";
 import { setUserProfileDocument } from "../Redux Slices/profileSlice";
+import { setUser } from "../Redux Slices/login.slice";
+import { useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router";
+import Home from "../AppComponents/Pages/home";
 
 /// Firestore ref creator ////
 const firestoreRefCreator = (db, userId, collection, document) => {
@@ -73,6 +77,7 @@ const deletePreviousDayImage = async (attendanceArray, userId) => {
 const logout = async (auth, navigate, dispatch, hideMenu) => {
   await signOut(auth).then(() => {
     dispatch(hideMenu());
+    dispatch(setUser(""));
     navigate("/");
   });
 };
@@ -137,6 +142,17 @@ const validateMembership = (member, adminList) => {
   return result;
 };
 
+const ProtectedRoute = ({ component }) => {
+  const navigate = useNavigate();
+
+  const user = useSelector((state) => state.loginSlice.user);
+  if (user) {
+    return component;
+  } else if (user === "") {
+    navigate("/");
+  }
+};
+
 export {
   firestoreRefCreator,
   firestoreAdminRefCreatore,
@@ -144,6 +160,7 @@ export {
   logout,
   getStudentDocumentRef,
   getUserDocument,
+  ProtectedRoute,
   deletePreviousDayImage,
   cleanUpPreviousWeekData,
   calcNumWorkingDaysOfTheMonth,
