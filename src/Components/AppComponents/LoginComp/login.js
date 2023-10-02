@@ -25,10 +25,23 @@ import {
   invokeAllThunks,
   verifyStudentEmail,
 } from "../../General app handlers/general.handlers";
-import { setLoginUserId, setUser } from "../../Redux Slices/login.slice";
+import {
+  setLoginUserId,
+  setUser,
+  setWrongLoginMessage,
+  showWrongLoginCategory,
+} from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 import { persistor } from "../../Store/store";
+
+/**
+ * TODOs:
+ * Display custome error message for admin trying to sign in as a student
+ * Configure admin login logic to prevent students trying to log in as an admin
+ *
+ *
+ */
 
 const Signin = () => {
   ///// Initialisations////////
@@ -52,6 +65,14 @@ const Signin = () => {
   );
 
   const studentsEmail = useSelector((state) => state.loginSlice.studentsEmail);
+
+  const displayWrongLoginCategoryMessage = useSelector(
+    (state) => state.loginSlice.displayWrongLoginCategory
+  );
+
+  const wrongLoginMessage = useSelector(
+    (state) => state.loginSlice.wrongLoginMessage
+  );
 
   console.log(studentsEmail);
 
@@ -80,6 +101,19 @@ const Signin = () => {
               (user) => user.email === values.email
             );
             console.log(userEmail);
+            if (userEmail === undefined) {
+              dispatch(hideSpinner());
+              dispatch(
+                setWrongLoginMessage(
+                  "User email is not recognised as one of the registered students. Please check your login details and try again, or create an account if you don't one with us"
+                )
+              );
+              dispatch(showWrongLoginCategory());
+
+              throw new Error(
+                "User email is not recognised as one of the registered students. Please check your login details and try again, or create an account if you don't one with us"
+              );
+            }
           })
           .then(async (user) => {
             let userId = user.user.uid;
@@ -100,6 +134,7 @@ const Signin = () => {
     } catch (err) {
       dispatch(hideSpinner());
       dispatch(showFeedback());
+      console.log(err);
     }
   };
 
@@ -200,9 +235,12 @@ const Signin = () => {
       {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
       {displayFeedback === true ? (
         <FeedbackModal handleClick={cancleBtnHandler}>
-          Please enter correct email and password. If you're not registered
-          user, you can easily setup your account in few minutes
+          Please enter correct email and password. If you're a not registered
+          student, you can easily setup your account in few minutes.
         </FeedbackModal>
+      ) : null}
+      {displayWrongLoginCategoryMessage === true ? (
+        <FeedbackModal>{wrongLoginMessage}</FeedbackModal>
       ) : null}
       {displaySpinner === true ? <SpinnerSmall /> : null}
     </div>

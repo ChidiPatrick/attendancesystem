@@ -37,7 +37,11 @@ const SignUpAsAdmin = () => {
   );
 
   //TO BE MODIFIED LATER!!!!!!!
-  const adminList = ["okaforpatrick302@gmail.com", "kencassidy16@gmail.com"];
+  const adminList = [
+    "okaforpatrick302@gmail.com",
+    "patrickmaxwell302@gmail.com",
+    "kencassidy16@gmail.com",
+  ];
 
   const feedback = validateMembership("kencassy16@gmail.com", adminList);
 

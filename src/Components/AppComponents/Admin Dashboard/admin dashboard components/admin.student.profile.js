@@ -13,8 +13,8 @@ function AdminStudentProfile() {
       <div className="border border-transparent border-b-gray-300">
         <DashboardNavigationComponent title="Student profile" />
       </div>
-      <div className="w-full flex justify-center min-h-[100%]">
-        <div className="w-[50%] h-[100%] border border-tansparent border-r-gray-300">
+      <div className="w-full flex justify-center h-screen">
+        <div className="w-[50%] h-[100%] overflow-scroll border border-tansparent border-r-gray-300">
           <div className="w-[100%] mx-auto flex flex-col mt-[20px] p-[10px] justify-center items-center">
             <figure className="w-[200px] h-[200px] border border-transparent border-solid border-[5px] border-gray-200 rounded-full">
               <img
@@ -120,7 +120,7 @@ function AdminStudentProfile() {
             </div>
           </div>
         </div>
-        <div className="w-[50%] p-[20px] min-h-screen ">
+        <div className="w-[50%] p-[20px] h-screen overflow-scroll ">
           <h3 className="font-bold text-[20px] py-[10px]">Request History</h3>
           <div>
             <div className="w-[100%] p-[10px] overflow-auto h-[250px] border mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md">

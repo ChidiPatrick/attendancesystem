@@ -107,7 +107,7 @@ const SignUp = () => {
 
           .then(() => {
             dispatch(hideSpinner());
-            navigate("/home");
+            navigate("/signin");
           });
       } else if (!navigator.onLine) {
         dispatch(hideSpinner());

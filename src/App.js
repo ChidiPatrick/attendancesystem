@@ -25,6 +25,7 @@ import SignUpAsAdmin from "./Components/AppComponents/SignUpComp/signup.as.admin
 import SigninAsAdmin from "./Components/AppComponents/LoginComp/login.admin";
 import { ProtectedRoute } from "./Components/General app handlers/general.handlers";
 import { useSelector } from "react-redux";
+import DashboardComponent from "./Components/AppComponents/Admin Dashboard/admin dashboard components/dashboard.comp";
 
 //// Root component ///
 function App() {
@@ -60,6 +61,7 @@ function App() {
           element={<UploadProfilePicture />}
         />
         <Route path="/editProfile" element={<EditProfile />} />
+        <Route path="/adminDashboard" element={<DashboardComponent />} />
       </Routes>
     </div>
   );

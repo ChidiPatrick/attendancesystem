@@ -101,16 +101,16 @@ function ClassSetup() {
               <p className="py-[10px]">
                 Customize attendance for breaks and holidays
               </p>
-              <div className="w-[80%]  flex justify-between items-center">
-                <fieldset className="hover:border-black p-[20px] mb-4 w-[200px] border-2 border-solid border-signup-gray rounded py-2">
-                  <legend className="text-lp-primary">From</legend>
+              <div className="w-[80%]  flex justify-between items-center hover:text-black">
+                <fieldset className=" p-[20px] mb-4 w-[200px] border-2 border-solid border-lp-primary rounded py-2">
+                  <legend className="text-lp-primary ">From</legend>
                   <div className="flex justify-between items-center">
                     <span>{new Date().toDateString()}</span>
                     <BsCalendar4 />
                   </div>
                 </fieldset>
-                <fieldset className="hover:border-black p-[20px] mb-4 w-[200px] border-2 border-solid border-signup-gray rounded py-2">
-                  <legend className="text-lp-primary">To</legend>
+                <fieldset className=" p-[20px] mb-4 w-[200px] border-2 border-solid border-lp-primary rounded py-2">
+                  <legend className="text-lp-primary ">To</legend>
                   <div className="flex justify-between items-center">
                     <span>{new Date().toDateString()}</span>
                     <BsCalendar4 />
@@ -127,15 +127,19 @@ function ClassSetup() {
                 Set attendance marker schedule for classes
               </p>
               <div className="w-[80%]  flex justify-between items-center">
-                <fieldset className="hover:border-black p-[20px] mb-4 w-[200px] border-2 border-solid border-signup-gray rounded py-2">
-                  <legend className="text-lp-primary">From</legend>
+                <fieldset className=" p-[20px] mb-4 w-[200px] border-2 border-solid border-lp-primary rounded py-2">
+                  <legend className="text-lp-primary hover:text-black">
+                    From
+                  </legend>
                   <div className="flex justify-between items-center">
                     <span>{new Date().toDateString()}</span>
                     <BsCalendar4 />
                   </div>
                 </fieldset>
-                <fieldset className="hover:border-black p-[20px] mb-4 w-[200px] border-2 border-solid border-signup-gray rounded py-2">
-                  <legend className="text-lp-primary">To</legend>
+                <fieldset className=" p-[20px] mb-4 w-[200px] border-2 border-solid border-lp-primary rounded py-2">
+                  <legend className="text-lp-primary hover:text-black">
+                    To
+                  </legend>
                   <div className="flex justify-between items-center">
                     <span>{new Date().toDateString()}</span>
                     <BsCalendar4 />

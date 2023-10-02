@@ -8,6 +8,8 @@ const initialState = {
   user: "",
   attendanceDocument: {},
   studentsEmail: [],
+  displayWrongLoginCategory: false,
+  wrongLoginMessage: "",
 };
 
 const loginSlice = createSlice({
@@ -26,6 +28,15 @@ const loginSlice = createSlice({
     setStudentsEmail(state, action) {
       state.studentsEmail = action.payload;
     },
+    showWrongLoginCategory(state, action) {
+      state.displayWrongLoginCategory = true;
+    },
+    hideWrongLoginCategory(state, action) {
+      state.displayWrongLoginCategory = false;
+    },
+    setWrongLoginMessage(state, action) {
+      state.wrongLoginMessage = action.payload;
+    },
   },
 });
 
@@ -34,6 +45,9 @@ export const {
   setLoginUserId,
   setUser,
   setStudentsEmail,
+  showWrongLoginCategory,
+  hideWrongLoginCategory,
+  setWrongLoginMessage,
 } = loginSlice.actions;
 
 export default loginSlice.reducer;
