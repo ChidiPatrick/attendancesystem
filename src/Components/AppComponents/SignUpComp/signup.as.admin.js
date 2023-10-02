@@ -103,7 +103,7 @@ const SignUpAsAdmin = () => {
   });
 
   const comp = (
-    <div className=" h-screen relative">
+    <div className=" min-h-screen relative bg-[#F6F9FE] max-w-[450px] mx-auto">
       <HiChevronLeft
         className="text-3xl text-start"
         onClick={() => navigate("/")}

@@ -5,12 +5,13 @@ import { signOut } from "firebase/auth";
 
 //// Local directory imports ////
 import { getAttendanceRecords } from "../Redux Slices/attendanceSlice";
-import { db } from "../Firebase/firebase";
+import { db, rdb } from "../Firebase/firebase";
 import { setUserProfileDocument } from "../Redux Slices/profileSlice";
-import { setUser } from "../Redux Slices/login.slice";
+import { setStudentsEmail, setUser } from "../Redux Slices/login.slice";
 import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router";
 import Home from "../AppComponents/Pages/home";
+import { onValue, ref } from "firebase/database";
 
 /// Firestore ref creator ////
 const firestoreRefCreator = (db, userId, collection, document) => {
@@ -153,11 +154,22 @@ const ProtectedRoute = ({ component }) => {
   }
 };
 
+const verifyStudentEmail = (dispatch) => {
+  console.log("VerifyEmail function called!");
+  const studentsBioRef = ref(rdb, "admindashboard/studentsBio");
+  onValue(studentsBioRef, (snapshot) => {
+    const studentsBioData = snapshot.val();
+    console.log(studentsBioData);
+    dispatch(setStudentsEmail([...Object.values(studentsBioData)]));
+  });
+};
+
 export {
   firestoreRefCreator,
   firestoreAdminRefCreatore,
   invokeAllThunks,
   logout,
+  verifyStudentEmail,
   getStudentDocumentRef,
   getUserDocument,
   ProtectedRoute,

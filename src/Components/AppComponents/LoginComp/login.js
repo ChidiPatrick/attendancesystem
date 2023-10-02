@@ -21,7 +21,10 @@ import {
   showFeedback,
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
-import { invokeAllThunks } from "../../General app handlers/general.handlers";
+import {
+  invokeAllThunks,
+  verifyStudentEmail,
+} from "../../General app handlers/general.handlers";
 import { setLoginUserId, setUser } from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
@@ -48,7 +51,11 @@ const Signin = () => {
     (state) => state.signupSlice.displayFeedback
   );
 
-  const userId = useSelector((state) => state.menuSlice.userId);
+  const studentsEmail = useSelector((state) => state.loginSlice.studentsEmail);
+
+  console.log(studentsEmail);
+
+  // console.log(verifyStudentEmail());
 
   ///////// HANDLER FUNCTIONS ////////////////////
   const cancleBtnHandler = () => {
@@ -63,7 +70,17 @@ const Signin = () => {
       // let userId;
       if (navigator.onLine) {
         dispatch(showSpinner());
+        //Verify user's email in the students email array before proceeding
         await signInWithEmailAndPassword(auth, values.email, values.password)
+          .then(() => {
+            verifyStudentEmail(dispatch);
+          })
+          .then(() => {
+            const userEmail = studentsEmail.find(
+              (user) => user.email === values.email
+            );
+            console.log(userEmail);
+          })
           .then(async (user) => {
             let userId = user.user.uid;
             dispatch(setUser(user));

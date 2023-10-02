@@ -7,6 +7,7 @@ const initialState = {
   userId: "",
   user: "",
   attendanceDocument: {},
+  studentsEmail: [],
 };
 
 const loginSlice = createSlice({
@@ -22,10 +23,17 @@ const loginSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
+    setStudentsEmail(state, action) {
+      state.studentsEmail = action.payload;
+    },
   },
 });
 
-export const { setAttendanceDocument, setLoginUserId, setUser } =
-  loginSlice.actions;
+export const {
+  setAttendanceDocument,
+  setLoginUserId,
+  setUser,
+  setStudentsEmail,
+} = loginSlice.actions;
 
 export default loginSlice.reducer;

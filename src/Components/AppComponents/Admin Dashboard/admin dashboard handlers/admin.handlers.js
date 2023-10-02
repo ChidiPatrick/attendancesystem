@@ -45,7 +45,6 @@ const getStudentsLogins = () => {
     if (!snapshot.exists()) {
       return;
     }
-
     data = snapshot.val();
     clockinArray = Object.values(data);
     filteredArr = clockinArray.filter(

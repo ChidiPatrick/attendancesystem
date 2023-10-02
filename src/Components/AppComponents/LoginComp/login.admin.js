@@ -26,6 +26,14 @@ import { setLoginUserId } from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 
+//Signin TODOs:
+/**
+ * Add a logic to check each user's signin credentials in order to determine the route to navigate them to
+ *
+ *
+ */
+
+// Signin as Admin component
 const SigninAsAdmin = () => {
   ///// Initialisations////////
   const dispatch = useDispatch();
@@ -100,7 +108,7 @@ const SigninAsAdmin = () => {
   });
 
   const componentBody = (
-    <div className="relative h-screen p-2">
+    <div className="relative h-screen bg-[#F6F9FE] max-w-[450px] mx-auto p-2">
       <HiChevronLeft
         className="text-3xl text-start"
         onClick={() => navigate("/")}
