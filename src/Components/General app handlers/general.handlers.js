@@ -7,7 +7,11 @@ import { signOut } from "firebase/auth";
 import { getAttendanceRecords } from "../Redux Slices/attendanceSlice";
 import { db, rdb } from "../Firebase/firebase";
 import { setUserProfileDocument } from "../Redux Slices/profileSlice";
-import { setStudentsEmail, setUser } from "../Redux Slices/login.slice";
+import {
+  setAdminsEmails,
+  setStudentsEmail,
+  setUser,
+} from "../Redux Slices/login.slice";
 import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router";
 import Home from "../AppComponents/Pages/home";
@@ -164,12 +168,21 @@ const verifyStudentEmail = (dispatch) => {
   });
 };
 
+const verifyAdminEmail = (dispatch) => {
+  const adminsBioRef = ref(rdb, "admindashboard/adminsBioDatabase");
+  onValue(adminsBioRef, (snapshot) => {
+    const adminsBioData = snapshot.val();
+    dispatch(setAdminsEmails([...Object.values(adminsBioData)]));
+  });
+};
+
 export {
   firestoreRefCreator,
   firestoreAdminRefCreatore,
   invokeAllThunks,
   logout,
   verifyStudentEmail,
+  verifyAdminEmail,
   getStudentDocumentRef,
   getUserDocument,
   ProtectedRoute,

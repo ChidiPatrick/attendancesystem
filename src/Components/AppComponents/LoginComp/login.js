@@ -26,6 +26,7 @@ import {
   verifyStudentEmail,
 } from "../../General app handlers/general.handlers";
 import {
+  hideWrongLoginCategory,
   setLoginUserId,
   setUser,
   setWrongLoginMessage,
@@ -81,7 +82,7 @@ const Signin = () => {
   ///////// HANDLER FUNCTIONS ////////////////////
   const cancleBtnHandler = () => {
     console.log("BTN HANDLER CALLED");
-    navigate(0);
+    // navigate(0);
     dispatch(hideFeedback());
   };
 
@@ -100,7 +101,6 @@ const Signin = () => {
             const userEmail = studentsEmail.find(
               (user) => user.email === values.email
             );
-            console.log(userEmail);
             if (userEmail === undefined) {
               dispatch(hideSpinner());
               dispatch(
@@ -240,7 +240,9 @@ const Signin = () => {
         </FeedbackModal>
       ) : null}
       {displayWrongLoginCategoryMessage === true ? (
-        <FeedbackModal>{wrongLoginMessage}</FeedbackModal>
+        <FeedbackModal handleClick={() => dispatch(hideWrongLoginCategory())}>
+          {wrongLoginMessage}
+        </FeedbackModal>
       ) : null}
       {displaySpinner === true ? <SpinnerSmall /> : null}
     </div>

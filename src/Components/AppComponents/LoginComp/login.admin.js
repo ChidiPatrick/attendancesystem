@@ -21,8 +21,15 @@ import {
   showFeedback,
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
-import { invokeAllThunks } from "../../General app handlers/general.handlers";
-import { setLoginUserId } from "../../Redux Slices/login.slice";
+import {
+  invokeAllThunks,
+  verifyAdminEmail,
+} from "../../General app handlers/general.handlers";
+import {
+  hideWrongAdminLoginMessage,
+  setLoginUserId,
+  setWrongAdminLoginMessage,
+} from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 
@@ -55,7 +62,15 @@ const SigninAsAdmin = () => {
     (state) => state.signupSlice.displayFeedback
   );
 
-  const userId = useSelector((state) => state.menuSlice.userId);
+  const adminsEmail = useSelector((state) => state.loginSlice.adminsEmail);
+
+  const displayWrongLoginMessage = useSelector(
+    (state) => state.loginSlice.displayWrongAdminLoginDetailsMessage
+  );
+
+  const wrongAdminLoginMessage = useSelector(
+    (state) => state.loginSlice.wrongAdminLoginMessage
+  );
 
   ///////// HANDLER FUNCTIONS ////////////////////
   const cancleBtnHandler = () => {
@@ -70,15 +85,31 @@ const SigninAsAdmin = () => {
       // let userId;
       if (navigator.onLine) {
         dispatch(showSpinner());
-        await signInWithEmailAndPassword(
-          auth,
-          values.email,
-          values.password
-        ).then((userId) => {
-          dispatch(setUserId(userId));
-          dispatch(hideSpinner());
-          navigate("/");
-        });
+        await signInWithEmailAndPassword(auth, values.email, values.password)
+          .then(() => {
+            verifyAdminEmail(dispatch);
+          })
+          .then(() => {
+            const adminBioObject = adminsEmail.find(
+              (item) => item.email === values.email
+            );
+
+            if (adminBioObject === undefined) {
+              dispatch(
+                setWrongAdminLoginMessage(
+                  "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
+                )
+              );
+              throw new Error(
+                "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
+              );
+            }
+          })
+          .then((userId) => {
+            dispatch(setUserId(userId));
+            dispatch(hideSpinner());
+            navigate("/");
+          });
       } else if (!navigator.onLine) {
         dispatch(hideSpinner());
         dispatch(showNetworkFeedback());
@@ -180,6 +211,12 @@ const SigninAsAdmin = () => {
         <FeedbackModal handleClick={cancleBtnHandler}>
           Please enter correct email and password. If you're not registered
           user, you can easily setup your account in few minutes
+        </FeedbackModal>
+      ) : null}
+
+      {displayWrongLoginMessage === true ? (
+        <FeedbackModal handleClick={dispatch(hideWrongAdminLoginMessage())}>
+          {wrongAdminLoginMessage}
         </FeedbackModal>
       ) : null}
       {displaySpinner === true ? <SpinnerSmall /> : null}

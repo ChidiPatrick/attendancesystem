@@ -8,8 +8,11 @@ const initialState = {
   user: "",
   attendanceDocument: {},
   studentsEmail: [],
+  adminsEmail: [],
   displayWrongLoginCategory: false,
+  displayWrongAdminLoginDetailsMessage: false,
   wrongLoginMessage: "",
+  wrongAdminLoginMessage: "",
 };
 
 const loginSlice = createSlice({
@@ -37,6 +40,18 @@ const loginSlice = createSlice({
     setWrongLoginMessage(state, action) {
       state.wrongLoginMessage = action.payload;
     },
+    setAdminsEmails(state, action) {
+      state.adminsEmail = action.payload;
+    },
+    showWrongAdminLoginMessage(state, action) {
+      state.displayWrongAdminLoginDetailsMessage = true;
+    },
+    hideWrongAdminLoginMessage(state, action) {
+      state.displayWrongAdminLoginDetailsMessage = false;
+    },
+    setWrongAdminLoginMessage(state, action) {
+      state.wrongAdminLoginMessage = action.payload;
+    },
   },
 });
 
@@ -48,6 +63,10 @@ export const {
   showWrongLoginCategory,
   hideWrongLoginCategory,
   setWrongLoginMessage,
+  setAdminsEmails,
+  showWrongAdminLoginMessage,
+  hideWrongAdminLoginMessage,
+  setWrongAdminLoginMessage,
 } = loginSlice.actions;
 
 export default loginSlice.reducer;

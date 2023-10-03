@@ -38,7 +38,7 @@ function MarkAttendance() {
 
   const { firstName, profilePictureURL, lastName, currMonthRecord } =
     userProfileData;
-  console.log(currMonthRecord.totalDaysPresent);
+  console.log(currMonthRecord?.totalDaysPresent);
 
   const studentsClockInList = getStudentsLogins();
   console.log(studentsClockInList);
