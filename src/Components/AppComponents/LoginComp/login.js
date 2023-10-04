@@ -30,6 +30,7 @@ import {
   setLoginUserId,
   setUser,
   setWrongLoginMessage,
+  showWrongAdminLoginMessage,
   showWrongLoginCategory,
 } from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
@@ -108,7 +109,7 @@ const Signin = () => {
                   "User email is not recognised as one of the registered students. Please check your login details and try again, or create an account if you don't one with us"
                 )
               );
-              dispatch(showWrongLoginCategory());
+              dispatch(showWrongAdminLoginMessage());
 
               throw new Error(
                 "User email is not recognised as one of the registered students. Please check your login details and try again, or create an account if you don't one with us"

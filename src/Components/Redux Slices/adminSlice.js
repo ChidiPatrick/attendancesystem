@@ -9,6 +9,8 @@ const initialState = {
   userId: "",
   weeklyAttendanceRecord: null,
   totalStudents: 0,
+  displayWrongAdminLoginDetailsMessage: false,
+  wrongAdminLoginMessage: "",
 };
 
 export const GetStudentAttendanceRecord = createAsyncThunk(
@@ -42,9 +44,24 @@ const adminDashBoard = createSlice({
     setTotalStudents(state, action) {
       state.totalStudents = action.payload;
     },
+    showWrongAdminLoginMessage(state, action) {
+      state.displayWrongAdminLoginDetailsMessage = true;
+    },
+    hideWrongAdminLoginMessage(state, action) {
+      state.displayWrongAdminLoginDetailsMessage = false;
+    },
+    setWrongAdminLoginMessage(state, action) {
+      state.wrongAdminLoginMessage = action.payload;
+    },
   },
 });
 
-export const { setWeeklyAttendance, setTotalStudents } = adminDashBoard.actions;
+export const {
+  setWeeklyAttendance,
+  setTotalStudents,
+  showWrongAdminLoginMessage,
+  hideWrongAdminLoginMessage,
+  setWrongAdminLoginMessage,
+} = adminDashBoard.actions;
 
 export default adminDashBoard.reducer;

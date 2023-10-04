@@ -10,9 +10,9 @@ const initialState = {
   studentsEmail: [],
   adminsEmail: [],
   displayWrongLoginCategory: false,
-  displayWrongAdminLoginDetailsMessage: false,
   wrongLoginMessage: "",
   wrongAdminLoginMessage: "",
+  displayWrongAdminMessage: false,
 };
 
 const loginSlice = createSlice({
@@ -43,14 +43,14 @@ const loginSlice = createSlice({
     setAdminsEmails(state, action) {
       state.adminsEmail = action.payload;
     },
-    showWrongAdminLoginMessage(state, action) {
-      state.displayWrongAdminLoginDetailsMessage = true;
-    },
-    hideWrongAdminLoginMessage(state, action) {
-      state.displayWrongAdminLoginDetailsMessage = false;
-    },
     setWrongAdminLoginMessage(state, action) {
       state.wrongAdminLoginMessage = action.payload;
+    },
+    showWrongAdminLoginMessage(state, action) {
+      state.displayWrongAdminMessage = true;
+    },
+    hideWrongAdminLoginMessage(state, action) {
+      state.displayWrongAdminMessage = false;
     },
   },
 });

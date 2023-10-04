@@ -29,6 +29,7 @@ import {
   hideWrongAdminLoginMessage,
   setLoginUserId,
   setWrongAdminLoginMessage,
+  showWrongAdminLoginMessage,
 } from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
@@ -65,12 +66,14 @@ const SigninAsAdmin = () => {
   const adminsEmail = useSelector((state) => state.loginSlice.adminsEmail);
 
   const displayWrongLoginMessage = useSelector(
-    (state) => state.loginSlice.displayWrongAdminLoginDetailsMessage
+    (state) => state.loginSlice.displayWrongAdminMessage
   );
 
   const wrongAdminLoginMessage = useSelector(
     (state) => state.loginSlice.wrongAdminLoginMessage
   );
+
+  console.log(displayWrongLoginMessage);
 
   ///////// HANDLER FUNCTIONS ////////////////////
   const cancleBtnHandler = () => {
@@ -83,23 +86,35 @@ const SigninAsAdmin = () => {
   const signinHandler = async (values) => {
     try {
       // let userId;
+      console.log("Verifying admin email...");
+      dispatch(showWrongAdminLoginMessage());
+
       if (navigator.onLine) {
         dispatch(showSpinner());
         await signInWithEmailAndPassword(auth, values.email, values.password)
-          .then(() => {
+          .then((user) => {
+            console.log(user);
+            console.log("Verifying admin email...");
             verifyAdminEmail(dispatch);
+            console.log("Done verifying");
           })
           .then(() => {
             const adminBioObject = adminsEmail.find(
               (item) => item.email === values.email
             );
 
+            console.log(adminBioObject);
+
             if (adminBioObject === undefined) {
+              console.log("Email not found!!");
               dispatch(
                 setWrongAdminLoginMessage(
                   "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
                 )
               );
+              // dispatch(showWrongAdminLoginMessage());
+              // dispatch(hideFeedback());
+
               throw new Error(
                 "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
               );
@@ -108,15 +123,21 @@ const SigninAsAdmin = () => {
           .then((userId) => {
             dispatch(setUserId(userId));
             dispatch(hideSpinner());
-            navigate("/");
+            navigate("/adminDashboard");
           });
       } else if (!navigator.onLine) {
         dispatch(hideSpinner());
         dispatch(showNetworkFeedback());
       }
     } catch (err) {
-      dispatch(hideSpinner());
-      dispatch(showFeedback());
+      if (displayFeedback) {
+        dispatch(hideSpinner());
+        dispatch(showFeedback());
+      } else {
+        console.log("Secodn option called");
+        dispatch(showWrongAdminLoginMessage());
+        dispatch(hideSpinner());
+      }
     }
   };
 
