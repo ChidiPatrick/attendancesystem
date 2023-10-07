@@ -59,9 +59,9 @@ const adminDashBoard = createSlice({
 export const {
   setWeeklyAttendance,
   setTotalStudents,
-  showWrongAdminLoginMessage,
-  hideWrongAdminLoginMessage,
-  setWrongAdminLoginMessage,
+  // showWrongAdminLoginMessage,
+  // hideWrongAdminLoginMessage,
+  // setWrongAdminLoginMessage,
 } = adminDashBoard.actions;
 
 export default adminDashBoard.reducer;

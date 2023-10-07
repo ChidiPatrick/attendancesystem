@@ -51,6 +51,7 @@ const loginSlice = createSlice({
     },
     hideWrongAdminLoginMessage(state, action) {
       state.displayWrongAdminMessage = false;
+      console.log("Hide admin message fully executed!");
     },
   },
 });

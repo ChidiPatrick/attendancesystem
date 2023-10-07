@@ -1,5 +1,5 @@
 //// React Imports /////////////////////
-import React from "react";
+import React, { useState } from "react";
 
 ///Third Party Imports //////////////////
 import * as Yup from "yup";
@@ -46,6 +46,8 @@ const SigninAsAdmin = () => {
   ///// Initialisations////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [showWrongMessage, setShowWrongMessage] = useState(false);
 
   const date = new Date();
   console.log(date.getDay());
@@ -98,28 +100,42 @@ const SigninAsAdmin = () => {
             verifyAdminEmail(dispatch);
             console.log("Done verifying");
           })
-          .then(() => {
-            const adminBioObject = adminsEmail.find(
-              (item) => item.email === values.email
-            );
+          .then(
+            () => {
+              // try {
+              const adminBioObject = adminsEmail.find(
+                (item) => item.email === values.email
+              );
 
-            console.log(adminBioObject);
+              console.log(adminBioObject);
 
-            if (adminBioObject === undefined) {
-              console.log("Email not found!!");
-              dispatch(
-                setWrongAdminLoginMessage(
+              if (adminBioObject === undefined) {
+                console.log("Email not found!!");
+                dispatch(
+                  setWrongAdminLoginMessage(
+                    "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
+                  )
+                );
+                // dispatch(showWrongAdminLoginMessage());
+                // dispatch(hideFeedback());
+
+                throw new Error(
                   "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
-                )
-              );
-              // dispatch(showWrongAdminLoginMessage());
-              // dispatch(hideFeedback());
-
-              throw new Error(
-                "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
-              );
+                );
+              }
+              // } catch (err) {
+              //   console.log(err);
+              //   dispatch(hideSpinner());
+              //   dispatch(showWrongAdminLoginMessage());
+              //   return;
             }
-          })
+            // (err) => {
+            //   console.log(err);
+            //   dispatch(hideSpinner());
+            //   dispatch(showWrongAdminLoginMessage());
+            //   return;
+            // }
+          )
           .then((userId) => {
             dispatch(setUserId(userId));
             dispatch(hideSpinner());
@@ -135,8 +151,9 @@ const SigninAsAdmin = () => {
         dispatch(showFeedback());
       } else {
         console.log("Secodn option called");
-        dispatch(showWrongAdminLoginMessage());
         dispatch(hideSpinner());
+        // dispatch(showWrongAdminLoginMessage());
+        setShowWrongMessage(true);
       }
     }
   };
@@ -235,8 +252,8 @@ const SigninAsAdmin = () => {
         </FeedbackModal>
       ) : null}
 
-      {displayWrongLoginMessage === true ? (
-        <FeedbackModal handleClick={dispatch(hideWrongAdminLoginMessage())}>
+      {showWrongMessage === true ? (
+        <FeedbackModal handleClick={() => setShowWrongMessage(false)}>
           {wrongAdminLoginMessage}
         </FeedbackModal>
       ) : null}
