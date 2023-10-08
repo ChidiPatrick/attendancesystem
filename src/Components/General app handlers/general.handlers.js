@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router";
 import Home from "../AppComponents/Pages/home";
 import { onValue, ref } from "firebase/database";
+import { setAdminData } from "../Redux Slices/adminSlice";
 
 /// Firestore ref creator ////
 const firestoreRefCreator = (db, userId, collection, document) => {
@@ -168,13 +169,19 @@ const verifyStudentEmail = (dispatch) => {
   });
 };
 
-const verifyAdminEmail = (dispatch) => {
+const verifyAdminEmail = (dispatch, values) => {
   const adminsBioRef = ref(rdb, "admindashboard/adminsBioDatabase");
   console.log("Verifying email in onValue");
   onValue(adminsBioRef, (snapshot) => {
     const adminsBioData = snapshot.val();
-    console.log(snapshot.val());
-    dispatch(setAdminsEmails([...Object.values(adminsBioData)]));
+
+    const adminsBioDataArray = Object.values(adminsBioData);
+
+    // const currAdmin = adminsBioDataArray.find(
+    //   (admin) => admin.email === values.emails
+    // );
+    dispatch(setAdminsEmails(adminsBioDataArray));
+    // dispatch(setAdminData(currAdmin));
   });
 };
 

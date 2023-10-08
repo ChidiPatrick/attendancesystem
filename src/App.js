@@ -26,7 +26,11 @@ import SigninAsAdmin from "./Components/AppComponents/LoginComp/login.admin";
 import { ProtectedRoute } from "./Components/General app handlers/general.handlers";
 import { useSelector } from "react-redux";
 import DashboardComponent from "./Components/AppComponents/Admin Dashboard/admin dashboard components/dashboard.comp";
-
+import StudentsBio from "./Components/AppComponents/Admin Dashboard/admin dashboard components/students.bio";
+import AdminAnnouncement from "./Components/AppComponents/Admin Dashboard/admin dashboard components/announcement";
+import AdminDashboardLayout from "./Components/AppComponents/Admin Dashboard/admin dashboard components/adminDashboardLayout";
+import ClassSetup from "./Components/AppComponents/Admin Dashboard/admin dashboard components/class.setup";
+import AttendanceReport from "./Components/AppComponents/Admin Dashboard/admin dashboard components/attendance.report";
 //// Root component ///
 function App() {
   window.addEventListener("offline", () => console.log("Offline"));
@@ -61,7 +65,27 @@ function App() {
           element={<UploadProfilePicture />}
         />
         <Route path="/editProfile" element={<EditProfile />} />
-        <Route path="/adminDashboard" element={<DashboardComponent />} />
+
+        <Route path="/adminDashboard" element={<AdminDashboardLayout />}>
+          <Route index element={<DashboardComponent />} />
+          <Route
+            path="/adminDashboard/adminStudentsBio"
+            element={<StudentsBio />}
+          />
+          <Route
+            path="/adminDashboard/adminDashboard"
+            element={<DashboardComponent />}
+          />
+          <Route
+            path="/adminDashboard/adminAnnouncements"
+            element={<AdminAnnouncement />}
+          />
+          <Route
+            path="/adminDashboard/attendanceDispalyUI"
+            element={<AttendanceReport />}
+          />
+          <Route path="/adminDashboard/classSetup" element={<ClassSetup />} />
+        </Route>
       </Routes>
     </div>
   );

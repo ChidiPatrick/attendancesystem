@@ -6,7 +6,7 @@ import DashboardNavigationComponent from "./dashboard.navcomp";
 import { HiDotsVertical } from "react-icons/hi";
 import NotificationBar from "./notification.bar";
 
-function Announcement() {
+function AdminAnnouncement() {
   // Local states
   const [showShortcut, setShowShortcut] = useState(false);
 
@@ -94,4 +94,4 @@ function Announcement() {
   );
 }
 
-export default Announcement;
+export default AdminAnnouncement;

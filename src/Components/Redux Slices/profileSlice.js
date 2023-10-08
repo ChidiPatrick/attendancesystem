@@ -29,6 +29,7 @@ export const getUserProfileData = async (userId, dispatch) => {
 const initialState = {
   userProfileData: {},
   userProfilePictureUrl: "",
+  adminBio: "",
 };
 
 const profileSlice = createSlice({

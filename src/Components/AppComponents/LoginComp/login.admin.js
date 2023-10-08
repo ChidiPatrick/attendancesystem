@@ -33,6 +33,8 @@ import {
 } from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
+import { persistor } from "../../Store/store";
+import { setAdminData } from "../../Redux Slices/adminSlice";
 
 //Signin TODOs:
 /**
@@ -97,45 +99,32 @@ const SigninAsAdmin = () => {
           .then((user) => {
             console.log(user);
             console.log("Verifying admin email...");
-            verifyAdminEmail(dispatch);
+            verifyAdminEmail(dispatch, values);
             console.log("Done verifying");
           })
-          .then(
-            () => {
-              // try {
-              const adminBioObject = adminsEmail.find(
-                (item) => item.email === values.email
+          .then(() => {
+            // try {
+            const adminBioObject = adminsEmail.find(
+              (item) => item.email === values.email
+            );
+
+            console.log(adminBioObject);
+
+            if (adminBioObject === undefined) {
+              console.log("Email not found!!");
+              dispatch(
+                setWrongAdminLoginMessage(
+                  "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
+                )
               );
 
-              console.log(adminBioObject);
-
-              if (adminBioObject === undefined) {
-                console.log("Email not found!!");
-                dispatch(
-                  setWrongAdminLoginMessage(
-                    "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
-                  )
-                );
-                // dispatch(showWrongAdminLoginMessage());
-                // dispatch(hideFeedback());
-
-                throw new Error(
-                  "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
-                );
-              }
-              // } catch (err) {
-              //   console.log(err);
-              //   dispatch(hideSpinner());
-              //   dispatch(showWrongAdminLoginMessage());
-              //   return;
+              throw new Error(
+                "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
+              );
+            } else {
+              dispatch(setAdminData(adminBioObject));
             }
-            // (err) => {
-            //   console.log(err);
-            //   dispatch(hideSpinner());
-            //   dispatch(showWrongAdminLoginMessage());
-            //   return;
-            // }
-          )
+          })
           .then((userId) => {
             dispatch(setUserId(userId));
             dispatch(hideSpinner());

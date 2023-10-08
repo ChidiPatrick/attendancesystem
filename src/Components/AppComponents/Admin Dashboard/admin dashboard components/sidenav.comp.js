@@ -10,8 +10,13 @@ import {
 } from "react-icons/hi2";
 import { GrAnnounce } from "react-icons/gr";
 import { BiLogIn } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
 function SideNavigation() {
+  // Redux states
+  const adminData = useSelector((state) => state.adminSlice.adminData);
+  console.log(adminData);
+
   return (
     <div className="bg-[#F6F9FE] flex flex-col justify-between  items-center p-[20px] min-h-screen w-[260px]">
       <div>
@@ -23,7 +28,10 @@ function SideNavigation() {
             className="flex w-full my-[10px] p-[10px]"
             activeClassName="bg-[#E9EFFC]"
           >
-            <NavLink className="flex w-[200px] items-center">
+            <NavLink
+              className="flex w-[200px] items-center"
+              to="/adminDashboard/adminDashboard"
+            >
               <HiOutlineAcademicCap className="mr-[10px]" />
               <span>Dashboard</span>
             </NavLink>
@@ -32,7 +40,10 @@ function SideNavigation() {
             className="flex w-full my-[10px] p-[10px]"
             activeClassName="bg-[#E9EFFC]"
           >
-            <NavLink className="flex w-[200px] items-center">
+            <NavLink
+              className="flex w-[200px] items-center"
+              to="/adminDashboard/adminAnnouncements"
+            >
               <GrAnnounce className="mr-[10px]" />
               <span>Announcement</span>
             </NavLink>
@@ -41,7 +52,7 @@ function SideNavigation() {
             className="flex w-full my-[10px] p-[10px]"
             activeClassName="bg-[#E9EFFC]"
           >
-            <NavLink className="flex w-[200px] items-center">
+            <NavLink className="flex w-[200px] items-center" to="classSetup">
               <HiOutlineCircleStack className="mr-[10px]" />
               <span>Class setup</span>
             </NavLink>
@@ -50,7 +61,10 @@ function SideNavigation() {
             className="flex w-full my-[10px] p-[10px]"
             activeClassName="bg-[#E9EFFC]"
           >
-            <NavLink className="flex w-[200px] items-center">
+            <NavLink
+              className="flex w-[200px] items-center"
+              to="attendanceDispalyUI"
+            >
               <HiListBullet className="mr-[10px]" />
               <span>Attendance</span>
             </NavLink>

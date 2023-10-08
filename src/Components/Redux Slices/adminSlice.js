@@ -10,6 +10,7 @@ const initialState = {
   weeklyAttendanceRecord: null,
   totalStudents: 0,
   displayWrongAdminLoginDetailsMessage: false,
+  adminData: null,
   wrongAdminLoginMessage: "",
 };
 
@@ -53,15 +54,13 @@ const adminDashBoard = createSlice({
     setWrongAdminLoginMessage(state, action) {
       state.wrongAdminLoginMessage = action.payload;
     },
+    setAdminData(state, action) {
+      state.adminData = action.payload;
+    },
   },
 });
 
-export const {
-  setWeeklyAttendance,
-  setTotalStudents,
-  // showWrongAdminLoginMessage,
-  // hideWrongAdminLoginMessage,
-  // setWrongAdminLoginMessage,
-} = adminDashBoard.actions;
+export const { setWeeklyAttendance, setTotalStudents, setAdminData } =
+  adminDashBoard.actions;
 
 export default adminDashBoard.reducer;

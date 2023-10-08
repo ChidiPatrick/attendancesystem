@@ -21,6 +21,12 @@ import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
 import { addAdminBioDataToDatabase } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 
+///////////////////////////////////////////////////////////////
+/**
+ * Substitute the alart implementation with pop-up or toastify
+ *
+ */
+
 ////////////////Sign up component//////////////////////////////
 const SignUpAsAdmin = () => {
   //// Initializations ///////////////
@@ -78,8 +84,6 @@ const SignUpAsAdmin = () => {
       prompt("Email already in use");
     }
   };
-
-  // TODO: Validate phone number
 
   const formik = useFormik({
     initialValues: {

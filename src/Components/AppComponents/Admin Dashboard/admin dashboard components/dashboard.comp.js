@@ -8,23 +8,22 @@ import SideNavigation from "./sidenav.comp";
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import SummaryBox from "./summary.box";
 import StudentsInclass from "./students.inclasss";
-import Session from "./Session";
 import ClassSetup from "./class.setup";
 import AdminStudentProfile from "./admin.student.profile";
-import { onValue } from "firebase/database";
-import { getStudentsTotalNumber } from "../admin dashboard handlers/dashboard.summary.comp";
+import { useSelector } from "react-redux";
+import AdminDashboardLayout from "./adminDashboardLayout";
 
 function DashboardComponent() {
-  // Local states
-  const [totalStudentsNumber, setTotalStudentsNumber] = useState(0);
+  // Redux  states
+  const adminData = useSelector((state) => state.adminSlice.adminData);
 
-  //Action to take after mounting
+  console.log(adminData);
 
   return (
     <div className="w-full p-[10px] flex h-screen  bg-[#F7F7F773]">
-      <div>
+      {/* <div>
         <SideNavigation />
-      </div>
+      </div> */}
       <div className="w-full h-screen bg-user-profile">
         <DashboardNavigationComponent title="Dashboard" />
         <div className="w-full flex justify-between p-[10px] mt-[20px]">
@@ -78,9 +77,11 @@ function DashboardComponent() {
           </div>
           <StudentsInclass />
         </div>
-        <AdminStudentProfile />
-        <ClassSetup />
+        {/* <AdminStudentProfile />
+        <ClassSetup /> */}
+        {/* <AdminDashboardLayout /> */}
       </div>
+      {/* <div>HELLO NAIJA BOY</div> */}
     </div>
   );
 }

@@ -2,7 +2,7 @@
 import { persistReducer, persistStore } from "redux-persist";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
-import autoMergeLevel1 from "redux-persist/es/stateReconciler/autoMergeLevel1";
+import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
 import thunk from "redux-thunk";
 
 //Local imports
@@ -19,7 +19,7 @@ import permissionSlice from "../Redux Slices/permission.slice";
 const persistConfig = {
   key: "root",
   storage,
-  stateReconciler: autoMergeLevel1,
+  stateReconciler: autoMergeLevel2,
   blacklist: ["signupSlice", "menuSlice"],
 };
 
