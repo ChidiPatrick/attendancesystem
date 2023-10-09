@@ -1,7 +1,7 @@
 import { getDoc, updateDoc } from "firebase/firestore";
 import { firestoreAdminRefCreatore } from "../../../General app handlers/general.handlers";
 import { db, rdb } from "../../../Firebase/firebase";
-import { set, ref, onValue, push, off } from "firebase/database";
+import { set, ref, onValue, push, off, update } from "firebase/database";
 
 //Add new user bio into admin dabase
 const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
@@ -37,8 +37,19 @@ const addClockOutDataToAdminDatabase = (clockOutData) => {
     .catch((err) => console.log(err));
 };
 
-const updateAddClockinDataToAdminDatabaseWithClockoutObj = (clockoutObj) => {
+const updateAddClockinDataToAdminDatabaseWithClockoutObj = (
+  clockinObject,
+  clockoutObject
+) => {
   const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
+  const clocinObjectRef = clockInDatabaseRef.child(`${clockinObject.rdbKey}`);
+
+  const updatedClockinObject = {
+    ...clockinObject,
+    clockoutObj: clockoutObject,
+  };
+
+  update(clocinObjectRef, updatedClockinObject);
   // const
 };
 

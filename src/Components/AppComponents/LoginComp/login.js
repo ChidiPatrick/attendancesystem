@@ -95,12 +95,15 @@ const Signin = () => {
       // let userId;
       if (navigator.onLine) {
         dispatch(showSpinner());
+
         //Verify user's email in the students email array before proceeding
         await signInWithEmailAndPassword(auth, values.email, values.password)
-          .then(() => {
+          .then((user) => {
             verifyStudentEmail(dispatch);
+
+            return user;
           })
-          .then(() => {
+          .then((user) => {
             const userEmail = studentsEmail.find(
               (user) => user.email === values.email
             );
@@ -117,6 +120,8 @@ const Signin = () => {
                 "User email is not recognised as one of the registered students. Please check your login details and try again, or create an account if you don't one with us"
               );
             }
+
+            return user;
           })
           .then(async (user) => {
             let userId = user.user.uid;

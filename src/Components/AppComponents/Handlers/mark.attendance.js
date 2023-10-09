@@ -20,7 +20,8 @@ import { getWeekNumber } from "./get.current.week";
 
 /* 
 TODOs:
-   Complete making userProfile UI responsive
+   Walk through the attendance marking process again
+   Implement attendance updating logic to add clockout data
 
 */
 
@@ -101,7 +102,7 @@ const updateAttendanceRecord = async (
           addClockInDataToAdminDatabase(adminData);
         })
         .then(async () => {
-          await getAttendanceRecords(userId);
+          await getAttendanceRecords(userId, dispatch);
         })
         .then(() => {
           dispatch(hideSpinner());

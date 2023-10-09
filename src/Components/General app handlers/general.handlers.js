@@ -172,16 +172,13 @@ const verifyStudentEmail = (dispatch) => {
 const verifyAdminEmail = (dispatch, values) => {
   const adminsBioRef = ref(rdb, "admindashboard/adminsBioDatabase");
   console.log("Verifying email in onValue");
+
   onValue(adminsBioRef, (snapshot) => {
     const adminsBioData = snapshot.val();
 
     const adminsBioDataArray = Object.values(adminsBioData);
 
-    // const currAdmin = adminsBioDataArray.find(
-    //   (admin) => admin.email === values.emails
-    // );
     dispatch(setAdminsEmails(adminsBioDataArray));
-    // dispatch(setAdminData(currAdmin));
   });
 };
 
