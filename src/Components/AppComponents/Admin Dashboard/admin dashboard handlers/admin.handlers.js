@@ -21,7 +21,7 @@ const addAdminBioDataToDatabase = async (valuesObject) => {
 const addClockInDataToAdminDatabase = async (clockInData) => {
   const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
   const clockInListRef = push(clockInDatabaseRef);
-  set(clockInListRef, { ...clockInData })
+  set(clockInListRef, { ...clockInData, rdbKey: clockInListRef.key })
     .then(() => console.log("Uploaded!!"))
     .catch((err) => console.log(err));
 };
@@ -35,6 +35,11 @@ const addClockOutDataToAdminDatabase = (clockOutData) => {
   set(newListRef, { ...clockOutData })
     .then(() => console.log("Uploaded!!"))
     .catch((err) => console.log(err));
+};
+
+const updateAddClockinDataToAdminDatabaseWithClockoutObj = (clockoutObj) => {
+  const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
+  // const
 };
 
 // Get students logins

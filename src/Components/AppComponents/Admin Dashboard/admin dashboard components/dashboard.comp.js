@@ -12,6 +12,7 @@ import ClassSetup from "./class.setup";
 import AdminStudentProfile from "./admin.student.profile";
 import { useSelector } from "react-redux";
 import AdminDashboardLayout from "./adminDashboardLayout";
+import AttendanceDisplayUI from "./attendance.display.UI";
 
 function DashboardComponent() {
   // Redux  states
@@ -77,11 +78,8 @@ function DashboardComponent() {
           </div>
           <StudentsInclass />
         </div>
-        {/* <AdminStudentProfile />
-        <ClassSetup /> */}
-        {/* <AdminDashboardLayout /> */}
+        <AttendanceDisplayUI />
       </div>
-      {/* <div>HELLO NAIJA BOY</div> */}
     </div>
   );
 }

@@ -58,6 +58,7 @@ const updateAttendanceRecord = async (
       date: attendanceData.date,
       isOnTime: attendanceData.isOnTime,
       time: attendanceData.time,
+      userId,
       clockoutObj: null,
     };
 
@@ -67,6 +68,8 @@ const updateAttendanceRecord = async (
       date: attendanceData.date,
       isOnTime: attendanceData.isOnTime,
       time: attendanceData.time,
+      clockoutObj: attendanceData.clockoutObj,
+      userId,
     };
 
     dispatch(showSpinner());
@@ -201,10 +204,7 @@ const updateClockOutData = async (
       "attendanceDocument"
     );
 
-    // const data = {
-    //   dailyClockOuts: arrayUnion(clockOutData),
-    // };
-
+    // Get last clockin object in the array
     const currClockinsArray = [...dailyClockInsArray];
     const lastClockinObject = currClockinsArray.pop();
     const newClockinObj = { ...lastClockinObject, clockoutObj: clockOutData };
