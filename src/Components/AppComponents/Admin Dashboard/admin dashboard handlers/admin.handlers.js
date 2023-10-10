@@ -1,7 +1,16 @@
-import { getDoc, updateDoc } from "firebase/firestore";
+import { getDoc, snapshotEqual, updateDoc } from "firebase/firestore";
 import { firestoreAdminRefCreatore } from "../../../General app handlers/general.handlers";
 import { db, rdb } from "../../../Firebase/firebase";
-import { set, ref, onValue, push, off, update } from "firebase/database";
+import {
+  set,
+  ref,
+  onValue,
+  push,
+  off,
+  update,
+  get,
+  child,
+} from "firebase/database";
 
 //Add new user bio into admin dabase
 const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
@@ -21,7 +30,13 @@ const addAdminBioDataToDatabase = async (valuesObject) => {
 const addClockInDataToAdminDatabase = async (clockInData) => {
   const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
   const clockInListRef = push(clockInDatabaseRef);
-  set(clockInListRef, { ...clockInData, rdbKey: clockInListRef.key })
+
+  console.log(clockInListRef.key);
+
+  set(clockInListRef, {
+    ...clockInData,
+    rdbKey: clockInListRef.key,
+  })
     .then(() => console.log("Uploaded!!"))
     .catch((err) => console.log(err));
 };
@@ -41,15 +56,24 @@ const updateAddClockinDataToAdminDatabaseWithClockoutObj = (
   clockinObject,
   clockoutObject
 ) => {
+  /**
+   * Get the day's attendance array
+   * find user's attendance,
+   * get the rdkey
+   * use it to update the attendance
+   */
   const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
-  const clocinObjectRef = clockInDatabaseRef.child(`${clockinObject.rdbKey}`);
+
+  get(child(rdb, `admindashboard/clockInList/${clockinObject.rdbKey}`)).then(
+    (snapshot) => console.log(snapshot)
+  );
 
   const updatedClockinObject = {
     ...clockinObject,
     clockoutObj: clockoutObject,
   };
 
-  update(clocinObjectRef, updatedClockinObject);
+  // update(clockinObjectRef, updatedClockinObject);
   // const
 };
 
@@ -88,4 +112,5 @@ export {
   addAdminBioDataToDatabase,
   getStudentsLogins,
   getStudentsBios,
+  updateAddClockinDataToAdminDatabaseWithClockoutObj,
 };

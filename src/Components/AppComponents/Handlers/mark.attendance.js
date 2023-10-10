@@ -69,7 +69,6 @@ const updateAttendanceRecord = async (
       date: attendanceData.date,
       isOnTime: attendanceData.isOnTime,
       time: attendanceData.time,
-      clockoutObj: attendanceData.clockoutObj,
       userId,
     };
 
