@@ -171,7 +171,6 @@ const verifyStudentEmail = (dispatch) => {
 
 const verifyAdminEmail = (dispatch, values) => {
   const adminsBioRef = ref(rdb, "admindashboard/adminsBioDatabase");
-  console.log("Verifying email in onValue");
 
   onValue(adminsBioRef, (snapshot) => {
     const adminsBioData = snapshot.val();

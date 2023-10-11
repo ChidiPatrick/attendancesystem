@@ -6,13 +6,23 @@ import { onValue, ref } from "firebase/database";
 
 // Local imports
 import { rdb } from "../../../Firebase/firebase";
-import { getCurrentClockinAttendanceObj } from "../admin dashboard handlers/admin.handlers";
+import {
+  getCurrentClockinAttendanceObj,
+  getStudentsNumber,
+} from "../admin dashboard handlers/admin.handlers";
 
 function AttendanceDisplayUI() {
   //Local states
-  // const [attendanceArray, setAttendanceArray] = useState(false);
 
-  const attendanceArray = getCurrentClockinAttendanceObj();
+  const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
+
+  let curAttendance = "No value";
+
+  onValue(clockInDatabaseRef, (snapshot) => {
+    curAttendance = snapshot.val();
+  });
+
+  const attendanceArray = Object.values(curAttendance);
 
   const currAttendanceArray = attendanceArray.filter(
     (attendance) => attendance.date === new Date().toDateString()
@@ -24,7 +34,9 @@ function AttendanceDisplayUI() {
         <span>Today's attendance</span>
         <div className="flex justify-between items-center">
           <HiOutlineUser className="mr-[10px] font-bold" />
-          <div>50/150</div>
+          <div>
+            {currAttendanceArray.length} / {getStudentsNumber()}
+          </div>
         </div>
       </h3>
       <table className="w-full mt-[20px] p-[10px]">
