@@ -73,13 +73,6 @@ const updateAddClockinDataToAdminDatabaseWithClockoutObj = (
   userId,
   getAttenceFunction
 ) => {
-  /**
-   * Get the day's attendance array
-   * find user's attendance,
-   * get the rdkey
-   * use it to update the attendance
-   */
-
   const currAttendanceArray = getAttenceFunction();
 
   const userCurrAttendanceObj = currAttendanceArray.find(

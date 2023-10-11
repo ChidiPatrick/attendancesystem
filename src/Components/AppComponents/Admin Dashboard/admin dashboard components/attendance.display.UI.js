@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // Third-party imports
 import { HiOutlineUser } from "react-icons/hi2";
+import { onValue, ref } from "firebase/database";
+
+// Local imports
+import { rdb } from "../../../Firebase/firebase";
+import { getCurrentClockinAttendanceObj } from "../admin dashboard handlers/admin.handlers";
 
 function AttendanceDisplayUI() {
+  //Local states
+  // const [attendanceArray, setAttendanceArray] = useState(false);
+
+  const attendanceArray = getCurrentClockinAttendanceObj();
+
+  const currAttendanceArray = attendanceArray.filter(
+    (attendance) => attendance.date === new Date().toDateString()
+  );
+
   return (
     <div className="w-full bg-white border border-tranparent rounded-md p-[20px] h-[380px]">
       <h3 className="font-bold flex justify-between w-[25%] items-center">
@@ -23,20 +37,24 @@ function AttendanceDisplayUI() {
             <th className="w-24">Clock out</th>
           </tr>
         </thead>
-        <tr className="even:bg-gray-100 odd:bg-white">
-          <td className="text-center p-[10px]">001</td>
-          <td className="text-center p-[10px]">Patrick Chidiebele</td>
-          <td className="text-center p-[10px]">8:30am</td>
-          <td className="text-center p-[10px]">Early</td>
-          <td className="text-center p-[10px]">5:PM</td>
-        </tr>
-        <tr className="even:bg-gray-100 odd:bg-white">
-          <td className="text-center p-[10px]">001</td>
-          <td className="text-center p-[10px]">Patrick Chidiebele</td>
-          <td className="text-center p-[10px]">8:30am</td>
-          <td className="text-center p-[10px]">Early</td>
-          <td className="text-center p-[10px]">5:PM</td>
-        </tr>
+
+        {currAttendanceArray?.map((item, index) => {
+          return (
+            <tr className="even:bg-gray-100 odd:bg-white">
+              <td className="text-center p-[10px]">
+                {index < 10 ? `00${index + 1}` : index + 1}
+              </td>
+              <td className="text-center p-[10px]">{item?.name}</td>
+              <td className="text-center p-[10px]">{item?.time}</td>
+              <td className="text-center p-[10px]">
+                {item.isOnTime === false ? "Late" : "Early"}
+              </td>
+              <td className="text-center p-[10px]">
+                {item?.clockoutObject?.time}
+              </td>
+            </tr>
+          );
+        })}
       </table>
     </div>
   );
