@@ -11,6 +11,7 @@ import {
   get,
   child,
 } from "firebase/database";
+import { setCurrClockinObj } from "../../../Redux Slices/attendanceSlice";
 
 //Add new user bio into admin dabase
 const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
@@ -52,9 +53,25 @@ const addClockOutDataToAdminDatabase = (clockOutData) => {
     .catch((err) => console.log(err));
 };
 
+const getCurrentClockinAttendanceObj = () => {
+  const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
+
+  let curAttendance = "No value";
+
+  onValue(clockInDatabaseRef, (snapshot) => {
+    curAttendance = snapshot.val();
+  });
+
+  const currAttendanceArray = Object.values(curAttendance);
+
+  return currAttendanceArray;
+};
+
 const updateAddClockinDataToAdminDatabaseWithClockoutObj = (
   clockinObject,
-  clockoutObject
+  clockoutObject,
+  userId,
+  getAttenceFunction
 ) => {
   /**
    * Get the day's attendance array
@@ -62,19 +79,26 @@ const updateAddClockinDataToAdminDatabaseWithClockoutObj = (
    * get the rdkey
    * use it to update the attendance
    */
-  const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
 
-  get(child(rdb, `admindashboard/clockInList/${clockinObject.rdbKey}`)).then(
-    (snapshot) => console.log(snapshot)
+  const currAttendanceArray = getAttenceFunction();
+
+  const userCurrAttendanceObj = currAttendanceArray.find(
+    (attendance) =>
+      attendance.date === new Date().toDateString() &&
+      attendance.userId === userId
   );
 
-  const updatedClockinObject = {
+  const userCurrAttendanceRef = ref(
+    rdb,
+    `admindashboard/clockInList/${userCurrAttendanceObj.rdbKey}`
+  );
+
+  const updatedClockinObj = {
     ...clockinObject,
-    clockoutObj: clockoutObject,
+    clockoutObject: clockoutObject,
   };
 
-  // update(clockinObjectRef, updatedClockinObject);
-  // const
+  update(userCurrAttendanceRef, updatedClockinObj);
 };
 
 // Get students logins
@@ -113,4 +137,5 @@ export {
   getStudentsLogins,
   getStudentsBios,
   updateAddClockinDataToAdminDatabaseWithClockoutObj,
+  getCurrentClockinAttendanceObj,
 };

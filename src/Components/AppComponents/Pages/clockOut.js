@@ -20,7 +20,10 @@ import FeedbackModal from "../Modal/feedbackModal";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import NavBar from "./navBar";
 import { getAttendanceRecords } from "../../Redux Slices/attendanceSlice";
-import { updateAddClockinDataToAdminDatabaseWithClockoutObj } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
+import {
+  getCurrentClockinAttendanceObj,
+  updateAddClockinDataToAdminDatabaseWithClockoutObj,
+} from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 
 function ClockOut() {
   const dispatch = useDispatch();
@@ -132,7 +135,15 @@ function ClockOut() {
         getAttendanceRecords(userId, dispatch);
       })
       .then(() => {
-        updateAddClockinDataToAdminDatabaseWithClockoutObj(lastClockin, data);
+        const attendanceData =
+          updateAddClockinDataToAdminDatabaseWithClockoutObj(
+            lastClockin,
+            data,
+            userId,
+            getCurrentClockinAttendanceObj
+          );
+
+        console.log(attendanceData);
       })
       .then(() => {
         setShowBack(true);

@@ -47,6 +47,7 @@ const initialState = {
   linkToClockIn: true,
   linkToClockOut: false,
   clockInImage: null,
+  currClockinObj: null,
 };
 
 const attendanceSlice = createSlice({
@@ -127,6 +128,9 @@ const attendanceSlice = createSlice({
     setLinkToClockOut(state, action) {
       state.linkToClockOut = action.payload;
     },
+    setCurrClockinObj(state, action) {
+      state.currClockinObj = action.payload;
+    },
   },
 });
 
@@ -150,6 +154,7 @@ export const {
   setLinkToClockIn,
   setLinkToClockOut,
   resetClockInImage,
+  setCurrClockinObj,
 } = attendanceSlice.actions;
 
 export default attendanceSlice.reducer;
