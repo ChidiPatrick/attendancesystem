@@ -60,13 +60,14 @@ function MarkUser() {
   const [userIsOnTime, setUserIsOnTime] = useState(isOnTime);
 
   /// Mark attendance ///
-  const markAttendance = async (userId) => {
+  const markAttendance = async (userId, latenessHour) => {
     const date = new Date();
     const time = date.toLocaleTimeString("en-US");
     const currHour = date.getHours();
     setTime(time);
-    setCurrDate(date.toLocaleDateString());
 
+    setCurrDate(date.toLocaleDateString());
+    //CHECK TO SEE IF THIS BUG HAS BEEN FIXED
     if (currHour < latenessHour) {
       setUserIsOnTime(true);
       dispatch(setOnTime(true));
@@ -76,7 +77,7 @@ function MarkUser() {
 
     const data = {
       date: date.toDateString(),
-      isOnTime: userIsOnTime,
+      isOnTime: currHour < latenessHour === false ? true : false,
       time,
       name: `${firstName} ${lastName}`,
     };
@@ -115,7 +116,7 @@ function MarkUser() {
       <div className="mb-[50px] mt-[20px] text-center text-lp-primary font-bold">
         Click the "Mark Attendance" button to clock in
       </div>
-      <ButtonFull handleClick={() => markAttendance(userId)}>
+      <ButtonFull handleClick={() => markAttendance(userId, latenessHour)}>
         Mark attendance
       </ButtonFull>
       {displaySpinner === true ? <SpinnerSmall /> : null}

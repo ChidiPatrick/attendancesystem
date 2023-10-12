@@ -58,7 +58,13 @@ function AttendanceDisplayUI() {
               </td>
               <td className="text-center p-[10px]">{item?.name}</td>
               <td className="text-center p-[10px]">{item?.time}</td>
-              <td className="text-center p-[10px]">
+              <td
+                className={
+                  item?.isOnTime === true
+                    ? `text-center p-[10px] text-green-400`
+                    : `text-center p-[10px] text-lp-secondary`
+                }
+              >
                 {item.isOnTime === false ? "Late" : "Early"}
               </td>
               <td className="text-center p-[10px]">
