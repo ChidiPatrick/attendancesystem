@@ -14,6 +14,9 @@ const initialState = {
   wrongAdminLoginMessage: "",
   programStartingDate: "",
   programEndingDate: "",
+  earlinessStartTime: "",
+  earlinessEndTime: "",
+  latenessStartTime: "",
 };
 
 export const GetStudentAttendanceRecord = createAsyncThunk(
@@ -65,6 +68,15 @@ const adminDashBoard = createSlice({
     updateProgramEndingDateState(state, action) {
       state.programEndingDate = action.payload;
     },
+    updateEarlinessStartTime(state, action) {
+      state.earlinessStartTime = action.payload;
+    },
+    updateEarlinessEndTime(state, action) {
+      state.earlinessEndTime = action.payload;
+    },
+    updateLatenessStartingTime(state, action) {
+      state.latenessStartTime = action.payload;
+    },
   },
 });
 
@@ -74,6 +86,9 @@ export const {
   setAdminData,
   updateProgramEndingDateState,
   updateProgramStartingDateState,
+  updateEarlinessEndTime,
+  updateEarlinessStartTime,
+  updateLatenessStartingTime,
 } = adminDashBoard.actions;
 
 export default adminDashBoard.reducer;

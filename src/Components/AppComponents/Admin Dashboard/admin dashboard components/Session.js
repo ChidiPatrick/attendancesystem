@@ -22,6 +22,16 @@ import {
   updateProgramDurationSettings,
 } from "../admin dashboard handlers/admin.session.setting";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  hideFeedback,
+  hideSpinner,
+  showFeedback,
+  showNetworkFeedback,
+  showSpinner,
+} from "../../../Redux Slices/signupSlice";
+import NetworkFeedback from "../../Modal/networkFeedback";
+import SpinnerSmall from "../../Loading spinners/spinnerSmall";
+import FeedbackModal from "../../Modal/feedbackModal";
 
 function Session() {
   const dispatch = useDispatch();
@@ -30,6 +40,18 @@ function Session() {
   const [date, setDate] = useState(new Date());
   const [endingDate, setEndingDate] = useState(new Date());
 
+  // REDUX STATES
+  const displayNetWorkFeedback = useSelector(
+    (state) => state.signUpSlice.displayNetWorkFeedback
+  );
+  const displaySpinner = useSelector(
+    (state) => state.signUpSlice.displaySpinner
+  );
+  const displayFeedback = useSelector(
+    (state) => state.signUpSlice.displayFeedback
+  );
+
+  // SETTINGS RESETTING OBJECT
   const settingsObject = {
     sessionDuration: { startDate: "", endDate: "" },
     lectureDays: [],
@@ -50,10 +72,26 @@ function Session() {
     dispatch(updateProgramEndingDateState(new Date(newDate).toDateString()));
   };
 
-  const saveChanges = () => {
-    updateEarlinessTimeDuration();
-    updateProgramDurationSettings();
-    updateLatenessTimeFrame();
+  //SAVE SETUP CHANGES TO DATABASE
+  const saveChanges = async (settingsObject) => {
+    if (!navigator.onLine) {
+      dispatch(showNetworkFeedback());
+      return;
+    }
+
+    dispatch(showSpinner());
+
+    updateEarlinessTimeDuration(settingsObject)
+      .then(() => {
+        updateProgramDurationSettings(settingsObject);
+      })
+      .then(() => {
+        updateLatenessTimeFrame(settingsObject);
+      })
+      .catch((err) => {
+        dispatch(hideSpinner());
+        dispatch(showFeedback());
+      });
   };
 
   return (
@@ -158,6 +196,13 @@ function Session() {
           </div>
         </div>
       </div>
+      {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
+      {displaySpinner === true ? <SpinnerSmall /> : null}
+      {displayFeedback === true ? (
+        <FeedbackModal handleClick={() => dispatch(hideFeedback())}>
+          Something went wrong in your last operation. Please try again later
+        </FeedbackModal>
+      ) : null}
     </div>
   );
 }
