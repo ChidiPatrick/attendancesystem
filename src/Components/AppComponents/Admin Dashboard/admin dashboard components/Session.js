@@ -1,18 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Third-party imports
 import { BsDatabaseAdd } from "react-icons/bs";
 import { HiArrowLongRight } from "react-icons/hi2";
 import { BsCalendar4 } from "react-icons/bs";
 import { LiaClockSolid } from "react-icons/lia";
+import DatePicker from "react-date-picker";
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
 
 //Local imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import DaySelector from "./day.selector";
+import {
+  updateProgramEndingDateState,
+  updateProgramStartingDateState,
+} from "../../../Redux Slices/adminSlice";
+import {
+  updateEarlinessTimeDuration,
+  updateLatenessTimeFrame,
+  updateProgramDurationSettings,
+} from "../admin dashboard handlers/admin.session.setting";
+import { useDispatch, useSelector } from "react-redux";
 
 function Session() {
+  const dispatch = useDispatch();
+
+  //Local react states
+  const [date, setDate] = useState(new Date());
+  const [endingDate, setEndingDate] = useState(new Date());
+
+  const settingsObject = {
+    sessionDuration: { startDate: "", endDate: "" },
+    lectureDays: [],
+    earlyTimeFrame: { startTime: "", endTime: "" },
+    latenessTimeFrame: { startTime: "", endTime: "" },
+  };
+
+  //State updating algorithm
+  const getProgramStartingDate = (newDate) => {
+    console.log(newDate);
+    setDate(new Date(newDate).toDateString());
+    dispatch(updateProgramStartingDateState(new Date(newDate).toDateString()));
+  };
+
+  const getProgramEndingDate = (newDate) => {
+    console.log(newDate);
+    setEndingDate(new Date(newDate).toDateString());
+    dispatch(updateProgramEndingDateState(new Date(newDate).toDateString()));
+  };
+
+  const saveChanges = () => {
+    updateEarlinessTimeDuration();
+    updateProgramDurationSettings();
+    updateLatenessTimeFrame();
+  };
+
   return (
-    <div className="w-full bg-user-profile h-screen">
+    <div className="w-full bg-user-profile min-h-screen">
       <div className="border border-transparent border-b-gray-400 ">
         <DashboardNavigationComponent title="Session settings" />
       </div>
@@ -38,15 +83,21 @@ function Session() {
           <fieldset className="hover:border-black p-[20px] mb-4 w-[48%] border-2 border-solid border-signup-gray rounded py-2">
             <legend className="text-lp-primary">From</legend>
             <div className="flex justify-between items-center">
-              <span>{new Date().toDateString()}</span>
-              <BsCalendar4 />
+              <DatePicker
+                value={date}
+                onChange={getProgramStartingDate}
+                className="w-[100%]"
+              />
             </div>
           </fieldset>
           <fieldset className="hover:border-black p-[20px] mb-4 w-[48%] border-2 border-solid border-signup-gray rounded py-2">
             <legend className="text-lp-primary">To</legend>
             <div className="flex justify-between items-center">
-              <span>{new Date().toDateString()}</span>
-              <BsCalendar4 />
+              <DatePicker
+                value={endingDate}
+                onChange={getProgramEndingDate}
+                className="w-[100%]"
+              />
             </div>
           </fieldset>
         </div>

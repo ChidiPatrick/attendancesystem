@@ -1,6 +1,11 @@
-import { update } from "firebase/database";
+import { update, ref, onValue } from "firebase/database";
 import { rdb } from "../../../Firebase/firebase";
-import { ref } from "firebase/database";
+
+// Local directory imports
+import {
+  updateProgramEndingDateState,
+  updateProgramStartingDateState,
+} from "../../../Redux Slices/adminSlice";
 
 const updateProgramStartingDate = (date) => {
   const programStartingRef = ref(
@@ -8,16 +13,16 @@ const updateProgramStartingDate = (date) => {
     "admindashboard/classSetupDatabase/programStartingDate"
   );
 
-  update(programStartingRef, date);
+  return update(programStartingRef, { date });
 };
 
 const updateProgramEndingDate = (date) => {
-  const programStartingRef = ref(
+  const programEndingRef = ref(
     rdb,
     "admindashboard/classSetupDatabase/programEndingDate"
   );
 
-  update(programStartingRef, date);
+  return update(programEndingRef, { date });
 };
 
 export { updateProgramStartingDate, updateProgramEndingDate };

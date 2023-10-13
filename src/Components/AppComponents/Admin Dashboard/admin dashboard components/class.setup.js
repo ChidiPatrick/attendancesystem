@@ -7,7 +7,8 @@ import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { HiArrowNarrowRight } from "react-icons/hi";
-import { onValue, ref } from "firebase/database";
+import { ref as rdbRef, onValue } from "firebase/database";
+
 //Local imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import { Link } from "react-router-dom";
@@ -16,9 +17,15 @@ import {
   updateProgramEndingDate,
   updateProgramStartingDate,
 } from "../admin dashboard handlers/admin.class.setup";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateProgramEndingDateState,
+  updateProgramStartingDateState,
+} from "../../../Redux Slices/adminSlice";
 import { rdb } from "../../../Firebase/firebase";
-import { useDispatch } from "react-redux";
+import Session from "./Session";
 
+//CLASS SET UP COMPONENT
 function ClassSetup() {
   const dispatch = useDispatch();
 
@@ -26,39 +33,57 @@ function ClassSetup() {
   const [date, setDate] = useState(new Date());
   const [endingDate, setEndingDate] = useState(new Date());
 
+  //Redux state
+  const programStartingDate = useSelector(
+    (state) => state.adminSlice.programStartingDate
+  );
+
+  const programEndingDate = useSelector(
+    (state) => state.adminSlice.programEndingDate
+  );
+
+  console.log(programEndingDate);
+
+  // Get programe starting date from calendar
   const getProgramStartingDate = (newDate) => {
+    console.log(newDate);
+
     setDate(new Date(newDate).toDateString());
+    dispatch(updateProgramStartingDateState(new Date(newDate).toDateString()));
   };
 
   const getProgramEndingDate = (newDate) => {
+    console.log(newDate);
     setEndingDate(new Date(newDate).toDateString());
+    dispatch(updateProgramEndingDateState(new Date(newDate).toDateString()));
   };
 
   // Update program duration in database
   const updateProgramDurationSettings = (startingDate, endingDate) => {
-    updateProgramStartingDate(startingDate, dispatch);
-    updateProgramEndingDate(endingDate, dispatch);
+    // Update program starting date
+    updateProgramStartingDate(startingDate).then(() => {
+      const programStartingRef = rdbRef(
+        rdb,
+        "admindashboard/classSetupDatabase/programStartingDate"
+      );
+
+      onValue(programStartingRef, (snapshot) => {
+        dispatch(updateProgramStartingDateState(snapshot.val()));
+      });
+    });
+
+    //Update program ending date
+    updateProgramEndingDate(endingDate).then(() => {
+      const programEndingRef = rdbRef(
+        rdb,
+        "admindashboard/classSetupDatabase/programEndingDate"
+      );
+
+      onValue(programEndingRef, (snapshot) => {
+        dispatch(updateProgramEndingDateState(snapshot.val()));
+      });
+    });
   };
-
-  /// Listen for change events in program starting date
-  // const programStartingRef = ref(
-  //   rdb,
-  //   "admindashboard/classSetupDatabase/programStartingDate"
-  // );
-
-  // onValue(rdb, (snapshot) => {
-  //   setDate(snapshot.val());
-  // });
-
-  /// Listen for change events in program ending date
-  // const programEndingRef = ref(
-  //   rdb,
-  //   "admindashboard/classSetupDatabase/programEndingDate"
-  // );
-
-  // onValue(rdb, (snapshot) => {
-  //   setEndingDate(snapshot.val());
-  // });
 
   return (
     <div className="bg-user-profile min-h-screen w-full p-[10px]">
@@ -68,9 +93,17 @@ function ClassSetup() {
           <h2 className="py-[10px] font-bold text-[18px]">Session</h2>
           <div className=" flex justify-between items-center">
             <div className="w-[30%] flex justify-between items-center font-bold text-[18px]">
-              <span>{new Date(date).toDateString()}</span>
+              <span>
+                {programStartingDate === ""
+                  ? new Date().toDateString()
+                  : programStartingDate.date}
+              </span>
               <HiArrowNarrowRight />
-              <span>{new Date(endingDate).toDateString()}</span>
+              <span>
+                {programEndingDate === ""
+                  ? new Date().toDateString()
+                  : programEndingDate.date}
+              </span>
             </div>
             <button className="w-[200px] hover:bg-[#163a87] flex justify-center items-center  p-[10px] bg-lp-primary border rounded-2xl text-white font-bold">
               <AiOutlineUserAdd className="mr-[10px]" size={20} /> New session
@@ -86,7 +119,7 @@ function ClassSetup() {
               <div className="w-[100%] py-[10px] flex justify-between">
                 <span className="text-[18px] py-[10px]"></span>
                 <span className="text-[18px] font-bold">
-                  {new Date(date).toDateString()}
+                  {new Date().toDateString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
@@ -172,7 +205,7 @@ function ClassSetup() {
                   <legend className="text-lp-primary ">To</legend>
                   <div className="flex justify-between items-center">
                     <DatePicker
-                      value={date}
+                      value={endingDate}
                       onChange={getProgramEndingDate}
                       className=""
                     />
@@ -180,7 +213,13 @@ function ClassSetup() {
                 </fieldset>
               </div>
               <div className="w-[100%] flex mt-[30px] p-[10px] items-center">
-                <ButtonFullLong>Update</ButtonFullLong>
+                <ButtonFullLong
+                  handleClick={() =>
+                    updateProgramDurationSettings(date, endingDate)
+                  }
+                >
+                  Update
+                </ButtonFullLong>
               </div>
             </div>
             <div className="border mt-[30px] border-transparent border-b-gray-300 pb-[50px]">
@@ -224,6 +263,7 @@ function ClassSetup() {
           </div>
         </div>
       </div>
+      <Session />
     </div>
   );
 }
