@@ -3,13 +3,6 @@ import { update, ref } from "firebase/database";
 
 // Local directory imports
 import { rdb } from "../../../Firebase/firebase";
-import {
-  updateProgramEndingDateState,
-  updateProgramStartingDateState,
-  updateEarlinessEndTime,
-  updateEarlinessStartTime,
-  updateLatenessStartingTime,
-} from "../../../Redux Slices/adminSlice";
 
 ///////////////////////////////////////////////////////////////////
 // PROGRAM DURATION UPDATING HANDLERS
@@ -19,9 +12,7 @@ const updateProgramStartingDate = (date, dispatch) => {
     "admindashboard/classSetupDatabase/programStartingDate"
   );
 
-  return update(programStartingRef, { date }).then(() =>
-    dispatch(updateProgramStartingDateState(date))
-  );
+  update(programStartingRef, { date });
 };
 
 const updateProgramEndingDate = (endDate, dispatch) => {
@@ -30,9 +21,7 @@ const updateProgramEndingDate = (endDate, dispatch) => {
     "admindashboard/classSetupDatabase/programEndingDate"
   );
 
-  return update(programEndingRef, { endDate }).then(() => {
-    dispatch(updateProgramEndingDateState(endDate));
-  });
+  update(programEndingRef, { endDate });
 };
 
 ///////////////////////////////////////////////////////////////////
@@ -44,9 +33,7 @@ const updateEarlinessStartingTime = (startTime, dispatch) => {
     "admindashboard/classSetupDatabase/earlinessStartingTime"
   );
 
-  return update(earlinessStartingTimeRef, { startTime }).then(() => {
-    dispatch(updateEarlinessStartTime(startTime));
-  });
+  update(earlinessStartingTimeRef, { startTime });
 };
 
 const updatingEarlinessEndTime = (endTime, dispatch) => {
@@ -55,9 +42,7 @@ const updatingEarlinessEndTime = (endTime, dispatch) => {
     "admindashboard/classSetupDatabase/earlinessEndingTime"
   );
 
-  return update(earlinessEndingTimeRef, { endTime }).then(() => {
-    dispatch(updateEarlinessEndTime(endTime));
-  });
+  update(earlinessEndingTimeRef, { endTime });
 };
 
 //////////////////////////////////////////////////////////////////
@@ -69,9 +54,7 @@ const updateLatenessStartTime = (startTime, dispatch) => {
     "admindashboard/classSetupDatabase/latenessStartingTime"
   );
 
-  return update(latenessStartTimeRef, { startTime }).then(() => {
-    dispatch(updateLatenessStartTime(startTime));
-  });
+  update(latenessStartTimeRef, { startTime });
 };
 
 ////////////////////////////////////////////////////////////////////////////

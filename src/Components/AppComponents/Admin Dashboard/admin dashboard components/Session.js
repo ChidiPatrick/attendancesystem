@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Third-party imports
 import { BsDatabaseAdd } from "react-icons/bs";
@@ -32,47 +32,103 @@ import {
 import NetworkFeedback from "../../Modal/networkFeedback";
 import SpinnerSmall from "../../Loading spinners/spinnerSmall";
 import FeedbackModal from "../../Modal/feedbackModal";
+import {
+  setEarlinessEndingTimeState,
+  setEarlinessStartingTimeState,
+  setLatenessStartingTimeState,
+  setProgramEndingDateState,
+  setProgramStartingDateState,
+} from "../../../Redux Slices/classSetupSlice";
+import { onValue, ref } from "firebase/database";
+import { rdb } from "../../../Firebase/firebase";
+////////////////////////////////////////////////////////////////////////
 
+///////////// SETTINGS COMPONENT ////////////////////
 function Session() {
   const dispatch = useDispatch();
 
-  //Local react states
+  /////////// LOCAL STATES /////////////////////////////
   const [date, setDate] = useState(new Date());
   const [endingDate, setEndingDate] = useState(new Date());
 
-  // REDUX STATES
+  ////////// REDUX STATES ///////////////////////////
   const displayNetWorkFeedback = useSelector(
-    (state) => state.signUpSlice.displayNetWorkFeedback
+    (state) => state.signupSlice.displayNetWorkFeedback
   );
   const displaySpinner = useSelector(
-    (state) => state.signUpSlice.displaySpinner
+    (state) => state.signupSlice.displaySpinner
   );
   const displayFeedback = useSelector(
-    (state) => state.signUpSlice.displayFeedback
+    (state) => state.signupSlice.displayFeedback
   );
+  const programDurationStartDate = useSelector(
+    (state) => state.classSetupSlice.programDurationStartDate
+  );
+  const programDurationEndDate = useSelector(
+    (state) => state.classSetupSlice.programDurationEndDate
+  );
+  const earlinessStartingTime = useSelector(
+    (state) => state.classSetupSlice.earlinessStartingTime
+  );
+  const earlinessEndingTime = useSelector(
+    (state) => state.classSetupSlice.earlinessEndingTime
+  );
+  const latenessStartingTime = useSelector(
+    (state) => state.classSetupSlice.latenessStartingTime
+  );
+  //////////////////////////////////////////////////////////////////////
 
-  // SETTINGS RESETTING OBJECT
+  ////////// FETCH DATA AFTER MOUNTING //////////////////////////////
+  useEffect(() => {
+    const classSetupSettingsRef = ref(rdb, "admindashboard/classSetupDatabase");
+
+    // onValue(classSetupSettingsRef, (snapshot) => {
+    //   const setupSettings = Object.values(snapshot.val());
+    //   setupSettingsArray = setupSettings;
+    // });
+  }, []);
+
+  /////////////// SETTINGS RESETTING OBJECT //////////////////////
   const settingsObject = {
-    sessionDuration: { startDate: "", endDate: "" },
+    sessionDuration: {
+      startDate: programDurationStartDate,
+      endDate: programDurationEndDate,
+    },
+    earlyTimeFrame: {
+      startTime: earlinessStartingTime,
+      endTime: earlinessEndingTime,
+    },
+    latenessTimeFrame: { startTime: latenessStartingTime },
     lectureDays: [],
-    earlyTimeFrame: { startTime: "", endTime: "" },
-    latenessTimeFrame: { startTime: "", endTime: "" },
   };
 
-  //State updating algorithm
-  const getProgramStartingDate = (newDate) => {
-    console.log(newDate);
+  console.log(settingsObject);
+
+  /////////// SETTINGS OBJECT UPDATING HANDLERS //////////////
+  const setProgramStartingDate = (newDate) => {
     setDate(new Date(newDate).toDateString());
-    dispatch(updateProgramStartingDateState(new Date(newDate).toDateString()));
+
+    dispatch(setProgramStartingDateState(new Date(newDate).toDateString()));
   };
 
-  const getProgramEndingDate = (newDate) => {
-    console.log(newDate);
-    setEndingDate(new Date(newDate).toDateString());
-    dispatch(updateProgramEndingDateState(new Date(newDate).toDateString()));
+  const setProgramEndingDate = (newDate) => {
+    dispatch(setProgramEndingDateState(new Date(newDate).toDateString()));
+    setEndingDate(newDate);
   };
 
-  //SAVE SETUP CHANGES TO DATABASE
+  const setEarlinessStartTime = (newDate) => {
+    dispatch(setEarlinessStartingTimeState(newDate));
+  };
+
+  const setEarlinessEndTime = (newDate) => {
+    dispatch(setEarlinessEndingTimeState(newDate));
+  };
+
+  const setLatenessStart = (newDate) => {
+    dispatch(setLatenessStartingTimeState(newDate));
+  };
+
+  ////////// SAVE SETUP CHANGES TO DATABASE ///////////////////
   const saveChanges = async (settingsObject) => {
     if (!navigator.onLine) {
       dispatch(showNetworkFeedback());
@@ -87,6 +143,8 @@ function Session() {
       })
       .then(() => {
         updateLatenessTimeFrame(settingsObject);
+        dispatch(hideSpinner());
+        alert("Settings saved");
       })
       .catch((err) => {
         dispatch(hideSpinner());
@@ -108,7 +166,10 @@ function Session() {
             <HiArrowLongRight />
             <span>End</span>
           </div>
-          <button className="w-[200px] hover:bg-[#c77217] flex justify-center items-center  p-[10px] bg-lp-secondary border rounded-2xl text-white font-bold">
+          <button
+            onClick={() => saveChanges(settingsObject)}
+            className="w-[200px] hover:bg-[#c77217] flex justify-center items-center  p-[10px] bg-lp-secondary border rounded-2xl text-white font-bold"
+          >
             <BsDatabaseAdd size={20} className="mr-[10px]" /> Save
           </button>
         </div>
@@ -123,7 +184,7 @@ function Session() {
             <div className="flex justify-between items-center">
               <DatePicker
                 value={date}
-                onChange={getProgramStartingDate}
+                onChange={setProgramStartingDate}
                 className="w-[100%]"
               />
             </div>
@@ -133,7 +194,7 @@ function Session() {
             <div className="flex justify-between items-center">
               <DatePicker
                 value={endingDate}
-                onChange={getProgramEndingDate}
+                onChange={setProgramEndingDate}
                 className="w-[100%]"
               />
             </div>

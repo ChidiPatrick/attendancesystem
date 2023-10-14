@@ -14,6 +14,7 @@ import loginSlice from "../Redux Slices/login.slice";
 import adminSlice from "../Redux Slices/adminSlice";
 import profileSlice from "../Redux Slices/profileSlice";
 import permissionSlice from "../Redux Slices/permission.slice";
+import classSetupSlice from "../Redux Slices/classSetupSlice";
 
 // Configure redux persist
 const persistConfig = {
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   adminSlice,
   profileSlice,
   permissionSlice,
+  classSetupSlice,
 });
 
 export const persistedReducer = persistReducer(persistConfig, rootReducer);
