@@ -50,7 +50,6 @@ function Session() {
   const [earlyStartingTime, setEarlyStartingTime] = useState("12:00");
   const [earlyEndingTime, setEarlyEndingTime] = useState("12:00");
   const [latenessStartTime, setLatenessStartingTime] = useState("12:00");
-  const [latenessEndTime, setLatenessEndTime] = useState("12:00");
 
   ////////// REDUX STATES ///////////////////////////
   const displayNetWorkFeedback = useSelector(
@@ -77,7 +76,8 @@ function Session() {
   const latenessStartingTime = useSelector(
     (state) => state.classSetupSlice.latenessStartTime
   );
-  console.log(latenessStartingTime);
+  const lectureDays = useSelector((state) => state.classSetupSlice.lectureDays);
+  console.log(lectureDays);
   //////////////////////////////////////////////////////////////////////
 
   /////////////// SETTINGS RESETTING OBJECT //////////////////////
@@ -91,7 +91,7 @@ function Session() {
       endTime: earlinessEndingTime,
     },
     latenessTimeFrame: { startTime: latenessStartingTime },
-    lectureDays: [],
+    lectureDays: lectureDays,
   };
 
   console.log(settingsObject);
@@ -108,18 +108,6 @@ function Session() {
     setEndingDate(newDate);
   };
 
-  const setEarlinessStartTime = (newDate) => {
-    dispatch(setEarlinessStartingTimeState(newDate));
-  };
-
-  // const setEarlinessEndTime = (newDate) => {
-  //   dispatch(setEarlinessEndingTimeState(newDate));
-  // };
-
-  // const setLatenessStart = (newDate) => {
-  //   dispatch(setLatenessStartingTimeState(newDate));
-  // };
-
   const setEarlinessStartingTime = (time) => {
     setEarlyStartingTime(time);
     dispatch(setEarlinessStartingTimeState(time));
@@ -132,11 +120,6 @@ function Session() {
 
   const setLatenessStartTime = (time) => {
     setLatenessStartingTime(time);
-    dispatch(setLatenessStartingTimeState(time));
-  };
-
-  const setLatenessEndingTime = (time) => {
-    setLatenessEndTime(time);
     dispatch(setLatenessStartingTimeState(time));
   };
 
@@ -215,13 +198,13 @@ function Session() {
           <h2 className="p-[10px] text-[18px]">Select lecture days</h2>
           <div className="w-full flex  items-center">
             <div className="w-[70%] p-[10px] flex justify-between items-center">
-              <DaySelector>Sun</DaySelector>
-              <DaySelector>Mon</DaySelector>
-              <DaySelector>Tue</DaySelector>
-              <DaySelector>Wed</DaySelector>
-              <DaySelector>Thur</DaySelector>
-              <DaySelector>Fri</DaySelector>
-              <DaySelector>Sat</DaySelector>
+              <DaySelector dispatch={dispatch}>Sun</DaySelector>
+              <DaySelector dispatch={dispatch}>Mon</DaySelector>
+              <DaySelector dispatch={dispatch}>Tue</DaySelector>
+              <DaySelector dispatch={dispatch}>Wed</DaySelector>
+              <DaySelector dispatch={dispatch}>Thur</DaySelector>
+              <DaySelector dispatch={dispatch}>Fri</DaySelector>
+              <DaySelector dispatch={dispatch}>Sat</DaySelector>
             </div>
           </div>
         </div>
@@ -270,16 +253,6 @@ function Session() {
                 />
               </div>
             </fieldset>
-            {/* <fieldset className="hover:border-black p-[20px] mb-4 w-[48%] border-2 border-solid border-signup-gray rounded py-2">
-              <legend className="text-lp-primary">To</legend>
-              <div className="flex justify-between items-center">
-                <TimePicker
-                  onChange={setLatenessEndingTime}
-                  value={latenessEndTime}
-                  className="w-[100%]"
-                />
-              </div>
-            </fieldset> */}
           </div>
         </div>
       </div>

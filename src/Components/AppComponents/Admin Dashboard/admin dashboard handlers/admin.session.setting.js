@@ -57,9 +57,18 @@ const updateLatenessStartTime = (startTime) => {
   update(latenessStartTimeRef, { startTime });
 };
 
+// LECTURE DAYS ARRAY UPDATING HANDLER
+const updateLectureDaysArray = (lectureDaysAarray) => {
+  const lectureDaysArrayRef = ref(
+    rdb,
+    "admindashboard/classSetupDatabase/lectureDaysArrayRef"
+  );
+
+  update(lectureDaysArrayRef, lectureDaysAarray);
+};
 ////////////////////////////////////////////////////////////////////////////
 
-//SETTING UPDATING INITIATORS
+//SETTINGS UPDATING INITIATORS
 
 //Program duration updating handler
 const updateProgramDurationSettings = async (settingsObject) => {
@@ -87,6 +96,12 @@ const updateEarlinessTimeDuration = async (settingsObject) => {
 const updateLatenessTimeFrame = async (settingsObject) => {
   if (settingsObject.latenessTimeFrame.startTime !== "")
     updateLatenessStartTime(settingsObject.latenessTimeFrame.startTime);
+};
+
+const updateLectureDays = async (settingsObject) => {
+  if (settingsObject.lectureDays.length !== 0) {
+    updateLectureDaysArray(settingsObject.lectureDays);
+  }
 };
 
 export {

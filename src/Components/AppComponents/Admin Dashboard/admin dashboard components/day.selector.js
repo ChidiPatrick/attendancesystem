@@ -1,12 +1,40 @@
-import { click } from "@testing-library/user-event/dist/click";
 import React, { useState } from "react";
 
-function DaySelector({ children }) {
+// Third-party imports
+import { useSelector } from "react-redux";
+
+/////// LOCAL IMPORTS /////
+import {
+  addLectureDay,
+  removeLectureDay,
+} from "../../../Redux Slices/classSetupSlice";
+
+///// Third-party imports
+
+function DaySelector({ children, dispatch }) {
+  //// LOCAL STATES
   const [clicked, setClicked] = useState(true);
+
+  //// REDUX STATES
+  const leactureDaysArray = useSelector(
+    (state) => state.classSetupSlice.lectureDays
+  );
+
+  //// Day selection handler /////
+  const selectDay = (day) => {
+    if (clicked) {
+      console.log(day);
+      setClicked(false);
+      dispatch(addLectureDay(day));
+    } else {
+      setClicked(true);
+      dispatch(removeLectureDay(day));
+    }
+  };
 
   return (
     <div
-      onClick={() => setClicked(!clicked)}
+      onClick={() => selectDay(children)}
       className={
         clicked !== true
           ? `w-[70px] flex justify-center border rounded-xl items-center text-white bg-lp-primary h-[40px] p-[10px]`
