@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //Third-party imports
 import { AiOutlineUserAdd } from "react-icons/ai";
@@ -22,8 +22,15 @@ import {
   updateProgramEndingDateState,
   updateProgramStartingDateState,
 } from "../../../Redux Slices/adminSlice";
-import { rdb } from "../../../Firebase/firebase";
 import Session from "./Session";
+import {
+  setEarlinessEndingTimeState,
+  setEarlinessStartingTimeState,
+  setLatenessStartingTimeState,
+  setProgramEndingDateState,
+  setProgramStartingDateState,
+} from "../../../Redux Slices/classSetupSlice";
+import { rdb } from "../../../Firebase/firebase";
 
 //CLASS SET UP COMPONENT
 function ClassSetup() {
@@ -33,16 +40,39 @@ function ClassSetup() {
   const [date, setDate] = useState(new Date());
   const [endingDate, setEndingDate] = useState(new Date());
 
-  //Redux state
+  //Redux states
   const programStartingDate = useSelector(
-    (state) => state.adminSlice.programStartingDate
+    (state) => state.classSetupSlice.programDurationStartDate
   );
 
   const programEndingDate = useSelector(
-    (state) => state.adminSlice.programEndingDate
+    (state) => state.classSetupSlice.programDurationEndDate
   );
 
-  console.log(programEndingDate);
+  ////////// FETCH DATA AFTER MOUNTING //////////////////////////////
+  useEffect(() => {
+    const classSetupSettingsRef = rdbRef(
+      rdb,
+      "admindashboard/classSetupDatabase"
+    );
+
+    onValue(classSetupSettingsRef, (snapshot) => {
+      if (snapshot.val() === null) {
+        return () => {};
+      } else {
+        const setupSettings = Object.values(snapshot.val());
+
+        console.log(snapshot.val().programEndingDate.endDate);
+
+        dispatch(
+          setProgramStartingDateState(snapshot.val().programStartingDate.date)
+        );
+        dispatch(
+          setProgramEndingDateState(snapshot.val().programEndingDate.endDate)
+        );
+      }
+    });
+  }, []);
 
   // Get programe starting date from calendar
   const getProgramStartingDate = (newDate) => {
@@ -96,13 +126,13 @@ function ClassSetup() {
               <span>
                 {programStartingDate === ""
                   ? new Date().toDateString()
-                  : programStartingDate.date}
+                  : programStartingDate}
               </span>
               <HiArrowNarrowRight />
               <span>
                 {programEndingDate === ""
                   ? new Date().toDateString()
-                  : programEndingDate.date}
+                  : programEndingDate}
               </span>
             </div>
             <button className="w-[200px] hover:bg-[#163a87] flex justify-center items-center  p-[10px] bg-lp-primary border rounded-2xl text-white font-bold">
@@ -116,16 +146,20 @@ function ClassSetup() {
               <h4 className="text-[20px] font-bold">
                 This session runs through
               </h4>
-              <div className="w-[100%] py-[10px] flex justify-between">
-                <span className="text-[18px] py-[10px]"></span>
+              <div className="w-[100%] py-[10px] flex justify-between items-center">
+                <span className="text-[18px] py-[10px]">Start date</span>
                 <span className="text-[18px] font-bold">
-                  {new Date().toDateString()}
+                  {programStartingDate === ""
+                    ? new Date().toDateString()
+                    : programStartingDate}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[18px] py-[10px]">End date:</span>
                 <span className="text-[18px] font-bold">
-                  {new Date(endingDate).toDateString()}
+                  {programEndingDate === ""
+                    ? new Date().toDateString()
+                    : programEndingDate}
                 </span>
               </div>
             </div>

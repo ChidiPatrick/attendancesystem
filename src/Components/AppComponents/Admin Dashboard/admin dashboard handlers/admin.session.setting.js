@@ -6,7 +6,7 @@ import { rdb } from "../../../Firebase/firebase";
 
 ///////////////////////////////////////////////////////////////////
 // PROGRAM DURATION UPDATING HANDLERS
-const updateProgramStartingDate = (date, dispatch) => {
+const updateProgramStartingDate = (date) => {
   const programStartingRef = ref(
     rdb,
     "admindashboard/classSetupDatabase/programStartingDate"
@@ -15,7 +15,7 @@ const updateProgramStartingDate = (date, dispatch) => {
   update(programStartingRef, { date });
 };
 
-const updateProgramEndingDate = (endDate, dispatch) => {
+const updateProgramEndingDate = (endDate) => {
   const programEndingRef = ref(
     rdb,
     "admindashboard/classSetupDatabase/programEndingDate"
@@ -27,7 +27,7 @@ const updateProgramEndingDate = (endDate, dispatch) => {
 ///////////////////////////////////////////////////////////////////
 
 // EARLINESS TIME UPDATING HANDLERS
-const updateEarlinessStartingTime = (startTime, dispatch) => {
+const updateEarlinessStartingTime = (startTime) => {
   const earlinessStartingTimeRef = ref(
     rdb,
     "admindashboard/classSetupDatabase/earlinessStartingTime"
@@ -36,7 +36,7 @@ const updateEarlinessStartingTime = (startTime, dispatch) => {
   update(earlinessStartingTimeRef, { startTime });
 };
 
-const updatingEarlinessEndTime = (endTime, dispatch) => {
+const updatingEarlinessEndTime = (endTime) => {
   const earlinessEndingTimeRef = ref(
     rdb,
     "admindashboard/classSetupDatabase/earlinessEndingTime"
@@ -48,7 +48,7 @@ const updatingEarlinessEndTime = (endTime, dispatch) => {
 //////////////////////////////////////////////////////////////////
 
 // LATENESS TIME UPDATING HANDLERS
-const updateLatenessStartTime = (startTime, dispatch) => {
+const updateLatenessStartTime = (startTime) => {
   const latenessStartTimeRef = ref(
     rdb,
     "admindashboard/classSetupDatabase/latenessStartingTime"
@@ -62,36 +62,31 @@ const updateLatenessStartTime = (startTime, dispatch) => {
 //SETTING UPDATING INITIATORS
 
 //Program duration updating handler
-const updateProgramDurationSettings = async (settingsObject, dispatch) => {
+const updateProgramDurationSettings = async (settingsObject) => {
   if (settingsObject.sessionDuration.startDate !== "") {
-    updateProgramStartingDate(
-      settingsObject.sessionDuration.startDate,
-      dispatch
-    );
+    updateProgramStartingDate(settingsObject.sessionDuration.startDate);
   }
 
   if (settingsObject.sessionDuration.endDate !== "") {
-    updateProgramEndingDate(settingsObject.sessionDuration.endDate, dispatch);
+    updateProgramEndingDate(settingsObject.sessionDuration.endDate);
   }
 };
 
 //Lateness duration updating handler
-const updateEarlinessTimeDuration = async (settingsObject, dispatch) => {
+const updateEarlinessTimeDuration = async (settingsObject) => {
   if (settingsObject.earlyTimeFrame.startTime !== "") {
-    updateEarlinessStartingTime(
-      settingsObject.earlyTimeFrame.startTime,
-      dispatch
-    );
+    updateEarlinessStartingTime(settingsObject.earlyTimeFrame.startTime);
   }
 
   if (settingsObject.earlyTimeFrame.endTime !== "") {
-    updatingEarlinessEndTime(settingsObject.earlyTimeFrame.endTime, dispatch);
+    updatingEarlinessEndTime(settingsObject.earlyTimeFrame.endTime);
   }
 };
 
 //Lateness duration updating handler
-const updateLatenessTimeFrame = async (settingsObject, dispatch) => {
-  updateLatenessStartTime(settingsObject.latenessTimeFrame.startTime, dispatch);
+const updateLatenessTimeFrame = async (settingsObject) => {
+  if (settingsObject.latenessTimeFrame.startTime !== "")
+    updateLatenessStartTime(settingsObject.latenessTimeFrame.startTime);
 };
 
 export {

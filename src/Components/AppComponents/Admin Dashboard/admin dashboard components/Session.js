@@ -3,19 +3,17 @@ import React, { useEffect, useState } from "react";
 // Third-party imports
 import { BsDatabaseAdd } from "react-icons/bs";
 import { HiArrowLongRight } from "react-icons/hi2";
-import { BsCalendar4 } from "react-icons/bs";
 import { LiaClockSolid } from "react-icons/lia";
 import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
+import TimePicker from "react-time-picker";
+import "react-time-picker/dist/TimePicker.css";
+import "react-clock/dist/Clock.css";
 
 //Local imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import DaySelector from "./day.selector";
-import {
-  updateProgramEndingDateState,
-  updateProgramStartingDateState,
-} from "../../../Redux Slices/adminSlice";
 import {
   updateEarlinessTimeDuration,
   updateLatenessTimeFrame,
@@ -39,8 +37,7 @@ import {
   setProgramEndingDateState,
   setProgramStartingDateState,
 } from "../../../Redux Slices/classSetupSlice";
-import { onValue, ref } from "firebase/database";
-import { rdb } from "../../../Firebase/firebase";
+
 ////////////////////////////////////////////////////////////////////////
 
 ///////////// SETTINGS COMPONENT ////////////////////
@@ -50,6 +47,10 @@ function Session() {
   /////////// LOCAL STATES /////////////////////////////
   const [date, setDate] = useState(new Date());
   const [endingDate, setEndingDate] = useState(new Date());
+  const [earlyStartingTime, setEarlyStartingTime] = useState("12:00");
+  const [earlyEndingTime, setEarlyEndingTime] = useState("12:00");
+  const [latenessStartTime, setLatenessStartingTime] = useState("12:00");
+  const [latenessEndTime, setLatenessEndTime] = useState("12:00");
 
   ////////// REDUX STATES ///////////////////////////
   const displayNetWorkFeedback = useSelector(
@@ -74,19 +75,10 @@ function Session() {
     (state) => state.classSetupSlice.earlinessEndingTime
   );
   const latenessStartingTime = useSelector(
-    (state) => state.classSetupSlice.latenessStartingTime
+    (state) => state.classSetupSlice.latenessStartTime
   );
+  console.log(latenessStartingTime);
   //////////////////////////////////////////////////////////////////////
-
-  ////////// FETCH DATA AFTER MOUNTING //////////////////////////////
-  useEffect(() => {
-    const classSetupSettingsRef = ref(rdb, "admindashboard/classSetupDatabase");
-
-    // onValue(classSetupSettingsRef, (snapshot) => {
-    //   const setupSettings = Object.values(snapshot.val());
-    //   setupSettingsArray = setupSettings;
-    // });
-  }, []);
 
   /////////////// SETTINGS RESETTING OBJECT //////////////////////
   const settingsObject = {
@@ -120,12 +112,32 @@ function Session() {
     dispatch(setEarlinessStartingTimeState(newDate));
   };
 
-  const setEarlinessEndTime = (newDate) => {
-    dispatch(setEarlinessEndingTimeState(newDate));
+  // const setEarlinessEndTime = (newDate) => {
+  //   dispatch(setEarlinessEndingTimeState(newDate));
+  // };
+
+  // const setLatenessStart = (newDate) => {
+  //   dispatch(setLatenessStartingTimeState(newDate));
+  // };
+
+  const setEarlinessStartingTime = (time) => {
+    setEarlyStartingTime(time);
+    dispatch(setEarlinessStartingTimeState(time));
   };
 
-  const setLatenessStart = (newDate) => {
-    dispatch(setLatenessStartingTimeState(newDate));
+  const setEarlinessEndingTime = (time) => {
+    setEarlyEndingTime(time);
+    dispatch(setEarlinessEndingTimeState(time));
+  };
+
+  const setLatenessStartTime = (time) => {
+    setLatenessStartingTime(time);
+    dispatch(setLatenessStartingTimeState(time));
+  };
+
+  const setLatenessEndingTime = (time) => {
+    setLatenessEndTime(time);
+    dispatch(setLatenessStartingTimeState(time));
   };
 
   ////////// SAVE SETUP CHANGES TO DATABASE ///////////////////
@@ -136,10 +148,9 @@ function Session() {
     }
 
     dispatch(showSpinner());
-
-    updateEarlinessTimeDuration(settingsObject)
+    updateProgramDurationSettings(settingsObject)
       .then(() => {
-        updateProgramDurationSettings(settingsObject);
+        updateEarlinessTimeDuration(settingsObject);
       })
       .then(() => {
         updateLatenessTimeFrame(settingsObject);
@@ -216,21 +227,30 @@ function Session() {
         </div>
         <div>
           <h3 className="p-[10px]  text-[18px] my-[10px]">
-            What time should attendance record student as early
+            What time should attendance record student as early. Select "AM" for
+            12-Hour time format, and "PM" for 24-Hour format
           </h3>
           <div className="w-[100%]  mx-auto flex justify-between items-center">
             <fieldset className="hover:border-black p-[20px] mb-4 w-[48%] border-2 border-solid border-signup-gray rounded py-2">
               <legend className="text-lp-primary">From</legend>
               <div className="flex justify-between items-center">
-                <span>{new Date().toDateString()}</span>
-                <LiaClockSolid size={25} />
+                {/* <span>{new Date().toDateString()}</span>
+                <LiaClockSolid size={25} /> */}
+                <TimePicker
+                  onChange={setEarlinessStartingTime}
+                  value={earlyStartingTime}
+                  className="w-[100%]"
+                />
               </div>
             </fieldset>
             <fieldset className="hover:border-black p-[20px] mb-4 w-[48%] border-2 border-solid border-signup-gray rounded py-2">
               <legend className="text-lp-primary">To</legend>
               <div className="flex justify-between items-center">
-                <span>{new Date().toDateString()}</span>
-                <LiaClockSolid size={25} />
+                <TimePicker
+                  onChange={setEarlinessEndingTime}
+                  value={earlyEndingTime}
+                  className="w-[100%]"
+                />
               </div>
             </fieldset>
           </div>
@@ -243,17 +263,23 @@ function Session() {
             <fieldset className="hover:border-black p-[20px] mb-4 w-[48%] border-2 border-solid border-signup-gray rounded py-2">
               <legend className="text-lp-primary">From</legend>
               <div className="flex justify-between items-center">
-                <span>{new Date().toDateString()}</span>
-                <LiaClockSolid size={25} />
+                <TimePicker
+                  onChange={setLatenessStartTime}
+                  value={latenessStartTime}
+                  className="w-[100%]"
+                />
               </div>
             </fieldset>
-            <fieldset className="hover:border-black p-[20px] mb-4 w-[48%] border-2 border-solid border-signup-gray rounded py-2">
+            {/* <fieldset className="hover:border-black p-[20px] mb-4 w-[48%] border-2 border-solid border-signup-gray rounded py-2">
               <legend className="text-lp-primary">To</legend>
               <div className="flex justify-between items-center">
-                <span>{new Date().toDateString()}</span>
-                <LiaClockSolid size={25} />
+                <TimePicker
+                  onChange={setLatenessEndingTime}
+                  value={latenessEndTime}
+                  className="w-[100%]"
+                />
               </div>
-            </fieldset>
+            </fieldset> */}
           </div>
         </div>
       </div>
