@@ -7,6 +7,7 @@ const initialState = {
   earlinessEndingTime: "",
   latenessStartTime: "",
   lectureDays: [],
+  breakObjects: [],
 };
 
 const classSetupSlice = createSlice({
@@ -29,8 +30,11 @@ const classSetupSlice = createSlice({
       state.latenessStartTime = action.payload;
     },
     addLectureDay(state, action) {
-      state.lectureDays.push(action.payload);
-      console.log(state.lectureDays);
+      const newLectureDaysArray = state.lectureDays.filter(
+        (item) => item !== action.payload
+      );
+      newLectureDaysArray.push(action.payload);
+      state.lectureDays = newLectureDaysArray;
     },
     removeLectureDay(state, action) {
       const newLectureDays = state.lectureDays.filter(
@@ -38,6 +42,9 @@ const classSetupSlice = createSlice({
       );
 
       state.lectureDays = newLectureDays;
+    },
+    addBreakObject(state, action) {
+      state.breakObjects.push(action.payload);
     },
   },
 });
@@ -50,6 +57,7 @@ export const {
   setProgramStartingDateState,
   addLectureDay,
   removeLectureDay,
+  addBreakObject,
 } = classSetupSlice.actions;
 
 export default classSetupSlice.reducer;

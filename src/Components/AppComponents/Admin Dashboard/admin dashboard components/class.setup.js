@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 //Third-party imports
 import { AiOutlineUserAdd } from "react-icons/ai";
-import { BsCalendar4 } from "react-icons/bs";
 import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { ref as rdbRef, onValue } from "firebase/database";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 //Local imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
@@ -31,10 +32,17 @@ import {
   setProgramStartingDateState,
 } from "../../../Redux Slices/classSetupSlice";
 import { rdb } from "../../../Firebase/firebase";
+import {
+  emmitToast,
+  setBreakDays,
+} from "../admin dashboard handlers/admin.session.setting";
 
 //CLASS SET UP COMPONENT
 function ClassSetup() {
   const dispatch = useDispatch();
+
+  const breakTitleRef = useRef();
+  console.log(breakTitleRef);
 
   // Local states
   const [date, setDate] = useState(new Date());
@@ -48,6 +56,25 @@ function ClassSetup() {
   const programEndingDate = useSelector(
     (state) => state.classSetupSlice.programDurationEndDate
   );
+
+  const lectureDays = useSelector((state) => state.classSetupSlice.lectureDays);
+  console.log(lectureDays);
+
+  const earlinessStartingTime = useSelector(
+    (state) => state.classSetupSlice.earlinessStartingTime
+  );
+
+  const earlinessEndingTime = useSelector(
+    (state) => state.classSetupSlice.earlinessEndingTime
+  );
+
+  const latenessStartingTime = useSelector(
+    (state) => state.classSetupSlice.latenessStartTime
+  );
+
+  const month1 = new Date(programStartingDate).getMonth();
+  const month2 = new Date(programEndingDate).getMonth();
+  const programMonths = month2 - month1;
 
   ////////// FETCH DATA AFTER MOUNTING //////////////////////////////
   useEffect(() => {
@@ -69,6 +96,21 @@ function ClassSetup() {
         );
         dispatch(
           setProgramEndingDateState(snapshot.val().programEndingDate.endDate)
+        );
+        dispatch(
+          setEarlinessStartingTimeState(
+            snapshot.val().earlinessStartingTime.startTime
+          )
+        );
+        dispatch(
+          setEarlinessEndingTimeState(
+            snapshot.val().earlinessEndingTime.endTime
+          )
+        );
+        dispatch(
+          setLatenessStartingTimeState(
+            snapshot.val().latenessStartingTime.startTime
+          )
         );
       }
     });
@@ -163,25 +205,48 @@ function ClassSetup() {
                 </span>
               </div>
             </div>
+            <div className="w-[100%]">
+              <div>Checking toastify</div>
+              <ToastContainer style={{ width: "100%", textAlign: "center" }} />
+            </div>
             <div>
               <div className="px-[20px] py-[10px] border border-transparent border-b-gray-300 pb-[40px]">
                 <h4 className="text-[20px] font-bold">Lecture days and time</h4>
                 <div className="w-[100%] py-[10px] flex justify-between">
                   <span className="text-[18px] py-[10px]">Class days:</span>
-                  <span className="text-[18px] font-bold">
-                    Mon, Tue, Wed,Thur,Fri
+                  <span className="text-[18px] font-bold flex items-center justify-between">
+                    {lectureDays.length !== 0 ? (
+                      lectureDays.map((item) => (
+                        <span className="p-[5px]">{item}</span>
+                      ))
+                    ) : (
+                      <span> Mon, Tue, Wed,Thur,Fri</span>
+                    )}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-[18px] py-[10px]">Early:</span>
-                  <span className="text-[18px] font-bold">
-                    9:00am : 10:00am
-                  </span>
+                  <div className="text-[18px] font-bold w-[40%] flex justify-between items-center">
+                    <span className="">
+                      {earlinessStartingTime !== ""
+                        ? `${earlinessStartingTime}am`
+                        : "9:00am"}
+                    </span>
+                    <HiArrowNarrowRight />
+                    <span>
+                      {earlinessEndingTime !== ""
+                        ? `${earlinessEndingTime}m`
+                        : "10:00am"}
+                    </span>
+                  </div>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-[18px] py-[10px]">Late:</span>
                   <span className="text-[18px] font-bold">
-                    10:30am : upwards
+                    {latenessStartingTime !== ""
+                      ? `${latenessStartingTime}am`
+                      : `10am`}{" "}
+                    : upwards
                   </span>
                 </div>
               </div>
@@ -193,17 +258,21 @@ function ClassSetup() {
                   <span className="text-[18px] py-[10px]">
                     Session Duration:
                   </span>
-                  <span className="text-[18px] font-bold">6Months</span>
+                  <span className="text-[18px] font-bold">
+                    {programMonths !== undefined
+                      ? `${programMonths}month(s)`
+                      : null}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[18px] py-[10px]">Lecture days:</span>
-                  <span className="text-[18px] font-bold">120days</span>
+                  {/* <span className="text-[18px] py-[10px]">Lecture days:</span> */}
+                  {/* <span className="text-[18px] font-bold">120days</span> */}
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-[18px] py-[10px]">
                     Holidays/Breaks:
                   </span>
-                  <span className="text-[18px] font-bold">10days</span>
+                  <span className="text-[18px] font-bold">{`0day(s)`}</span>
                 </div>
               </div>
             </div>
@@ -218,12 +287,19 @@ function ClassSetup() {
           </div>
           <div className="w-[50%] h-screen p-[20px] mt-[30px]">
             <div className="border border-transparent border-b-gray-300 pb-[50px]">
-              <h4 className="font-bold text-[20px]">
-                Set Program Session Duration
-              </h4>
+              <h4 className="font-bold text-[20px]">Set Absent days</h4>
               <p className="py-[10px]">
-                Set out the specified duration for the program, and edit at will
+                Customize attendance for breaks and days
               </p>
+              <fieldset className=" p-[20px] mb-4 w-[100%] border-2 border-solid border-lp-primary rounded py-2">
+                <legend>Break Title</legend>
+                <input
+                  type="text"
+                  ref={breakTitleRef}
+                  placeholder="Break title"
+                  className="w-[100%]  p-[5px] bg-transparent  outline-none"
+                />
+              </fieldset>
               <div className="w-[80%]  flex justify-between items-center hover:text-black">
                 <fieldset className=" p-[20px] mb-4 w-[200px] border-2 border-solid border-lp-primary rounded py-2">
                   <legend className="text-lp-primary ">From</legend>
@@ -249,7 +325,8 @@ function ClassSetup() {
               <div className="w-[100%] flex mt-[30px] p-[10px] items-center">
                 <ButtonFullLong
                   handleClick={() =>
-                    updateProgramDurationSettings(date, endingDate)
+                    // updateProgramDurationSettings(date, endingDate)
+                    emmitToast()
                   }
                 >
                   Update

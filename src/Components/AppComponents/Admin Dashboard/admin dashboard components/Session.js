@@ -18,6 +18,7 @@ import {
   updateEarlinessTimeDuration,
   updateLatenessTimeFrame,
   updateProgramDurationSettings,
+  updateLectureDays,
 } from "../admin dashboard handlers/admin.session.setting";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -137,6 +138,9 @@ function Session() {
       })
       .then(() => {
         updateLatenessTimeFrame(settingsObject);
+      })
+      .then(() => {
+        updateLectureDays(settingsObject);
         dispatch(hideSpinner());
         alert("Settings saved");
       })

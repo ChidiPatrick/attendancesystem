@@ -1,8 +1,10 @@
 // Third-party imports
 import { update, ref } from "firebase/database";
+import { ToastContainer, toast } from "react-toastify";
 
 // Local directory imports
 import { rdb } from "../../../Firebase/firebase";
+import { addBreakObject } from "../../../Redux Slices/classSetupSlice";
 
 ///////////////////////////////////////////////////////////////////
 // PROGRAM DURATION UPDATING HANDLERS
@@ -64,7 +66,7 @@ const updateLectureDaysArray = (lectureDaysAarray) => {
     "admindashboard/classSetupDatabase/lectureDaysArrayRef"
   );
 
-  update(lectureDaysArrayRef, lectureDaysAarray);
+  update(lectureDaysArrayRef, { lectureDaysAarray });
 };
 ////////////////////////////////////////////////////////////////////////////
 
@@ -104,10 +106,39 @@ const updateLectureDays = async (settingsObject) => {
   }
 };
 
+///////////////////////////////////////////////////////////////
+//////// BREAK AND ABSENT DAYS SETTINGS HANDLERS ////////////
+const updateBreakDays = (breakObject) => {
+  const breakDaysRef = ref(rdb, "admindashboard/classSetupDatabase/breakDays");
+
+  update(breakDaysRef, { breakObject });
+};
+
+const setBreakDays = (breakStartDate, breakEndDate, dispatch, breakTitle) => {
+  if (!navigator.onLine) {
+    alert("You're offline");
+    return;
+  }
+
+  const breakObject = { breakStartDate, breakEndDate, breakTitle };
+
+  updateBreakDays(breakObject);
+
+  dispatch(addBreakObject(breakObject));
+};
+
+////////////// TOASTIFY HANDLER ///////////////////
+const emmitToast = () => {
+  toast("Toast triggered");
+};
+
 export {
   updateProgramStartingDate,
   updateProgramEndingDate,
   updateEarlinessTimeDuration,
   updateProgramDurationSettings,
   updateLatenessTimeFrame,
+  updateLectureDays,
+  setBreakDays,
+  emmitToast,
 };
