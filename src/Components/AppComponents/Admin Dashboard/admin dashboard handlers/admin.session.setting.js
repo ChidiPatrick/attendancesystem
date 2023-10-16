@@ -114,22 +114,29 @@ const updateBreakDays = (breakObject) => {
   update(breakDaysRef, { breakObject });
 };
 
-const setBreakDays = (breakStartDate, breakEndDate, dispatch, breakTitle) => {
+////////////// Toastify handler ///////////////////
+const emmitToast = (toastString, toastObject) => {
+  toast(toastString, { ...toastObject });
+};
+
+const setBreakDays = (breakObject, dispatch, toastObject) => {
   if (!navigator.onLine) {
-    alert("You're offline");
+    console.log("Called...");
+    emmitToast(toastObject.toastString, {
+      ...toastObject.toastOptions,
+    });
     return;
   }
 
-  const breakObject = { breakStartDate, breakEndDate, breakTitle };
+  const breakSettingObject = {
+    breakStartingDate: breakObject.breakStartDate,
+    breakEndingDate: breakObject.breakStartDate,
+    breakTitle: breakObject.breakTitle,
+  };
 
-  updateBreakDays(breakObject);
-
-  dispatch(addBreakObject(breakObject));
-};
-
-////////////// TOASTIFY HANDLER ///////////////////
-const emmitToast = () => {
-  toast("Toast triggered");
+  updateBreakDays(breakSettingObject).then(() => {
+    dispatch(addBreakObject(breakSettingObject));
+  });
 };
 
 export {

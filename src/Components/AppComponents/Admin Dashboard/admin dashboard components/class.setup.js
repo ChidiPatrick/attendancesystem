@@ -42,11 +42,12 @@ function ClassSetup() {
   const dispatch = useDispatch();
 
   const breakTitleRef = useRef();
-  console.log(breakTitleRef);
+  console.log(breakTitleRef.current);
 
   // Local states
   const [date, setDate] = useState(new Date());
   const [endingDate, setEndingDate] = useState(new Date());
+  const [breakTitle, setBreakTitle] = useState("");
 
   //Redux states
   const programStartingDate = useSelector(
@@ -76,8 +77,15 @@ function ClassSetup() {
   const month2 = new Date(programEndingDate).getMonth();
   const programMonths = month2 - month1;
 
+  const breakObject = {
+    breakStartingDate: date,
+    breakEndingDate: endingDate,
+    breakTitle,
+  };
   ////////// FETCH DATA AFTER MOUNTING //////////////////////////////
   useEffect(() => {
+    console.log(breakTitleRef.current.value);
+
     const classSetupSettingsRef = rdbRef(
       rdb,
       "admindashboard/classSetupDatabase"
@@ -117,45 +125,52 @@ function ClassSetup() {
   }, []);
 
   // Get programe starting date from calendar
-  const getProgramStartingDate = (newDate) => {
+  const getBreakStartingDate = (newDate) => {
     console.log(newDate);
 
     setDate(new Date(newDate).toDateString());
-    dispatch(updateProgramStartingDateState(new Date(newDate).toDateString()));
+    // dispatch(updateProgramStartingDateState(new Date(newDate).toDateString()));
   };
 
-  const getProgramEndingDate = (newDate) => {
+  const getBreakEndingDate = (newDate) => {
     console.log(newDate);
     setEndingDate(new Date(newDate).toDateString());
-    dispatch(updateProgramEndingDateState(new Date(newDate).toDateString()));
+    // dispatch(updateProgramEndingDateState(new Date(newDate).toDateString()));
+  };
+
+  const toastObject = {
+    toastString: "Updated successfully",
+    autoClose: 3000,
+    type: "success",
+    theme: "light",
   };
 
   // Update program duration in database
-  const updateProgramDurationSettings = (startingDate, endingDate) => {
-    // Update program starting date
-    updateProgramStartingDate(startingDate).then(() => {
-      const programStartingRef = rdbRef(
-        rdb,
-        "admindashboard/classSetupDatabase/programStartingDate"
-      );
+  // const updateProgramDurationSettings = (startingDate, endingDate) => {
+  //   // Update program starting date
+  //   updateProgramStartingDate(startingDate).then(() => {
+  //     const programStartingRef = rdbRef(
+  //       rdb,
+  //       "admindashboard/classSetupDatabase/programStartingDate"
+  //     );
 
-      onValue(programStartingRef, (snapshot) => {
-        dispatch(updateProgramStartingDateState(snapshot.val()));
-      });
-    });
+  //     onValue(programStartingRef, (snapshot) => {
+  //       dispatch(updateProgramStartingDateState(snapshot.val()));
+  //     });
+  //   });
 
-    //Update program ending date
-    updateProgramEndingDate(endingDate).then(() => {
-      const programEndingRef = rdbRef(
-        rdb,
-        "admindashboard/classSetupDatabase/programEndingDate"
-      );
+  //   //Update program ending date
+  //   updateProgramEndingDate(endingDate).then(() => {
+  //     const programEndingRef = rdbRef(
+  //       rdb,
+  //       "admindashboard/classSetupDatabase/programEndingDate"
+  //     );
 
-      onValue(programEndingRef, (snapshot) => {
-        dispatch(updateProgramEndingDateState(snapshot.val()));
-      });
-    });
-  };
+  //     onValue(programEndingRef, (snapshot) => {
+  //       dispatch(updateProgramEndingDateState(snapshot.val()));
+  //     });
+  //   });
+  // };
 
   return (
     <div className="bg-user-profile min-h-screen w-full p-[10px]">
@@ -207,7 +222,12 @@ function ClassSetup() {
             </div>
             <div className="w-[100%]">
               <div>Checking toastify</div>
-              <ToastContainer style={{ width: "100%", textAlign: "center" }} />
+              <ToastContainer
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                }}
+              />
             </div>
             <div>
               <div className="px-[20px] py-[10px] border border-transparent border-b-gray-300 pb-[40px]">
@@ -216,8 +236,10 @@ function ClassSetup() {
                   <span className="text-[18px] py-[10px]">Class days:</span>
                   <span className="text-[18px] font-bold flex items-center justify-between">
                     {lectureDays.length !== 0 ? (
-                      lectureDays.map((item) => (
-                        <span className="p-[5px]">{item}</span>
+                      lectureDays.map((item, index) => (
+                        <span className="p-[5px]" key={index}>
+                          {item}
+                        </span>
                       ))
                     ) : (
                       <span> Mon, Tue, Wed,Thur,Fri</span>
@@ -297,7 +319,8 @@ function ClassSetup() {
                   type="text"
                   ref={breakTitleRef}
                   placeholder="Break title"
-                  className="w-[100%]  p-[5px] bg-transparent  outline-none"
+                  onChange={() => setBreakTitle(breakTitleRef.current.value)}
+                  className="w-[100%] p-[5px] bg-transparent  outline-none"
                 />
               </fieldset>
               <div className="w-[80%]  flex justify-between items-center hover:text-black">
@@ -306,7 +329,7 @@ function ClassSetup() {
                   <div className="flex justify-between items-center">
                     <DatePicker
                       value={date}
-                      onChange={getProgramStartingDate}
+                      onChange={getBreakStartingDate}
                       className=""
                     />
                   </div>
@@ -316,7 +339,7 @@ function ClassSetup() {
                   <div className="flex justify-between items-center">
                     <DatePicker
                       value={endingDate}
-                      onChange={getProgramEndingDate}
+                      onChange={getBreakEndingDate}
                       className=""
                     />
                   </div>
@@ -326,7 +349,7 @@ function ClassSetup() {
                 <ButtonFullLong
                   handleClick={() =>
                     // updateProgramDurationSettings(date, endingDate)
-                    emmitToast()
+                    setBreakDays(breakObject, dispatch, toastObject)
                   }
                 >
                   Update
@@ -347,7 +370,7 @@ function ClassSetup() {
                     {/* <span>{new Date().toDateString()}</span> */}
                     <DatePicker
                       value={date}
-                      onChange={getProgramStartingDate}
+                      onChange={getBreakStartingDate}
                       // calendarClassName="border border-red text-green-300"
                       className=""
                     />
@@ -361,7 +384,7 @@ function ClassSetup() {
                   <div className="flex justify-between items-center">
                     <DatePicker
                       value={date}
-                      onChange={getProgramEndingDate}
+                      // onChange={getProgramEndingDate}
                       className=""
                     />
                   </div>
