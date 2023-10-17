@@ -1,14 +1,36 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 // Third-party imports
 import { Link } from "react-router-dom";
 // Local Directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
-import { HiDotsVertical } from "react-icons/hi";
 import NotificationBar from "./notification.bar";
+import { publishAnnouncement } from "../admin dashboard handlers/admin.announcement.handler";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 function AdminAnnouncement() {
+  const dispatch = useDispatch();
   // Local states
   const [showShortcut, setShowShortcut] = useState(false);
+  const [announcementCurrTitle, setAnnouncementCurrTitle] = useState("");
+  const [announcementCurrBody, setAnnouncementCurrBody] = useState("");
+
+  /// Redux states
+  const announcementTitle = useSelector(
+    (state) => state.announcementSlice.announcementTitle
+  );
+  const announcementBody = useSelector(
+    (state) => state.announcementSlice.announcementBody
+  );
+
+  const announcementObject = {
+    announcementBody: announcementCurrBody,
+    announcementTitle: announcementCurrTitle,
+  };
+
+  // References
+  const announcementTitleRef = useRef();
+  const announcementBodyRef = useRef();
 
   return (
     <div className="w-full bg-[#FFFDFA] min-h-screen p-[10px]">
@@ -23,7 +45,11 @@ function AdminAnnouncement() {
               <h4 className="text-[20px] pb-[10px]">Title</h4>
               <input
                 className="p-[10px] w-[100%] bg-transparent border border-gray-700 rounded-md "
-                placeholder="Enter holiday title"
+                placeholder="Enter title"
+                ref={announcementTitleRef}
+                onChange={() => {
+                  setAnnouncementCurrTitle(announcementTitleRef.current.value);
+                }}
               />
             </div>
             <div className="w-[100%] mt-[20px]">
@@ -31,10 +57,26 @@ function AdminAnnouncement() {
               <textarea
                 className="w-[100%] bg-transparent border border-gray-700 px-[10px] min-h-[200px] rounded-md"
                 placeholder="Type announcement here"
+                ref={announcementBodyRef}
+                onChange={() => {
+                  setAnnouncementCurrBody(announcementBodyRef.current.value);
+                }}
               ></textarea>
             </div>
             <div className="w-[50%] mx-auto flex justify-between items-center mt-[20px]">
-              <button className="w-[150px] mr-[10px] bg-lp-secondary text-white font-bold p-[10px] border rounded-2xl">
+              <button
+                onClick={() =>
+                  publishAnnouncement(
+                    {
+                      ...announcementObject,
+                      date: new Date().toDateString(),
+                      time: new Date().toLocaleTimeString(),
+                    },
+                    dispatch
+                  )
+                }
+                className="w-[150px] mr-[10px] bg-lp-secondary text-white font-bold p-[10px] border rounded-2xl"
+              >
                 Post
               </button>
               <button className="w-[150px] bg-[#FFFDFA] text-lp-secondary p-[10px] border rounded-2xl">
@@ -42,6 +84,9 @@ function AdminAnnouncement() {
               </button>
             </div>
           </div>
+          <ToastContainer
+            style={{ width: "100%", textAlign: "center", color: "green" }}
+          />
           <div className="w-[100%] my-[20px]">
             <h3 className="font-bold text-[18px]">History</h3>
             <div>

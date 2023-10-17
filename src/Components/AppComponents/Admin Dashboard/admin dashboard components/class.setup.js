@@ -349,6 +349,7 @@ function ClassSetup() {
                 <ButtonFullLong
                   handleClick={() =>
                     // updateProgramDurationSettings(date, endingDate)
+                    // console.log(breakObject)
                     setBreakDays(breakObject, dispatch, toastObject)
                   }
                 >

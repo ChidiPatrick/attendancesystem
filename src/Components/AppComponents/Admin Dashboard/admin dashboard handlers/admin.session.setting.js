@@ -1,6 +1,7 @@
 // Third-party imports
 import { update, ref } from "firebase/database";
 import { ToastContainer, toast } from "react-toastify";
+import { push, set } from "firebase/database";
 
 // Local directory imports
 import { rdb } from "../../../Firebase/firebase";
@@ -108,10 +109,13 @@ const updateLectureDays = async (settingsObject) => {
 
 ///////////////////////////////////////////////////////////////
 //////// BREAK AND ABSENT DAYS SETTINGS HANDLERS ////////////
-const updateBreakDays = (breakObject) => {
-  const breakDaysRef = ref(rdb, "admindashboard/classSetupDatabase/breakDays");
-
-  update(breakDaysRef, { breakObject });
+const updateBreakDaysArray = async (breakObject) => {
+  const breakDaysRef = ref(
+    rdb,
+    "admindashboard/classSetupDatabase/breakDaysArray"
+  );
+  const breakListRef = push(breakDaysRef);
+  set(breakListRef, { ...breakObject });
 };
 
 ////////////// Toastify handler ///////////////////
@@ -122,20 +126,24 @@ const emmitToast = (toastString, toastObject) => {
 const setBreakDays = (breakObject, dispatch, toastObject) => {
   if (!navigator.onLine) {
     console.log("Called...");
-    emmitToast(toastObject.toastString, {
-      ...toastObject.toastOptions,
+    emmitToast("No internet connection", {
+      type: "error",
+      theme: "dark",
     });
     return;
   }
 
   const breakSettingObject = {
-    breakStartingDate: breakObject.breakStartDate,
-    breakEndingDate: breakObject.breakStartDate,
+    breakStartingDate: breakObject.breakStartingDate,
+    breakEndingDate: breakObject.breakEndingDate,
     breakTitle: breakObject.breakTitle,
   };
 
-  updateBreakDays(breakSettingObject).then(() => {
+  updateBreakDaysArray(breakSettingObject).then(() => {
     dispatch(addBreakObject(breakSettingObject));
+    emmitToast(toastObject.toastString, {
+      ...toastObject.toastOptions,
+    });
   });
 };
 
