@@ -10,15 +10,18 @@ const initialState = {
 const announcementSlice = createSlice({
   name: "announcementSlice",
   initialState,
-  reducer: {
+  reducers: {
     setAnnouncementTitle(state, action) {
       state.announcementTitle = action.payload;
     },
     setAnnouncementBody(state, action) {
       state.announcementBody = action.payload;
     },
-    addAnnouncementObject(state, action) {
+    addAnnouncement(state, action) {
       state.announcementArray.push(action.payload);
+    },
+    setAnnouncementArray(state, action) {
+      state.announcementArray = action.payload;
     },
   },
 });
@@ -26,7 +29,8 @@ const announcementSlice = createSlice({
 export const {
   setAnnouncementBody,
   setAnnouncementTitle,
-  addAnnouncementObject,
+  addAnnouncement,
+  setAnnouncementArray,
 } = announcementSlice.actions;
 
 export default announcementSlice.reducer;

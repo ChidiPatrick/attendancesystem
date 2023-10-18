@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // Third-party imports
 import { Link } from "react-router-dom";
 // Local Directory imports
@@ -7,6 +7,9 @@ import NotificationBar from "./notification.bar";
 import { publishAnnouncement } from "../admin dashboard handlers/admin.announcement.handler";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { onValue, ref } from "firebase/database";
+import { rdb } from "../../../Firebase/firebase";
+import { setAnnouncementArray } from "../../../Redux Slices/announcementSlice";
 
 function AdminAnnouncement() {
   const dispatch = useDispatch();
@@ -22,7 +25,11 @@ function AdminAnnouncement() {
   const announcementBody = useSelector(
     (state) => state.announcementSlice.announcementBody
   );
+  const announcementArray = useSelector(
+    (state) => state.announcementSlice.announcementArray
+  );
 
+  /// Announcement object
   const announcementObject = {
     announcementBody: announcementCurrBody,
     announcementTitle: announcementCurrTitle,
@@ -31,6 +38,40 @@ function AdminAnnouncement() {
   // References
   const announcementTitleRef = useRef();
   const announcementBodyRef = useRef();
+
+  /////////////////////////////////////////////////////////////
+  useEffect(() => {
+    const announcementsRef = ref(rdb, "admindashboard/announcementsArray");
+
+    onValue(announcementsRef, (snapshot) => {
+      if (snapshot.val() === null) {
+        return;
+      }
+
+      const announcementArray = Object.values(snapshot.val());
+      dispatch(setAnnouncementArray(announcementArray));
+    });
+  }, []);
+
+  ///// Clean fields
+  const cleanFileds = () => {
+    announcementTitleRef.current.value = "";
+    announcementBodyRef.current.value = "";
+  };
+
+  /// Send annnouncement
+  const sendAnnouncement = (announcementObject) => {
+    publishAnnouncement(
+      {
+        ...announcementObject,
+        date: new Date().toDateString(),
+        time: new Date().toLocaleTimeString(),
+      },
+      dispatch
+    ).then(() => {
+      cleanFileds();
+    });
+  };
 
   return (
     <div className="w-full bg-[#FFFDFA] min-h-screen p-[10px]">
@@ -65,16 +106,7 @@ function AdminAnnouncement() {
             </div>
             <div className="w-[50%] mx-auto flex justify-between items-center mt-[20px]">
               <button
-                onClick={() =>
-                  publishAnnouncement(
-                    {
-                      ...announcementObject,
-                      date: new Date().toDateString(),
-                      time: new Date().toLocaleTimeString(),
-                    },
-                    dispatch
-                  )
-                }
+                onClick={() => sendAnnouncement(announcementObject)}
                 className="w-[150px] mr-[10px] bg-lp-secondary text-white font-bold p-[10px] border rounded-2xl"
               >
                 Post
@@ -90,38 +122,29 @@ function AdminAnnouncement() {
           <div className="w-[100%] my-[20px]">
             <h3 className="font-bold text-[18px]">History</h3>
             <div>
-              <div>
-                <h4 className="font-bold py-[10px]">Public Holiday</h4>
-                <p>
-                  Tomorrow is holiday with no title, please just stay at home.
-                  I'm just trying to write something for this paragraph. So just
-                  know that you have holiday for the day in the day that we
-                  having coming for the holiday!
-                </p>
-                <div className="text-lp-primary font-bold flex justify-between items-center mt-[20px]">
-                  <div className="w-[20%] flex justify-between">
-                    <span>06/19</span>
-                    <span>7:31am</span>
-                  </div>
-                  <span className="text-lp-secondary">Sent</span>
+              {announcementArray.length !== 0 ? (
+                announcementArray.map((announcement) => {
+                  return (
+                    <div>
+                      <h4 className="font-bold py-[10px]">
+                        {announcement.announcementTitle}
+                      </h4>
+                      <p>{announcement.announcementBody}</p>
+                      <div className="text-lp-primary font-bold flex justify-between items-center mt-[20px]">
+                        <div className="w-[40%] ">
+                          <div>{announcement.date}</div>
+                          <div>{announcement.time}</div>
+                        </div>
+                        <span className="text-lp-secondary">Sent</span>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="w-[100%] h-[200px] bg-gray-50 flex justify-center items-center text-lp-primary font-bold">
+                  <div>No announcement published yet</div>
                 </div>
-              </div>
-              <div>
-                <h4 className="font-bold py-[10px]">Public Holiday</h4>
-                <p>
-                  Tomorrow is holiday with no title, please just stay at home.
-                  I'm just trying to write something for this paragraph. So just
-                  know that you have holiday for the day in the day that we
-                  having coming for the holiday!
-                </p>
-                <div className="text-lp-primary font-bold flex justify-between items-center mt-[20px]">
-                  <div className="w-[20%] flex justify-between">
-                    <span>06/19</span>
-                    <span>7:31am</span>
-                  </div>
-                  <span className="text-lp-secondary">Sent</span>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

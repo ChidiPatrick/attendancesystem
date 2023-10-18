@@ -2,7 +2,7 @@
 import { toast } from "react-toastify";
 ///// LOCAL IMPORTS
 import { push, ref, set } from "firebase/database";
-import { addAnnouncementObject } from "../../../Redux Slices/announcementSlice";
+import { addAnnouncement } from "../../../Redux Slices/announcementSlice";
 import { rdb } from "../../../Firebase/firebase";
 
 const publishAnnouncement = async (announcementObject, dispatch) => {
@@ -13,14 +13,30 @@ const publishAnnouncement = async (announcementObject, dispatch) => {
       theme: "dark",
       autoClose: 3000,
     });
+
+    return;
   }
+
+  if (
+    announcementObject.announcementBody === "" ||
+    announcementObject.announcementTitle === ""
+  ) {
+    toast("You can't publish an empty field 🙁❌", {
+      type: "error",
+      theme: "dark",
+      autoClose: 3000,
+    });
+
+    return;
+  }
+
   const announcementArrayRef = ref(rdb, "admindashboard/announcementsArray");
 
   const announcementListRef = push(announcementArrayRef);
 
   set(announcementListRef, { ...announcementObject })
     .then(() => {
-      dispatch(addAnnouncementObject(announcementObject));
+      dispatch(addAnnouncement(announcementObject));
     })
     .then(() => {
       toast("Announcement published successfull 🎉🎉🎉🎊✨", {
