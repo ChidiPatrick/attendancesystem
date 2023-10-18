@@ -1,9 +1,12 @@
 //// THIRD-PARTY IMPORTS
 import { toast } from "react-toastify";
+import { onValue } from "firebase/database";
+
 ///// LOCAL IMPORTS
 import { push, ref, set } from "firebase/database";
 import { addAnnouncement } from "../../../Redux Slices/announcementSlice";
 import { rdb } from "../../../Firebase/firebase";
+import { setAnnouncementArray } from "../../../Redux Slices/announcementSlice";
 
 const publishAnnouncement = async (announcementObject, dispatch) => {
   if (!navigator.onLine) {
@@ -47,4 +50,18 @@ const publishAnnouncement = async (announcementObject, dispatch) => {
     });
 };
 
-export { publishAnnouncement };
+/// Announcement Fetching Handler
+const fetchAnnouncements = async (dispatch) => {
+  const announcementsRef = ref(rdb, "admindashboard/announcementsArray");
+
+  onValue(announcementsRef, (snapshot) => {
+    if (snapshot.val() === null) {
+      return;
+    }
+
+    const announcementArray = Object.values(snapshot.val());
+    dispatch(setAnnouncementArray(announcementArray));
+  });
+};
+
+export { publishAnnouncement, fetchAnnouncements };

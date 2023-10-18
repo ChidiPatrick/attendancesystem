@@ -1,30 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
+
 // Third-party imports
-import { Link } from "react-router-dom";
-// Local Directory imports
-import DashboardNavigationComponent from "./dashboard.navcomp";
-import NotificationBar from "./notification.bar";
-import { publishAnnouncement } from "../admin dashboard handlers/admin.announcement.handler";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { onValue, ref } from "firebase/database";
+
+// Local Directory imports
+import DashboardNavigationComponent from "./dashboard.navcomp";
+import NotificationBar from "./notification.bar";
+import {
+  publishAnnouncement,
+  fetchAnnouncements,
+} from "../admin dashboard handlers/admin.announcement.handler";
 import { rdb } from "../../../Firebase/firebase";
 import { setAnnouncementArray } from "../../../Redux Slices/announcementSlice";
 
 function AdminAnnouncement() {
   const dispatch = useDispatch();
+
   // Local states
-  const [showShortcut, setShowShortcut] = useState(false);
   const [announcementCurrTitle, setAnnouncementCurrTitle] = useState("");
   const [announcementCurrBody, setAnnouncementCurrBody] = useState("");
 
   /// Redux states
-  const announcementTitle = useSelector(
-    (state) => state.announcementSlice.announcementTitle
-  );
-  const announcementBody = useSelector(
-    (state) => state.announcementSlice.announcementBody
-  );
   const announcementArray = useSelector(
     (state) => state.announcementSlice.announcementArray
   );
@@ -41,16 +39,7 @@ function AdminAnnouncement() {
 
   /////////////////////////////////////////////////////////////
   useEffect(() => {
-    const announcementsRef = ref(rdb, "admindashboard/announcementsArray");
-
-    onValue(announcementsRef, (snapshot) => {
-      if (snapshot.val() === null) {
-        return;
-      }
-
-      const announcementArray = Object.values(snapshot.val());
-      dispatch(setAnnouncementArray(announcementArray));
-    });
+    fetchAnnouncements(dispatch);
   }, []);
 
   ///// Clean fields
@@ -132,8 +121,10 @@ function AdminAnnouncement() {
                       <p>{announcement.announcementBody}</p>
                       <div className="text-lp-primary font-bold flex justify-between items-center mt-[20px]">
                         <div className="w-[40%] ">
-                          <div>{announcement.date}</div>
-                          <div>{announcement.time}</div>
+                          <span className="mr-[10px]">
+                            {new Date(announcement.date).toLocaleDateString()}
+                          </span>
+                          <span>{announcement.time}</span>
                         </div>
                         <span className="text-lp-secondary">Sent</span>
                       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //Third-party imports
 import { BsCalendar4 } from "react-icons/bs";
@@ -8,8 +8,27 @@ import { HiOutlineUser } from "react-icons/hi2";
 // Local directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import AttendanceRecordSummary from "./attendance.record.summary";
+import { useDispatch, useSelector } from "react-redux";
+import { getStudentsNumber } from "../admin dashboard handlers/admin.handlers";
+import { fetchCurrClockinArray } from "../admin dashboard handlers/admin.attendance.report.handlers";
 
 function AttendanceReport({ marginTop }) {
+  const dispatch = useDispatch();
+
+  // Redux states
+
+  const clockinLList = useSelector(
+    (state) => state.attendanceReportSlice.clockinList
+  );
+
+  const currDayClockinList = clockinLList.filter(
+    (clockinObject) => clockinObject.date === new Date().toDateString()
+  );
+
+  useEffect(() => {
+    fetchCurrClockinArray(dispatch);
+  }, []);
+
   return (
     <div className="p-[10px] bg-[#F7F7F7] h-screen">
       <DashboardNavigationComponent title="Attendance Report" />
@@ -53,10 +72,10 @@ function AttendanceReport({ marginTop }) {
       <div className="text-gray-500 text-xl ">
         <div className="flex items-center p-[10px]">
           <HiOutlineUser size={20} className="text-gray-500 mr-[10px]" />
-          50/140
+          50/ {getStudentsNumber()}
         </div>
       </div>
-      <div className="w-full flex justify-between items-start">
+      <div className="w-full flex justify-between relative  items-start">
         <table className={`${marginTop} w-[78%] bg-white shadow-md `}>
           <thead>
             <tr className="text-lp-primary">
@@ -68,30 +87,30 @@ function AttendanceReport({ marginTop }) {
               <th className="w-[100px]">Total</th>
             </tr>
           </thead>
-          <tr className="odd:bg-white  mb-2 even:bg-gray-100 p-[10px]  border-b border-border-signup-gray my-2 ">
-            <td className="text-center p-[10px]">001</td>
-            <td className="text-center p-[10px]">Patrick Chidi</td>
-            <td className="text-center p-[10px]">9:00am</td>
-            <td className="text-center p-[10px] text-green-300">Early</td>
-            <td className="text-center p-[10px]">5:00am</td>
-            <td className="text-center p-[10px]">20/20</td>
-          </tr>
-          <tr className="odd:bg-white p-[10px] mb-2 even:bg-gray-100  border-b border-border-signup-gray my-2 ">
-            <td className="text-center p-[10px]">002</td>
-            <td className="text-center p-[10px]">Emmanuel Capelo</td>
-            <td className="text-center p-[10px]">9:00am</td>
-            <td className="text-center p-[10px] text-green-300">Early</td>
-            <td className="text-center p-[10px]">5:00am</td>
-            <td className="text-center p-[10px]">20/20</td>
-          </tr>
-          <tr className="odd:bg-white p-[10px] mb-2 even:bg-gray-100  border-b border-border-signup-gray my-2 ">
-            <td className="text-center p-[10px]">003</td>
-            <td className="text-center p-[10px]">Uju Agbo</td>
-            <td className="text-center p-[10px]">9:30am</td>
-            <td className="text-center p-[10px] text-lp-secondary">Late</td>
-            <td className="text-center p-[10px]">5:20am</td>
-            <td className="text-center p-[10px]">20/20</td>
-          </tr>
+          {currDayClockinList.length !== 0 ? (
+            currDayClockinList.map((clockinObject, index) => {
+              return (
+                <tr className="odd:bg-white  mb-2 even:bg-gray-100 p-[10px]  border-b border-border-signup-gray my-2 ">
+                  <td className="text-center p-[10px]">
+                    {index < 10 ? `0${index}` : index}
+                  </td>
+                  <td className="text-center p-[10px]">{clockinObject.name}</td>
+                  <td className="text-center p-[10px]">{clockinObject.time}</td>
+                  <td className="text-center p-[10px] text-green-300">
+                    {clockinObject.isOntime === true ? `Early` : "Late"}
+                  </td>
+                  <td className="text-center p-[10px]">
+                    {clockinObject.clockoutObject.time}
+                  </td>
+                  <td className="text-center p-[10px]">20/20</td>
+                </tr>
+              );
+            })
+          ) : (
+            <div className="w-[100%] h-[200px] absolute top-[0] right-[10%] flex justify-center font-bold items-center ">
+              <div> No current day clockin yet</div>
+            </div>
+          )}
         </table>
         <AttendanceRecordSummary />
       </div>
