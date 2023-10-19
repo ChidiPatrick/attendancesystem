@@ -7,6 +7,7 @@ import DatePicker from "react-date-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import { ToastContainer } from "react-toastify";
+import { Margin, usePDF, Resolution } from "react-to-pdf";
 
 // Local directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
@@ -31,7 +32,6 @@ function AttendanceReport({ marginTop }) {
   const [attendanceArray, setAttendanceArray] = useState(null);
 
   // Redux states
-
   const clockinLList = useSelector(
     (state) => state.attendanceReportSlice.clockinList
   );
@@ -40,8 +40,17 @@ function AttendanceReport({ marginTop }) {
     (clockinObject) => clockinObject.date === new Date().toDateString()
   );
 
-  console.log(attendanceArray);
+  // Set pdf converter
+  const { toPDF, targetRef } = usePDF({
+    method: "save",
+    filename: "usepdf-example.pdf",
+    page: { margin: Margin.MEDIUM },
+    resolution: Resolution.HIGH,
+  });
 
+  // PDF converter function
+
+  //////////////////////////////////////////////////////////
   useEffect(() => {
     fetchCurrClockinArray(dispatch);
   }, []);
@@ -92,7 +101,10 @@ function AttendanceReport({ marginTop }) {
       <ToastContainer style={{ width: "100%", textAlign: "center" }} />
       <div className="text-lg font-bold flex justify-between items-center border border-transparent border-t-gray-400 border-b-gray-400 py-[10px]">
         <div>{new Date().toDateString()}</div>
-        <button className="hover:bg-[#123684] flex justify-center items-center hover:text-white p-[10px] border border-[2px] border-lp-primary rounded-md w-[200px] font-bold text-white bg-lp-primary">
+        <button
+          onClick={toPDF}
+          className="hover:bg-[#123684] flex justify-center items-center hover:text-white p-[10px] border border-[2px] border-lp-primary rounded-md w-[200px] font-bold text-white bg-lp-primary"
+        >
           <BiDownload className="mr-[10px]" size={20} /> Download
         </button>
       </div>
@@ -102,7 +114,10 @@ function AttendanceReport({ marginTop }) {
           {currDayClockinList.length} / {getStudentsNumber()}
         </div>
       </div>
-      <div className="w-full flex justify-between relative  items-start">
+      <div
+        className="w-full flex justify-between relative  items-start"
+        ref={targetRef}
+      >
         <table className={`${marginTop} w-[78%] bg-white shadow-md `}>
           <thead>
             <tr className="text-lp-primary">
