@@ -15,6 +15,12 @@ import { fetchCurrClockinArray } from "../admin dashboard handlers/admin.attenda
 function AttendanceReport({ marginTop }) {
   const dispatch = useDispatch();
 
+  //Local states
+  const [attendanceRangeStartingDate, setAttendanceRangeStartingDate] =
+    useState("");
+  const [attendanceRangeEndingDate, setAttendanceRangeEndingDate] =
+    useState("");
+
   // Redux states
 
   const clockinLList = useSelector(
@@ -24,6 +30,8 @@ function AttendanceReport({ marginTop }) {
   const currDayClockinList = clockinLList.filter(
     (clockinObject) => clockinObject.date === new Date().toDateString()
   );
+
+  console.log(currDayClockinList);
 
   useEffect(() => {
     fetchCurrClockinArray(dispatch);
@@ -72,7 +80,7 @@ function AttendanceReport({ marginTop }) {
       <div className="text-gray-500 text-xl ">
         <div className="flex items-center p-[10px]">
           <HiOutlineUser size={20} className="text-gray-500 mr-[10px]" />
-          50/ {getStudentsNumber()}
+          {currDayClockinList.length} / {getStudentsNumber()}
         </div>
       </div>
       <div className="w-full flex justify-between relative  items-start">
@@ -112,7 +120,10 @@ function AttendanceReport({ marginTop }) {
             </div>
           )}
         </table>
-        <AttendanceRecordSummary />
+        <AttendanceRecordSummary
+          attendanceArray={clockinLList}
+          totalOnBoardedStudents={getStudentsNumber()}
+        />
       </div>
     </div>
   );
