@@ -1,25 +1,34 @@
 import React, { useEffect, useState } from "react";
 
 //Third-party imports
-import { BsCalendar4 } from "react-icons/bs";
 import { BiDownload } from "react-icons/bi";
 import { HiOutlineUser } from "react-icons/hi2";
+import DatePicker from "react-date-picker";
+import "react-time-picker/dist/TimePicker.css";
+import "react-clock/dist/Clock.css";
+import { ToastContainer } from "react-toastify";
 
 // Local directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import AttendanceRecordSummary from "./attendance.record.summary";
 import { useDispatch, useSelector } from "react-redux";
 import { getStudentsNumber } from "../admin dashboard handlers/admin.handlers";
-import { fetchCurrClockinArray } from "../admin dashboard handlers/admin.attendance.report.handlers";
+import {
+  fetchCurrClockinArray,
+  generateAttendanceHistory,
+} from "../admin dashboard handlers/admin.attendance.report.handlers";
 
+//ATTENDANCE REPORT COMPONENT
 function AttendanceReport({ marginTop }) {
   const dispatch = useDispatch();
 
   //Local states
   const [attendanceRangeStartingDate, setAttendanceRangeStartingDate] =
-    useState("");
-  const [attendanceRangeEndingDate, setAttendanceRangeEndingDate] =
-    useState("");
+    useState(new Date());
+  const [attendanceRangeEndingDate, setAttendanceRangeEndingDate] = useState(
+    new Date()
+  );
+  const [attendanceArray, setAttendanceArray] = useState(null);
 
   // Redux states
 
@@ -31,7 +40,7 @@ function AttendanceReport({ marginTop }) {
     (clockinObject) => clockinObject.date === new Date().toDateString()
   );
 
-  console.log(currDayClockinList);
+  console.log(attendanceArray);
 
   useEffect(() => {
     fetchCurrClockinArray(dispatch);
@@ -50,27 +59,37 @@ function AttendanceReport({ marginTop }) {
         <div className="flex justify-between items-center mt-[10px]">
           <fieldset className="px-2 w-[200px] mb-4 border-2 border-solid border-signup-gray rounded py-2">
             <legend>From</legend>
-            <div className=" flex justify-between items-center">
-              <div>{new Date().toDateString()}</div>
-              <div>
-                <BsCalendar4 />
-              </div>
-            </div>
+            <DatePicker
+              onChange={setAttendanceRangeStartingDate}
+              value={attendanceRangeStartingDate}
+              className="w-[100%]"
+            />
           </fieldset>
           <fieldset className="px-2 w-[200px] mb-4 border-2 border-solid border-signup-gray rounded py-2">
             <legend>To</legend>
             <div className=" flex justify-between items-center">
-              <div>{new Date().toDateString()}</div>
-              <div>
-                <BsCalendar4 />
-              </div>
+              <DatePicker
+                onChange={setAttendanceRangeEndingDate}
+                value={attendanceRangeEndingDate}
+                className="w-[100%]"
+              />
             </div>
           </fieldset>
-          <button className="hover:bg-[#d1720d] w-[150px] p-[10px] bg-lp-secondary border rounded-md text-white font-bold">
+          <button
+            onClick={() =>
+              generateAttendanceHistory(
+                attendanceRangeEndingDate,
+                attendanceRangeStartingDate,
+                setAttendanceArray
+              )
+            }
+            className="hover:bg-[#d1720d] w-[150px] p-[10px] bg-lp-secondary border rounded-md text-white font-bold"
+          >
             Generate
           </button>
         </div>
       </div>
+      <ToastContainer style={{ width: "100%", textAlign: "center" }} />
       <div className="text-lg font-bold flex justify-between items-center border border-transparent border-t-gray-400 border-b-gray-400 py-[10px]">
         <div>{new Date().toDateString()}</div>
         <button className="hover:bg-[#123684] flex justify-center items-center hover:text-white p-[10px] border border-[2px] border-lp-primary rounded-md w-[200px] font-bold text-white bg-lp-primary">
@@ -95,29 +114,64 @@ function AttendanceReport({ marginTop }) {
               <th className="w-[100px]">Total</th>
             </tr>
           </thead>
-          {currDayClockinList.length !== 0 ? (
-            currDayClockinList.map((clockinObject, index) => {
+          {attendanceArray === null ? (
+            currDayClockinList.length !== 0 ? (
+              currDayClockinList.map((clockinObject, index) => {
+                return (
+                  <tr
+                    key={index}
+                    className="odd:bg-white  mb-2 even:bg-gray-100 p-[10px]  border-b border-border-signup-gray my-2 "
+                  >
+                    <td className="text-center p-[10px]">
+                      {index < 10 ? `0${index}` : index}
+                    </td>
+                    <td className="text-center p-[10px]">
+                      {clockinObject.name}
+                    </td>
+                    <td className="text-center p-[10px]">
+                      {clockinObject.time}
+                    </td>
+                    <td className="text-center p-[10px] text-green-300">
+                      {clockinObject.isOntime === true ? `Early` : "Late"}
+                    </td>
+                    <td className="text-center p-[10px]">
+                      {clockinObject.clockoutObject.time}
+                    </td>
+                    <td className="text-center p-[10px]">20/20</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <div className="w-[100%] h-[200px] absolute top-[0] right-[10%] flex justify-center font-bold items-center ">
+                <div> No current day clockin yet</div>
+              </div>
+            )
+          ) : (
+            attendanceArray.map((attendanceObject, index) => {
               return (
-                <tr className="odd:bg-white  mb-2 even:bg-gray-100 p-[10px]  border-b border-border-signup-gray my-2 ">
+                <tr
+                  key={index}
+                  className="odd:bg-white  mb-2 even:bg-gray-100 p-[10px]  border-b border-border-signup-gray my-2 "
+                >
                   <td className="text-center p-[10px]">
                     {index < 10 ? `0${index}` : index}
                   </td>
-                  <td className="text-center p-[10px]">{clockinObject.name}</td>
-                  <td className="text-center p-[10px]">{clockinObject.time}</td>
-                  <td className="text-center p-[10px] text-green-300">
-                    {clockinObject.isOntime === true ? `Early` : "Late"}
+                  <td className="text-center p-[10px]">
+                    {attendanceObject.name}
                   </td>
                   <td className="text-center p-[10px]">
-                    {clockinObject.clockoutObject.time}
+                    {attendanceObject.time}
+                  </td>
+                  <td className="text-center p-[10px] text-green-300">
+                    {attendanceObject.isOntime === true ? `Early` : "Late"}
+                  </td>
+                  <td className="text-center p-[10px]">
+                    {attendanceObject.clockoutObject.time}
                   </td>
                   <td className="text-center p-[10px]">20/20</td>
                 </tr>
               );
             })
-          ) : (
-            <div className="w-[100%] h-[200px] absolute top-[0] right-[10%] flex justify-center font-bold items-center ">
-              <div> No current day clockin yet</div>
-            </div>
           )}
         </table>
         <AttendanceRecordSummary

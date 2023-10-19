@@ -7,22 +7,14 @@ import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { ref as rdbRef, onValue } from "firebase/database";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 //Local imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import { Link } from "react-router-dom";
 import { ButtonFullLong } from "../../../LandingPageComponents/Buttons/buttons";
-import {
-  updateProgramEndingDate,
-  updateProgramStartingDate,
-} from "../admin dashboard handlers/admin.class.setup";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updateProgramEndingDateState,
-  updateProgramStartingDateState,
-} from "../../../Redux Slices/adminSlice";
 import Session from "./Session";
 import {
   setEarlinessEndingTimeState,
@@ -32,10 +24,7 @@ import {
   setProgramStartingDateState,
 } from "../../../Redux Slices/classSetupSlice";
 import { rdb } from "../../../Firebase/firebase";
-import {
-  emmitToast,
-  setBreakDays,
-} from "../admin dashboard handlers/admin.session.setting";
+import { setBreakDays } from "../admin dashboard handlers/admin.session.setting";
 
 //CLASS SET UP COMPONENT
 function ClassSetup() {
