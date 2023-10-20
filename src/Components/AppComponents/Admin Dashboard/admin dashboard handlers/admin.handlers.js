@@ -70,13 +70,13 @@ const getCurrentClockinAttendanceObj = () => {
 const getStudentsNumber = () => {
   const studentsBioRef = ref(rdb, `admindashboard/studentsBio`);
   let numberOfStudents = "";
+
   onValue(studentsBioRef, (snapshot) => {
     const studentsBioObj = snapshot.val();
-
     const studentsBioArray = Object.values(studentsBioObj);
-
     numberOfStudents = studentsBioArray.length;
   });
+
   return numberOfStudents;
 };
 
@@ -111,21 +111,25 @@ const updateAddClockinDataToAdminDatabaseWithClockoutObj = (
 const getStudentsLogins = () => {
   const clockinListRef = ref(rdb, "admindashboard/clockInList");
   let data, clockinArray, filteredArr;
+
   onValue(clockinListRef, (snapshot) => {
     if (!snapshot.exists()) {
       return;
     }
+
     data = snapshot.val();
     clockinArray = Object.values(data);
     filteredArr = clockinArray.filter(
       (item, index) => item.date === new Date().toDateString()
     );
   });
+
   return filteredArr;
 };
 
 const getStudentsBios = () => {
   const studentsBioRef = ref(rdb, "admindashboard/studentsBio");
+
   onValue(studentsBioRef, (snapshot) => {
     const data = snapshot.val();
     console.log(data);

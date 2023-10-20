@@ -25,6 +25,13 @@ const fetchCurrClockinArray = (dispatch) => {
 
 // Fetch all the attendance within the specified range
 const fetchAttendanceWithinRange = (startDate, endDate, setAttendanceArray) => {
+  if (!navigator.onLine) {
+    toast("You dont internet connection", {
+      theme: "dark",
+      type: "info",
+    });
+  }
+
   const clockinListRef = ref(rdb, "admindashboard/clockInList");
 
   let generalAttendanceArray = "",
@@ -53,8 +60,6 @@ const fetchAttendanceWithinRange = (startDate, endDate, setAttendanceArray) => {
       });
       return false;
     } else {
-      console.log("Executed else!");
-      console.log(attendanceArray);
       setAttendanceArray(attendanceArray);
       return attendanceArray;
     }

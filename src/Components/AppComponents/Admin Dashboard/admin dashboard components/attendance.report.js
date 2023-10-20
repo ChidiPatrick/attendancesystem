@@ -111,7 +111,8 @@ function AttendanceReport({ marginTop }) {
       <div className="text-gray-500 text-xl ">
         <div className="flex items-center p-[10px]">
           <HiOutlineUser size={20} className="text-gray-500 mr-[10px]" />
-          {currDayClockinList.length} / {getStudentsNumber()}
+          {currDayClockinList.length} /{" "}
+          {getStudentsNumber() === "" ? 0 : getStudentsNumber()}
         </div>
       </div>
       <div
@@ -190,7 +191,9 @@ function AttendanceReport({ marginTop }) {
           )}
         </table>
         <AttendanceRecordSummary
-          attendanceArray={clockinLList}
+          attendanceArray={
+            attendanceArray !== null ? attendanceArray : currDayClockinList
+          }
           totalOnBoardedStudents={getStudentsNumber()}
         />
       </div>
