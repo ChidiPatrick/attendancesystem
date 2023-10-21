@@ -2,10 +2,6 @@ import { update, ref, onValue } from "firebase/database";
 import { rdb } from "../../../Firebase/firebase";
 
 // Local directory imports
-import {
-  updateProgramEndingDateState,
-  updateProgramStartingDateState,
-} from "../../../Redux Slices/adminSlice";
 
 const updateProgramStartingDate = (date) => {
   const programStartingRef = ref(

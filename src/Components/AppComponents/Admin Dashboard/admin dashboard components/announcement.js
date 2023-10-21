@@ -93,16 +93,16 @@ function AdminAnnouncement() {
                 }}
               ></textarea>
             </div>
-            <div className="w-[50%] mx-auto flex justify-between items-center mt-[20px]">
+            <div className="w-[50%] mx-auto flex justify-center items-center mt-[20px]">
               <button
                 onClick={() => sendAnnouncement(announcementObject)}
-                className="w-[150px] mr-[10px] bg-lp-secondary text-white font-bold p-[10px] border rounded-2xl"
+                className="w-[250px] mr-[10px] bg-lp-secondary text-white font-bold p-[10px] border rounded-2xl"
               >
                 Post
               </button>
-              <button className="w-[150px] bg-[#FFFDFA] text-lp-secondary p-[10px] border rounded-2xl">
+              {/* <button className="w-[150px] bg-[#FFFDFA] text-lp-secondary p-[10px] border rounded-2xl">
                 Save draft
-              </button>
+              </button> */}
             </div>
           </div>
           <ToastContainer

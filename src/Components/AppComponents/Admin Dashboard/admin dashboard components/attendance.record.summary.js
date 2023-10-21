@@ -3,7 +3,11 @@ import React from "react";
 // Local Directory imports
 import { calcAttendanceSummary } from "../admin dashboard handlers/admin.attendance.summary.handlers";
 
-function AttendanceRecordSummary({ attendanceArray, totalOnBoardedStudents }) {
+function AttendanceRecordSummary({
+  attendanceArray,
+  totalOnBoardedStudents,
+  attendanceHistoryStartDate,
+}) {
   const attendanceSummaryArray = calcAttendanceSummary(
     attendanceArray,
     totalOnBoardedStudents
@@ -14,7 +18,15 @@ function AttendanceRecordSummary({ attendanceArray, totalOnBoardedStudents }) {
     <div className="bg-white shadow-md w-[20%]  p-[10px] border rounded-xl">
       <h3 className="font-bold text-[20px] ">Attendance Summary</h3>
       <div className="">
-        <div className="py-[10px]">{new Date().toDateString()}</div>
+        <div className="py-[10px]">
+          From
+          <span className="ml-[10px]">
+            {new Date(attendanceHistoryStartDate).toDateString() !==
+            new Date().toDateString()
+              ? new Date(attendanceHistoryStartDate).toDateString()
+              : new Date().toDateString()}
+          </span>
+        </div>
         <div className="odd:bg-white  mb-2 even:bg-gray-100 flex justify-between p-[10px]">
           <span>Early</span>
           <span>

@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from "react";
 
 //Third-party imports
-import { HiOutlineAcademicCap, HiOutlineCircleStack } from "react-icons/hi2";
+import { HiOutlineAcademicCap } from "react-icons/hi2";
+import { BsCalendar4 } from "react-icons/bs";
 
 //Local Imports
-import SideNavigation from "./sidenav.comp";
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import SummaryBox from "./summary.box";
 import StudentsInclass from "./students.inclasss";
-import ClassSetup from "./class.setup";
-import AdminStudentProfile from "./admin.student.profile";
 import { useSelector } from "react-redux";
-import AdminDashboardLayout from "./adminDashboardLayout";
 import AttendanceDisplayUI from "./attendance.display.UI";
+import {
+  loopDate,
+  calcProgramDaysUsed,
+} from "../admin dashboard handlers/dashboard.summary.comp";
+import { getStudentsNumber } from "../admin dashboard handlers/admin.handlers";
 
 function DashboardComponent() {
   // Redux  states
   const adminData = useSelector((state) => state.adminSlice.adminData);
+  const programDurationStartDate = useSelector(
+    (state) => state.classSetupSlice.programDurationStartDate
+  );
+  const programDurationEndDate = useSelector(
+    (state) => state.classSetupSlice.programDurationEndDate
+  );
 
-  console.log(adminData);
+  console.log(new Date(programDurationEndDate));
 
   return (
     <div className="w-full p-[10px] flex h-screen  bg-[#F7F7F773]">
@@ -33,25 +41,31 @@ function DashboardComponent() {
               bgValue="bg-[#2926B8]"
               title="Total Students"
               IconName={HiOutlineAcademicCap}
-              number={100}
-              valueIdentifier=""
+              number={getStudentsNumber() === "" ? 0 : getStudentsNumber()}
+              valueIdentifier="Students"
             />
             <SummaryBox
               bgValue="bg-[#326EB5]"
               title="Time Used"
-              IconName={HiOutlineAcademicCap}
-              number={100}
+              IconName={BsCalendar4}
+              number={calcProgramDaysUsed(
+                new Date(programDurationStartDate),
+                new Date()
+              )}
               valueIdentifier="days"
             />
             <SummaryBox
               bgValue="bg-[#21938C]"
               title="Session Duration"
-              IconName={HiOutlineAcademicCap}
-              number={72}
-              valueIdentifier="days"
+              IconName={BsCalendar4}
+              number={loopDate(
+                new Date(programDurationStartDate),
+                new Date(programDurationEndDate)
+              )}
+              valueIdentifier="Working days"
             />
           </div>
-          <div className="w-[20%] h-[200px] bg-[#FBFCFE] shadow-md border border-tranparent rounded-md">
+          <div className="w-[15%] h-[200px] bg-[#FBFCFE] shadow-md border border-tranparent rounded-md">
             <h3 className="text-center text-black p-[10px]">Daily six</h3>
             <div className="grid grid-cols-2 w-[80%] mx-auto justify-items-center">
               <figure className="w-[40px] h-[40px] border rounded-full">

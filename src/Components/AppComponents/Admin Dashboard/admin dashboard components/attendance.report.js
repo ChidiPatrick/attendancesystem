@@ -8,6 +8,7 @@ import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import { ToastContainer } from "react-toastify";
 import { Margin, usePDF, Resolution } from "react-to-pdf";
+import { HiArrowNarrowRight } from "react-icons/hi";
 
 // Local directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
@@ -30,6 +31,8 @@ function AttendanceReport({ marginTop }) {
     new Date()
   );
   const [attendanceArray, setAttendanceArray] = useState(null);
+
+  console.log(attendanceRangeStartingDate < attendanceRangeEndingDate);
 
   // Redux states
   const clockinLList = useSelector(
@@ -87,8 +90,9 @@ function AttendanceReport({ marginTop }) {
           <button
             onClick={() =>
               generateAttendanceHistory(
-                attendanceRangeEndingDate,
                 attendanceRangeStartingDate,
+                attendanceRangeEndingDate,
+
                 setAttendanceArray
               )
             }
@@ -100,7 +104,16 @@ function AttendanceReport({ marginTop }) {
       </div>
       <ToastContainer style={{ width: "100%", textAlign: "center" }} />
       <div className="text-lg font-bold flex justify-between items-center border border-transparent border-t-gray-400 border-b-gray-400 py-[10px]">
-        <div>{new Date().toDateString()}</div>
+        <div className="w-[30%] flex justify-between items-center">
+          <div>
+            {new Date(attendanceRangeStartingDate).toDateString() !==
+            new Date().toDateString()
+              ? new Date(attendanceRangeStartingDate).toDateString()
+              : new Date().toDateString()}
+          </div>
+          <HiArrowNarrowRight />
+          <div>{new Date(attendanceRangeEndingDate).toDateString()}</div>
+        </div>
         <button
           onClick={toPDF}
           className="hover:bg-[#123684] flex justify-center items-center hover:text-white p-[10px] border border-[2px] border-lp-primary rounded-md w-[200px] font-bold text-white bg-lp-primary"
@@ -195,6 +208,7 @@ function AttendanceReport({ marginTop }) {
             attendanceArray !== null ? attendanceArray : currDayClockinList
           }
           totalOnBoardedStudents={getStudentsNumber()}
+          attendanceHistoryStartDate={attendanceRangeStartingDate}
         />
       </div>
     </div>

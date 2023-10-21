@@ -26,10 +26,25 @@ const fetchCurrClockinArray = (dispatch) => {
 // Fetch all the attendance within the specified range
 const fetchAttendanceWithinRange = (startDate, endDate, setAttendanceArray) => {
   if (!navigator.onLine) {
-    toast("You dont internet connection", {
+    toast("You dont have internet connection", {
       theme: "dark",
-      type: "info",
+      type: "error",
     });
+    return;
+  }
+
+  console.log(startDate < endDate);
+
+  if (endDate < startDate) {
+    console.log("Checking date");
+    toast(
+      "Attendance history ending date can not be less than the starting date 🙄",
+      {
+        theme: "dark",
+        type: "info",
+      }
+    );
+    return;
   }
 
   const clockinListRef = ref(rdb, "admindashboard/clockInList");

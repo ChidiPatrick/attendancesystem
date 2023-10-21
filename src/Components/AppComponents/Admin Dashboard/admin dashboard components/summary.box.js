@@ -11,7 +11,7 @@ function SummaryBox({ bgValue, title, IconName, number, valueIdentifier }) {
       <div className="flex justify-between items-center ">
         <p className="text-[#D5D5F6]">{title}</p>
         <figure className="w-[30px] h-[30px] flex justify-center items-center border rounded-full bg-[#D5D5F6] bg-gray-50">
-          <IconName size={20} className="text-[#2926B8]" />
+          <IconName size={15} className="text-[#2926B8]" />
         </figure>
       </div>
       <div
