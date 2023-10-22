@@ -46,14 +46,14 @@ function Menu() {
         >
           My Profile
         </li>
-        {/* <li
+        <li
           className="p-2 font-bold"
           onClick={() =>
             handleNavigation(navigate, "permission", dispatch, hideMenu)
           }
         >
           Seek Permission
-        </li> */}
+        </li>
         <li
           className="p-2 font-bold"
           onClick={() =>

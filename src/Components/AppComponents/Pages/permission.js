@@ -1,24 +1,31 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 //// Third Party imports ////
-import NavBar from "./navBar";
 import { BsCalendar4 } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import DatePicker from "react-date-picker";
+import "react-time-picker/dist/TimePicker.css";
+import "react-clock/dist/Clock.css";
 import { useDispatch, useSelector } from "react-redux";
+
+//Third-party imports
 
 /// Local directory imports ///
 import {
   ButtonFull,
   ButtonLight,
-  // ButtonSmall,
-  // ButtonSmallLight,
 } from "../../LandingPageComponents/Buttons/buttons";
 import Menu from "./menu";
 
 function Permission() {
   const dispatch = useDispatch();
+
+  const permissionBodyRef = useRef();
+
+  //////// Local states /////////////////////
+  const [startingDate, setStartingDate] = useState(new Date());
+  const [endingDate, setEndingDate] = useState(new Date());
+  const [permissionReason, setPermissionReason] = useState("");
 
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
   const userProfileData = useSelector(
@@ -28,7 +35,25 @@ function Permission() {
   const [value, setValue] = useState(new Date());
   const [showCalender, setShowCalender] = useState(false);
 
+  console.log(permissionReason);
+
   const { firstName, lastName, userName, profilePictureURL } = userProfileData;
+
+  const permissionObject = {
+    permissionBody: permissionReason,
+    startingDate: new Date(startingDate).toDateString(),
+    endingDate: new Date(endingDate).toDateString(),
+    time: new Date().toLocaleTimeString(),
+    status: "Pending",
+    name: `${firstName} ${lastName}`,
+  };
+
+  console.log(permissionObject);
+
+  /// Get permission type value //////
+  const getPermissionType = (eventObj) => {
+    console.log(eventObj.target.value);
+  };
 
   return (
     <div className="w- relative py-6 h-auto  mx-auto">
@@ -66,41 +91,39 @@ function Permission() {
           <select
             name="permission-type"
             className="w-full outline-none bg-transparent"
+            onChange={getPermissionType}
           >
-            <option>Late</option>
-            <option>Absent</option>
+            <option value={"Late"}>Late</option>
+            <option value={"Absent"}>Absent</option>
           </select>
         </fieldset>
         <p>When do you need this permission?</p>
         <fieldset className="px-2 mb-4 border-2 border-solid border-signup-gray rounded py-2">
           <legend>From</legend>
-          <div
-            onClick={() => setShowCalender(true)}
-            className="w-full flex justify-between items-center"
-          >
-            <div>{new Date().toDateString()}</div>
-            <div>
-              <BsCalendar4 />
-            </div>
-          </div>
+
+          <DatePicker
+            className="w-[100%]"
+            onChange={setStartingDate}
+            value={startingDate}
+          />
         </fieldset>
         <fieldset className="px-2 mb-4 border-2 border-solid border-signup-gray rounded py-2">
           <legend>To</legend>
-          <div
-            onClick={() => setShowCalender(true)}
-            className="w-full flex justify-between items-center"
-          >
-            <div>{new Date().toDateString()}</div>
-            <div>
-              <BsCalendar4 />
-            </div>
-          </div>
+          <DatePicker
+            className="w-[100%]"
+            onChange={setEndingDate}
+            value={endingDate}
+          />
         </fieldset>
         <fieldset className="px-2 mb-4 border-2 border-solid border-signup-gray rounded py-2">
           <legend>Reason</legend>
           <textarea
             className="outline-none w-full "
-            placeholder="Tell us why you're asking for permission"
+            placeholder="Explain why you are seeking for permission here"
+            ref={permissionBodyRef}
+            onChange={() => {
+              setPermissionReason(permissionBodyRef.current.value);
+            }}
           ></textarea>
         </fieldset>
         <div className="flex justify-between  gap-3 items-center w-full">
@@ -108,21 +131,8 @@ function Permission() {
           <ButtonLight>Cancel</ButtonLight>
         </div>
         {showCalender === true ? (
-          <div
-            // onClick={() => setShowCalender(false)}
-            className="absolute top-0 left-0 w-full h-full flex justify-center item-center flex-col  bg-black bg-opacity-20"
-          >
-            <div className="w-full flex justify-center ">
-              <Calendar
-                onClickDay={(value, day) => {
-                  console.log(value.getDate());
-                }}
-                value={value}
-                onClickMonth={(value, month) => {
-                  console.log(value);
-                }}
-              />
-            </div>
+          <div className="absolute top-0 left-0 w-full h-full flex justify-center item-center flex-col  bg-black bg-opacity-20">
+            <div className="w-full flex justify-center "></div>
           </div>
         ) : null}
       </div>

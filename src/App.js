@@ -65,7 +65,6 @@ function App() {
           element={<UploadProfilePicture />}
         />
         <Route path="/editProfile" element={<EditProfile />} />
-
         <Route path="/adminDashboard" element={<AdminDashboardLayout />}>
           <Route index element={<DashboardComponent />} />
           <Route

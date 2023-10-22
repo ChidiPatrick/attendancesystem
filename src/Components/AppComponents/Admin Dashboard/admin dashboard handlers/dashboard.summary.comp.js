@@ -40,9 +40,31 @@ const calcProgramDaysUsed = (programStartingDate, endDate) => {
     if (workDay !== 0 && workDay !== 6) {
       totalWorkDays++;
     }
-    startDate = startDate.setDate(startDate.getDate() + 1);
+    startDate.setDate(startDate.getDate() + 1);
   }
   return totalWorkDays;
 };
 
-export { getStudentsTotalNumber, loopDate, calcProgramDaysUsed };
+/// Get number of students in class
+const getNumberOfStudentsInClass = () => {
+  const clockinRef = ref(rdb, "admindashboard/clockInList");
+  let currDayClockInArray = "";
+
+  onValue(clockinRef, (snapshot) => {
+    const clockinList = Object.values(snapshot.val());
+
+    console.log(clockinList);
+    currDayClockInArray = clockinList.filter(
+      (clockinObject) => clockinObject.date === new Date().toDateString
+    );
+  });
+
+  return [currDayClockInArray.length, currDayClockInArray];
+};
+
+export {
+  getStudentsTotalNumber,
+  loopDate,
+  calcProgramDaysUsed,
+  getNumberOfStudentsInClass,
+};

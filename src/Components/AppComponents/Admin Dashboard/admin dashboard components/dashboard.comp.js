@@ -15,6 +15,7 @@ import {
   calcProgramDaysUsed,
 } from "../admin dashboard handlers/dashboard.summary.comp";
 import { getStudentsNumber } from "../admin dashboard handlers/admin.handlers";
+import NotificationBar from "./notification.bar";
 
 function DashboardComponent() {
   // Redux  states
@@ -26,14 +27,16 @@ function DashboardComponent() {
     (state) => state.classSetupSlice.programDurationEndDate
   );
 
-  console.log(new Date(programDurationEndDate));
+  console.log(
+    calcProgramDaysUsed(new Date(programDurationStartDate), new Date())
+  );
 
   return (
-    <div className="w-full p-[10px] flex h-screen  bg-[#F7F7F773]">
+    <div className="w-full p-[10px] flex min-h-screen  bg-[#F7F7F7]">
       {/* <div>
         <SideNavigation />
       </div> */}
-      <div className="w-full h-screen bg-user-profile">
+      <div className="w-full min-h-screen bg-user-profile">
         <DashboardNavigationComponent title="Dashboard" />
         <div className="w-full flex justify-between p-[10px] mt-[20px]">
           <div className="w-full flex justify-between items-center mr-[20px]">
@@ -52,7 +55,7 @@ function DashboardComponent() {
                 new Date(programDurationStartDate),
                 new Date()
               )}
-              valueIdentifier="days"
+              valueIdentifier="working days used"
             />
             <SummaryBox
               bgValue="bg-[#21938C]"
@@ -92,7 +95,17 @@ function DashboardComponent() {
           </div>
           <StudentsInclass />
         </div>
-        <AttendanceDisplayUI />
+        <div className="flex just-between mt-[30px] px-[10px]">
+          <AttendanceDisplayUI />
+          <div className="bg-[#fff] p-[10px] w-[35%] ml-[20px] h-[380px] border rounded-[10px] overflow-y-scroll">
+            <NotificationBar
+              width="100%"
+              backgroundColor="#F6F9FE"
+              padding="5px"
+              fontSize="12px"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

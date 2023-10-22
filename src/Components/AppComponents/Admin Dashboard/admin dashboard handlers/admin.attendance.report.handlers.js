@@ -18,7 +18,6 @@ const fetchCurrClockinArray = (dispatch) => {
 
   onValue(clockinRef, (snapshot) => {
     const clockinList = Object.values(snapshot.val());
-    console.log(clockinList);
     dispatch(setClockinList(clockinList));
   });
 };
