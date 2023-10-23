@@ -8,28 +8,35 @@ import { BsCalendar4 } from "react-icons/bs";
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import SummaryBox from "./summary.box";
 import StudentsInclass from "./students.inclasss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AttendanceDisplayUI from "./attendance.display.UI";
 import {
   loopDate,
   calcProgramDaysUsed,
+  getPermissionRequests,
 } from "../admin dashboard handlers/dashboard.summary.comp";
 import { getStudentsNumber } from "../admin dashboard handlers/admin.handlers";
 import NotificationBar from "./notification.bar";
 
 function DashboardComponent() {
+  const dispatch = useDispatch();
+
   // Redux  states
-  const adminData = useSelector((state) => state.adminSlice.adminData);
   const programDurationStartDate = useSelector(
     (state) => state.classSetupSlice.programDurationStartDate
   );
   const programDurationEndDate = useSelector(
     (state) => state.classSetupSlice.programDurationEndDate
   );
-
-  console.log(
-    calcProgramDaysUsed(new Date(programDurationStartDate), new Date())
+  const permissionsArray = useSelector(
+    (state) => state.permissionSlice.permissionsArray
   );
+
+  console.log(permissionsArray);
+
+  useEffect(() => {
+    getPermissionRequests(dispatch);
+  }, []);
 
   return (
     <div className="w-full p-[10px] flex min-h-screen  bg-[#F7F7F7]">
@@ -98,12 +105,18 @@ function DashboardComponent() {
         <div className="flex just-between mt-[30px] px-[10px]">
           <AttendanceDisplayUI />
           <div className="bg-[#fff] p-[10px] w-[35%] ml-[20px] h-[380px] border rounded-[10px] overflow-y-scroll">
-            <NotificationBar
-              width="100%"
-              backgroundColor="#F6F9FE"
-              padding="5px"
-              fontSize="12px"
-            />
+            {permissionsArray.map((permissionObject, index) => {
+              return (
+                <NotificationBar
+                  permissionObject={permissionObject}
+                  width="100%"
+                  backgroundColor="#F6F9FE"
+                  padding="5px"
+                  fontSize="12px"
+                  keyIndex={index}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

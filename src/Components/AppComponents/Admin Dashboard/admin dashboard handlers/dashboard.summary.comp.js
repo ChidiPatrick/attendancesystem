@@ -1,15 +1,13 @@
 import { ref, onValue, getDatabase } from "firebase/database";
 import { rdb } from "../../../Firebase/firebase";
-import { date } from "yup";
+import { setPermissions } from "../../../Redux Slices/permission.slice";
 
 // Get total number of students
 const getStudentsTotalNumber = async (dispatch) => {
   const totalStudentsRef = ref(rdb, "admindashboard/studentsBio");
 
   onValue(totalStudentsRef, (snapshot) => {
-    const studentsObjectArray = Object.values(snapshot.val());
-    console.log(studentsObjectArray);
-    return studentsObjectArray.length;
+    dispatch(setPermissions(Object.values(snapshot.val())));
   });
 };
 
@@ -46,20 +44,27 @@ const calcProgramDaysUsed = (programStartingDate, endDate) => {
 };
 
 /// Get number of students in class
-const getNumberOfStudentsInClass = () => {
+const getNumberOfStudentsInClass = (dispatch) => {
   const clockinRef = ref(rdb, "admindashboard/clockInList");
   let currDayClockInArray = "";
 
   onValue(clockinRef, (snapshot) => {
     const clockinList = Object.values(snapshot.val());
 
-    console.log(clockinList);
     currDayClockInArray = clockinList.filter(
-      (clockinObject) => clockinObject.date === new Date().toDateString
+      (clockinObject) => clockinObject.date === new Date().toDateString()
     );
   });
 
   return [currDayClockInArray.length, currDayClockInArray];
+};
+
+///////// Get permissions ///////////////////
+const getPermissionRequests = (dispatch) => {
+  const permissionsRef = ref(rdb, "admindashboard/permissions");
+  onValue(permissionsRef, (snapshot) => {
+    dispatch(setPermissions(Object.values(snapshot.val())));
+  });
 };
 
 export {
@@ -67,4 +72,5 @@ export {
   loopDate,
   calcProgramDaysUsed,
   getNumberOfStudentsInClass,
+  getPermissionRequests,
 };

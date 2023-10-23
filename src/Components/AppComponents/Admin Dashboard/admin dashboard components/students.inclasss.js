@@ -39,12 +39,12 @@ function StudentsInclass() {
         ) : (
           currDayClockinSummaryArray[1].map((clockinObject, index) => {
             return (
-              <div className="flex items-center mt-[20px]">
+              <div className="flex items-center mt-[20px] font-bold">
                 {/* <figure className="w-[20px] h-[20px] border rounded-full bg-green-400"></figure> */}
-                <div className="w-full ml-[10px]">
+                <div className="w-full ml-[10px] flex justify-between items-center">
                   <div>{clockinObject.name}</div>
                   <div className="text-lp-primary font-bold text-[13px] flex justify-between">
-                    <div className="text-black ">{clockinObject.time}</div>
+                    {clockinObject.time}
                   </div>
                 </div>
               </div>

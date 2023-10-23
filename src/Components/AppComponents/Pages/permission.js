@@ -1,14 +1,11 @@
 import React, { useRef, useState } from "react";
 
 //// Third Party imports ////
-import { BsCalendar4 } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import DatePicker from "react-date-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import { useDispatch, useSelector } from "react-redux";
-
-//Third-party imports
 
 /// Local directory imports ///
 import {
@@ -16,9 +13,14 @@ import {
   ButtonLight,
 } from "../../LandingPageComponents/Buttons/buttons";
 import Menu from "./menu";
+import { sendPermissionRequestHandler } from "../Handlers/permission.handler";
+import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router";
 
+/////////////// PERMISSION COMPONENT/////////////
 function Permission() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const permissionBodyRef = useRef();
 
@@ -26,37 +28,36 @@ function Permission() {
   const [startingDate, setStartingDate] = useState(new Date());
   const [endingDate, setEndingDate] = useState(new Date());
   const [permissionReason, setPermissionReason] = useState("");
+  const [permissionType, setPermissionType] = useState("");
 
+  //////////////// Redux states //////////////////////////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
+  const userId = useSelector((state) => state.loginSlice.userId);
   const userProfileData = useSelector(
     (state) => state.profileSlice.userProfileData
   );
 
-  const [value, setValue] = useState(new Date());
-  const [showCalender, setShowCalender] = useState(false);
-
-  console.log(permissionReason);
-
-  const { firstName, lastName, userName, profilePictureURL } = userProfileData;
+  /////////////// User credentials //////////////
+  const { firstName, lastName, userName, profilePictureURL, email } =
+    userProfileData;
 
   const permissionObject = {
     permissionBody: permissionReason,
+    permissionType,
     startingDate: new Date(startingDate).toDateString(),
     endingDate: new Date(endingDate).toDateString(),
-    time: new Date().toLocaleTimeString(),
     status: "Pending",
     name: `${firstName} ${lastName}`,
+    userId,
   };
-
-  console.log(permissionObject);
 
   /// Get permission type value //////
   const getPermissionType = (eventObj) => {
-    console.log(eventObj.target.value);
+    setPermissionType(eventObj.target.value);
   };
 
   return (
-    <div className="w- relative py-6 h-auto  mx-auto">
+    <div className="relative py-6 h-auto  mx-auto">
       <div className="mx-auto max-w-[650px] w-[90%] md:w-full relative">
         <div className=" flex items-center bg-mywhite sticky top-0 z-[999]">
           <span className=" w-10 "></span>
@@ -81,7 +82,7 @@ function Permission() {
               {firstName} {lastName}
             </div>
             <div>{userName}</div>
-            <div>Email</div>
+            <div className="text-lp-primary font-semibold">{email}</div>
           </div>
         </div>
 
@@ -127,14 +128,18 @@ function Permission() {
           ></textarea>
         </fieldset>
         <div className="flex justify-between  gap-3 items-center w-full">
-          <ButtonFull>Send request</ButtonFull>
-          <ButtonLight>Cancel</ButtonLight>
+          <ButtonFull
+            handleClick={() =>
+              sendPermissionRequestHandler(permissionObject, permissionBodyRef)
+            }
+          >
+            Send request
+          </ButtonFull>
+          <ButtonLight handleClick={() => navigate("/home")}>
+            Cancel
+          </ButtonLight>
         </div>
-        {showCalender === true ? (
-          <div className="absolute top-0 left-0 w-full h-full flex justify-center item-center flex-col  bg-black bg-opacity-20">
-            <div className="w-full flex justify-center "></div>
-          </div>
-        ) : null}
+        <ToastContainer style={{ width: "100%", textAlign: "center" }} />
       </div>
     </div>
   );
