@@ -94,7 +94,9 @@ function Permission() {
             className="w-full outline-none bg-transparent"
             onChange={getPermissionType}
           >
-            <option value={"Late"}>Late</option>
+            <option selected value={"Late"}>
+              Late
+            </option>
             <option value={"Absent"}>Absent</option>
           </select>
         </fieldset>

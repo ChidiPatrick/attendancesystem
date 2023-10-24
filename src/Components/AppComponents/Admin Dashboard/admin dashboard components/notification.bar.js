@@ -50,7 +50,11 @@ function NotificationBar({
   };
 
   const openPermissionRequest = (e) => {
-    console.log(e.target.parentElement.id);
+    // const selectedPermissionRequestObject =
+    //   permissionsArray[parseFloat(e.target.parentElement.id)];
+
+    // dispatch(setSelectedPermissionRequest(selectedPermissionRequestObject));
+    console.log("Clicked");
   };
 
   const getStudentsBio = (permissionObject, studentsBioArray) => {
@@ -63,6 +67,7 @@ function NotificationBar({
     // <div className="z-1000 relative">
     <div
       key={keyIndex}
+      id="parent"
       onClick={openPermissionRequest}
       className={`w-[${width}]  z-1000 relative my-[10px] text-[${fontSize}] flex items-center bg-[${backgroundColor}] p-[${padding}] border border-transparent rounded-md`}
     >
@@ -107,6 +112,7 @@ function NotificationBar({
             Approve
           </button>
           <button className="p-[10px]">Deny</button>
+          <button className="p-[10px]">View Details</button>
         </div>
       </div>
       {/* </div> */}

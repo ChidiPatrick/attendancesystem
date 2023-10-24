@@ -14,8 +14,11 @@ const sendPermissionRequestHandler = (permissionObject, permissionBodyRef) => {
     return;
   }
 
-  if (permissionObject.permissionBody === "") {
-    toast("You can not send an empty permission request🙄", {
+  if (
+    permissionObject.permissionBody === "" ||
+    permissionObject.permissionType
+  ) {
+    toast("You can not send an empty permission request or type🙄", {
       type: "warning",
       autoClose: 3000,
     });
