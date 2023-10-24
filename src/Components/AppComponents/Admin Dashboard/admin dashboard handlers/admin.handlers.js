@@ -12,12 +12,13 @@ import {
   child,
 } from "firebase/database";
 import { setCurrClockinObj } from "../../../Redux Slices/attendanceSlice";
+import { setStudentsBioArray } from "../../../Redux Slices/adminSlice";
 
 //Add new user bio into admin dabase
 const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
   const databaseRef = ref(rdb, `admindashboard/studentsBio`);
   const studentsBioRef = push(databaseRef);
-  await set(studentsBioRef, { ...valuesObject });
+  await set(studentsBioRef, { ...valuesObject, userId });
 };
 
 // Add admin's bio data to the database
@@ -67,6 +68,7 @@ const getCurrentClockinAttendanceObj = () => {
   return currAttendanceArray;
 };
 
+/////// Get students Number ////////////
 const getStudentsNumber = () => {
   const studentsBioRef = ref(rdb, `admindashboard/studentsBio`);
   let numberOfStudents = "";
@@ -78,6 +80,16 @@ const getStudentsNumber = () => {
   });
 
   return numberOfStudents;
+};
+
+/////////// Get students bio ///////////
+const getStudentsBioArray = (dispatch) => {
+  const studentsBioRef = ref(rdb, `admindashboard/studentsBio`);
+
+  onValue(studentsBioRef, (snapshot) => {
+    const studentsBioObj = snapshot.val();
+    dispatch(setStudentsBioArray(Object.values(studentsBioObj)));
+  });
 };
 
 const updateAddClockinDataToAdminDatabaseWithClockoutObj = (
@@ -127,16 +139,6 @@ const getStudentsLogins = () => {
   return filteredArr;
 };
 
-const getStudentsBios = () => {
-  const studentsBioRef = ref(rdb, "admindashboard/studentsBio");
-
-  onValue(studentsBioRef, (snapshot) => {
-    const data = snapshot.val();
-    console.log(data);
-    return data;
-  });
-};
-
 // Get students bio list
 
 export {
@@ -145,8 +147,8 @@ export {
   addClockOutDataToAdminDatabase,
   addAdminBioDataToDatabase,
   getStudentsLogins,
-  getStudentsBios,
   updateAddClockinDataToAdminDatabaseWithClockoutObj,
   getCurrentClockinAttendanceObj,
   getStudentsNumber,
+  getStudentsBioArray,
 };

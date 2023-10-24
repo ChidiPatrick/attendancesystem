@@ -34,7 +34,11 @@ import {
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 import { persistor } from "../../Store/store";
-import { setAdminData } from "../../Redux Slices/adminSlice";
+import {
+  setAdminData,
+  setStudentsBioArray,
+} from "../../Redux Slices/adminSlice";
+import { getStudentsBioArray } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 
 //Signin TODOs:
 /**
@@ -77,7 +81,9 @@ const SigninAsAdmin = () => {
     (state) => state.loginSlice.wrongAdminLoginMessage
   );
 
-  console.log(displayWrongLoginMessage);
+  const studentsBioArray = useSelector(
+    (state) => state.adminSlice.studentsBioArray
+  );
 
   ///////// HANDLER FUNCTIONS ////////////////////
   const cancleBtnHandler = () => {
@@ -97,10 +103,7 @@ const SigninAsAdmin = () => {
         dispatch(showSpinner());
         await signInWithEmailAndPassword(auth, values.email, values.password)
           .then((user) => {
-            console.log(user);
-            console.log("Verifying admin email...");
             verifyAdminEmail(dispatch, values);
-            console.log("Done verifying");
           })
           .then(() => {
             // try {
@@ -125,8 +128,12 @@ const SigninAsAdmin = () => {
               dispatch(setAdminData(adminBioObject));
             }
           })
+          .then(() => {
+            getStudentsBioArray(dispatch);
+          })
           .then((userId) => {
             dispatch(setUserId(userId));
+            dispatch(setStudentsBioArray(studentsBioArray));
             dispatch(hideSpinner());
             navigate("/adminDashboard");
           });

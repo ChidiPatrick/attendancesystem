@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // Initial state
 const initialState = {
   permissionsArray: [],
+  selectPermissionRequest: {},
 };
 
 const permissionSlice = createSlice({
@@ -12,9 +13,13 @@ const permissionSlice = createSlice({
     setPermissions(state, action) {
       state.permissionsArray = action.payload.reverse();
     },
+    setSelectedPermissionRequest(state, action) {
+      state.selectPermissionRequest = action.payload;
+    },
   },
 });
 
-export const { setPermissions } = permissionSlice.actions;
+export const { setPermissions, setSelectedPermissionRequest } =
+  permissionSlice.actions;
 
 export default permissionSlice.reducer;

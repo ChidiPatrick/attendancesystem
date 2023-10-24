@@ -17,6 +17,7 @@ import {
 } from "../admin dashboard handlers/dashboard.summary.comp";
 import { getStudentsNumber } from "../admin dashboard handlers/admin.handlers";
 import NotificationBar from "./notification.bar";
+import AdminStudentProfile from "./admin.student.profile";
 
 function DashboardComponent() {
   const dispatch = useDispatch();
@@ -119,6 +120,7 @@ function DashboardComponent() {
             })}
           </div>
         </div>
+        <AdminStudentProfile />
       </div>
     </div>
   );
