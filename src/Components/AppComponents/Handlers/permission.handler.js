@@ -16,7 +16,7 @@ const sendPermissionRequestHandler = (permissionObject, permissionBodyRef) => {
 
   if (
     permissionObject.permissionBody === "" ||
-    permissionObject.permissionType
+    permissionObject.permissionType === ""
   ) {
     toast("You can not send an empty permission request or type🙄", {
       type: "warning",
@@ -30,6 +30,8 @@ const sendPermissionRequestHandler = (permissionObject, permissionBodyRef) => {
   set(permissionReference, {
     ...permissionObject,
     time: new Date().toLocaleTimeString(),
+    dateSent: new Date().toDateString(),
+    rdbKey: permissionReference.key,
   })
     .then(() => {
       toast("Permission request successfully sent 🎊🎊🎉", {

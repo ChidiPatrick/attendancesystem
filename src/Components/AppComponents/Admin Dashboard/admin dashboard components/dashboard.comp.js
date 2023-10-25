@@ -18,6 +18,7 @@ import {
 import { getStudentsNumber } from "../admin dashboard handlers/admin.handlers";
 import NotificationBar from "./notification.bar";
 import AdminStudentProfile from "./admin.student.profile";
+import PermissionModal from "./permission.modal";
 
 function DashboardComponent() {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ function DashboardComponent() {
   }, []);
 
   return (
-    <div className="w-full p-[10px] flex min-h-screen  bg-[#F7F7F7]">
+    <div className="w-full p-[10px] relative flex min-h-screen  bg-[#F7F7F7]">
       {/* <div>
         <SideNavigation />
       </div> */}
@@ -121,6 +122,7 @@ function DashboardComponent() {
           </div>
         </div>
         <AdminStudentProfile />
+        <PermissionModal />
       </div>
     </div>
   );

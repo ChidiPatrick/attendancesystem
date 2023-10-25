@@ -1,6 +1,6 @@
 //// THIRD-PARTY IMPORTS
 import { toast } from "react-toastify";
-import { onValue } from "firebase/database";
+import { onValue, update } from "firebase/database";
 
 ///// LOCAL IMPORTS
 import { push, ref, set } from "firebase/database";
@@ -44,7 +44,6 @@ const publishAnnouncement = async (announcementObject, dispatch) => {
     .then(() => {
       toast("Announcement published successfull 🎉🎉🎉🎊✨", {
         type: "success",
-        theme: "dark",
         autoClose: 3000,
       });
     });
@@ -64,4 +63,21 @@ const fetchAnnouncements = async (dispatch) => {
   });
 };
 
-export { publishAnnouncement, fetchAnnouncements };
+//////// Approve Permission ///////
+const updatePermissionStatus = (permissionObject, response) => {
+  const currPermissionRef = ref(
+    rdb,
+    `admindashboard/permissions/${permissionObject.rdbKey}`
+  );
+
+  const newPermissionObject = { ...permissionObject, status: response };
+
+  update(currPermissionRef, newPermissionObject).then(() => {
+    toast("Response sent successfully", {
+      type: "success",
+      autoClose: 3000,
+    });
+  });
+};
+
+export { publishAnnouncement, fetchAnnouncements, updatePermissionStatus };

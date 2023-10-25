@@ -4,7 +4,10 @@ import React, { useRef, useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setSelectedPermissionRequest } from "../../../Redux Slices/permission.slice";
+import {
+  setSelectedPermissionRequest,
+  showPermissionModal,
+} from "../../../Redux Slices/permission.slice";
 
 function NotificationBar({
   width,
@@ -50,11 +53,9 @@ function NotificationBar({
   };
 
   const openPermissionRequest = (e) => {
-    // const selectedPermissionRequestObject =
-    //   permissionsArray[parseFloat(e.target.parentElement.id)];
-
-    // dispatch(setSelectedPermissionRequest(selectedPermissionRequestObject));
-    console.log("Clicked");
+    console.log(permissionObject);
+    dispatch(setSelectedPermissionRequest(permissionObject));
+    dispatch(showPermissionModal());
   };
 
   const getStudentsBio = (permissionObject, studentsBioArray) => {
@@ -67,29 +68,44 @@ function NotificationBar({
     // <div className="z-1000 relative">
     <div
       key={keyIndex}
-      id="parent"
-      onClick={openPermissionRequest}
       className={`w-[${width}]  z-1000 relative my-[10px] text-[${fontSize}] flex items-center bg-[${backgroundColor}] p-[${padding}] border border-transparent rounded-md`}
     >
       <div className="w-[100%]">
         <div className="font-bold flex justify-between items-center mb-[10px]">
-          <figure className="w-[20px] h-[20px] mr-[4px] border border-transparent rounded-full bg-gray-600"></figure>
-          <div
+          <figure
             id={`${keyIndex}`}
-            className="flex justify-between items-center  w-[94%]"
-          >
-            <span>{permissionObject.name}</span>
+            onClick={openPermissionRequest}
+            className="w-[20px] h-[20px] mr-[4px] border border-transparent rounded-full bg-gray-600"
+          ></figure>
+          <div className="flex justify-between items-center  w-[94%]">
+            <span
+              className=""
+              id={`${keyIndex}`}
+              onClick={openPermissionRequest}
+            >
+              {permissionObject.name}
+            </span>
             <HiDotsVertical onClick={(e) => toggleUI(e)} id="icon" />
           </div>
         </div>
         <div
           ref={permissionRef}
+          id={`${keyIndex}`}
+          onClick={openPermissionRequest}
           className="flex justify-between items-center w-[100%]"
         >
-          <div id={`${keyIndex}`} className="font-semibold">
+          <div
+            id={`${keyIndex}`}
+            onClick={openPermissionRequest}
+            className="font-semibold"
+          >
             Permission Request
           </div>
-          <span className="text-lp-primary font-semibold">
+          <span
+            id={`${keyIndex}`}
+            onClick={openPermissionRequest}
+            className="text-lp-primary font-semibold"
+          >
             {permissionObject.time}
           </span>
         </div>
@@ -115,7 +131,6 @@ function NotificationBar({
           <button className="p-[10px]">View Details</button>
         </div>
       </div>
-      {/* </div> */}
     </div>
   );
 }
