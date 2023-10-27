@@ -25,6 +25,20 @@ const sendPermissionRequestHandler = (permissionObject, permissionBodyRef) => {
     return;
   }
 
+  if (
+    new Date(permissionObject.startingDate) < new Date() ||
+    permissionObject.endingDate < new Date()
+  ) {
+    toast(
+      "You can not go back in time, your date(s) must either be present or in the future🙄",
+      {
+        type: "warning",
+        autoClose: 3000,
+      }
+    );
+    return;
+  }
+
   const permissionsRef = ref(rdb, "admindashboard/permissions");
   const permissionReference = push(permissionsRef);
   set(permissionReference, {
@@ -32,6 +46,7 @@ const sendPermissionRequestHandler = (permissionObject, permissionBodyRef) => {
     time: new Date().toLocaleTimeString(),
     dateSent: new Date().toDateString(),
     rdbKey: permissionReference.key,
+    isNotified: false,
   })
     .then(() => {
       toast("Permission request successfully sent 🎊🎊🎉", {

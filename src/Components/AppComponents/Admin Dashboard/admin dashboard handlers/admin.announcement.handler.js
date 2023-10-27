@@ -4,7 +4,12 @@ import { onValue, update } from "firebase/database";
 
 ///// LOCAL IMPORTS
 import { push, ref, set } from "firebase/database";
-import { addAnnouncement } from "../../../Redux Slices/announcementSlice";
+import {
+  addAnnouncement,
+  incrementCounter,
+  resetNotificationCounter,
+  showNotification,
+} from "../../../Redux Slices/announcementSlice";
 import { rdb } from "../../../Firebase/firebase";
 import { setAnnouncementArray } from "../../../Redux Slices/announcementSlice";
 
@@ -70,7 +75,11 @@ const updatePermissionStatus = (permissionObject, response) => {
     `admindashboard/permissions/${permissionObject.rdbKey}`
   );
 
-  const newPermissionObject = { ...permissionObject, status: response };
+  const newPermissionObject = {
+    ...permissionObject,
+    status: response,
+    isNotified: true,
+  };
 
   update(currPermissionRef, newPermissionObject).then(() => {
     toast("Response sent successfully", {
@@ -80,4 +89,26 @@ const updatePermissionStatus = (permissionObject, response) => {
   });
 };
 
-export { publishAnnouncement, fetchAnnouncements, updatePermissionStatus };
+///// New announcement added event listern //////
+const newAnnouncementAddedEventHandler = (dispatch) => {
+  const announcementsRef = ref(rdb, "admindashboard/permissions");
+
+  dispatch(resetNotificationCounter());
+
+  onValue(announcementsRef, (snapshot) => {
+    const announcementsArray = Object.values(snapshot.val());
+
+    announcementsArray.forEach((announcementObject, index) => {
+      if (announcementObject.isNotified === false) {
+        dispatch(incrementCounter());
+      }
+    });
+  });
+};
+
+export {
+  publishAnnouncement,
+  fetchAnnouncements,
+  updatePermissionStatus,
+  newAnnouncementAddedEventHandler,
+};

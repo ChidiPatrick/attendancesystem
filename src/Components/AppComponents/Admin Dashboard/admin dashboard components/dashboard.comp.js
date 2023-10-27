@@ -19,6 +19,7 @@ import { getStudentsNumber } from "../admin dashboard handlers/admin.handlers";
 import NotificationBar from "./notification.bar";
 import AdminStudentProfile from "./admin.student.profile";
 import PermissionModal from "./permission.modal";
+import { ToastContainer } from "react-toastify";
 
 function DashboardComponent() {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ function DashboardComponent() {
     (state) => state.permissionSlice.permissionsArray
   );
 
-  console.log(permissionsArray);
+  console.log(new Date("12/10/2023").valueOf());
 
   useEffect(() => {
     getPermissionRequests(dispatch);
@@ -77,6 +78,7 @@ function DashboardComponent() {
               valueIdentifier="Working days"
             />
           </div>
+          <ToastContainer style={{ width: "100%", textAlign: "center" }} />
           <div className="w-[15%] h-[200px] bg-[#FBFCFE] shadow-md border border-tranparent rounded-md">
             <h3 className="text-center text-black p-[10px]">Daily six</h3>
             <div className="grid grid-cols-2 w-[80%] mx-auto justify-items-center">

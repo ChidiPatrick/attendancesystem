@@ -5,6 +5,8 @@ const initialState = {
   announcementTitle: "",
   announcementBody: "",
   announcementArray: [],
+  displayNotification: false,
+  notificationCounter: 0,
 };
 
 const announcementSlice = createSlice({
@@ -23,6 +25,18 @@ const announcementSlice = createSlice({
     setAnnouncementArray(state, action) {
       state.announcementArray = action.payload;
     },
+    showNotification(state, action) {
+      state.displayNotification = true;
+    },
+    hideNotification(state, action) {
+      state.displayNotification = false;
+    },
+    incrementCounter(state, action) {
+      state.notificationCounter = state.notificationCounter + 1;
+    },
+    resetNotificationCounter(state, action) {
+      state.notificationCounter = 0;
+    },
   },
 });
 
@@ -31,6 +45,10 @@ export const {
   setAnnouncementTitle,
   addAnnouncement,
   setAnnouncementArray,
+  showNotification,
+  hideNotification,
+  incrementCounter,
+  resetNotificationCounter,
 } = announcementSlice.actions;
 
 export default announcementSlice.reducer;
