@@ -16,6 +16,7 @@ function NotificationBar({
   fontSize,
   keyIndex,
   permissionObject,
+  isNotified,
 }) {
   const dispatch = useDispatch();
 
@@ -37,7 +38,11 @@ function NotificationBar({
     (state) => state.permissionSlice.selectPermissionRequest
   );
 
-  console.log(studentsBioArray);
+  const notificationCounter = useSelector(
+    (state) => state.announcementSlice.notificationCounter
+  );
+
+  console.log(notificationCounter);
   console.log(selectedPermissionRequest);
 
   // Handle Toggling
@@ -75,7 +80,12 @@ function NotificationBar({
           <figure
             id={`${keyIndex}`}
             onClick={openPermissionRequest}
-            className="w-[20px] h-[20px] mr-[4px] border border-transparent rounded-full bg-gray-600"
+            className={
+              isNotified === true
+                ? `w-[10px] h-[10px] mr-[4px] border border-transparent rounded-full  bg-green-200
+              `
+                : "w-[10px] h-[10px] mr-[4px] border border-transparent rounded-full bg-[#CC0000] animate-pulse"
+            }
           ></figure>
           <div className="flex justify-between items-center  w-[94%]">
             <span

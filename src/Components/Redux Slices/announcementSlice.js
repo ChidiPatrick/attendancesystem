@@ -31,8 +31,8 @@ const announcementSlice = createSlice({
     hideNotification(state, action) {
       state.displayNotification = false;
     },
-    incrementCounter(state, action) {
-      state.notificationCounter = state.notificationCounter + 1;
+    setCounterValue(state, action) {
+      state.notificationCounter = action.payload;
     },
     resetNotificationCounter(state, action) {
       state.notificationCounter = 0;
@@ -47,7 +47,7 @@ export const {
   setAnnouncementArray,
   showNotification,
   hideNotification,
-  incrementCounter,
+  setCounterValue,
   resetNotificationCounter,
 } = announcementSlice.actions;
 

@@ -6,9 +6,8 @@ import { onValue, update } from "firebase/database";
 import { push, ref, set } from "firebase/database";
 import {
   addAnnouncement,
-  incrementCounter,
+  setCounterValue,
   resetNotificationCounter,
-  showNotification,
 } from "../../../Redux Slices/announcementSlice";
 import { rdb } from "../../../Firebase/firebase";
 import { setAnnouncementArray } from "../../../Redux Slices/announcementSlice";
@@ -97,12 +96,13 @@ const newAnnouncementAddedEventHandler = (dispatch) => {
 
   onValue(announcementsRef, (snapshot) => {
     const announcementsArray = Object.values(snapshot.val());
-
+    let counter = 0;
     announcementsArray.forEach((announcementObject, index) => {
       if (announcementObject.isNotified === false) {
-        dispatch(incrementCounter());
+        counter = counter + 1;
       }
     });
+    dispatch(setCounterValue(counter));
   });
 };
 

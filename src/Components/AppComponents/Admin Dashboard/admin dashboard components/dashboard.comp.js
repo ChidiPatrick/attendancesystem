@@ -118,6 +118,7 @@ function DashboardComponent() {
                   padding="5px"
                   fontSize="12px"
                   keyIndex={index}
+                  isNotified={permissionObject.isNotified}
                 />
               );
             })}

@@ -5,11 +5,15 @@ import { HiOutlineAcademicCap, HiOutlineCircleStack } from "react-icons/hi2";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { AiOutlineSearch } from "react-icons/ai";
 import { newAnnouncementAddedEventHandler } from "../admin dashboard handlers/admin.announcement.handler";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function DashboardNavigationComponent({ title }) {
   const dispatch = useDispatch();
+  const notificationCounter = useSelector(
+    (state) => state.announcementSlice.notificationCounter
+  );
 
+  console.log(notificationCounter);
   useEffect(() => {
     newAnnouncementAddedEventHandler(dispatch);
   }, []);
@@ -27,11 +31,26 @@ function DashboardNavigationComponent({ title }) {
       </div>
       <div className="col-start-9 col-end-13  w-[400px] h-[100%]">
         <div className="w-[100%] h-[100%] flex justify-between p-[10px] items-center">
-          <div className="w-[50px] flex justify-center items-center h-[50px] border border-tranparent rounded-full bg-[#ff4d4d]">
-            <IoNotificationsOutline size={30} className="text-[#4A4A4A]" />
+          <div
+            className={
+              notificationCounter === 0
+                ? "flex justify-center relative items-center text-[#4A4A4A] w-[50px] h-[50px] border border-tranparent rounded-full bg-[#FF52521A]"
+                : `w-[50px] flex relative animate-pulse text-[#CC0000] justify-center items-center h-[50px] border border-tranparent rounded-full bg-[#FF52521A]`
+            }
+          >
+            {notificationCounter === 0 ? null : (
+              <div className="w-[20px] h-[20px] flex justify-center items-center rounded-full bg-[#CC0000] text-[12px] absolute top-[-10%] right-[-5%] text-[#fff]">
+                {notificationCounter}
+              </div>
+            )}
+            <IoNotificationsOutline size={30} />
           </div>
-          <HiOutlineAcademicCap size={30} className="text-[#4A4A4A]" />
-          <HiOutlineCircleStack size={30} className="text-[#4A4A4A]" />
+          <div className="text-[#4A4A4A] bg-[#ecf0f1] flex items-center justify-center border rounded-full w-[50px] h-[50px]">
+            <HiOutlineAcademicCap size={30} />
+          </div>
+          <div className="bg-[#ecf0f1] flex items-center justify-center border rounded-full w-[50px] h-[50px]">
+            <HiOutlineCircleStack size={30} />
+          </div>
           <figure className="w-[50px] h-[50px] border rounded-full bg-gray-50">
             <img
               src="images/skalo.jpg"
