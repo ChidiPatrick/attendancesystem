@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 // Third-pary imports
 import { HiDotsVertical } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   setSelectedPermissionRequest,
   showPermissionModal,
@@ -27,6 +27,7 @@ function NotificationBar({
   isNotified,
 }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Local states
   const [showShortcut, setShowShortcut] = useState(false);
@@ -56,13 +57,24 @@ function NotificationBar({
     (state) => state.adminStudentsSlice.studentsBioArray
   );
 
+  //Get student's all time permission requests
+  const getCurrStudentPermissions = (permissionsArray, dispatch, studentId) => {
+    const studentPermissionsArray = permissionsArray.filter(
+      (permissionObject) => permissionObject.userId === studentId
+    );
+  };
+
   //View student's profile handler
-  const viewProfileHandler = (studentsArray, studentId) => {
+  const setStudentProfile = (studentsArray, studentId) => {
     const studentProfileObject = studentsArray.find(
       (studentBioObject) => studentBioObject.userId === studentId
     );
 
     dispatch(setSelectedStudent(studentProfileObject));
+
+    setShowShortcut(!showShortcut);
+
+    navigate("/adminStudentProfile");
   };
 
   // Handle Toggling
@@ -150,7 +162,14 @@ function NotificationBar({
               : "hidden"
           }
         >
-          <button className="p-[10px]">View profile</button>
+          <button
+            onClick={() => {
+              setStudentProfile(studentsArray, permissionObject.userId);
+            }}
+            className="p-[10px]"
+          >
+            View profile
+          </button>
           <button
             onClick={() =>
               updatePermissionStatus(

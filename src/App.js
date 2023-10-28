@@ -31,6 +31,7 @@ import AdminAnnouncement from "./Components/AppComponents/Admin Dashboard/admin 
 import AdminDashboardLayout from "./Components/AppComponents/Admin Dashboard/admin dashboard components/adminDashboardLayout";
 import ClassSetup from "./Components/AppComponents/Admin Dashboard/admin dashboard components/class.setup";
 import AttendanceReport from "./Components/AppComponents/Admin Dashboard/admin dashboard components/attendance.report";
+import AdminStudentProfile from "./Components/AppComponents/Admin Dashboard/admin dashboard components/admin.student.profile";
 //// Root component ///
 function App() {
   window.addEventListener("offline", () => console.log("Offline"));
@@ -85,6 +86,7 @@ function App() {
           />
           <Route path="/adminDashboard/classSetup" element={<ClassSetup />} />
         </Route>
+        <Route path="/adminStudentProfile" element={<AdminStudentProfile />} />
       </Routes>
     </div>
   );

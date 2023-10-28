@@ -15,7 +15,13 @@ function AdminStudentProfile() {
     (state) => state.permissionSlice.permissionsArray
   );
 
-  console.log(permissionsArray);
+  const studentProfileObject = useSelector(
+    (state) => state.adminStudentsSlice.selectedStudentObj
+  );
+
+  console.log(studentProfileObject);
+
+  const { email, lastName, firstName, tel, userName } = studentProfileObject;
 
   return (
     <div className="w-full min-h-screen bg-user-profile p-[10px]">
@@ -33,11 +39,11 @@ function AdminStudentProfile() {
               />
             </figure>
             <div className="mb-[5px] mt-[20px] font-bold text-[20px]">
-              Patrick Chidiebele Okafor
+              {`${firstName} ${lastName} (${userName})`}
             </div>
-            <div className="mb-[5px] font-bold text-[20px]">08133956203</div>
+            <div className="mb-[5px] font-bold text-[20px]">{tel}</div>
             <div className="mb-[5px] font-bold text-[20px] text-lp-primary border border-transparent border-b-lp-primary border-[2px]">
-              nayouknowwetinudeyfind@gmail.com
+              {email}
             </div>
           </div>
           <div>

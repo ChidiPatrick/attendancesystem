@@ -17,6 +17,7 @@ import { Navigate, useNavigate } from "react-router";
 import Home from "../AppComponents/Pages/home";
 import { onValue, ref } from "firebase/database";
 import { setAdminData } from "../Redux Slices/adminSlice";
+import { setPermissions } from "../Redux Slices/permission.slice";
 
 /// Firestore ref creator ////
 const firestoreRefCreator = (db, userId, collection, document) => {
@@ -178,6 +179,16 @@ const verifyAdminEmail = (dispatch, values) => {
     const adminsBioDataArray = Object.values(adminsBioData);
 
     dispatch(setAdminsEmails(adminsBioDataArray));
+  });
+};
+
+const getPermissionRequests = (dispatch) => {
+  const permissionsRef = ref(rdb, "admindashboard/permissions");
+
+  onValue(permissionsRef, (snapshot) => {
+    const permissionsArray = Object.values(snapshot.val());
+
+    dispatch(setPermissions(permissionsArray));
   });
 };
 
