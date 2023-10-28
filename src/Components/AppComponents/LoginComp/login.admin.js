@@ -21,24 +21,22 @@ import {
   showFeedback,
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
+import { verifyAdminEmail } from "../../General app handlers/general.handlers";
 import {
-  invokeAllThunks,
-  verifyAdminEmail,
-} from "../../General app handlers/general.handlers";
-import {
-  hideWrongAdminLoginMessage,
-  setLoginUserId,
   setWrongAdminLoginMessage,
   showWrongAdminLoginMessage,
 } from "../../Redux Slices/login.slice";
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
-import { persistor } from "../../Store/store";
 import {
   setAdminData,
   setStudentsBioArray,
 } from "../../Redux Slices/adminSlice";
-import { getStudentsBioArray } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
+import {
+  getLoggedInAdminBioObject,
+  getStudentsArray,
+  getStudentsBioArray,
+} from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 
 //Signin TODOs:
 /**
@@ -106,7 +104,6 @@ const SigninAsAdmin = () => {
             verifyAdminEmail(dispatch, values);
           })
           .then(() => {
-            // try {
             const adminBioObject = adminsEmail.find(
               (item) => item.email === values.email
             );
@@ -128,6 +125,10 @@ const SigninAsAdmin = () => {
               dispatch(setAdminData(adminBioObject));
             }
           })
+          .then(() => {
+            getStudentsArray(dispatch);
+          })
+
           .then(() => {
             getStudentsBioArray(dispatch);
           })

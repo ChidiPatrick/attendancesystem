@@ -13,7 +13,9 @@ function RequestDisplayUI() {
     (state) => state.permissionSlice.selectedPermissionRequest
   );
 
-  console.log(selectedPermissionRequest);
+  const adminBioObject = useSelector((state) => state.adminSlice.adminData);
+
+  console.log(adminBioObject);
 
   return (
     <div className="w-[70%] mx-auto p-[10px] overflow-auto min-h-[250px] border mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md">
@@ -42,7 +44,11 @@ function RequestDisplayUI() {
       <div className="text-white font-semibold flex justify-center items-center">
         <button
           onClick={() =>
-            updatePermissionStatus(selectedPermissionRequest, "Approved")
+            updatePermissionStatus(
+              selectedPermissionRequest,
+              "Approved",
+              adminBioObject
+            )
           }
           className="w-[150px] hover:bg-[#113480] p-[10px] mr-[20px] border border-transparent bg-lp-primary rounded-md my-[20px]"
         >
@@ -50,7 +56,11 @@ function RequestDisplayUI() {
         </button>
         <button
           onClick={() =>
-            updatePermissionStatus(selectedPermissionRequest, "Denied")
+            updatePermissionStatus(
+              selectedPermissionRequest,
+              "Denied",
+              adminBioObject
+            )
           }
           className="w-[150px] hover:bg-[#cc7212] p-[10px] border border-transparent bg-lp-secondary rounded-md my-[20px]"
         >

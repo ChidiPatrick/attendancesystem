@@ -12,7 +12,11 @@ import {
   child,
 } from "firebase/database";
 import { setCurrClockinObj } from "../../../Redux Slices/attendanceSlice";
-import { setStudentsBioArray } from "../../../Redux Slices/adminSlice";
+import {
+  setAdminBioObject,
+  setStudentsBioArray,
+} from "../../../Redux Slices/adminSlice";
+import { setStudentsArray } from "../../../Redux Slices/adminStudentsSlice";
 
 //Add new user bio into admin dabase
 const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
@@ -21,11 +25,22 @@ const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
   await set(studentsBioRef, { ...valuesObject, userId });
 };
 
+// Set students bio array
+const getStudentsArray = (dispatch) => {
+  const studentsBioRef = ref(rdb, "admindashboard/studentsBio");
+
+  onValue(studentsBioRef, (snapshot) => {
+    console.log(Object.values(snapshot.val()));
+    const studentsBioArray = Object.values(snapshot.val());
+    dispatch(setStudentsArray(studentsBioArray));
+  });
+};
+
 // Add admin's bio data to the database
 const addAdminBioDataToDatabase = async (valuesObject) => {
   const adminsBioDatabaseRef = ref(rdb, "admindashboard/adminsBioDatabase");
   const adminRefNumber = push(adminsBioDatabaseRef);
-  await set(adminRefNumber, { ...valuesObject });
+  await set(adminRefNumber, { ...valuesObject, rdbKey: adminRefNumber.key });
 };
 
 //Add clockin data to admin database
@@ -151,4 +166,5 @@ export {
   getCurrentClockinAttendanceObj,
   getStudentsNumber,
   getStudentsBioArray,
+  getStudentsArray,
 };

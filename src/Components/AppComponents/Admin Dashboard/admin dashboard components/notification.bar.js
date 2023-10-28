@@ -8,6 +8,14 @@ import {
   setSelectedPermissionRequest,
   showPermissionModal,
 } from "../../../Redux Slices/permission.slice";
+import { updatePermissionStatus } from "../admin dashboard handlers/admin.announcement.handler";
+import { setSelectedStudent } from "../../../Redux Slices/adminStudentsSlice";
+
+/**
+ * Write a function to dispatch selected student's requests array
+ * Implement routing to student's profile to complete and populate the students profile UI with the students data
+ *
+ */
 
 function NotificationBar({
   width,
@@ -35,15 +43,27 @@ function NotificationBar({
   );
 
   const selectedPermissionRequest = useSelector(
-    (state) => state.permissionSlice.selectPermissionRequest
+    (state) => state.permissionSlice.selectedPermissionRequest
   );
 
   const notificationCounter = useSelector(
     (state) => state.announcementSlice.notificationCounter
   );
 
-  console.log(notificationCounter);
-  console.log(selectedPermissionRequest);
+  const adminBioObject = useSelector((state) => state.adminSlice.adminData);
+
+  const studentsArray = useSelector(
+    (state) => state.adminStudentsSlice.studentsBioArray
+  );
+
+  //View student's profile handler
+  const viewProfileHandler = (studentsArray, studentId) => {
+    const studentProfileObject = studentsArray.find(
+      (studentBioObject) => studentBioObject.userId === studentId
+    );
+
+    dispatch(setSelectedStudent(studentProfileObject));
+  };
 
   // Handle Toggling
   const toggleUI = (e) => {
@@ -51,14 +71,13 @@ function NotificationBar({
       const selectedPermissionRequestObject =
         permissionsArray[parseFloat(e.target.parentElement.id)];
 
-      dispatch(setSelectedPermissionRequest(selectedPermissionRequestObject));
+      dispatch(setSelectedPermissionRequest(permissionObject));
 
       setShowShortcut(!showShortcut);
     }
   };
 
   const openPermissionRequest = (e) => {
-    console.log(permissionObject);
     dispatch(setSelectedPermissionRequest(permissionObject));
     dispatch(showPermissionModal());
   };
@@ -131,13 +150,31 @@ function NotificationBar({
               : "hidden"
           }
         >
-          <Link to="#" className="p-[10px]">
-            View profile
-          </Link>
-          <button onClick={() => getStudentsBio()} className="p-[10px]">
+          <button className="p-[10px]">View profile</button>
+          <button
+            onClick={() =>
+              updatePermissionStatus(
+                selectedPermissionRequest,
+                "Approved",
+                adminBioObject
+              )
+            }
+            className="p-[10px]"
+          >
             Approve
           </button>
-          <button className="p-[10px]">Deny</button>
+          <button
+            onClick={() =>
+              updatePermissionStatus(
+                selectedPermissionRequest,
+                "Denied",
+                adminBioObject
+              )
+            }
+            className="p-[10px]"
+          >
+            Deny
+          </button>
           <button className="p-[10px]">View Details</button>
         </div>
       </div>

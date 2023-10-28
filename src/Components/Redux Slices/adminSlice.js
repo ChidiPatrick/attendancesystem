@@ -4,6 +4,7 @@ import { getDoc } from "firebase/firestore";
 // Local directory imports ///
 import { db } from "../Firebase/firebase";
 import { getStudentDocumentRef } from "../General app handlers/general.handlers";
+import { act } from "react-dom/test-utils";
 
 const initialState = {
   userId: "",
@@ -18,6 +19,7 @@ const initialState = {
   earlinessEndTime: "",
   latenessStartTime: "",
   studentsBioArray: [],
+  adminBioObject: {},
 };
 
 export const GetStudentAttendanceRecord = createAsyncThunk(
@@ -81,6 +83,9 @@ const adminDashBoard = createSlice({
     setStudentsBioArray(state, action) {
       state.studentsBioArray = action.payload;
     },
+    setAdminBioObject(state, action) {
+      state.adminBioObject = action.payload;
+    },
   },
 });
 
@@ -94,6 +99,7 @@ export const {
   updateEarlinessStartTime,
   updateLatenessStartingTime,
   setStudentsBioArray,
+  setAdminBioObject,
 } = adminDashBoard.actions;
 
 export default adminDashBoard.reducer;

@@ -42,12 +42,12 @@ function AdminStudentProfile() {
           </div>
           <div>
             <div className="w-[90%] mx-auto mt-[10px] p-[10px] flex justify-between items-center">
-              <StudentHistoryCard title="Total">
+              <StudentHistoryCard title="Total" iconName="totalGrad.svg">
                 <div className="font-bold text-lp-primary mt-[20px] text-[20px]">
                   <spna>40 / 40</spna>
                 </div>
               </StudentHistoryCard>
-              <StudentHistoryCard title="Absent">
+              <StudentHistoryCard title="Absent" iconName="absentGrad.svg">
                 <div className="flex mt-[5px] justify-between items-center">
                   <div>
                     With <br /> permission
@@ -59,24 +59,33 @@ function AdminStudentProfile() {
                   <div className="font-bold text-lp-primary text-[20px]">0</div>
                 </div>
               </StudentHistoryCard>
-              <StudentHistoryCard title="Late">
+              <StudentHistoryCard title="Late" iconName="lateGrad.svg">
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
                   40 / 40
                 </div>
               </StudentHistoryCard>
             </div>
             <div className="w-[90%] mx-auto mt-[10px] p-[10px] flex justify-between items-center">
-              <StudentHistoryCard title="Requests sent">
+              <StudentHistoryCard
+                title="Requests sent"
+                iconName="requestSent.svg"
+              >
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
                   0
                 </div>
               </StudentHistoryCard>
-              <StudentHistoryCard title="Request denied">
+              <StudentHistoryCard
+                title="Request denied"
+                iconName="lateGrad.svg"
+              >
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
                   0
                 </div>
               </StudentHistoryCard>
-              <StudentHistoryCard title="Requests approved">
+              <StudentHistoryCard
+                title="Requests approved"
+                iconName="lateGrad.svg"
+              >
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
                   0
                 </div>

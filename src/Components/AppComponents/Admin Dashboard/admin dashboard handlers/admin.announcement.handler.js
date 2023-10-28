@@ -68,7 +68,15 @@ const fetchAnnouncements = async (dispatch) => {
 };
 
 //////// Approve Permission ///////
-const updatePermissionStatus = (permissionObject, response) => {
+const updatePermissionStatus = (permissionObject, response, adminBioObject) => {
+  if (permissionObject.status !== "Pending") {
+    toast("Sorry, permission can not be responded to more than once", {
+      type: "waring",
+      autoClose: 3000,
+    });
+    return;
+  }
+
   const currPermissionRef = ref(
     rdb,
     `admindashboard/permissions/${permissionObject.rdbKey}`
@@ -78,6 +86,7 @@ const updatePermissionStatus = (permissionObject, response) => {
     ...permissionObject,
     status: response,
     isNotified: true,
+    approvedBy: `${adminBioObject.firstName} ${adminBioObject.lastName}`,
   };
 
   update(currPermissionRef, newPermissionObject).then(() => {
