@@ -1,22 +1,8 @@
-import { getDoc, snapshotEqual, updateDoc } from "firebase/firestore";
-import { firestoreAdminRefCreatore } from "../../../General app handlers/general.handlers";
-import { db, rdb } from "../../../Firebase/firebase";
-import {
-  set,
-  ref,
-  onValue,
-  push,
-  off,
-  update,
-  get,
-  child,
-} from "firebase/database";
-import { setCurrClockinObj } from "../../../Redux Slices/attendanceSlice";
-import {
-  setAdminBioObject,
-  setStudentsBioArray,
-} from "../../../Redux Slices/adminSlice";
+import { rdb } from "../../../Firebase/firebase";
+import { set, ref, onValue, push, update } from "firebase/database";
+import { setStudentsBioArray } from "../../../Redux Slices/adminSlice";
 import { setStudentsArray } from "../../../Redux Slices/adminStudentsSlice";
+import { setCurrStudentPermissionsArray } from "../../../Redux Slices/permission.slice";
 
 //Add new user bio into admin dabase
 const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
@@ -154,7 +140,18 @@ const getStudentsLogins = () => {
   return filteredArr;
 };
 
-// Get students bio list
+// Get student's unique permission requests
+const setCurrStudentPermissionRequests = (
+  permissionsArray,
+  studentId,
+  dispatch
+) => {
+  const studentPermissions = permissionsArray.filter(
+    (permissionObject) => permissionObject.userId === studentId
+  );
+
+  dispatch(setCurrStudentPermissionsArray(studentPermissions));
+};
 
 export {
   addStudentBioToAdminDatabase,
@@ -167,4 +164,5 @@ export {
   getStudentsNumber,
   getStudentsBioArray,
   getStudentsArray,
+  setCurrStudentPermissionRequests,
 };

@@ -29,6 +29,9 @@ const classSetupSlice = createSlice({
     setLatenessStartingTimeState(state, action) {
       state.latenessStartTime = action.payload;
     },
+    setLectureDays(state, action) {
+      state.lectureDays = action.payload;
+    },
     addLectureDay(state, action) {
       const newLectureDaysArray = state.lectureDays.filter(
         (item) => item !== action.payload
@@ -55,6 +58,7 @@ export const {
   setLatenessStartingTimeState,
   setProgramEndingDateState,
   setProgramStartingDateState,
+  setLectureDays,
   addLectureDay,
   removeLectureDay,
   addBreakObject,

@@ -10,11 +10,12 @@ import {
 } from "../../../Redux Slices/permission.slice";
 import { updatePermissionStatus } from "../admin dashboard handlers/admin.announcement.handler";
 import { setSelectedStudent } from "../../../Redux Slices/adminStudentsSlice";
-
+import { setCurrStudentPermissionRequests } from "../admin dashboard handlers/admin.handlers";
 /**
- * Write a function to dispatch selected student's requests array
- * Implement routing to student's profile to complete and populate the students profile UI with the students data
- *
+ *# Create a function to dispatch selected student's requests array
+ *# Implement routing to student's profile to complete and populate the students profile UI with the students data
+ *  Complete the student's permissions algorithm you were working on
+ *  Finish up the student's profile algorithm
  */
 
 function NotificationBar({
@@ -57,27 +58,27 @@ function NotificationBar({
     (state) => state.adminStudentsSlice.studentsBioArray
   );
 
-  //Get student's all time permission requests
-  const getCurrStudentPermissions = (permissionsArray, dispatch, studentId) => {
-    const studentPermissionsArray = permissionsArray.filter(
-      (permissionObject) => permissionObject.userId === studentId
-    );
-  };
-
   //View student's profile handler
-  const setStudentProfile = (studentsArray, studentId) => {
-    const studentProfileObject = studentsArray.find(
+  const setStudentProfile = (
+    studentsBioArray,
+    permissionsArray,
+    studentId,
+    dispatch
+  ) => {
+    const studentProfileObject = studentsBioArray.find(
       (studentBioObject) => studentBioObject.userId === studentId
     );
 
     dispatch(setSelectedStudent(studentProfileObject));
+
+    setCurrStudentPermissionRequests(permissionsArray, studentId, dispatch);
 
     setShowShortcut(!showShortcut);
 
     navigate("/adminStudentProfile");
   };
 
-  // Handle Toggling
+  // Permission UI Toggling handler
   const toggleUI = (e) => {
     if (e.target.id === "popUpWrapper" || e.target.id === "icon") {
       const selectedPermissionRequestObject =
@@ -92,12 +93,6 @@ function NotificationBar({
   const openPermissionRequest = (e) => {
     dispatch(setSelectedPermissionRequest(permissionObject));
     dispatch(showPermissionModal());
-  };
-
-  const getStudentsBio = (permissionObject, studentsBioArray) => {
-    const studentBio = studentsBioArray.find(
-      (studentBioObject) => studentBioObject.userId === permissionObject.userId
-    );
   };
 
   return (
@@ -164,7 +159,12 @@ function NotificationBar({
         >
           <button
             onClick={() => {
-              setStudentProfile(studentsArray, permissionObject.userId);
+              setStudentProfile(
+                studentsArray,
+                permissionsArray,
+                permissionObject.userId,
+                dispatch
+              );
             }}
             className="p-[10px]"
           >

@@ -2,14 +2,17 @@ import React from "react";
 
 //Third-party imports
 import { HiArrowNarrowRight } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
 
 // Local directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import StudentHistoryCard from "./student.history.card";
-import RequestDisplayUI from "./request.display.UI";
-import { useSelector } from "react-redux";
+import { calcProgramDaysUsed } from "../admin dashboard handlers/dashboard.summary.comp";
+import { calcCurrStudentTotalAttendanceDays } from "../admin dashboard handlers/admin.attendance.report.handlers";
 
 function AdminStudentProfile() {
+  const dispatch = useDispatch();
+
   /////// Redux states ///////
   const permissionsArray = useSelector(
     (state) => state.permissionSlice.permissionsArray
@@ -19,9 +22,16 @@ function AdminStudentProfile() {
     (state) => state.adminStudentsSlice.selectedStudentObj
   );
 
-  console.log(studentProfileObject);
+  const programStartingDate = useSelector(
+    (state) => state.classSetupSlice.programDurationStartDate
+  );
 
-  const { email, lastName, firstName, tel, userName } = studentProfileObject;
+  const clockinArray = useSelector(
+    (state) => state.attendanceReportSlice.clockinList
+  );
+
+  const { email, lastName, firstName, tel, userName, userId } =
+    studentProfileObject;
 
   return (
     <div className="w-full min-h-screen bg-user-profile p-[10px]">
@@ -50,7 +60,14 @@ function AdminStudentProfile() {
             <div className="w-[90%] mx-auto mt-[10px] p-[10px] flex justify-between items-center">
               <StudentHistoryCard title="Total" iconName="totalGrad.svg">
                 <div className="font-bold text-lp-primary mt-[20px] text-[20px]">
-                  <spna>40 / 40</spna>
+                  <spna>
+                    {calcCurrStudentTotalAttendanceDays(
+                      clockinArray,
+                      dispatch,
+                      userId
+                    )}{" "}
+                    / {calcProgramDaysUsed(programStartingDate, new Date())}
+                  </spna>
                 </div>
               </StudentHistoryCard>
               <StudentHistoryCard title="Absent" iconName="absentGrad.svg">
@@ -149,7 +166,7 @@ function AdminStudentProfile() {
           <div>
             {permissionsArray.map((permissionObject) => {
               return (
-                <div className="w-[100%] p-[10px] overflow-auto h-[250px] border mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md">
+                <div className="w-[100%] p-[10px] overflow-auto h-[250px]  border mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md">
                   <h4 className="flex justify-between items-center">
                     <span className="font-bold text-[18px]">
                       Permission to be {permissionObject.permissionType}
@@ -174,12 +191,18 @@ function AdminStudentProfile() {
                       {permissionObject.status}
                     </span>
                   </div>
-                  <div className="mt-[20px] flex justify-between items-center">
-                    <span className="text-black font-semibold">Admin</span>
-                    <span className="text-[18px] font-semibold  w-[47%] flex justify-end items-center">
-                      Director
-                    </span>
-                  </div>
+                  {permissionObject.status === "Pending" ? null : (
+                    <div className="mt-[20px] flex justify-between items-center">
+                      <span className="text-black font-semibold">
+                        {permissionObject.status === "Approved"
+                          ? "Approved by"
+                          : "Denied by"}
+                      </span>
+                      <span className="text-[18px] font-semibold  w-[47%] flex justify-end items-center">
+                        {permissionObject.approvedBy}
+                      </span>
+                    </div>
+                  )}
                 </div>
               );
             })}

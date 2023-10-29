@@ -1,7 +1,14 @@
 import { onValue, ref } from "firebase/database";
 import { rdb } from "../../../Firebase/firebase";
-import { setClockinList } from "../../../Redux Slices/attendanceReportSlice";
+import {
+  setClockinList,
+  setCurrStudentTotalClockInDays,
+} from "../../../Redux Slices/attendanceReportSlice";
 import { toast } from "react-toastify";
+
+/**
+ * Complete the implementation of  days absent with/without permission functions
+ */
 
 /// Fetch current clockin array
 const fetchCurrClockinArray = (dispatch) => {
@@ -85,4 +92,61 @@ const generateAttendanceHistory = (startDate, endDate, setAttendanceArray) => {
   fetchAttendanceWithinRange(startDate, endDate, setAttendanceArray);
 };
 
-export { fetchCurrClockinArray, generateAttendanceHistory };
+// Get ClockIn attendance array
+const calcCurrStudentTotalAttendanceDays = (
+  attendanceArray,
+  dispatch,
+  studentId
+) => {
+  const currStudentAttendanceArray = attendanceArray.filter(
+    (attendanceObject) => attendanceObject.userId === studentId
+  );
+
+  dispatch(setCurrStudentTotalClockInDays(currStudentAttendanceArray.length));
+  return currStudentAttendanceArray.length;
+};
+
+// Calculate number of days absent with permission
+const calcNumbDaysAbsent = (numbDaysUsed, studentClockinArray) => {
+  const numbDaysAbsent = numbDaysUsed - studentClockinArray.length;
+
+  return numbDaysAbsent;
+};
+
+// Calculate number of days absent without permission
+const CalcDaysAbsentWithoutPermission = (
+  numbDaysUsed,
+  studentClockinArray,
+  studentPermissionsArray
+) => {
+  const totalNumbAbsentDays = calcNumbDaysAbsent(
+    numbDaysUsed,
+    studentClockinArray
+  );
+
+  let numbDaysAbsentWithPermission = studentPermissionsArray.filter(
+    (permissionObject) => permissionObject.type === "Absent"
+  ).length;
+
+  const numbDaysAbsentWithoutPermission =
+    totalNumbAbsentDays - numbDaysAbsentWithPermission;
+
+  return numbDaysAbsentWithoutPermission;
+};
+
+// Calculate number of days absent with permission
+const calcNumbDaysAbsentWithPermission = (studentPermissionsArray) => {
+  const numbDaysAbsentWithPermission = studentPermissionsArray.filter(
+    (permissionObject) => permissionObject.type === "Absent"
+  ).length;
+
+  return numbDaysAbsentWithPermission;
+};
+
+export {
+  fetchCurrClockinArray,
+  generateAttendanceHistory,
+  calcCurrStudentTotalAttendanceDays,
+  calcNumbDaysAbsentWithPermission,
+  CalcDaysAbsentWithoutPermission,
+};

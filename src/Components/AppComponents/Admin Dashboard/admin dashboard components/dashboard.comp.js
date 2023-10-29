@@ -20,6 +20,7 @@ import NotificationBar from "./notification.bar";
 import AdminStudentProfile from "./admin.student.profile";
 import PermissionModal from "./permission.modal";
 import { ToastContainer } from "react-toastify";
+import { getClassSetupData } from "../admin dashboard handlers/admin.class.setup";
 
 function DashboardComponent() {
   const dispatch = useDispatch();

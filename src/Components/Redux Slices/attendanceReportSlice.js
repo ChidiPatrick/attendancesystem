@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 //Initial state
 const initialState = {
   clockinList: [],
+  currStudentTotalClockinDays: 0,
 };
 
 const attendanceReportSlice = createSlice({
@@ -12,9 +13,13 @@ const attendanceReportSlice = createSlice({
     setClockinList(state, action) {
       state.clockinList = action.payload;
     },
+    setCurrStudentTotalClockInDays(state, action) {
+      state.currStudentTotalClockinDays = action.payload;
+    },
   },
 });
 
-export const { setClockinList } = attendanceReportSlice.actions;
+export const { setClockinList, setCurrStudentTotalClockInDays } =
+  attendanceReportSlice.actions;
 
 export default attendanceReportSlice.reducer;

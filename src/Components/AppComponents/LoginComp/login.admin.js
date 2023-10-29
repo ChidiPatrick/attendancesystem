@@ -10,7 +10,6 @@ import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useNavigate } from "react-router";
 
 ////// Local directory Imports ///////////////
-import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import { auth } from "../../Firebase/firebase";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import { showSpinner, hideSpinner } from "../../Redux Slices/signupSlice";
@@ -33,10 +32,10 @@ import {
   setStudentsBioArray,
 } from "../../Redux Slices/adminSlice";
 import {
-  getLoggedInAdminBioObject,
   getStudentsArray,
   getStudentsBioArray,
 } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
+import { getClassSetupData } from "../Admin Dashboard/admin dashboard handlers/admin.class.setup";
 
 //Signin TODOs:
 /**
@@ -125,6 +124,7 @@ const SigninAsAdmin = () => {
               dispatch(setAdminData(adminBioObject));
             }
           })
+          .then(() => getClassSetupData(dispatch))
           .then(() => {
             getStudentsArray(dispatch);
           })
