@@ -212,5 +212,6 @@ export {
   getCurrStudentAttendanceArray,
   calcNumbApprovedRequests,
   calcNumbDeniedRequests,
+  calcNumbDaysAbsent,
   calcNumbDaysLate,
 };

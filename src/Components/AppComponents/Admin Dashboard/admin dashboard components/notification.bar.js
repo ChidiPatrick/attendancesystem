@@ -110,7 +110,7 @@ function NotificationBar({
       key={keyIndex}
       className={`w-[${width}]  z-1000 relative my-[10px] text-[${fontSize}] flex items-center bg-[${backgroundColor}] p-[${padding}] border border-transparent rounded-md`}
     >
-      <div className="w-[100%]">
+      <div className={`w-[100%] bg-[${backgroundColor}]`}>
         <div className="font-bold flex justify-between items-center mb-[10px]">
           <figure
             id={`${keyIndex}`}

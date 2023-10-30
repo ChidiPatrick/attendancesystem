@@ -27,6 +27,10 @@ function AdminAnnouncement() {
     (state) => state.announcementSlice.announcementArray
   );
 
+  const permissionsArray = useSelector(
+    (state) => state.permissionSlice.permissionsArray
+  );
+
   /// Announcement object
   const announcementObject = {
     announcementBody: announcementCurrBody,
@@ -145,8 +149,17 @@ function AdminAnnouncement() {
             <h4 className="font-bold py-[10px] mt-[10px]">Today</h4>
             <div></div>
           </div>
-          <NotificationBar />
-          <NotificationBar />
+          {permissionsArray.map((permissionObject, index) => (
+            <NotificationBar
+              permissionObject={permissionObject}
+              width="100%"
+              backgroundColor="#EDEDED"
+              padding="5px"
+              fontSize="16px"
+              keyIndex={index}
+              isNotified={permissionObject.isNotified}
+            />
+          ))}
         </div>
       </div>
     </div>

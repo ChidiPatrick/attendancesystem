@@ -11,6 +11,7 @@ import { calcProgramDaysUsed } from "../admin dashboard handlers/dashboard.summa
 import {
   calcCurrStudentTotalAttendanceDays,
   calcNumbApprovedRequests,
+  calcNumbDaysAbsent,
   calcNumbDaysAbsentWithPermission,
   calcNumbDaysLate,
   calcNumbDeniedRequests,
@@ -72,39 +73,55 @@ function AdminStudentProfile() {
           </div>
           <div>
             <div className="w-[90%] mx-auto mt-[10px] p-[10px] flex justify-between items-center">
-              <StudentHistoryCard title="Total" iconName="totalGrad.svg">
+              <StudentHistoryCard title="Days Present" iconName="totalGrad.svg">
                 <div className="font-bold text-lp-primary mt-[20px] text-[20px]">
                   <spna>
                     {calcCurrStudentTotalAttendanceDays(
                       clockinArray,
                       dispatch,
                       userId
-                    )}{" "}
-                    / {calcProgramDaysUsed(programStartingDate, new Date())}
+                    ) <= 9
+                      ? `0${calcCurrStudentTotalAttendanceDays(
+                          clockinArray,
+                          dispatch,
+                          userId
+                        )}`
+                      : calcCurrStudentTotalAttendanceDays(
+                          clockinArray,
+                          dispatch,
+                          userId
+                        )}{" "}
+                    /{" "}
+                    {calcProgramDaysUsed(programStartingDate, new Date()) <= 9
+                      ? `0${calcProgramDaysUsed(
+                          programStartingDate,
+                          new Date()
+                        )}`
+                      : calcProgramDaysUsed(programStartingDate, new Date())}
                   </spna>
                 </div>
               </StudentHistoryCard>
-              <StudentHistoryCard title="Absent" iconName="absentGrad.svg">
-                <div className="flex mt-[5px] justify-between items-center">
-                  <div>
-                    With <br /> permission
-                  </div>
+              <StudentHistoryCard title="Days absent" iconName="absentGrad.svg">
+                <div className="flex mt-[20px] justify-between items-center">
+                  {/* <div>Days absent</div> */}
                   <div className="font-bold text-lp-primary text-[20px]">
-                    {calcNumbDaysAbsentWithPermission(
+                    {calcNumbDaysAbsent(
                       calcProgramDaysUsed(programStartingDate, new Date()),
-                      currStudentAttendanceArray,
-                      studentPermissionRequests
+                      currStudentAttendanceArray
                     )}
                   </div>
                 </div>
-                <div className="flex mt-[10px] justify-between items-center">
+                {/* <div className="flex mt-[10px] justify-between items-center">
                   <div>Without permission</div>
                   <div className="font-bold text-lp-primary text-[20px]">0</div>
-                </div>
+                </div> */}
               </StudentHistoryCard>
               <StudentHistoryCard title="Late" iconName="lateGrad.svg">
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
-                  {calcNumbDaysLate(currStudentAttendanceArray)} / 40
+                  {calcNumbDaysLate(currStudentAttendanceArray) <= 9
+                    ? `0${calcNumbDaysLate(currStudentAttendanceArray)}`
+                    : calcNumbDaysLate(currStudentAttendanceArray)}{" "}
+                  / {calcProgramDaysUsed(programStartingDate, new Date())}
                 </div>
               </StudentHistoryCard>
             </div>
@@ -114,7 +131,9 @@ function AdminStudentProfile() {
                 iconName="requestSent.svg"
               >
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
-                  {studentPermissionRequests.length}
+                  {studentPermissionRequests.length <= 9
+                    ? `0${studentPermissionRequests.length}`
+                    : studentPermissionRequests.length}
                 </div>
               </StudentHistoryCard>
               <StudentHistoryCard
@@ -122,7 +141,9 @@ function AdminStudentProfile() {
                 iconName="lateGrad.svg"
               >
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
-                  {calcNumbDeniedRequests(studentPermissionRequests)}
+                  {calcNumbDeniedRequests(studentPermissionRequests) <= 9
+                    ? `0${calcNumbDeniedRequests(studentPermissionRequests)}`
+                    : calcNumbDeniedRequests(studentPermissionRequests)}
                 </div>
               </StudentHistoryCard>
               <StudentHistoryCard
@@ -130,7 +151,9 @@ function AdminStudentProfile() {
                 iconName="lateGrad.svg"
               >
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
-                  {calcNumbApprovedRequests(studentPermissionRequests)}
+                  {calcNumbApprovedRequests(studentPermissionRequests) <= 9
+                    ? `0${calcNumbApprovedRequests(studentPermissionRequests)}`
+                    : calcNumbApprovedRequests(studentPermissionRequests)}
                 </div>
               </StudentHistoryCard>
             </div>
@@ -151,7 +174,7 @@ function AdminStudentProfile() {
               Graph Here
             </div>
           </div>
-          <div className="p-[10px] mt-[20px]">
+          {/* <div className="p-[10px] mt-[20px]">
             <h3 className="text-[20px] font-bold mb-[20px]">Summary</h3>
             <div className="w-[100%]">
               <div className="w-[100%] py-[10px] flex justify-between items-center">
@@ -179,14 +202,14 @@ function AdminStudentProfile() {
                 <span className="font-bold">87days</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="w-[50%] p-[20px] h-screen overflow-scroll ">
           <h3 className="font-bold text-[20px] py-[10px]">Request History</h3>
           <div>
             {permissionsArray.map((permissionObject) => {
               return (
-                <div className="w-[100%] p-[10px] overflow-auto h-[250px]  border mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md">
+                <div className="w-[100%] p-[10px] overflow-auto h-[250px]  border  border-[2px] mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md">
                   <h4 className="flex justify-between items-center">
                     <span className="font-bold text-[18px]">
                       Permission to be {permissionObject.permissionType}
@@ -199,8 +222,8 @@ function AdminStudentProfile() {
                     {permissionObject.permissionBody}
                   </p>
                   <div className="mt-[20px] flex justify-between items-center">
-                    <span className="text-black font-semibold">Duration</span>
-                    <div className="text-[18px] font-semibold w-[47%] flex justify-between items-center text-gray-800">
+                    <span className="text-black ">Duration</span>
+                    <div className="text-[14px] font-semibold w-[47%] flex justify-between items-center text-gray-800">
                       {permissionObject.startingDate} <HiArrowNarrowRight />{" "}
                       {permissionObject.endingDate}
                     </div>
