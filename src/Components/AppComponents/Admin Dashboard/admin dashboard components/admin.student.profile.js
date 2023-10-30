@@ -8,7 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import StudentHistoryCard from "./student.history.card";
 import { calcProgramDaysUsed } from "../admin dashboard handlers/dashboard.summary.comp";
-import { calcCurrStudentTotalAttendanceDays } from "../admin dashboard handlers/admin.attendance.report.handlers";
+import {
+  calcCurrStudentTotalAttendanceDays,
+  calcNumbApprovedRequests,
+  calcNumbDaysAbsentWithPermission,
+  calcNumbDaysLate,
+  calcNumbDeniedRequests,
+} from "../admin dashboard handlers/admin.attendance.report.handlers";
 
 function AdminStudentProfile() {
   const dispatch = useDispatch();
@@ -28,6 +34,14 @@ function AdminStudentProfile() {
 
   const clockinArray = useSelector(
     (state) => state.attendanceReportSlice.clockinList
+  );
+
+  const studentPermissionRequests = useSelector(
+    (state) => state.permissionSlice.currStudentPermissionRequests
+  );
+
+  const currStudentAttendanceArray = useSelector(
+    (state) => state.attendanceReportSlice.currStudentAttendanceArray
   );
 
   const { email, lastName, firstName, tel, userName, userId } =
@@ -75,7 +89,13 @@ function AdminStudentProfile() {
                   <div>
                     With <br /> permission
                   </div>
-                  <div className="font-bold text-lp-primary text-[20px]">0</div>
+                  <div className="font-bold text-lp-primary text-[20px]">
+                    {calcNumbDaysAbsentWithPermission(
+                      calcProgramDaysUsed(programStartingDate, new Date()),
+                      currStudentAttendanceArray,
+                      studentPermissionRequests
+                    )}
+                  </div>
                 </div>
                 <div className="flex mt-[10px] justify-between items-center">
                   <div>Without permission</div>
@@ -84,7 +104,7 @@ function AdminStudentProfile() {
               </StudentHistoryCard>
               <StudentHistoryCard title="Late" iconName="lateGrad.svg">
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
-                  40 / 40
+                  {calcNumbDaysLate(currStudentAttendanceArray)} / 40
                 </div>
               </StudentHistoryCard>
             </div>
@@ -94,7 +114,7 @@ function AdminStudentProfile() {
                 iconName="requestSent.svg"
               >
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
-                  0
+                  {studentPermissionRequests.length}
                 </div>
               </StudentHistoryCard>
               <StudentHistoryCard
@@ -102,7 +122,7 @@ function AdminStudentProfile() {
                 iconName="lateGrad.svg"
               >
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
-                  0
+                  {calcNumbDeniedRequests(studentPermissionRequests)}
                 </div>
               </StudentHistoryCard>
               <StudentHistoryCard
@@ -110,7 +130,7 @@ function AdminStudentProfile() {
                 iconName="lateGrad.svg"
               >
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
-                  0
+                  {calcNumbApprovedRequests(studentPermissionRequests)}
                 </div>
               </StudentHistoryCard>
             </div>

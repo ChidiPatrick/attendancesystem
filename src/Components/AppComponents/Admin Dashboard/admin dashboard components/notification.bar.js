@@ -11,6 +11,7 @@ import {
 import { updatePermissionStatus } from "../admin dashboard handlers/admin.announcement.handler";
 import { setSelectedStudent } from "../../../Redux Slices/adminStudentsSlice";
 import { setCurrStudentPermissionRequests } from "../admin dashboard handlers/admin.handlers";
+import { getCurrStudentAttendanceArray } from "../admin dashboard handlers/admin.attendance.report.handlers";
 /**
  *# Create a function to dispatch selected student's requests array
  *# Implement routing to student's profile to complete and populate the students profile UI with the students data
@@ -58,6 +59,12 @@ function NotificationBar({
     (state) => state.adminStudentsSlice.studentsBioArray
   );
 
+  const clockinList = useSelector(
+    (state) => state.attendanceReportSlice.clockinList
+  );
+
+  console.log(clockinList);
+
   //View student's profile handler
   const setStudentProfile = (
     studentsBioArray,
@@ -70,6 +77,8 @@ function NotificationBar({
     );
 
     dispatch(setSelectedStudent(studentProfileObject));
+
+    getCurrStudentAttendanceArray(clockinList, dispatch, studentId);
 
     setCurrStudentPermissionRequests(permissionsArray, studentId, dispatch);
 

@@ -2,7 +2,8 @@ import { onValue, ref } from "firebase/database";
 import { rdb } from "../../../Firebase/firebase";
 import {
   setClockinList,
-  setCurrStudentTotalClockInDays,
+  setCurrStudentAttendanceArray,
+  setCurrStudentClockinDays,
 } from "../../../Redux Slices/attendanceReportSlice";
 import { toast } from "react-toastify";
 
@@ -102,8 +103,21 @@ const calcCurrStudentTotalAttendanceDays = (
     (attendanceObject) => attendanceObject.userId === studentId
   );
 
-  dispatch(setCurrStudentTotalClockInDays(currStudentAttendanceArray.length));
+  dispatch(setCurrStudentClockinDays(currStudentAttendanceArray.length));
   return currStudentAttendanceArray.length;
+};
+
+//Get selected student's daily clockin array
+const getCurrStudentAttendanceArray = (
+  attendanceArray,
+  dispatch,
+  studentId
+) => {
+  const currStudentAttendanceArray = attendanceArray.filter(
+    (attendanceObject) => attendanceObject.userId === studentId
+  );
+
+  dispatch(setCurrStudentAttendanceArray(currStudentAttendanceArray));
 };
 
 // Calculate number of days absent with permission
@@ -125,22 +139,68 @@ const CalcDaysAbsentWithoutPermission = (
   );
 
   let numbDaysAbsentWithPermission = studentPermissionsArray.filter(
-    (permissionObject) => permissionObject.type === "Absent"
+    (permissionObject) => permissionObject.permissionType === "Absent"
   ).length;
 
   const numbDaysAbsentWithoutPermission =
     totalNumbAbsentDays - numbDaysAbsentWithPermission;
-
+  console.log(studentPermissionsArray);
   return numbDaysAbsentWithoutPermission;
 };
 
 // Calculate number of days absent with permission
-const calcNumbDaysAbsentWithPermission = (studentPermissionsArray) => {
-  const numbDaysAbsentWithPermission = studentPermissionsArray.filter(
-    (permissionObject) => permissionObject.type === "Absent"
-  ).length;
+const calcNumbDaysAbsentWithPermission = (
+  numbDaysUsed,
+  studentClockinArray,
+  studentPermissionsArray
+) => {
+  const numbDaysAbsentWithOutPermission = CalcDaysAbsentWithoutPermission(
+    numbDaysUsed,
+    studentClockinArray,
+    studentPermissionsArray
+  );
+
+  const totalNumbAbsentDays = calcNumbDaysAbsent(
+    numbDaysUsed,
+    studentClockinArray
+  );
+
+  const numbDaysAbsentWithPermission =
+    totalNumbAbsentDays - numbDaysAbsentWithOutPermission;
+  console.log(`Total absent days: ${totalNumbAbsentDays}`);
+  console.log(
+    `Days absent without permission: ${numbDaysAbsentWithOutPermission}`
+  );
+  console.log(`Days absent with permission: ${numbDaysAbsentWithPermission}`);
 
   return numbDaysAbsentWithPermission;
+};
+
+// Calculate number of denied requests
+const calcNumbDeniedRequests = (studentPermissionsArray) => {
+  const numbDeniedRequests = studentPermissionsArray.filter(
+    (permissionObject) => permissionObject.status === "Denied"
+  );
+
+  return numbDeniedRequests.length;
+};
+
+// Calculate number of Approved requests
+const calcNumbApprovedRequests = (studentPermissionsArray) => {
+  const numbApprovedRequests = studentPermissionsArray.filter(
+    (permissionObject) => permissionObject.status === "Denied"
+  ).length;
+
+  return numbApprovedRequests;
+};
+
+//Calculate total days late in class
+const calcNumbDaysLate = (studentAttendanceArray) => {
+  const numbDaysLate = studentAttendanceArray.filter(
+    (attendanceObject) => attendanceObject.isOnTime === false
+  ).length;
+
+  return numbDaysLate;
 };
 
 export {
@@ -149,4 +209,8 @@ export {
   calcCurrStudentTotalAttendanceDays,
   calcNumbDaysAbsentWithPermission,
   CalcDaysAbsentWithoutPermission,
+  getCurrStudentAttendanceArray,
+  calcNumbApprovedRequests,
+  calcNumbDeniedRequests,
+  calcNumbDaysLate,
 };
