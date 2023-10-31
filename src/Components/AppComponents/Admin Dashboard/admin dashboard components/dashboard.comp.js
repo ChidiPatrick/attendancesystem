@@ -21,6 +21,7 @@ import AdminStudentProfile from "./admin.student.profile";
 import PermissionModal from "./permission.modal";
 import { ToastContainer } from "react-toastify";
 import { getClassSetupData } from "../admin dashboard handlers/admin.class.setup";
+import AdminLineChart from "./admin.line.graph";
 
 function DashboardComponent() {
   const dispatch = useDispatch();
@@ -99,8 +100,8 @@ function DashboardComponent() {
           </div>
         </div>
         <div className="flex justify-between items-center p-[10px]">
-          <div className="bg-blue-200 w-[400px] h-[300px] border rounded-md flex items-center justify-center">
-            Graph here
+          <div className="bg-white  w-[400px] h-[300px] border rounded-md flex items-center justify-center">
+            <AdminLineChart />
           </div>
           <div className="bg-blue-200 w-[400px] h-[300px] border rounded-md flex items-center justify-center">
             Graph here
