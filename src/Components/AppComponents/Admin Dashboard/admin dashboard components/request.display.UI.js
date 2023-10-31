@@ -30,7 +30,7 @@ function RequestDisplayUI() {
       <p className="mt-[20px] ">{selectedPermissionRequest?.permissionBody}</p>
       <div className="mt-[20px] flex justify-between items-center">
         <span className="text-black font-semibold">Duration</span>
-        <div className="text-[14px]  w-[40%] flex justify-between items-center text-gray-800">
+        <div className="text-[14px]  w-[30%] flex justify-between items-center text-gray-800">
           {selectedPermissionRequest?.startingDate} <HiArrowNarrowRight />
           {selectedPermissionRequest?.endingDate}
         </div>

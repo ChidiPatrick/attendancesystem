@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
   permissionsArray: [],
   selectedPermissionRequest: {},
-  showPermissionModal: false,
+  displayPermissionModal: false,
   currStudentPermissionRequests: [],
 };
 
@@ -19,10 +19,10 @@ const permissionSlice = createSlice({
       state.selectedPermissionRequest = action.payload;
     },
     showPermissionModal(state, action) {
-      state.showPermissionModal = true;
+      state.displayPermissionModal = true;
     },
     hidePermissionModal(state, action) {
-      state.showPermissionModal = false;
+      state.displayPermissionModal = false;
     },
     setCurrStudentPermissionsArray(state, action) {
       state.currStudentPermissionRequests = action.payload;

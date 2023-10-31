@@ -3,33 +3,44 @@ import React, { useEffect, useRef, useState } from "react";
 // Third-party imports
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { onValue, ref } from "firebase/database";
 
 // Local Directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
-import NotificationBar from "./notification.bar";
 import {
   publishAnnouncement,
   fetchAnnouncements,
 } from "../admin dashboard handlers/admin.announcement.handler";
-import { rdb } from "../../../Firebase/firebase";
-import { setAnnouncementArray } from "../../../Redux Slices/announcementSlice";
+import { hidePermissionModal } from "../../../Redux Slices/permission.slice";
 
+import RequestDisplayUI from "./request.display.UI";
+import AdminNotification from "./admin.notification";
+
+/// Admin announcement component
 function AdminAnnouncement() {
   const dispatch = useDispatch();
+
+  // References
+  const announcementTitleRef = useRef();
+  const announcementBodyRef = useRef();
 
   // Local states
   const [announcementCurrTitle, setAnnouncementCurrTitle] = useState("");
   const [announcementCurrBody, setAnnouncementCurrBody] = useState("");
 
   /// Redux states
+  const permissionsArray = useSelector(
+    (state) => state.permissionSlice.permissionsArray
+  );
+
   const announcementArray = useSelector(
     (state) => state.announcementSlice.announcementArray
   );
 
-  const permissionsArray = useSelector(
-    (state) => state.permissionSlice.permissionsArray
+  const displayPermissionModal = useSelector(
+    (state) => state.permissionSlice.displayPermissionModal
   );
+
+  console.log(displayPermissionModal);
 
   /// Announcement object
   const announcementObject = {
@@ -37,11 +48,7 @@ function AdminAnnouncement() {
     announcementTitle: announcementCurrTitle,
   };
 
-  // References
-  const announcementTitleRef = useRef();
-  const announcementBodyRef = useRef();
-
-  /////////////////////////////////////////////////////////////
+  ///Side effect implementation
   useEffect(() => {
     fetchAnnouncements(dispatch);
   }, []);
@@ -67,7 +74,7 @@ function AdminAnnouncement() {
   };
 
   return (
-    <div className="w-full bg-[#FFFDFA] min-h-screen p-[10px]">
+    <div className="w-full relative bg-[#FFFDFA] min-h-screen p-[10px]">
       <div className="border border-transparent border-b-gray-600">
         <DashboardNavigationComponent title="Announcement" />
       </div>
@@ -104,16 +111,13 @@ function AdminAnnouncement() {
               >
                 Post
               </button>
-              {/* <button className="w-[150px] bg-[#FFFDFA] text-lp-secondary p-[10px] border rounded-2xl">
-                Save draft
-              </button> */}
             </div>
           </div>
           <ToastContainer
             style={{ width: "100%", textAlign: "center", color: "green" }}
           />
-          <div className="w-[100%] my-[20px]">
-            <h3 className="font-bold text-[18px]">History</h3>
+          <div className="w-[100%] my-[30px]">
+            <h3 className="font-bold text-[18px]">Announcements History</h3>
             <div>
               {announcementArray.length !== 0 ? (
                 announcementArray.map((announcement) => {
@@ -145,23 +149,26 @@ function AdminAnnouncement() {
         </div>
         <div className="w-[48%] min-h-screen bg-[#FFFDFA] p-[10px]">
           <h3 className="font-bold text-[20px]">Notifications</h3>
-          <div>
+          {/* <div>
             <h4 className="font-bold py-[10px] mt-[10px]">Today</h4>
             <div></div>
-          </div>
+          </div> */}
           {permissionsArray.map((permissionObject, index) => (
-            <NotificationBar
+            <AdminNotification
               permissionObject={permissionObject}
-              width="100%"
-              backgroundColor="#EDEDED"
-              padding="5px"
-              fontSize="16px"
               keyIndex={index}
-              isNotified={permissionObject.isNotified}
             />
           ))}
         </div>
       </div>
+      {displayPermissionModal === true ? (
+        <div
+          onClick={() => dispatch(hidePermissionModal())}
+          className="w-[100%] backdrop-blur-sm h-screen flex justify-center items-center  absolute top-[0] left-[0]"
+        >
+          <RequestDisplayUI />
+        </div>
+      ) : null}
     </div>
   );
 }

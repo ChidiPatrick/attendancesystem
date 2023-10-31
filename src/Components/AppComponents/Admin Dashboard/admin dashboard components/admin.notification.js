@@ -1,9 +1,11 @@
 import React, { useRef, useState } from "react";
 
-// Third-pary imports
-import { HiDotsVertical } from "react-icons/hi";
+// Third-party imports
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
+import { HiDotsVertical } from "react-icons/hi";
+
+// Local directory imports
 import {
   setSelectedPermissionRequest,
   showPermissionModal,
@@ -12,45 +14,24 @@ import { updatePermissionStatus } from "../admin dashboard handlers/admin.announ
 import { setSelectedStudent } from "../../../Redux Slices/adminStudentsSlice";
 import { setCurrStudentPermissionRequests } from "../admin dashboard handlers/admin.handlers";
 import { getCurrStudentAttendanceArray } from "../admin dashboard handlers/admin.attendance.report.handlers";
-/**
- *# Create a function to dispatch selected student's requests array
- *# Implement routing to student's profile to complete and populate the students profile UI with the students data
- *  Complete the student's permissions algorithm you were working on
- *  Finish up the student's profile algorithm
- */
 
-function NotificationBar({
-  width,
-  backgroundColor,
-  padding,
-  fontSize,
-  keyIndex,
-  permissionObject,
-  isNotified,
-}) {
+function AdminNotification({ permissionObject, keyIndex }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // References
+  const permissionRef = useRef();
 
   // Local states
   const [showShortcut, setShowShortcut] = useState(false);
 
-  const permissionRef = useRef();
-
-  ///////// Redux states //////////////////////////
-  const studentsBioArray = useSelector(
-    (state) => state.adminSlice.studentsBioArray
-  );
-
+  /// Redux states
   const permissionsArray = useSelector(
     (state) => state.permissionSlice.permissionsArray
   );
 
   const selectedPermissionRequest = useSelector(
     (state) => state.permissionSlice.selectedPermissionRequest
-  );
-
-  const notificationCounter = useSelector(
-    (state) => state.announcementSlice.notificationCounter
   );
 
   const adminBioObject = useSelector((state) => state.adminSlice.adminData);
@@ -63,9 +44,7 @@ function NotificationBar({
     (state) => state.attendanceReportSlice.clockinList
   );
 
-  console.log(clockinList);
-
-  //View student's profile handler
+  // View student's profile handler
   const setStudentProfile = (
     studentsBioArray,
     permissionsArray,
@@ -90,39 +69,42 @@ function NotificationBar({
   // Permission UI Toggling handler
   const toggleUI = (e) => {
     if (e.target.id === "popUpWrapper" || e.target.id === "icon") {
-      const selectedPermissionRequestObject =
-        permissionsArray[parseFloat(e.target.parentElement.id)];
+      const permissionIndex = e.target.parentElement.id;
 
-      dispatch(setSelectedPermissionRequest(permissionObject));
+      dispatch(setSelectedPermissionRequest(permissionsArray[permissionIndex]));
 
       setShowShortcut(!showShortcut);
     }
   };
 
+  // Open permission Request
   const openPermissionRequest = (e) => {
-    dispatch(setSelectedPermissionRequest(permissionObject));
+    const permissionIndex = e.target.id;
+    dispatch(setSelectedPermissionRequest(permissionsArray[permissionIndex]));
     dispatch(showPermissionModal());
   };
 
   return (
-    // <div className="z-1000 relative">
     <div
       key={keyIndex}
-      className={`w-[${width}]  z-1000 relative my-[10px] text-[${fontSize}] flex items-center bg-[${backgroundColor}] p-[${padding}] border border-transparent rounded-md`}
+      className={`w-[100%]  z-1000 relative my-[10px] text-[16px] flex items-center bg-[#EDEDED] p-[10px] border border-transparent rounded-md`}
     >
-      <div className={`w-[100%] bg-[${backgroundColor}]`}>
+      <div className={`w-[100%] `}>
         <div className="font-bold flex justify-between items-center mb-[10px]">
           <figure
             id={`${keyIndex}`}
             onClick={openPermissionRequest}
             className={
-              isNotified === true
+              permissionObject.isNotified === true
                 ? `w-[10px] h-[10px] mr-[4px] border border-transparent rounded-full  bg-green-200
-              `
+                    `
                 : "w-[10px] h-[10px] mr-[4px] border border-transparent rounded-full bg-[#CC0000] animate-pulse"
             }
           ></figure>
-          <div className="flex justify-between items-center  w-[94%]">
+          <div
+            id={`${keyIndex}`}
+            className="flex justify-between items-center  w-[94%]"
+          >
             <span
               className=""
               id={`${keyIndex}`}
@@ -154,7 +136,7 @@ function NotificationBar({
             {permissionObject.time}
           </span>
         </div>
-        <div className="w-[100%] flex justify-end items-center">
+        <div className="w-[100%] flex justify-end">
           {new Date(permissionObject.dateSent).toLocaleDateString()}
         </div>
         <div
@@ -206,11 +188,10 @@ function NotificationBar({
           >
             Deny
           </button>
-          <button className="p-[10px]">View Details</button>
         </div>
       </div>
     </div>
   );
 }
 
-export default NotificationBar;
+export default AdminNotification;
