@@ -75,7 +75,7 @@ function AdminStudentProfile() {
             <div className="w-[90%] mx-auto mt-[10px] p-[10px] flex justify-between items-center">
               <StudentHistoryCard title="Days Present" iconName="totalGrad.svg">
                 <div className="font-bold text-lp-primary mt-[20px] text-[20px]">
-                  <spna>
+                  <span>
                     {calcCurrStudentTotalAttendanceDays(
                       clockinArray,
                       dispatch,
@@ -98,7 +98,7 @@ function AdminStudentProfile() {
                           new Date()
                         )}`
                       : calcProgramDaysUsed(programStartingDate, new Date())}
-                  </spna>
+                  </span>
                 </div>
               </StudentHistoryCard>
               <StudentHistoryCard title="Days absent" iconName="absentGrad.svg">
@@ -207,9 +207,12 @@ function AdminStudentProfile() {
         <div className="w-[50%] p-[20px] h-screen overflow-scroll ">
           <h3 className="font-bold text-[20px] py-[10px]">Request History</h3>
           <div>
-            {permissionsArray.map((permissionObject) => {
+            {permissionsArray.map((permissionObject, index) => {
               return (
-                <div className="w-[100%] p-[10px] overflow-auto h-[250px]  border  border-[2px] mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md">
+                <div
+                  className="w-[100%] p-[10px] overflow-auto h-[250px]  border  border-[2px] mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md"
+                  key={index}
+                >
                   <h4 className="flex justify-between items-center">
                     <span className="font-bold text-[18px]">
                       Permission to be {permissionObject.permissionType}

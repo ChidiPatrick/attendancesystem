@@ -52,7 +52,7 @@ function AttendanceDisplayUI() {
 
         {currAttendanceArray?.map((item, index) => {
           return (
-            <tr className="even:bg-gray-100 odd:bg-white">
+            <tr className="even:bg-gray-100 odd:bg-white" key={index}>
               <td className="text-center p-[10px]">
                 {index < 10 ? `00${index + 1}` : index + 1}
               </td>

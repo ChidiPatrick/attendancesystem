@@ -36,6 +36,11 @@ import {
   getStudentsBioArray,
 } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 import { getClassSetupData } from "../Admin Dashboard/admin dashboard handlers/admin.class.setup";
+import {
+  getClockinsArray,
+  getNumbStudentsPresentDaily,
+} from "../Admin Dashboard/admin dashboard handlers/graph.handlers";
+import { setClockinList } from "../../Redux Slices/attendanceReportSlice";
 
 //Signin TODOs:
 /**
@@ -70,8 +75,8 @@ const SigninAsAdmin = () => {
 
   const adminsEmail = useSelector((state) => state.loginSlice.adminsEmail);
 
-  const displayWrongLoginMessage = useSelector(
-    (state) => state.loginSlice.displayWrongAdminMessage
+  const clockinList = useSelector(
+    (state) => state.attendanceReportSlice.clockinList
   );
 
   const wrongAdminLoginMessage = useSelector(
@@ -125,9 +130,16 @@ const SigninAsAdmin = () => {
             }
           })
           .then(() => getClassSetupData(dispatch))
+
           .then(() => {
             getStudentsArray(dispatch);
           })
+
+          .then(() => {
+            getClockinsArray(dispatch);
+          })
+
+          .then(() => getNumbStudentsPresentDaily(clockinList, dispatch))
 
           .then(() => {
             getStudentsBioArray(dispatch);
@@ -147,7 +159,6 @@ const SigninAsAdmin = () => {
         dispatch(hideSpinner());
         dispatch(showFeedback());
       } else {
-        console.log("Secodn option called");
         dispatch(hideSpinner());
         // dispatch(showWrongAdminLoginMessage());
         setShowWrongMessage(true);

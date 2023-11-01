@@ -5,6 +5,7 @@ const initialState = {
   clockinList: [],
   currStudentTotalClockinDays: 0,
   currStudentAttendanceArray: [],
+  attendanceGraphArray: null,
 };
 
 const attendanceReportSlice = createSlice({
@@ -20,6 +21,9 @@ const attendanceReportSlice = createSlice({
     setCurrStudentAttendanceArray(state, action) {
       state.currStudentAttendanceArray = action.payload;
     },
+    setAttendanceGraphArray(state, action) {
+      state.attendanceGraphArray = action.payload;
+    },
   },
 });
 
@@ -27,6 +31,7 @@ export const {
   setClockinList,
   setCurrStudentClockinDays,
   setCurrStudentAttendanceArray,
+  setAttendanceGraphArray,
 } = attendanceReportSlice.actions;
 
 export default attendanceReportSlice.reducer;

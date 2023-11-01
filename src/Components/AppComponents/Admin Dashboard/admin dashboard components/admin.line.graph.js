@@ -44,7 +44,7 @@ function AdminLineChart() {
         width={730}
         height={250}
         data={data}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        margin={{ top: 5, right: 30, left: 5, bottom: 5 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis

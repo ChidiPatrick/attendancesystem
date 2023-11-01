@@ -20,8 +20,9 @@ import NotificationBar from "./notification.bar";
 import AdminStudentProfile from "./admin.student.profile";
 import PermissionModal from "./permission.modal";
 import { ToastContainer } from "react-toastify";
-import { getClassSetupData } from "../admin dashboard handlers/admin.class.setup";
-import AdminLineChart from "./admin.line.graph";
+import { getWeekNumber } from "../../Handlers/get.current.week";
+import AreaCharts from "./area.charts";
+import { getClockinsArray } from "../admin dashboard handlers/graph.handlers";
 
 function DashboardComponent() {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ function DashboardComponent() {
     (state) => state.permissionSlice.permissionsArray
   );
 
-  console.log(new Date("12/10/2023").valueOf());
+  console.log(getWeekNumber(new Date()));
 
   useEffect(() => {
     getPermissionRequests(dispatch);
@@ -101,10 +102,10 @@ function DashboardComponent() {
         </div>
         <div className="flex justify-between items-center p-[10px]">
           <div className="bg-white  w-[400px] h-[300px] border rounded-md flex items-center justify-center">
-            <AdminLineChart />
+            <AreaCharts />
           </div>
-          <div className="bg-blue-200 w-[400px] h-[300px] border rounded-md flex items-center justify-center">
-            Graph here
+          <div className="w-[400px] h-[300px] border rounded-md flex items-center justify-center">
+            <AreaCharts />
           </div>
           <StudentsInclass />
         </div>
@@ -113,15 +114,17 @@ function DashboardComponent() {
           <div className="bg-[#fff] p-[10px] w-[35%] ml-[20px] h-[380px] border rounded-[10px] overflow-y-scroll">
             {permissionsArray.map((permissionObject, index) => {
               return (
-                <NotificationBar
-                  permissionObject={permissionObject}
-                  width="100%"
-                  backgroundColor="#F6F9FE"
-                  padding="5px"
-                  fontSize="12px"
-                  keyIndex={index}
-                  isNotified={permissionObject.isNotified}
-                />
+                <div key={index}>
+                  <NotificationBar
+                    permissionObject={permissionObject}
+                    width="100%"
+                    backgroundColor="#F6F9FE"
+                    padding="5px"
+                    fontSize="12px"
+                    keyIndex={index}
+                    isNotified={permissionObject.isNotified}
+                  />
+                </div>
               );
             })}
           </div>
