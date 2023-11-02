@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   studentsBioArray: [],
-  selectedStudentObj: null,
+  selectedStudentObj: {},
 };
 
 const studentsSlice = createSlice({

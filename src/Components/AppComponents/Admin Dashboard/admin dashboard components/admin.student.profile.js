@@ -12,7 +12,6 @@ import {
   calcCurrStudentTotalAttendanceDays,
   calcNumbApprovedRequests,
   calcNumbDaysAbsent,
-  calcNumbDaysAbsentWithPermission,
   calcNumbDaysLate,
   calcNumbDeniedRequests,
 } from "../admin dashboard handlers/admin.attendance.report.handlers";
@@ -45,11 +44,6 @@ function AdminStudentProfile() {
     (state) => state.attendanceReportSlice.currStudentAttendanceArray
   );
 
-  const { email, lastName, firstName, tel, userName, userId } =
-    studentProfileObject;
-
-  console.log(email);
-
   return (
     <div className="w-full min-h-screen bg-user-profile p-[10px]">
       <div className="border border-transparent border-b-gray-300">
@@ -66,11 +60,13 @@ function AdminStudentProfile() {
               />
             </figure>
             <div className="mb-[5px] mt-[20px] font-bold text-[20px]">
-              {`${firstName} ${lastName} (${userName})`}
+              {`${studentProfileObject?.firstName} ${studentProfileObject?.lastName} (${studentProfileObject?.userName})`}
             </div>
-            <div className="mb-[5px] font-bold text-[20px]">{tel}</div>
+            <div className="mb-[5px] font-bold text-[20px]">
+              {studentProfileObject?.tel}
+            </div>
             <div className="mb-[5px] font-bold text-[20px] text-lp-primary border border-transparent border-b-lp-primary border-[2px]">
-              {email}
+              {studentProfileObject?.email}
             </div>
           </div>
           <div>
@@ -81,17 +77,17 @@ function AdminStudentProfile() {
                     {calcCurrStudentTotalAttendanceDays(
                       clockinArray,
                       dispatch,
-                      userId
+                      studentProfileObject?.userId
                     ) <= 9
                       ? `0${calcCurrStudentTotalAttendanceDays(
                           clockinArray,
                           dispatch,
-                          userId
+                          studentProfileObject?.userId
                         )}`
                       : calcCurrStudentTotalAttendanceDays(
                           clockinArray,
                           dispatch,
-                          userId
+                          studentProfileObject?.userId
                         )}{" "}
                     /{" "}
                     {calcProgramDaysUsed(programStartingDate, new Date()) <= 9
