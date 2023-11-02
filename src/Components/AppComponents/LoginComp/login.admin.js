@@ -104,11 +104,9 @@ const SigninAsAdmin = () => {
       if (navigator.onLine) {
         dispatch(showSpinner());
         await signInWithEmailAndPassword(auth, values.email, values.password)
-          .then((user) => {
-            verifyAdminEmail(dispatch, values);
-          })
-          .then(() => {
-            const adminBioObject = adminsEmail.find(
+          .then((user) => verifyAdminEmail(dispatch, values))
+          .then((adminsBioArray) => {
+            const adminBioObject = adminsBioArray.find(
               (item) => item.email === values.email
             );
 
@@ -135,11 +133,11 @@ const SigninAsAdmin = () => {
             getStudentsArray(dispatch);
           })
 
-          .then(() => {
-            getClockinsArray(dispatch);
-          })
+          .then(() => getClockinsArray(dispatch))
 
-          .then(() => getNumbStudentsPresentDaily(clockinList, dispatch))
+          .then((clockinList) =>
+            getNumbStudentsPresentDaily(clockinList, dispatch)
+          )
 
           .then(() => {
             getStudentsBioArray(dispatch);
@@ -158,7 +156,10 @@ const SigninAsAdmin = () => {
       if (displayFeedback) {
         dispatch(hideSpinner());
         dispatch(showFeedback());
+        console.log(err);
       } else {
+        console.log(err);
+
         dispatch(hideSpinner());
         // dispatch(showWrongAdminLoginMessage());
         setShowWrongMessage(true);

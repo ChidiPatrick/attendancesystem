@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 // Third-party imports
 import {
@@ -10,9 +10,15 @@ import {
 } from "react-icons/hi2";
 import { GrAnnounce } from "react-icons/gr";
 import { BiLogIn } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../General app handlers/general.handlers";
+import { auth } from "../../../Firebase/firebase";
+import { hideMenu } from "../../../Redux Slices/menu.slice";
 
 function SideNavigation() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   // Redux states
   const adminData = useSelector((state) => state.adminSlice.adminData);
   console.log(adminData);
@@ -81,7 +87,12 @@ function SideNavigation() {
         </ul>
       </div>
       <div className="flex font-bold  w-[200px] items-center">
-        <BiLogIn className="mr-[10px]" size={20} /> <span>Logout</span>
+        <BiLogIn
+          onClick={() => logout(auth, navigate, dispatch, hideMenu)}
+          className="mr-[10px]"
+          size={20}
+        />{" "}
+        <span>Logout</span>
       </div>
     </div>
   );

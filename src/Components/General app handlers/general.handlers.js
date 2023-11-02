@@ -176,9 +176,13 @@ const verifyAdminEmail = (dispatch, values) => {
   onValue(adminsBioRef, (snapshot) => {
     const adminsBioData = snapshot.val();
 
-    const adminsBioDataArray = Object.values(adminsBioData);
+    let adminsBioDataArray = "No value yet";
+
+    adminsBioDataArray = Object.values(adminsBioData);
 
     dispatch(setAdminsEmails(adminsBioDataArray));
+
+    return adminsBioDataArray;
   });
 };
 

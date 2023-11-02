@@ -22,9 +22,8 @@ const getCurrWeekClockinArray = (attendanceArray) => {
     if (weekNumber === currWeekNumber) {
       currWeekClockInArray.push(clockObject);
     }
-
-    return currWeekClockInArray;
   });
+  return currWeekClockInArray;
 };
 
 // Get number of students present each day
@@ -46,15 +45,15 @@ const getNumbStudentsPresentDaily = (attendanceArray, dispatch) => {
       tuesday = tuesday + 1;
     }
 
-    if (new Date(clockinObject.date).getDay() === 1) {
+    if (new Date(clockinObject.date).getDay() === 3) {
       wednesday = wednesday + 1;
     }
 
-    if (new Date(clockinObject.date).getDay() === 1) {
+    if (new Date(clockinObject.date).getDay() === 4) {
       thursday = thursday + 1;
     }
 
-    if (new Date(clockinObject.date).getDay() === 1) {
+    if (new Date(clockinObject.date).getDay() === 5) {
       friday = friday + 1;
     }
   });
@@ -85,6 +84,8 @@ const getClockinsArray = (dispatch) => {
   });
 
   dispatch(setClockinList(clockinsArray));
+
+  return clockinsArray;
 };
 
 export { getNumbStudentsPresentDaily, getClockinsArray };

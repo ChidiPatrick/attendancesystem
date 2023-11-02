@@ -99,12 +99,11 @@ const calcCurrStudentTotalAttendanceDays = (
   dispatch,
   studentId
 ) => {
-  const currStudentAttendanceArray = attendanceArray.filter(
-    (attendanceObject) => attendanceObject.userId === studentId
-  );
-
-  dispatch(setCurrStudentClockinDays(currStudentAttendanceArray.length));
-  return currStudentAttendanceArray.length;
+  // const currStudentAttendanceArray = attendanceArray.filter(
+  //   (attendanceObject) => attendanceObject.userId === studentId
+  // );
+  // dispatch(setCurrStudentClockinDays(currStudentAttendanceArray.length));
+  // return currStudentAttendanceArray.length;
 };
 
 //Get selected student's daily clockin array
