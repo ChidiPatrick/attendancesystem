@@ -76,16 +76,11 @@ const getNumbStudentsPresentDaily = (attendanceArray, dispatch) => {
 const getClockinsArray = (dispatch) => {
   const clockinListRef = ref(rdb, "admindashboard/clockInList");
 
-  let clockinsArray = "nothing yet";
-
   onValue(clockinListRef, (snapshot) => {
-    clockinsArray = Object.values(snapshot.val());
+    const clockinsArray = Object.values(snapshot.val());
     console.log(Object.values(snapshot.val()));
+    dispatch(setClockinList(clockinsArray));
   });
-
-  dispatch(setClockinList(clockinsArray));
-
-  return clockinsArray;
 };
 
 export { getNumbStudentsPresentDaily, getClockinsArray };

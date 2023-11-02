@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { HiChevronLeft } from "react-icons/hi";
 import { useNavigate } from "react-router";
 
 ////// Local directory Imports ///////////////
@@ -87,6 +87,7 @@ const SigninAsAdmin = () => {
     (state) => state.adminSlice.studentsBioArray
   );
 
+  console.log(clockinList);
   ///////// HANDLER FUNCTIONS ////////////////////
   const cancleBtnHandler = () => {
     console.log("BTN HANDLER CALLED");
@@ -105,8 +106,9 @@ const SigninAsAdmin = () => {
         dispatch(showSpinner());
         await signInWithEmailAndPassword(auth, values.email, values.password)
           .then((user) => verifyAdminEmail(dispatch, values))
-          .then((adminsBioArray) => {
-            const adminBioObject = adminsBioArray.find(
+          .then(() => {
+            console.log(adminsEmail);
+            const adminBioObject = adminsEmail.find(
               (item) => item.email === values.email
             );
 
@@ -135,9 +137,7 @@ const SigninAsAdmin = () => {
 
           .then(() => getClockinsArray(dispatch))
 
-          .then((clockinList) =>
-            getNumbStudentsPresentDaily(clockinList, dispatch)
-          )
+          .then(() => getNumbStudentsPresentDaily(clockinList, dispatch))
 
           .then(() => {
             getStudentsBioArray(dispatch);

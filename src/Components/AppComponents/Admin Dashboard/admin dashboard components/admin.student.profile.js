@@ -48,6 +48,8 @@ function AdminStudentProfile() {
   const { email, lastName, firstName, tel, userName, userId } =
     studentProfileObject;
 
+  console.log(email);
+
   return (
     <div className="w-full min-h-screen bg-user-profile p-[10px]">
       <div className="border border-transparent border-b-gray-300">

@@ -173,16 +173,15 @@ const verifyStudentEmail = (dispatch) => {
 const verifyAdminEmail = (dispatch, values) => {
   const adminsBioRef = ref(rdb, "admindashboard/adminsBioDatabase");
 
+  let adminsBioDataArray = "";
+
   onValue(adminsBioRef, (snapshot) => {
     const adminsBioData = snapshot.val();
 
-    let adminsBioDataArray = "No value yet";
-
     adminsBioDataArray = Object.values(adminsBioData);
+    console.log(adminsBioDataArray);
 
     dispatch(setAdminsEmails(adminsBioDataArray));
-
-    return adminsBioDataArray;
   });
 };
 
