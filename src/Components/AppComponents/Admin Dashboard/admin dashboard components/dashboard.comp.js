@@ -23,6 +23,7 @@ import { ToastContainer } from "react-toastify";
 import { getWeekNumber } from "../../Handlers/get.current.week";
 import AreaCharts from "./area.charts";
 import { getClockinsArray } from "../admin dashboard handlers/graph.handlers";
+import TimeDistributionGraph from "./time.distribution.graph";
 
 function DashboardComponent() {
   const dispatch = useDispatch();
@@ -105,7 +106,7 @@ function DashboardComponent() {
             <AreaCharts />
           </div>
           <div className="w-[400px] h-[300px] border rounded-md flex items-center justify-center">
-            <AreaCharts />
+            <TimeDistributionGraph />
           </div>
           <StudentsInclass />
         </div>

@@ -83,46 +83,37 @@ const getClockinsArray = (dispatch) => {
   });
 };
 
-const getAttendanceTimeDistribution = (attendanceArray, totalNumbStudents) => {
+// Get time distrubution for the current week's attendance
+const getAttendanceTimeDistribution = (
+  currWeekAttendanceArray,
+  totalNumbStudents
+) => {
   const currWeekNumber = getWeekNumber(new Date());
 
   const monday = {
       numbStudentsEarly: 0,
       numbStudentsLate: 0,
-      numbStudentsLate:
-        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
     },
     tuesday = {
       numbStudentsEarly: 0,
       numbStudentsLate: 0,
-      numbStudentsLate:
-        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
     },
     wednesday = {
       numbStudentsEarly: 0,
       numbStudentsLate: 0,
-      numbStudentsLate:
-        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
     },
     thursday = {
       numbStudentsEarly: 0,
       numbStudentsLate: 0,
-      numbStudentsLate:
-        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
     },
     friday = {
       numbStudentsEarly: 0,
       numbStudentsLate: 0,
-      numbStudentsLate:
-        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
     };
 
   // Loop through the attendance array
-  attendanceArray.forEach((attendanceObject) => {
-    if (
-      getWeekNumber(attendanceObject.date) === currWeekNumber &&
-      new Date(attendanceObject.date).getDay() === 1
-    ) {
+  currWeekAttendanceArray.forEach((attendanceObject) => {
+    if (new Date(attendanceObject.date).getDay() === 1) {
       if (attendanceObject.isOnTime === true) {
         monday.numbStudentsEarly = monday.numbStudentsEarly + 1;
       } else {
@@ -130,10 +121,7 @@ const getAttendanceTimeDistribution = (attendanceArray, totalNumbStudents) => {
       }
     }
 
-    if (
-      getWeekNumber(attendanceObject.date) === currWeekNumber &&
-      new Date(attendanceObject.date).getDay() === 2
-    ) {
+    if (new Date(attendanceObject.date).getDay() === 2) {
       if (attendanceObject.isOnTime === true) {
         tuesday.numbStudentsEarly = tuesday.numbStudentsEarly + 1;
       } else {
@@ -141,10 +129,7 @@ const getAttendanceTimeDistribution = (attendanceArray, totalNumbStudents) => {
       }
     }
 
-    if (
-      getWeekNumber(attendanceObject.date) === currWeekNumber &&
-      new Date(attendanceObject.date).getDay() === 3
-    ) {
+    if (new Date(attendanceObject.date).getDay() === 3) {
       if (attendanceObject.isOnTime === true) {
         wednesday.numbStudentsEarly = wednesday.numbStudentsEarly + 1;
       } else {
@@ -152,10 +137,7 @@ const getAttendanceTimeDistribution = (attendanceArray, totalNumbStudents) => {
       }
     }
 
-    if (
-      getWeekNumber(attendanceObject.date) === currWeekNumber &&
-      new Date(attendanceObject.date).getDay() === 4
-    ) {
+    if (new Date(attendanceObject.date).getDay() === 4) {
       if (attendanceObject.isOnTime === true) {
         thursday.numbStudentsEarly = thursday.numbStudentsEarly + 1;
       } else {
@@ -163,10 +145,7 @@ const getAttendanceTimeDistribution = (attendanceArray, totalNumbStudents) => {
       }
     }
 
-    if (
-      getWeekNumber(attendanceObject.date) === currWeekNumber &&
-      new Date(attendanceObject.date).getDay() === 5
-    ) {
+    if (new Date(attendanceObject.date).getDay() === 5) {
       if (attendanceObject.isOnTime === true) {
         friday.numbStudentsEarly = friday.numbStudentsEarly + 1;
       } else {
@@ -175,7 +154,33 @@ const getAttendanceTimeDistribution = (attendanceArray, totalNumbStudents) => {
     }
   });
 
-  return [monday, tuesday, wednesday, thursday, friday];
+  return [
+    {
+      ...monday,
+      numbStudentsAbsent:
+        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
+    },
+    {
+      ...tuesday,
+      numbStudentsAbsent:
+        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
+    },
+    {
+      ...wednesday,
+      numbStudentsAbsent:
+        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
+    },
+    {
+      ...thursday,
+      numbStudentsAbsent:
+        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
+    },
+    {
+      ...friday,
+      numbStudentsAbsent:
+        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
+    },
+  ];
 };
 
 export {
