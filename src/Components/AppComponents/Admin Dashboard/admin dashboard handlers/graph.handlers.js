@@ -91,65 +91,70 @@ const getAttendanceTimeDistribution = (
   const currWeekNumber = getWeekNumber(new Date());
 
   const monday = {
-      numbStudentsEarly: 0,
-      numbStudentsLate: 0,
+      name: "Mon",
+      early: 0,
+      late: 0,
     },
     tuesday = {
-      numbStudentsEarly: 0,
-      numbStudentsLate: 0,
+      name: "Tue",
+      early: 0,
+      late: 0,
     },
     wednesday = {
-      numbStudentsEarly: 0,
-      numbStudentsLate: 0,
+      name: "Wed",
+      early: 0,
+      late: 0,
     },
     thursday = {
-      numbStudentsEarly: 0,
-      numbStudentsLate: 0,
+      name: "Thu",
+      early: 0,
+      late: 0,
     },
     friday = {
-      numbStudentsEarly: 0,
-      numbStudentsLate: 0,
+      name: "Fri",
+      early: 0,
+      late: 0,
     };
 
   // Loop through the attendance array
   currWeekAttendanceArray.forEach((attendanceObject) => {
     if (new Date(attendanceObject.date).getDay() === 1) {
       if (attendanceObject.isOnTime === true) {
-        monday.numbStudentsEarly = monday.numbStudentsEarly + 1;
+        monday.early = monday.early + 1;
       } else {
-        monday.numbStudentsLate = monday.numbStudentsLate + 1;
+        monday.late = monday.late + 1;
       }
     }
 
     if (new Date(attendanceObject.date).getDay() === 2) {
       if (attendanceObject.isOnTime === true) {
-        tuesday.numbStudentsEarly = tuesday.numbStudentsEarly + 1;
+        tuesday.early = tuesday.early + 1;
       } else {
-        tuesday.numbStudentsLate = tuesday.numbStudentsLate + 1;
+        tuesday.late = tuesday.late + 1;
       }
     }
 
     if (new Date(attendanceObject.date).getDay() === 3) {
       if (attendanceObject.isOnTime === true) {
-        wednesday.numbStudentsEarly = wednesday.numbStudentsEarly + 1;
+        wednesday.early = wednesday.early + 1;
       } else {
-        wednesday.numbStudentsLate = wednesday.numbStudentsLate + 1;
+        wednesday.late = wednesday.late + 1;
       }
     }
 
     if (new Date(attendanceObject.date).getDay() === 4) {
       if (attendanceObject.isOnTime === true) {
-        thursday.numbStudentsEarly = thursday.numbStudentsEarly + 1;
+        thursday.early = thursday.early + 1;
       } else {
-        thursday.numbStudentsLate = thursday.numbStudentsLate + 1;
+        thursday.late = thursday.late + 1;
       }
     }
 
     if (new Date(attendanceObject.date).getDay() === 5) {
       if (attendanceObject.isOnTime === true) {
-        friday.numbStudentsEarly = friday.numbStudentsEarly + 1;
+        friday.early = friday.early + 1;
       } else {
-        friday.numbStudentsLate = friday.numbStudentsLate + 1;
+        friday.late = friday.late + 1;
       }
     }
   });
@@ -157,34 +162,37 @@ const getAttendanceTimeDistribution = (
   return [
     {
       ...monday,
-      numbStudentsAbsent:
-        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
+      absent: totalNumbStudents - (monday.late + monday.early),
     },
     {
       ...tuesday,
-      numbStudentsAbsent:
-        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
+      absent: totalNumbStudents - (tuesday.late + tuesday.early),
     },
     {
       ...wednesday,
-      numbStudentsAbsent:
-        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
+      absent: totalNumbStudents - (wednesday.late + wednesday.early),
     },
     {
       ...thursday,
-      numbStudentsAbsent:
-        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
+      absent: totalNumbStudents - (thursday.late + thursday.early),
     },
     {
       ...friday,
-      numbStudentsAbsent:
-        totalNumbStudents - (this.numbStudentsLate + this.numbStudentsEarly),
+      absent: totalNumbStudents - (friday.late + friday.early),
     },
   ];
+};
+
+// Student individual performance graph data
+const getStudentGraphArray = (attendanceArray, studentId) => {
+  const currStudentAttendanceArray = attendanceArray.filter(
+    (attendanceObject, index) => attendanceObject.userId === studentId
+  );
 };
 
 export {
   getNumbStudentsPresentDaily,
   getClockinsArray,
   getAttendanceTimeDistribution,
+  getCurrWeekClockinArray,
 };

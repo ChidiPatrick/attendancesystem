@@ -24,6 +24,8 @@ import { getWeekNumber } from "../../Handlers/get.current.week";
 import AreaCharts from "./area.charts";
 import { getClockinsArray } from "../admin dashboard handlers/graph.handlers";
 import TimeDistributionGraph from "./time.distribution.graph";
+import GraphBigScreen from "./graph.big.screen";
+import { hideBigGraph } from "../../../Redux Slices/attendanceReportSlice";
 
 function DashboardComponent() {
   const dispatch = useDispatch();
@@ -105,7 +107,7 @@ function DashboardComponent() {
           <div className="bg-white  w-[400px] h-[300px] border rounded-md flex items-center justify-center">
             <AreaCharts />
           </div>
-          <div className="w-[400px] h-[300px] border rounded-md flex items-center justify-center">
+          <div className="w-[400px] bg-white h-[300px] border rounded-md flex items-center justify-center">
             <TimeDistributionGraph />
           </div>
           <StudentsInclass />
@@ -132,6 +134,17 @@ function DashboardComponent() {
         </div>
         <AdminStudentProfile />
         <PermissionModal />
+        {/* <div className="backdrop-blur-md bg-white">
+          <div
+            className="w-[100%] p-[10px]"
+            onClick={() => dispatch(hideBigGraph())}
+          >
+            <span>X</span>
+          </div>
+          <GraphBigScreen>
+            <AreaCharts />
+          </GraphBigScreen>
+        </div> */}
       </div>
     </div>
   );

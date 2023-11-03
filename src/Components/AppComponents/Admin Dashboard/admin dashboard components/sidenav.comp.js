@@ -86,7 +86,10 @@ function SideNavigation() {
           </li>
         </ul>
       </div>
-      <div className="flex font-bold  w-[200px] items-center">
+      <div
+        onClick={() => logout(auth, navigate, dispatch, hideMenu)}
+        className="flex font-bold  w-[200px] items-center"
+      >
         <BiLogIn
           onClick={() => logout(auth, navigate, dispatch, hideMenu)}
           className="mr-[10px]"

@@ -62,6 +62,7 @@ function AreaCharts() {
           height={250}
           data={data}
           margin={{ top: 10, right: 5, left: 5, bottom: 0 }}
+          onClick={() => console.log("Clicked!!!!")}
         >
           <defs>
             {/* <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -81,6 +82,7 @@ function AreaCharts() {
               position: "insideLeft",
             }}
           />
+
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
           <Area

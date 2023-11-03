@@ -4,7 +4,6 @@ import { getDoc } from "firebase/firestore";
 // Local directory imports ///
 import { db } from "../Firebase/firebase";
 import { getStudentDocumentRef } from "../General app handlers/general.handlers";
-import { act } from "react-dom/test-utils";
 
 const initialState = {
   userId: "",
