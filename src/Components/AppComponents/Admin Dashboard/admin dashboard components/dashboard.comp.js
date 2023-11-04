@@ -22,10 +22,9 @@ import PermissionModal from "./permission.modal";
 import { ToastContainer } from "react-toastify";
 import { getWeekNumber } from "../../Handlers/get.current.week";
 import AreaCharts from "./area.charts";
-import { getClockinsArray } from "../admin dashboard handlers/graph.handlers";
 import TimeDistributionGraph from "./time.distribution.graph";
-import GraphBigScreen from "./graph.big.screen";
-import { hideBigGraph } from "../../../Redux Slices/attendanceReportSlice";
+
+import StudentAttendanceGraph from "./student.attendance.graph";
 
 function DashboardComponent() {
   const dispatch = useDispatch();
@@ -49,9 +48,6 @@ function DashboardComponent() {
 
   return (
     <div className="w-full p-[10px] relative flex min-h-screen  bg-[#F7F7F7]">
-      {/* <div>
-        <SideNavigation />
-      </div> */}
       <div className="w-full min-h-screen bg-user-profile">
         <DashboardNavigationComponent title="Dashboard" />
         <div className="w-full flex justify-between p-[10px] mt-[20px]">
@@ -132,19 +128,10 @@ function DashboardComponent() {
             })}
           </div>
         </div>
+        <StudentAttendanceGraph />
+
         <AdminStudentProfile />
         <PermissionModal />
-        {/* <div className="backdrop-blur-md bg-white">
-          <div
-            className="w-[100%] p-[10px]"
-            onClick={() => dispatch(hideBigGraph())}
-          >
-            <span>X</span>
-          </div>
-          <GraphBigScreen>
-            <AreaCharts />
-          </GraphBigScreen>
-        </div> */}
       </div>
     </div>
   );

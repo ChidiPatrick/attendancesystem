@@ -7,6 +7,7 @@ const initialState = {
   currStudentAttendanceArray: [],
   attendanceGraphArray: null,
   displayBigGraph: false,
+  currStudentAttendanceGraphArray: [],
 };
 
 const attendanceReportSlice = createSlice({
@@ -31,6 +32,9 @@ const attendanceReportSlice = createSlice({
     hideBigGraph(state, action) {
       state.displayBigGraph = false;
     },
+    setCurrStudentGraphAttendanceArray(state, action) {
+      state.currStudentAttendanceGraphArray = action.payload;
+    },
   },
 });
 
@@ -41,6 +45,7 @@ export const {
   setAttendanceGraphArray,
   showBigGraph,
   hideBigGraph,
+  setCurrStudentGraphAttendanceArray,
 } = attendanceReportSlice.actions;
 
 export default attendanceReportSlice.reducer;

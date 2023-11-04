@@ -12,6 +12,7 @@ import { updatePermissionStatus } from "../admin dashboard handlers/admin.announ
 import { setSelectedStudent } from "../../../Redux Slices/adminStudentsSlice";
 import { setCurrStudentPermissionRequests } from "../admin dashboard handlers/admin.handlers";
 import { getCurrStudentAttendanceArray } from "../admin dashboard handlers/admin.attendance.report.handlers";
+import { setStudentGraphArray } from "../admin dashboard handlers/graph.handlers";
 /**
  *# Create a function to dispatch selected student's requests array
  *# Implement routing to student's profile to complete and populate the students profile UI with the students data
@@ -69,22 +70,29 @@ function NotificationBar({
   const setStudentProfile = (
     studentsBioArray,
     permissionsArray,
+    attendanceArray,
     studentId,
     dispatch
   ) => {
+    console.log("First");
+
     const studentProfileObject = studentsBioArray.find(
       (studentBioObject) => studentBioObject.userId === studentId
     );
 
     dispatch(setSelectedStudent(studentProfileObject));
+    console.log("Second");
 
-    getCurrStudentAttendanceArray(clockinList, dispatch, studentId);
+    setStudentGraphArray(attendanceArray, studentId, dispatch);
+
+    getCurrStudentAttendanceArray(attendanceArray, dispatch, studentId);
 
     setCurrStudentPermissionRequests(permissionsArray, studentId, dispatch);
 
     setShowShortcut(!showShortcut);
+    console.log("Last!");
 
-    navigate("/adminStudentProfile");
+    // navigate("/adminStudentProfile");
   };
 
   // Permission UI Toggling handler
@@ -171,9 +179,11 @@ function NotificationBar({
         >
           <button
             onClick={() => {
+              console.log("Called setStudentProfile");
               setStudentProfile(
                 studentsArray,
                 permissionsArray,
+                clockinList,
                 permissionObject.userId,
                 dispatch
               );

@@ -7,6 +7,7 @@ import { onValue } from "firebase/database";
 import {
   setAttendanceGraphArray,
   setClockinList,
+  setCurrStudentGraphAttendanceArray,
 } from "../../../Redux Slices/attendanceReportSlice";
 import { getWeekNumber } from "../../Handlers/get.current.week";
 
@@ -183,11 +184,89 @@ const getAttendanceTimeDistribution = (
   ];
 };
 
-// Student individual performance graph data
-const getStudentGraphArray = (attendanceArray, studentId) => {
+// Get students's current week attendance array
+const getStundentCurrWeekAttendanceArray = (currStudentAttendanceArray) => {
+  const currWeekNumber = getWeekNumber(new Date());
+
+  const studentCurrWeekAttendanceArray = currStudentAttendanceArray.filter(
+    (attendanceObject) =>
+      getWeekNumber(new Date(attendanceObject.date) === currWeekNumber)
+  );
+
+  return studentCurrWeekAttendanceArray;
+};
+
+// Get student's attendance record
+const getStudentAttendanceRecord = (attendanceArray, studentId) => {
   const currStudentAttendanceArray = attendanceArray.filter(
     (attendanceObject, index) => attendanceObject.userId === studentId
   );
+
+  return currStudentAttendanceArray;
+};
+
+// Arrange the student's current week's graph data
+const arrangeStudentCurrWeekAttendanceTimeGraphData = (
+  studentCurrWeekAttendanceArray
+) => {
+  const currWeekNumber = getWeekNumber(new Date());
+
+  const monday = { time: "", punctuality: false, name: "Mon" },
+    tuesday = { name: "Tue", punctuality: false, time: "" },
+    wednesday = { name: "Wed", punctuality: false, time: "" },
+    thursday = { name: "Thur", punctuality: false, time: "" },
+    friday = { name: "Fri", punctuality: false, time: "" };
+
+  studentCurrWeekAttendanceArray.forEach((attendanceObject) => {
+    if (new Date(attendanceObject.date).getDay() === 1) {
+      monday.time = attendanceObject.time;
+      monday.punctuality = attendanceObject.isOnTime;
+    }
+
+    if (new Date(attendanceObject.date).getDay() === 2) {
+      tuesday.time = attendanceObject.time;
+      tuesday.punctuality = attendanceObject.isOnTime;
+    }
+
+    if (new Date(attendanceObject.date).getDay() === 3) {
+      wednesday.time = attendanceObject.time;
+      wednesday.punctuality = attendanceObject.isOnTime;
+    }
+
+    if (new Date(attendanceObject.date).getDay() === 4) {
+      thursday.time = attendanceObject.time;
+      thursday.punctuality = attendanceObject.isOnTime;
+    }
+
+    if (new Date(attendanceObject.date).getDay() === 5) {
+      friday.time = attendanceObject.time;
+      friday.punctuality = attendanceObject.isOnTime;
+    }
+  });
+  console.log([monday, tuesday, wednesday, thursday, friday]);
+
+  return [monday, tuesday, wednesday, thursday, friday];
+};
+
+// Student's individual performance graph data
+const setStudentGraphArray = (attendanceArray, studentId, dispatch) => {
+  console.log("student graph");
+  const studentAttendanceArray = getStudentAttendanceRecord(
+    attendanceArray,
+    studentId
+  );
+
+  const studentCurrWeekAttendanceArray = getStundentCurrWeekAttendanceArray(
+    studentAttendanceArray
+  );
+
+  const studentCurrWeekAttendanceGraph =
+    arrangeStudentCurrWeekAttendanceTimeGraphData(
+      studentCurrWeekAttendanceArray
+    );
+
+  console.log(studentCurrWeekAttendanceGraph);
+  dispatch(setCurrStudentGraphAttendanceArray(studentCurrWeekAttendanceGraph));
 };
 
 export {
@@ -195,4 +274,5 @@ export {
   getClockinsArray,
   getAttendanceTimeDistribution,
   getCurrWeekClockinArray,
+  setStudentGraphArray,
 };

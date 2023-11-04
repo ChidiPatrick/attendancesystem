@@ -15,6 +15,7 @@ import {
   calcNumbDaysLate,
   calcNumbDeniedRequests,
 } from "../admin dashboard handlers/admin.attendance.report.handlers";
+import { setStudentGraphArray } from "../admin dashboard handlers/graph.handlers";
 
 function AdminStudentProfile() {
   const dispatch = useDispatch();
@@ -43,6 +44,10 @@ function AdminStudentProfile() {
   const currStudentAttendanceArray = useSelector(
     (state) => state.attendanceReportSlice.currStudentAttendanceArray
   );
+
+  const userId = useSelector((state) => state.loginSlice.userId);
+
+  setStudentGraphArray(clockinArray, userId, dispatch);
 
   return (
     <div className="w-full min-h-screen bg-user-profile p-[10px]">
