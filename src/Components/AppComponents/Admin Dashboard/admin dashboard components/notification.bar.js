@@ -81,7 +81,6 @@ function NotificationBar({
     );
 
     dispatch(setSelectedStudent(studentProfileObject));
-    console.log("Second");
 
     setStudentGraphArray(attendanceArray, studentId, dispatch);
 
@@ -90,9 +89,8 @@ function NotificationBar({
     setCurrStudentPermissionRequests(permissionsArray, studentId, dispatch);
 
     setShowShortcut(!showShortcut);
-    console.log("Last!");
 
-    // navigate("/adminStudentProfile");
+    navigate("/adminStudentProfile");
   };
 
   // Permission UI Toggling handler

@@ -20,6 +20,7 @@ import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import FeedbackModal from "../Modal/feedbackModal";
 import NetworkFeedback from "../Modal/networkFeedback";
 import { getWeekNumber } from "../Handlers/get.current.week";
+import { ToastContainer } from "react-toastify";
 
 function MarkUser() {
   const dispatch = useDispatch();
@@ -116,6 +117,7 @@ function MarkUser() {
       <div className="mb-[50px] mt-[20px] text-center text-lp-primary font-bold">
         Click the "Mark Attendance" button to clock in
       </div>
+      <ToastContainer style={{ width: "100%", textAlign: "center" }} />
       <ButtonFull handleClick={() => markAttendance(userId, latenessHour)}>
         Mark attendance
       </ButtonFull>

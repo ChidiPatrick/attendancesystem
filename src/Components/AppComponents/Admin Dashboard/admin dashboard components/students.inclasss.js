@@ -23,7 +23,7 @@ function StudentsInclass() {
     fetchCurrClockinArray(dispatch);
   }, []);
   return (
-    <div className="w-[300px] p-[10px] h-[300px] overflow-y-scroll border rounded-md bg-[#FBFCFE]">
+    <div className="w-[250px] p-[10px] h-[300px] overflow-y-scroll border rounded-md bg-[#FBFCFE]">
       <h3 className="w-full flex justify-between font-bold ">
         <span>Students in class</span>
         <span className="text-[#4A4A4A] font-md">

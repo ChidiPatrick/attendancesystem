@@ -16,6 +16,7 @@ import {
   calcNumbDeniedRequests,
 } from "../admin dashboard handlers/admin.attendance.report.handlers";
 import { setStudentGraphArray } from "../admin dashboard handlers/graph.handlers";
+import StudentAttendanceGraph from "./student.attendance.graph";
 
 function AdminStudentProfile() {
   const dispatch = useDispatch();
@@ -163,18 +164,18 @@ function AdminStudentProfile() {
           </div>
           <div className="w-[90%] mx-auto p-[10px] mt-[20px] h-[400px] bg-[#FBFCFE] border border-transparent rounded-xl">
             <div className="w-[100%] border border-transparent border-b-gray-400 flex justify-between items-center">
-              <div className="w-[50%] py-[10px] font-semibold">
+              <div className="w-[50%] py-[10px] font-semibold ">
                 Attendance report
               </div>
-              <div className="w-[40%] flex justify-between items-center">
-                <button className="text-lp-secondary py-[5px] font-semibold ">
+              <div className="w-[40%] flex justify-end items-center ">
+                <button className="text-lp-primary py-[5px] font-semibold ">
                   This week
                 </button>
-                <button>This Month</button>
+                {/* <button>This Month</button> */}
               </div>
             </div>
-            <div className="w-[80%] h-[80%] flex justify-center items-center mt-[30px] mx-auto bg-gray-300 font-bold text-[30] text-lp-primary">
-              Graph Here
+            <div className="w-[100%] h-[80%]  mt-[30px] mx-auto font-bold text-[30] text-lp-primary">
+              <StudentAttendanceGraph />
             </div>
           </div>
           {/* <div className="p-[10px] mt-[20px]">

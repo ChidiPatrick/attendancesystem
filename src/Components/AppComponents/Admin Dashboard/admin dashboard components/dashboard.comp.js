@@ -25,6 +25,7 @@ import AreaCharts from "./area.charts";
 import TimeDistributionGraph from "./time.distribution.graph";
 
 import StudentAttendanceGraph from "./student.attendance.graph";
+import AdminProfile from "./admin.profile";
 
 function DashboardComponent() {
   const dispatch = useDispatch();
@@ -100,10 +101,18 @@ function DashboardComponent() {
           </div>
         </div>
         <div className="flex justify-between items-center p-[10px]">
-          <div className="bg-white  w-[400px] h-[300px] border rounded-md flex items-center justify-center">
+          <div className="bg-white  w-[500px] p-[15px] h-[300px] border rounded-md flex flex-col items-center justify-center">
+            <div className="w-[100%] flex justify-between items-center">
+              <div>Attendance Summary</div>
+              <div className="text-lp-secondary">This week</div>
+            </div>
             <AreaCharts />
           </div>
-          <div className="w-[400px] bg-white h-[300px] border rounded-md flex items-center justify-center">
+          <div className="bg-white w-[350px] p-[15px] h-[300px] border rounded-md flex items-center flex-col justify-center">
+            <div className="w-[100%] flex justify-between items-center">
+              <div>Time distribution</div>
+              <div className="text-lp-secondary">This week</div>
+            </div>
             <TimeDistributionGraph />
           </div>
           <StudentsInclass />
@@ -128,10 +137,7 @@ function DashboardComponent() {
             })}
           </div>
         </div>
-        <StudentAttendanceGraph />
-
-        <AdminStudentProfile />
-        <PermissionModal />
+        <AdminProfile />
       </div>
     </div>
   );

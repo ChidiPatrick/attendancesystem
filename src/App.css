@@ -29,6 +29,10 @@
   color: #cc7212;
 }
 
+.bg-custom-image {
+  background-image: url("/public/images/skalo.jpg");
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

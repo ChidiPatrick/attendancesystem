@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Routes, Route, useNavigate } from "react-router";
-import { ErrorBoundary } from "react-error-boundary";
 
 // import Header from "./Components/LandingPageComponents/Header/header";
 import LandingPage from "./Components/AppComponents/Pages/landingPage";

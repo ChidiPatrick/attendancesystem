@@ -219,27 +219,37 @@ const arrangeStudentCurrWeekAttendanceTimeGraphData = (
 
   studentCurrWeekAttendanceArray.forEach((attendanceObject) => {
     if (new Date(attendanceObject.date).getDay() === 1) {
-      monday.time = attendanceObject.time;
+      const time = attendanceObject.time.split(":");
+      const hourMinuteTime = parseInt(time[0]) + parseInt(time[1]) / 100;
+      monday.time = hourMinuteTime;
       monday.punctuality = attendanceObject.isOnTime;
     }
 
     if (new Date(attendanceObject.date).getDay() === 2) {
-      tuesday.time = attendanceObject.time;
+      const time = attendanceObject.time.split(":");
+      const hourMinuteTime = parseInt(time[0]) + parseInt(time[1]) / 100;
+      tuesday.time = hourMinuteTime;
       tuesday.punctuality = attendanceObject.isOnTime;
     }
 
     if (new Date(attendanceObject.date).getDay() === 3) {
-      wednesday.time = attendanceObject.time;
+      const time = attendanceObject.time.split(":");
+      const hourMinuteTime = parseInt(time[0]) + parseInt(time[1]) / 100;
+      wednesday.time = hourMinuteTime;
       wednesday.punctuality = attendanceObject.isOnTime;
     }
 
     if (new Date(attendanceObject.date).getDay() === 4) {
-      thursday.time = attendanceObject.time;
+      const time = attendanceObject.time.split(":");
+      const hourMinuteTime = parseInt(time[0]) + parseInt(time[1]) / 100;
+      thursday.time = hourMinuteTime;
       thursday.punctuality = attendanceObject.isOnTime;
     }
 
     if (new Date(attendanceObject.date).getDay() === 5) {
-      friday.time = attendanceObject.time;
+      const time = attendanceObject.time.split(":");
+      const hourMinuteTime = parseInt(time[0]) + parseInt(time[1]) / 100;
+      friday.time = hourMinuteTime;
       friday.punctuality = attendanceObject.isOnTime;
     }
   });
@@ -247,6 +257,8 @@ const arrangeStudentCurrWeekAttendanceTimeGraphData = (
 
   return [monday, tuesday, wednesday, thursday, friday];
 };
+
+// sort
 
 // Student's individual performance graph data
 const setStudentGraphArray = (attendanceArray, studentId, dispatch) => {

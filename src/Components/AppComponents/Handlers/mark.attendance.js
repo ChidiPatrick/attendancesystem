@@ -17,6 +17,7 @@ import {
   addClockOutDataToAdminDatabase,
 } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 import { getWeekNumber } from "./get.current.week";
+import { toast } from "react-toastify";
 
 /* 
 TODOs:
@@ -78,6 +79,17 @@ const updateAttendanceRecord = async (
     if (!navigator.onLine) {
       dispatch(hideSpinner());
       dispatch(showNetworkFeedback());
+      return;
+    }
+
+    if (new Date().getDay() === 6 || new Date().getDay() === 0) {
+      dispatch(hideSpinner());
+
+      toast("You can't clockin on weekends 😒", {
+        autoClose: 3000,
+        type: "warning",
+      });
+
       return;
     }
 

@@ -50,6 +50,8 @@ function AreaCharts() {
   console.log(data);
 
   return (
+    // <div className="w-[100%] h-[350px]">
+
     <ResponsiveContainer>
       {data === null ? (
         <div className="w-[100%] flex flex-col items-center justify-center font-bold bg-lp-primary text-white h-[100%] flex justify-center items-center">
@@ -102,6 +104,7 @@ function AreaCharts() {
         </AreaChart>
       )}
     </ResponsiveContainer>
+    // </div>
   );
 }
 

@@ -20,23 +20,29 @@ function StudentAttendanceGraph() {
 
   console.log(studentAttendanceGraphArray);
   const data = studentAttendanceGraphArray;
+  // data.forEach((element) => {
+  //   const time = element.time.split(":");
+  //   const hrMin = parseInt(time[0]) + parseInt(time[1]) / 100;
+  //   console.log(hrMin);
+  // });
+  console.log(data);
 
   return (
-    <div className="w-[400px] h-[400px] bg-slate-300">
+    <div className="w-[100%] h-[400px] ">
       <ResponsiveContainer>
         <BarChart width={730} height={250} data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis
             label={{
-              value: "No. Students",
+              value: "Time (hrs.min)",
               angle: -90,
               position: "insideLeft",
             }}
           />
           <Tooltip />
           <Legend />
-          <Bar dataKey="time" fill="#23A697" />
+          <Bar dataKey="time" fill="#F78F1E" />
           {/* <Bar dataKey="late" fill="#F9AC58" />
           <Bar dataKey="absent" fill="#D85745" /> */}
         </BarChart>
