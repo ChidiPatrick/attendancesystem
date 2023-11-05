@@ -37,27 +37,38 @@ function TimeDistributionGraph() {
     currWeekClockInArray,
     studentsBioArray.length
   );
-  console.log(attendanceTimeDistribution);
 
   const data = attendanceTimeDistribution;
+
+  console.log(data);
+
   return (
     <ResponsiveContainer>
-      <BarChart width={730} height={250} data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis
-          label={{
-            value: "No. Students",
-            angle: -90,
-            position: "insideLeft",
-          }}
-        />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="early" fill="#23A697" />
-        <Bar dataKey="late" fill="#F9AC58" />
-        <Bar dataKey="absent" fill="#D85745" />
-      </BarChart>
+      {new Date().getDay() == 0 || new Date().getDay() == 6 ? (
+        <div className="w-[100%] flex flex-col items-center justify-center font-bold bg-lp-primary text-white h-[100%] ">
+          <img src="/images/Fisherman.svg" className="w-[100px] h-[100px]" />
+          <div className="p-[10px]">
+            It's the weekend, No record entered for the week yet
+          </div>
+        </div>
+      ) : (
+        <BarChart width={730} height={250} data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis
+            label={{
+              value: "No. Students",
+              angle: -90,
+              position: "insideLeft",
+            }}
+          />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="early" fill="#23A697" />
+          <Bar dataKey="late" fill="#F9AC58" />
+          <Bar dataKey="absent" fill="#D85745" />
+        </BarChart>
+      )}
     </ResponsiveContainer>
   );
 }

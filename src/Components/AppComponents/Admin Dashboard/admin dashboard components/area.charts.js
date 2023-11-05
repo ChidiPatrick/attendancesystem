@@ -54,7 +54,7 @@ function AreaCharts() {
 
     <ResponsiveContainer>
       {data === null ? (
-        <div className="w-[100%] flex flex-col items-center justify-center font-bold bg-lp-primary text-white h-[100%] flex justify-center items-center">
+        <div className="w-[100%] flex flex-col items-center justify-center font-bold bg-lp-primary text-white h-[100%] ">
           <img src="/images/Fisherman.svg" className="w-[100px] h-[100px]" />
           <div className="">No record for the week</div>
         </div>
@@ -67,10 +67,6 @@ function AreaCharts() {
           onClick={() => console.log("Clicked!!!!")}
         >
           <defs>
-            {/* <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-          </linearGradient> */}
             <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#3051ADCC" stopOpacity={0.8} />
               <stop offset="95%" stopColor="#3051ADCC" stopOpacity={0} />

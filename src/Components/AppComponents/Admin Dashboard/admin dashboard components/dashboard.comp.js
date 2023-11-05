@@ -26,6 +26,7 @@ import TimeDistributionGraph from "./time.distribution.graph";
 
 import StudentAttendanceGraph from "./student.attendance.graph";
 import AdminProfile from "./admin.profile";
+import AdminEditProfile from "./admin.edit.profile";
 
 function DashboardComponent() {
   const dispatch = useDispatch();

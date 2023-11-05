@@ -19,6 +19,7 @@ const initialState = {
   latenessStartTime: "",
   studentsBioArray: [],
   adminBioObject: {},
+  displayAdminEditUI: false,
 };
 
 export const GetStudentAttendanceRecord = createAsyncThunk(
@@ -85,6 +86,12 @@ const adminDashBoard = createSlice({
     setAdminBioObject(state, action) {
       state.adminBioObject = action.payload;
     },
+    showAdminEditUI(state, action) {
+      state.displayAdminEditUI = true;
+    },
+    hideAdminEditUi(state, action) {
+      state.displayAdminEditUI = false;
+    },
   },
 });
 
@@ -99,6 +106,8 @@ export const {
   updateLatenessStartingTime,
   setStudentsBioArray,
   setAdminBioObject,
+  showAdminEditUI,
+  hideAdminEditUi,
 } = adminDashBoard.actions;
 
 export default adminDashBoard.reducer;

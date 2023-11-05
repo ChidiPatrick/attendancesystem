@@ -6,6 +6,9 @@ import NotificationBar from "./notification.bar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import AdminNotification from "./admin.notification";
+import AdminEditProfile from "./admin.edit.profile";
+import { showAdminEditUI } from "../../../Redux Slices/adminSlice";
+import { BiSolidUser } from "react-icons/bi";
 
 function AdminProfile() {
   const dispatch = useDispatch();
@@ -15,19 +18,30 @@ function AdminProfile() {
     (state) => state.permissionSlice.permissionsArray
   );
 
+  const displayAdminEditUI = useSelector(
+    (state) => state.adminSlice.displayAdminEditUI
+  );
+
+  const adminData = useSelector((state) => state.adminSlice.adminData);
+
+  console.log(permissionsArray);
+
   return (
-    <div className="w-[100%] h-screen flex justify-between  ">
+    <div className="w-[100%] relative h-screen flex justify-between  ">
       <div className="w-[50%] h-[100%] overflow-y-scroll">
         <figure className="p-[10px] relative bg-custom-image flex-col   w-[100%] h-[300px]  flex justify-center items-center">
           <img
             src="images/skalo.jpg"
             className="w-[200px] h-[200px] border border-transparent rounded-full"
           />
-          <div className="w-[100%] flex justify-between items-center">
+          <div className="w-[100%] bg-myshade flex justify-between items-center p-[10px] ">
             <span className="p-[10px] text-lp-primary bg-[#dff9fb] border border-transparent rounded-full">
               Chief Admin
             </span>
-            <button className="bg-lp-secondary p-[10px] w-[150px] text-white border border-transparent rounded-full">
+            <button
+              onClick={() => dispatch(showAdminEditUI())}
+              className="bg-lp-secondary p-[10px] w-[150px] text-white border border-transparent rounded-full"
+            >
               Edit Profile
             </button>
           </div>
@@ -40,19 +54,19 @@ function AdminProfile() {
           <div className="w-[100%]  p-[10px]">
             <div className="text-[18px] mb-[10px]">First Name</div>
             <div className="border p-[10px] text-[16px] font-semibold border-black rounded-lg">
-              Patrick
+              {adminData.firstName}
             </div>
           </div>
           <div className="w-[100%]  p-[10px]">
             <div className="text-[18px] mb-[10px]">Last Name</div>
             <div className="border p-[10px] text-[16px] font-semibold border-black rounded-lg">
-              Patrick
+              {adminData.lastName}
             </div>
           </div>
           <div className="w-[100%]  p-[10px]">
             <div className="text-[18px] mb-[10px]">Other Names</div>
             <div className="border p-[10px] text-[16px] font-semibold border-black rounded-lg">
-              Patrick
+              {adminData.userName}
             </div>
           </div>
         </div>
@@ -61,17 +75,14 @@ function AdminProfile() {
         <h2 className="text-[20px] mt-[30px] font-bold">Notifications</h2>
         {permissionsArray.map((permissionObject, index) => {
           return (
-            <div key={index}>
-              {permissionsArray.map((permissionObject, index) => (
-                <AdminNotification
-                  permissionObject={permissionObject}
-                  keyIndex={index}
-                />
-              ))}
-            </div>
+            <AdminNotification
+              permissionObject={permissionObject}
+              keyIndex={index}
+            />
           );
         })}
       </div>
+      {displayAdminEditUI === true ? <AdminEditProfile /> : null}
     </div>
   );
 }

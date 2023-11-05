@@ -26,7 +26,11 @@ const getStudentsArray = (dispatch) => {
 const addAdminBioDataToDatabase = async (valuesObject) => {
   const adminsBioDatabaseRef = ref(rdb, "admindashboard/adminsBioDatabase");
   const adminRefNumber = push(adminsBioDatabaseRef);
-  await set(adminRefNumber, { ...valuesObject, rdbKey: adminRefNumber.key });
+  await set(adminRefNumber, {
+    ...valuesObject,
+    rdbKey: adminRefNumber.key,
+    profilePicture: "",
+  });
 };
 
 //Add clockin data to admin database
