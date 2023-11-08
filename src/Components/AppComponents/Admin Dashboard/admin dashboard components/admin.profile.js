@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Third-party imports
 import { BiUpload } from "react-icons/bi";
@@ -8,11 +8,18 @@ import { useNavigate } from "react-router";
 import AdminNotification from "./admin.notification";
 import AdminEditProfile from "./admin.edit.profile";
 import { showAdminEditUI } from "../../../Redux Slices/adminSlice";
-import { BiSolidUser } from "react-icons/bi";
+import { uploadProfilePicture } from "../admin dashboard handlers/admin.edit.handler";
+import ProfilePictureUI from "./profile.pictureUI";
 
+// TODOs
+/**
+ * Implement profile picture logic
+ *
+ */
 function AdminProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   // Redux states
   const permissionsArray = useSelector(
     (state) => state.permissionSlice.permissionsArray
@@ -24,7 +31,7 @@ function AdminProfile() {
 
   const adminData = useSelector((state) => state.adminSlice.adminData);
 
-  console.log(permissionsArray);
+  // uploadProfilePicture(dispatch);
 
   return (
     <div className="w-[100%] relative h-screen flex justify-between  ">
@@ -38,16 +45,16 @@ function AdminProfile() {
             <span className="p-[10px] text-lp-primary bg-[#dff9fb] border border-transparent rounded-full">
               Chief Admin
             </span>
-            <button
-              onClick={() => dispatch(showAdminEditUI())}
-              className="bg-lp-secondary p-[10px] w-[150px] text-white border border-transparent rounded-full"
-            >
+            <button className="bg-lp-secondary p-[10px] w-[150px] text-white border border-transparent rounded-full">
               Edit Profile
             </button>
           </div>
-          <button className=" w-[40px] translate-y-[-40%] translate-x-[-50%] flex justify-center items-center  absolute top-[40%] left-[50%] bg-gray-600 h-[40px] border border-transparent rounded-full">
+          <label
+            htmlFor="inputFile"
+            className=" w-[40px] translate-y-[-40%] translate-x-[-50%] flex justify-center items-center  absolute top-[40%] left-[50%] bg-gray-600 h-[40px] border border-transparent rounded-full"
+          >
             <BiUpload className=" text-white" size={20} />
-          </button>
+          </label>
         </figure>
         <div className="w-[100%]  px-[20px] mt-[20px]">
           <h3 className="font-bold text-[20px]">Personal data</h3>

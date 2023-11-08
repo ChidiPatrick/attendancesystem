@@ -1,4 +1,10 @@
 import { ref, update } from "firebase/database";
+import {
+  ref as storageRef,
+  getStorage,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { rdb } from "../../../Firebase/firebase";
 import { toast } from "react-toastify";
 import {
@@ -50,4 +56,23 @@ const updateAdminProfile = (newAdminBioData, dispatch) => {
     });
 };
 
-export { updateAdminProfile };
+// // File selection handler
+// const getSelectedFile = (setFile,dispatch) => {
+
+// }
+
+// Admin profile picture uploading handler
+const uploadProfilePicture = (file) => {
+  const storage = getStorage();
+  const adminsProfilePictureRef = storageRef(storage, "adminsProfilePictures");
+
+  const metadata = {
+    adminName: "Patrick chidi",
+  };
+
+  uploadBytesResumable(adminsProfilePictureRef, file, metadata).then(() =>
+    console.log("DONE")
+  );
+};
+
+export { updateAdminProfile, uploadProfilePicture };

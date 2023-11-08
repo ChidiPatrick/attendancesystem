@@ -27,6 +27,7 @@ import TimeDistributionGraph from "./time.distribution.graph";
 import StudentAttendanceGraph from "./student.attendance.graph";
 import AdminProfile from "./admin.profile";
 import AdminEditProfile from "./admin.edit.profile";
+import ProfilePictureUI from "./profile.pictureUI";
 
 function DashboardComponent() {
   const dispatch = useDispatch();
@@ -139,6 +140,7 @@ function DashboardComponent() {
           </div>
         </div>
         <AdminProfile />
+        <ProfilePictureUI />
       </div>
     </div>
   );
