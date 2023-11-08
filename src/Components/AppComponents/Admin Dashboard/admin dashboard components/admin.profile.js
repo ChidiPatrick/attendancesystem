@@ -10,6 +10,7 @@ import AdminEditProfile from "./admin.edit.profile";
 import { showAdminEditUI } from "../../../Redux Slices/adminSlice";
 import { uploadProfilePicture } from "../admin dashboard handlers/admin.edit.handler";
 import ProfilePictureUI from "./profile.pictureUI";
+import { showProfilePictureUI } from "../../../Redux Slices/profileSlice";
 
 // TODOs
 /**
@@ -31,7 +32,12 @@ function AdminProfile() {
 
   const adminData = useSelector((state) => state.adminSlice.adminData);
 
+  const displayProfilePictureUI = useSelector(
+    (state) => state.profileSlice.displayProfilePictureUI
+  );
+
   // uploadProfilePicture(dispatch);
+  console.log(displayProfilePictureUI);
 
   return (
     <div className="w-[100%] relative h-screen flex justify-between  ">
@@ -49,12 +55,19 @@ function AdminProfile() {
               Edit Profile
             </button>
           </div>
-          <label
-            htmlFor="inputFile"
+          <div
+            onClick={() => dispatch(showProfilePictureUI())}
             className=" w-[40px] translate-y-[-40%] translate-x-[-50%] flex justify-center items-center  absolute top-[40%] left-[50%] bg-gray-600 h-[40px] border border-transparent rounded-full"
           >
-            <BiUpload className=" text-white" size={20} />
-          </label>
+            <BiUpload
+              onClick={() => {
+                console.log("cliked");
+                dispatch(showProfilePictureUI());
+              }}
+              className=" text-white"
+              size={20}
+            />
+          </div>
         </figure>
         <div className="w-[100%]  px-[20px] mt-[20px]">
           <h3 className="font-bold text-[20px]">Personal data</h3>
@@ -90,6 +103,7 @@ function AdminProfile() {
         })}
       </div>
       {displayAdminEditUI === true ? <AdminEditProfile /> : null}
+      {displayProfilePictureUI === true ? <ProfilePictureUI /> : null}
     </div>
   );
 }

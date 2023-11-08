@@ -140,7 +140,7 @@ function DashboardComponent() {
           </div>
         </div>
         <AdminProfile />
-        <ProfilePictureUI />
+        {/* <ProfilePictureUI /> */}
       </div>
     </div>
   );

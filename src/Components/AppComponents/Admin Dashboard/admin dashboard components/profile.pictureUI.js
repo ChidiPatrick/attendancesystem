@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { uploadProfilePicture } from "../admin dashboard handlers/admin.edit.handler";
+import { ToastContainer } from "react-toastify";
+import { Oval, ColorRing, RotatingLines } from "react-loader-spinner";
+import { hideProfilePictureUI } from "../../../Redux Slices/profileSlice";
 
 function ProfilePictureUI() {
   const dispatch = useDispatch();
@@ -9,6 +12,12 @@ function ProfilePictureUI() {
 
   // Local states
   const [file, setFile] = useState(null);
+  const [showSpinner, setShowSpinner] = useState(false);
+
+  // Redux states
+  const userId = useSelector((state) => state.loginSlice.userId);
+
+  console.log(file);
 
   // File change handler
   const handleFileSelection = (e) => {
@@ -17,7 +26,7 @@ function ProfilePictureUI() {
   };
 
   return (
-    <div className="w-full h-screen flex justify-center items-center bg-user-profile">
+    <div className="w-full absolute top-0 left-0 h-screen flex justify-center items-center bg-user-profile">
       <figure className="w-[300px] p-[10px] relative h-[400px] border-[3px] rounded-md border-gray-300  bg-gray-100">
         <div className="w-[100%] h-[300px] ">
           <label
@@ -36,16 +45,30 @@ function ProfilePictureUI() {
           />
         </div>
 
-        {/* <img className="w-[100%] h-[70%]" src="" /> */}
+        <ToastContainer style={{ width: "100%", textAlign: "center" }} />
+
         <div className="w-[100%] absolute top-[80%] left-0 flex justify-between items-center p-[10px]">
           <button
-            onClick={() => uploadProfilePicture(file)}
-            className="p-[10px] w-[120px] border border-transparent rounded-lg bg-lp-secondary text-white font-bold"
+            onClick={() =>
+              uploadProfilePicture(file, userId, showSpinner, setShowSpinner)
+            }
+            className="p-[10px] w-[120px] flex justify-between items-center border border-transparent rounded-lg bg-lp-secondary text-white font-bold"
           >
-            Upload
+            {showSpinner === true ? (
+              <ColorRing
+                visible={true}
+                height="20"
+                width="20"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+                colors={["blue", "#3570ef", "#214fb1d2"]}
+              />
+            ) : null}{" "}
+            <span className="w-[80%] text-center"> Upload</span>
           </button>
           <button
-            // onClick={}
+            onClick={() => dispatch(hideProfilePictureUI())}
             className="p-[10px] border-[2px] rounded-lg w-[120px] border-lp-secondary text-lp-secondary"
           >
             Cancle

@@ -30,6 +30,7 @@ const initialState = {
   userProfileData: {},
   userProfilePictureUrl: "",
   adminBio: "",
+  displayProfilePictureUI: false,
 };
 
 const profileSlice = createSlice({
@@ -42,10 +43,20 @@ const profileSlice = createSlice({
     setUserProfileDocument(state, action) {
       state.userProfileData = action.payload;
     },
+    showProfilePictureUI(state, action) {
+      state.displayProfilePictureUI = true;
+    },
+    hideProfilePictureUI(state, action) {
+      state.displayProfilePictureUI = false;
+    },
   },
 });
 
-export const { setUserProfileDocument, setProfilePictureUrl } =
-  profileSlice.actions;
+export const {
+  setUserProfileDocument,
+  setProfilePictureUrl,
+  showProfilePictureUI,
+  hideProfilePictureUI,
+} = profileSlice.actions;
 
 export default profileSlice.reducer;

@@ -56,23 +56,45 @@ const updateAdminProfile = (newAdminBioData, dispatch) => {
     });
 };
 
-// // File selection handler
-// const getSelectedFile = (setFile,dispatch) => {
-
-// }
-
 // Admin profile picture uploading handler
-const uploadProfilePicture = (file) => {
+const uploadProfilePicture = (file, userId, showSpinner, setShowSpinner) => {
+  if (!navigator.onLine) {
+    toast("You are offline,please connect to the internet👨‍✈️", {
+      type: "error",
+      autoClose: 3000,
+    });
+
+    return;
+  }
+
+  if (file === null) {
+    toast("Please select an image first🙄", {
+      type: "warning",
+      autoClose: 3000,
+    });
+    return;
+  }
   const storage = getStorage();
-  const adminsProfilePictureRef = storageRef(storage, "adminsProfilePictures");
+  const adminsProfilePictureRef = storageRef(
+    storage,
+    `adminsProfilePictures/${userId}/${file.name}`
+  );
 
   const metadata = {
     adminName: "Patrick chidi",
   };
 
-  uploadBytesResumable(adminsProfilePictureRef, file, metadata).then(() =>
-    console.log("DONE")
-  );
+  setShowSpinner(!showSpinner);
+  uploadBytesResumable(adminsProfilePictureRef, file, { ...metadata })
+    .then((uploadObject) => {
+      console.log(uploadObject);
+
+      toast("Uploaded successfully", {
+        type: "success",
+        autoClose: 3000,
+      });
+    })
+    .then(() => console.log("DONE"));
 };
 
 export { updateAdminProfile, uploadProfilePicture };
