@@ -2,15 +2,22 @@ import { ref, update } from "firebase/database";
 import {
   ref as storageRef,
   getStorage,
-  uploadBytes,
   uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+  list,
 } from "firebase/storage";
+
 import { rdb } from "../../../Firebase/firebase";
 import { toast } from "react-toastify";
 import {
   hideAdminEditUi,
+  hideSmallSpinner,
   setAdminData,
+  setAdminProfilePictureURL,
+  showSmallSpinner,
 } from "../../../Redux Slices/adminSlice";
+import { upadateAdminProfilePictureURL } from "./admin.handlers";
 
 // Update admin profile information
 const updateAdminProfile = (newAdminBioData, dispatch) => {
@@ -57,7 +64,96 @@ const updateAdminProfile = (newAdminBioData, dispatch) => {
 };
 
 // Admin profile picture uploading handler
-const uploadProfilePicture = (file, userId, showSpinner, setShowSpinner) => {
+const uploadProfilePicture = (file, userId, dispatch, adminBioObject) => {
+  const storage = getStorage();
+  const adminsProfilePictureRef = storageRef(
+    storage,
+    `userProfilePicture/${userId}/${file.name}`
+  );
+
+  const adminRef = storageRef(storage, `userProfilePicture/${userId}`);
+  console.log(adminRef);
+
+  const metadata = {
+    adminName: "Patrick chidi",
+  };
+
+  const uploadTask = uploadBytesResumable(adminsProfilePictureRef, file, {
+    ...metadata,
+  });
+
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      // dispatch(showSmallSpinner());
+    },
+    (error) => {
+      toast("Something went wrong. Please try again later", {
+        type: "warning",
+        autoClose: 3000,
+      });
+    },
+    () => {
+      getDownloadURL(uploadTask.snapshot.ref)
+        .then((downloadURL) => {
+          dispatch(setAdminProfilePictureURL(downloadURL));
+          upadateAdminProfilePictureURL(adminBioObject, downloadURL);
+        })
+
+        .then(() => {
+          dispatch(hideSmallSpinner());
+          toast("Uploaded successfully🎉😃", {
+            type: "success",
+            autoClose: "3000",
+          });
+          console.log("Uploaded");
+        })
+
+        .catch((err) => {
+          toast(
+            "Something went wrong, please try again with strong network connection",
+            {
+              type: "error",
+              autoClose: 3000,
+            }
+          );
+        });
+    }
+  );
+};
+
+// Get previouse Profile picture reference
+const deletePreviousProfilePicture = async (userId) => {
+  const storage = getStorage();
+  const adminRef = storageRef(storage, `userProfilePicture/${userId}`);
+
+  const profilePictureList = await list(adminRef, { maxResults: 1 });
+
+  console.log(profilePictureList);
+
+  if (profilePictureList.items.length === 0) {
+    Promise.resolve();
+    return;
+  }
+  const imageName = profilePictureList.items[0]._location.path_.split("/");
+
+  const imageRef = storageRef(
+    storage,
+    `userProfilePicture/${userId}/${imageName[2]}`
+  );
+
+  deleteObject(imageRef)
+    .then(() => "Done")
+    .catch((err) => console.log(err));
+};
+
+// Profile picture changing major handler
+const changeProfilePictureHandler = async (
+  file,
+  userId,
+  dispatch,
+  adminBioObject
+) => {
   if (!navigator.onLine) {
     toast("You are offline,please connect to the internet👨‍✈️", {
       type: "error",
@@ -74,27 +170,16 @@ const uploadProfilePicture = (file, userId, showSpinner, setShowSpinner) => {
     });
     return;
   }
-  const storage = getStorage();
-  const adminsProfilePictureRef = storageRef(
-    storage,
-    `adminsProfilePictures/${userId}/${file.name}`
-  );
-
-  const metadata = {
-    adminName: "Patrick chidi",
-  };
-
-  setShowSpinner(!showSpinner);
-  uploadBytesResumable(adminsProfilePictureRef, file, { ...metadata })
-    .then((uploadObject) => {
-      console.log(uploadObject);
-
-      toast("Uploaded successfully", {
-        type: "success",
-        autoClose: 3000,
-      });
+  dispatch(showSmallSpinner());
+  deletePreviousProfilePicture(userId)
+    .then(() => {
+      uploadProfilePicture(file, userId, dispatch, adminBioObject);
     })
-    .then(() => console.log("DONE"));
+    .then(() => dispatch(hideSmallSpinner()));
 };
 
-export { updateAdminProfile, uploadProfilePicture };
+export {
+  updateAdminProfile,
+  uploadProfilePicture,
+  changeProfilePictureHandler,
+};

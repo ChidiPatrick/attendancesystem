@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { uploadProfilePicture } from "../admin dashboard handlers/admin.edit.handler";
+import {
+  changeProfilePictureHandler,
+  uploadProfilePicture,
+} from "../admin dashboard handlers/admin.edit.handler";
 import { ToastContainer } from "react-toastify";
 import { Oval, ColorRing, RotatingLines } from "react-loader-spinner";
 import { hideProfilePictureUI } from "../../../Redux Slices/profileSlice";
+import { hideSmallSpinner } from "../../../Redux Slices/adminSlice";
 
 function ProfilePictureUI() {
   const dispatch = useDispatch();
@@ -17,7 +21,17 @@ function ProfilePictureUI() {
   // Redux states
   const userId = useSelector((state) => state.loginSlice.userId);
 
-  console.log(file);
+  const prevProfilePicturePath = useSelector(
+    (state) => state.adminSlice.previousProfilePicturePath
+  );
+
+  const adminBioObject = useSelector((state) => state.adminSlice.adminData);
+
+  const displaySmallSpinner = useSelector(
+    (state) => state.adminSlice.displaySmallSpinner
+  );
+
+  console.log(prevProfilePicturePath);
 
   // File change handler
   const handleFileSelection = (e) => {
@@ -50,11 +64,16 @@ function ProfilePictureUI() {
         <div className="w-[100%] absolute top-[80%] left-0 flex justify-between items-center p-[10px]">
           <button
             onClick={() =>
-              uploadProfilePicture(file, userId, showSpinner, setShowSpinner)
+              changeProfilePictureHandler(
+                file,
+                userId,
+                dispatch,
+                adminBioObject
+              )
             }
             className="p-[10px] w-[120px] flex justify-between items-center border border-transparent rounded-lg bg-lp-secondary text-white font-bold"
           >
-            {showSpinner === true ? (
+            {displaySmallSpinner === true ? (
               <ColorRing
                 visible={true}
                 height="20"
@@ -68,7 +87,10 @@ function ProfilePictureUI() {
             <span className="w-[80%] text-center"> Upload</span>
           </button>
           <button
-            onClick={() => dispatch(hideProfilePictureUI())}
+            onClick={() => {
+              dispatch(hideSmallSpinner());
+              dispatch(hideProfilePictureUI());
+            }}
             className="p-[10px] border-[2px] rounded-lg w-[120px] border-lp-secondary text-lp-secondary"
           >
             Cancle

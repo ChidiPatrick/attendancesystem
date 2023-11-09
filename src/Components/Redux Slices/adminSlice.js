@@ -4,6 +4,7 @@ import { getDoc } from "firebase/firestore";
 // Local directory imports ///
 import { db } from "../Firebase/firebase";
 import { getStudentDocumentRef } from "../General app handlers/general.handlers";
+import { act } from "react-dom/test-utils";
 
 const initialState = {
   userId: "",
@@ -20,6 +21,9 @@ const initialState = {
   studentsBioArray: [],
   adminBioObject: {},
   displayAdminEditUI: false,
+  displaySmallSpinner: false,
+  previousProfilePicturePath: "",
+  adminProfilePictureURL: "",
 };
 
 export const GetStudentAttendanceRecord = createAsyncThunk(
@@ -92,6 +96,18 @@ const adminDashBoard = createSlice({
     hideAdminEditUi(state, action) {
       state.displayAdminEditUI = false;
     },
+    showSmallSpinner(state, action) {
+      state.displaySmallSpinner = true;
+    },
+    hideSmallSpinner(state, action) {
+      state.displaySmallSpinner = false;
+    },
+    setProfilePicturePath(state, action) {
+      state.previousProfilePicturePath = action.payload;
+    },
+    setAdminProfilePictureURL(state, action) {
+      state.adminProfilePictureURL = action.payload;
+    },
   },
 });
 
@@ -108,6 +124,10 @@ export const {
   setAdminBioObject,
   showAdminEditUI,
   hideAdminEditUi,
+  showSmallSpinner,
+  hideSmallSpinner,
+  setProfilePicturePath,
+  setAdminProfilePictureURL,
 } = adminDashBoard.actions;
 
 export default adminDashBoard.reducer;

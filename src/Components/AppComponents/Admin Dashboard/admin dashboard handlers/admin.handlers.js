@@ -33,6 +33,22 @@ const addAdminBioDataToDatabase = async (valuesObject) => {
   });
 };
 
+// Upate admin profile picture URL
+const upadateAdminProfilePictureURL = (
+  adminBioObject,
+  newProfilePictureURL
+) => {
+  const adminBioRef = ref(
+    rdb,
+    `admindashboard/adminsBioDatabase/${adminBioObject.rdbKey}`
+  );
+
+  update(adminBioRef, {
+    ...adminBioObject,
+    profilePicture: newProfilePictureURL,
+  });
+};
+
 //Add clockin data to admin database
 const addClockInDataToAdminDatabase = async (clockInData) => {
   const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
@@ -169,4 +185,5 @@ export {
   getStudentsBioArray,
   getStudentsArray,
   setCurrStudentPermissionRequests,
+  upadateAdminProfilePictureURL,
 };
