@@ -50,6 +50,11 @@ function AdminStudentProfile() {
 
   setStudentGraphArray(clockinArray, userId, dispatch);
 
+  console.log(permissionsArray);
+  console.log(currStudentAttendanceArray);
+  console.log(studentPermissionRequests);
+  console.log(studentProfileObject);
+
   return (
     <div className="w-full min-h-screen bg-user-profile p-[10px]">
       <div className="border border-transparent border-b-gray-300">
@@ -58,7 +63,7 @@ function AdminStudentProfile() {
       <div className="w-full flex justify-center h-screen">
         <div className="w-[50%] h-[100%] overflow-scroll border border-tansparent border-r-gray-300">
           <div className="w-[100%] mx-auto flex flex-col mt-[20px] p-[10px] justify-center items-center">
-            <figure className="w-[200px] h-[200px] border border-transparent border-solid border-[5px] border-gray-200 rounded-full">
+            <figure className="w-[200px] h-[200px] border-transparent border-solid border-[5px] border-gray-200 rounded-full">
               <img
                 src="images/skalo.jpg"
                 alt="profile picture"

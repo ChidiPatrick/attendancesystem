@@ -188,10 +188,14 @@ const getAttendanceTimeDistribution = (
 const getStundentCurrWeekAttendanceArray = (currStudentAttendanceArray) => {
   const currWeekNumber = getWeekNumber(new Date());
 
+  console.log(currStudentAttendanceArray);
+
   const studentCurrWeekAttendanceArray = currStudentAttendanceArray.filter(
     (attendanceObject) =>
-      getWeekNumber(new Date(attendanceObject.date) === currWeekNumber)
+      getWeekNumber(new Date(attendanceObject.date)) === currWeekNumber
   );
+
+  console.log(studentCurrWeekAttendanceArray);
 
   return studentCurrWeekAttendanceArray;
 };
@@ -201,6 +205,8 @@ const getStudentAttendanceRecord = (attendanceArray, studentId) => {
   const currStudentAttendanceArray = attendanceArray.filter(
     (attendanceObject, index) => attendanceObject.userId === studentId
   );
+
+  console.log(currStudentAttendanceArray);
 
   return currStudentAttendanceArray;
 };
@@ -263,22 +269,30 @@ const arrangeStudentCurrWeekAttendanceTimeGraphData = (
 // Student's individual performance graph data
 const setStudentGraphArray = (attendanceArray, studentId, dispatch) => {
   console.log("student graph");
-  const studentAttendanceArray = getStudentAttendanceRecord(
-    attendanceArray,
-    studentId
-  );
 
-  const studentCurrWeekAttendanceArray = getStundentCurrWeekAttendanceArray(
-    studentAttendanceArray
-  );
+  const execPromise = Promise.resolve("Done");
 
-  const studentCurrWeekAttendanceGraph =
-    arrangeStudentCurrWeekAttendanceTimeGraphData(
-      studentCurrWeekAttendanceArray
-    );
+  execPromise
+    .then(() => getStudentAttendanceRecord(attendanceArray, studentId))
 
-  console.log(studentCurrWeekAttendanceGraph);
-  dispatch(setCurrStudentGraphAttendanceArray(studentCurrWeekAttendanceGraph));
+    .then((studentAttendanceArray) =>
+      getStundentCurrWeekAttendanceArray(studentAttendanceArray)
+    )
+
+    .then((studentCurrWeekAttendanceArray) =>
+      arrangeStudentCurrWeekAttendanceTimeGraphData(
+        studentCurrWeekAttendanceArray
+      )
+    )
+
+    .then((studentCurrWeekAttendanceGraphData) => {
+      console.log(studentCurrWeekAttendanceGraphData);
+      dispatch(
+        setCurrStudentGraphAttendanceArray(studentCurrWeekAttendanceGraphData)
+      );
+    })
+
+    .catch((err) => console.log(err));
 };
 
 export {

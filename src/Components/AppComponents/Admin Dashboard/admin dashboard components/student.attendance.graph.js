@@ -20,11 +20,7 @@ function StudentAttendanceGraph() {
 
   console.log(studentAttendanceGraphArray);
   const data = studentAttendanceGraphArray;
-  // data.forEach((element) => {
-  //   const time = element.time.split(":");
-  //   const hrMin = parseInt(time[0]) + parseInt(time[1]) / 100;
-  //   console.log(hrMin);
-  // });
+
   console.log(data);
 
   return (

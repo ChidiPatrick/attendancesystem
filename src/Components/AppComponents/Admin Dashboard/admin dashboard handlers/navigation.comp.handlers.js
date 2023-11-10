@@ -5,12 +5,16 @@ import { setStudentGraphArray } from "./graph.handlers";
 import { getCurrStudentAttendanceArray } from "./admin.attendance.report.handlers";
 import { setCurrStudentPermissionRequests } from "./admin.handlers";
 
+// TODOs:
+// 1. Find out why student's graph is not updating
+
 // Get student names array for searchbox component
 const getStudentsNameArray = (studentsBioArray, dispatch) => {
   const searchBoxDataArray = studentsBioArray.map((studentsBioObject) => {
     return {
       key: studentsBioObject.firstName,
       value: `${studentsBioObject.firstName} ${studentsBioObject.lastName}`,
+      userId: studentsBioObject.userId,
     };
   });
 
@@ -26,49 +30,38 @@ const setStudentProfile = (
   dispatch,
   navigate
 ) => {
-  const studentProfileObject = studentsBioArray.find(
-    (studentBioObject) => studentBioObject.userId === studentId
-  );
+  const execPromise = Promise.resolve("Done");
+  console.log(studentId);
 
-  dispatch(setSelectedStudent(studentProfileObject));
+  execPromise
+    .then(() => {
+      const studentProfileObject = studentsBioArray.find(
+        (studentBioObject) => studentBioObject.userId === studentId
+      );
+      console.log(studentProfileObject);
 
-  setStudentGraphArray(attendanceArray, studentId, dispatch);
+      return studentProfileObject;
+    })
+    .then((studentProfileObject) => {
+      console.log(studentProfileObject);
+      dispatch(setSelectedStudent(studentProfileObject));
+    })
 
-  getCurrStudentAttendanceArray(attendanceArray, dispatch, studentId);
+    .then(() => {
+      setStudentGraphArray(attendanceArray, studentId, dispatch);
+    })
 
-  setCurrStudentPermissionRequests(permissionsArray, studentId, dispatch);
+    .then(() => {
+      getCurrStudentAttendanceArray(attendanceArray, dispatch, studentId);
+    })
 
-  navigate("/adminStudentProfile");
+    .then(() => {
+      setCurrStudentPermissionRequests(permissionsArray, studentId, dispatch);
+    })
+
+    .then(() => {
+      navigate("/adminStudentProfile");
+    });
 };
 
-// Get selected student's id
-const getSelectedStudentID = (studentName, studentsBioArray) => {
-  const firstNameAndLastNameArray = studentName.split(" ");
-
-  //   const studentBioObject = studentsBioArray.filter((bioObject) => {
-  //     if (
-  //       bioObject.firstName === firstNameAndLastNameArray[0] &&
-  //       bioObject.lastName === firstNameAndLastNameArray[1]
-  //     ) {
-  //       return true;
-  //     }
-  //   });
-
-  console.log(firstNameAndLastNameArray[0]);
-  console.log(firstNameAndLastNameArray[1]);
-
-  studentsBioArray.forEach((item) => {
-    console.log(item.firstName === firstNameAndLastNameArray[0]);
-    console.log(item.lastName === firstNameAndLastNameArray[1]);
-    console.log(item.firstName);
-    console.log(firstNameAndLastNameArray[0]);
-    console.log(item.lastName);
-    console.log(firstNameAndLastNameArray[1]);
-  });
-
-  //   console.log(studentBioObject.userId);
-
-  //   return studentBioObject.userId;
-};
-
-export { getStudentsNameArray, setStudentProfile, getSelectedStudentID };
+export { getStudentsNameArray, setStudentProfile };

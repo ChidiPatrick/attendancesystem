@@ -28,7 +28,7 @@ function AdminEditProfile() {
 
   return (
     <div className="w-full h-screen absolute top-0 left-0 bg-user-profile flex justify-center  items-center">
-      <div className="bg-[#f5f6fa] w-[300px] shadow-md  border-[#dcdde1] border-[3px]  rounded-lg min-h-[400px] p-[10px]">
+      <div className="bg-[#f5f6fa] w-[600px] text-[20px] shadow-md  border-[#dcdde1] border-[3px]  rounded-lg min-h-[400px] p-[10px]">
         <div className="w-[100%] mb-[20px]">
           <div className="mb-[10px]">First Name</div>
           <input

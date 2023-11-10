@@ -5,15 +5,13 @@ import { BiUpload } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { BsFillPersonFill } from "react-icons/bs";
-import ReactSearchBox from "react-search-box";
 
 //Local imports
 import { showProfilePictureUI } from "../../../Redux Slices/profileSlice";
 import AdminNotification from "./admin.notification";
 import AdminEditProfile from "./admin.edit.profile";
 import ProfilePictureUI from "./profile.pictureUI";
-import { getStudentsNameArray } from "../admin dashboard handlers/navigation.comp.handlers";
-
+import { showAdminEditUI } from "../../../Redux Slices/adminSlice";
 // TODOs
 /**
  * Implement profile picture logic
@@ -50,32 +48,6 @@ function AdminProfile() {
     (state) => state.permissionSlice.selectedPermissionRequest
   );
 
-  // uploadProfilePicture(dispatch);
-  console.log(adminProfilePictureURL);
-
-  const testData = [
-    {
-      key: "john",
-      value: "John Doe",
-    },
-    {
-      key: "jane",
-      value: "Jane Doe",
-    },
-    {
-      key: "mary",
-      value: "Mary Phillips",
-    },
-    {
-      key: "robert",
-      value: "Robert",
-    },
-    {
-      key: "karius",
-      value: "Karius",
-    },
-  ];
-
   return (
     <div className="w-[100%] relative h-screen flex justify-between  ">
       <div className="w-[50%] h-[100%] overflow-y-scroll">
@@ -97,7 +69,10 @@ function AdminProfile() {
             <span className="p-[10px] text-lp-primary bg-[#dff9fb] border border-transparent rounded-full">
               Chief Admin
             </span>
-            <button className="bg-lp-secondary p-[10px] w-[150px] text-white border border-transparent rounded-full">
+            <button
+              onClick={() => dispatch(showAdminEditUI())}
+              className="bg-lp-secondary p-[10px] w-[150px] text-white border border-transparent rounded-full"
+            >
               Edit Profile
             </button>
           </div>
