@@ -84,9 +84,7 @@ const uploadProfilePicture = (file, userId, dispatch, adminBioObject) => {
 
   uploadTask.on(
     "state_changed",
-    (snapshot) => {
-      // dispatch(showSmallSpinner());
-    },
+    (snapshot) => {},
     (error) => {
       toast("Something went wrong. Please try again later", {
         type: "warning",
@@ -122,14 +120,12 @@ const uploadProfilePicture = (file, userId, dispatch, adminBioObject) => {
   );
 };
 
-// Get previouse Profile picture reference
+// Delete previouse Profile picture
 const deletePreviousProfilePicture = async (userId) => {
   const storage = getStorage();
   const adminRef = storageRef(storage, `userProfilePicture/${userId}`);
 
   const profilePictureList = await list(adminRef, { maxResults: 1 });
-
-  console.log(profilePictureList);
 
   if (profilePictureList.items.length === 0) {
     Promise.resolve();

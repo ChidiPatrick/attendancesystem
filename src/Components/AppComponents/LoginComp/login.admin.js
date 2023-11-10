@@ -41,6 +41,7 @@ import {
   getNumbStudentsPresentDaily,
 } from "../Admin Dashboard/admin dashboard handlers/graph.handlers";
 import { setClockinList } from "../../Redux Slices/attendanceReportSlice";
+import { getStudentsNameArray } from "../Admin Dashboard/admin dashboard handlers/navigation.comp.handlers";
 
 //Signin TODOs:
 /**
@@ -138,6 +139,8 @@ const SigninAsAdmin = () => {
           .then(() => getClockinsArray(dispatch))
 
           .then(() => getNumbStudentsPresentDaily(clockinList, dispatch))
+
+          .then(() => getStudentsNameArray(studentsBioArray, dispatch))
 
           .then(() => {
             getStudentsBioArray(dispatch);

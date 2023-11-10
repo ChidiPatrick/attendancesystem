@@ -24,6 +24,7 @@ const initialState = {
   displaySmallSpinner: false,
   previousProfilePicturePath: "",
   adminProfilePictureURL: "",
+  searchBoxDataArray: [],
 };
 
 export const GetStudentAttendanceRecord = createAsyncThunk(
@@ -108,6 +109,9 @@ const adminDashBoard = createSlice({
     setAdminProfilePictureURL(state, action) {
       state.adminProfilePictureURL = action.payload;
     },
+    setSearchBoxDataArray(state, action) {
+      state.searchBoxDataArray = action.payload;
+    },
   },
 });
 
@@ -128,6 +132,7 @@ export const {
   hideSmallSpinner,
   setProfilePicturePath,
   setAdminProfilePictureURL,
+  setSearchBoxDataArray,
 } = adminDashBoard.actions;
 
 export default adminDashBoard.reducer;
