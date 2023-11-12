@@ -202,6 +202,7 @@ const getStundentCurrWeekAttendanceArray = (currStudentAttendanceArray) => {
 
 // Get student's attendance record
 const getStudentAttendanceRecord = (attendanceArray, studentId) => {
+  console.log(studentId);
   const currStudentAttendanceArray = attendanceArray.filter(
     (attendanceObject, index) => attendanceObject.userId === studentId
   );
@@ -215,7 +216,11 @@ const getStudentAttendanceRecord = (attendanceArray, studentId) => {
 const arrangeStudentCurrWeekAttendanceTimeGraphData = (
   studentCurrWeekAttendanceArray
 ) => {
-  const currWeekNumber = getWeekNumber(new Date());
+  console.log(studentCurrWeekAttendanceArray);
+
+  if (studentCurrWeekAttendanceArray.length === 0) {
+    return [];
+  }
 
   const monday = { time: "", punctuality: false, name: "Mon" },
     tuesday = { name: "Tue", punctuality: false, time: "" },
@@ -267,13 +272,19 @@ const arrangeStudentCurrWeekAttendanceTimeGraphData = (
 // sort
 
 // Student's individual performance graph data
-const setStudentGraphArray = (attendanceArray, studentId, dispatch) => {
-  console.log("student graph");
+const setStudentGraphArray = async (attendanceArray, studentId, dispatch) => {
+  console.log(studentId);
 
   const execPromise = Promise.resolve("Done");
 
   execPromise
-    .then(() => getStudentAttendanceRecord(attendanceArray, studentId))
+    .then(() => {
+      const studentAttendanceArray = getStudentAttendanceRecord(
+        attendanceArray,
+        studentId
+      );
+      return studentAttendanceArray;
+    })
 
     .then((studentAttendanceArray) =>
       getStundentCurrWeekAttendanceArray(studentAttendanceArray)

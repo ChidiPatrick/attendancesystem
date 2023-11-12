@@ -48,12 +48,9 @@ function AdminStudentProfile() {
 
   const userId = useSelector((state) => state.loginSlice.userId);
 
-  setStudentGraphArray(clockinArray, userId, dispatch);
-
-  console.log(permissionsArray);
-  console.log(currStudentAttendanceArray);
-  console.log(studentPermissionRequests);
-  console.log(studentProfileObject);
+  const currStudentAttendanceGraphArray = useSelector(
+    (state) => state.attendanceReportSlice.currStudentAttendanceGraphArray
+  );
 
   return (
     <div className="w-full min-h-screen bg-user-profile p-[10px]">
@@ -120,10 +117,6 @@ function AdminStudentProfile() {
                     )}
                   </div>
                 </div>
-                {/* <div className="flex mt-[10px] justify-between items-center">
-                  <div>Without permission</div>
-                  <div className="font-bold text-lp-primary text-[20px]">0</div>
-                </div> */}
               </StudentHistoryCard>
               <StudentHistoryCard title="Late" iconName="lateGrad.svg">
                 <div className="mt-[20px] font-bold text-[20px] text-lp-primary">
@@ -180,38 +173,21 @@ function AdminStudentProfile() {
               </div>
             </div>
             <div className="w-[100%] h-[80%]  mt-[30px] mx-auto font-bold text-[30] text-lp-primary">
-              <StudentAttendanceGraph />
+              {currStudentAttendanceGraphArray.length === 0 ? (
+                <div className="w-[100%] flex flex-col items-center justify-center font-bold bg-lp-primary text-white h-[100%] ">
+                  <img
+                    src="/images/Fisherman.svg"
+                    className="w-[100px] h-[100px]"
+                  />
+                  <div className="p-[10px]">
+                    It's the weekend, No record entered for the week yet
+                  </div>
+                </div>
+              ) : (
+                <StudentAttendanceGraph />
+              )}
             </div>
           </div>
-          {/* <div className="p-[10px] mt-[20px]">
-            <h3 className="text-[20px] font-bold mb-[20px]">Summary</h3>
-            <div className="w-[100%]">
-              <div className="w-[100%] py-[10px] flex justify-between items-center">
-                <span className="font-semibold">Session</span>
-                <span className="font-bold">87days</span>
-              </div>
-              <div className="w-[100%] py-[10px] flex justify-between items-center">
-                <span className="font-semibold">Holidays</span>
-                <span className="font-bold">7days</span>
-              </div>
-              <div className="w-[100%] py-[10px] flex justify-between items-center">
-                <span className="font-semibold">Class days</span>
-                <span className="font-bold">65days</span>
-              </div>
-              <div className="w-[100%] py-[10px] flex justify-between items-center">
-                <span className="font-semibold">Number of days present</span>
-                <span className="font-bold">87days</span>
-              </div>
-              <div className="w-[100%] py-[10px] flex justify-between items-center">
-                <span className="font-semibold">Number of days early</span>
-                <span className="font-bold">87days</span>
-              </div>
-              <div className="w-[100%] py-[10px] flex justify-between items-center">
-                <span className="font-semibold">Number of days late</span>
-                <span className="font-bold">87days</span>
-              </div>
-            </div>
-          </div> */}
         </div>
         <div className="w-[50%] p-[20px] h-screen overflow-scroll ">
           <h3 className="font-bold text-[20px] py-[10px]">Request History</h3>

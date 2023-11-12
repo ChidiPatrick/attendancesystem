@@ -107,7 +107,7 @@ const calcCurrStudentTotalAttendanceDays = (
 };
 
 //Get selected student's daily clockin array
-const getCurrStudentAttendanceArray = (
+const getCurrStudentAttendanceArray = async (
   attendanceArray,
   dispatch,
   studentId

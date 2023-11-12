@@ -161,7 +161,7 @@ const getStudentsLogins = () => {
 };
 
 // Get student's unique permission requests
-const setCurrStudentPermissionRequests = (
+const setCurrStudentPermissionRequests = async (
   permissionsArray,
   studentId,
   dispatch
