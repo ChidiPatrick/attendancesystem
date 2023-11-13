@@ -47,9 +47,7 @@ function TimeDistributionGraph() {
       {new Date().getDay() == 0 || new Date().getDay() == 6 ? (
         <div className="w-[100%] flex flex-col items-center justify-center font-bold bg-lp-primary text-white h-[100%] ">
           <img src="/images/Fisherman.svg" className="w-[100px] h-[100px]" />
-          <div className="p-[10px]">
-            It's the weekend, No record entered for the week yet
-          </div>
+          <div className="p-[10px]">No record entered for the week yet</div>
         </div>
       ) : (
         <BarChart width={730} height={250} data={data}>

@@ -28,6 +28,11 @@ import {
 } from "../../Redux Slices/signupSlice";
 import NetworkFeedback from "../Modal/networkFeedback";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
+import {
+  changeProfilePictureHandler,
+  getStudentBioObject,
+} from "../Handlers/profile.picture.upload.handler";
+import { ToastContainer } from "react-toastify";
 
 /// Main component ////
 function UploadProfilePicture() {
@@ -36,7 +41,9 @@ function UploadProfilePicture() {
 
   /// Redux states ///
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
+
   const userId = useSelector((state) => state.loginSlice.userId);
+
   const displaySpinner = useSelector(
     (state) => state.signupSlice.displaySpinner
   );
@@ -44,7 +51,13 @@ function UploadProfilePicture() {
     (state) => state.signupSlice.displayNetWorkFeedback
   );
 
-  console.log(displaySpinner);
+  const studentsBioArray = useSelector(
+    (state) => state.adminStudentsSlice.studentsBioArray
+  );
+
+  const studentBioObject = getStudentBioObject(studentsBioArray, userId);
+
+  console.log(studentBioObject);
   /// Local states ////
   const [file, setFile] = useState(null);
   const [uploadPercentage, setUploadPercentage] = useState(0);
@@ -132,7 +145,14 @@ function UploadProfilePicture() {
       <div className="flex justify-end items-center">
         {isVisible === true ? (
           <button
-            onClick={handleUpload}
+            onClick={() =>
+              changeProfilePictureHandler(
+                file,
+                userId,
+                dispatch,
+                studentBioObject
+              )
+            }
             className="w-[100px] border rounded-md border-lp-secondary p-1 text-lp-secondary"
           >
             Upload
@@ -173,6 +193,7 @@ function UploadProfilePicture() {
           />
         </div>
       </div>
+      <ToastContainer style={{ width: "100%", textAlign: "center" }} />
       {displayMenu === true ? <Menu /> : null}
       {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
       {displaySpinner === true ? <SpinnerSmall /> : null}

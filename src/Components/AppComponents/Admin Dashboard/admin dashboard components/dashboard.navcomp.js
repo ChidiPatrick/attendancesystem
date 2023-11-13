@@ -54,18 +54,12 @@ function DashboardNavigationComponent({ title }) {
   return (
     <div className="w-full bg-[#F6F9FE] grid grid-cols-12 items-center p-[10px] h-[100px]">
       <div className="font-bold text-xl col-start-1 col-end-3">{title}</div>
-      <div className="relative w-[300px] border border-[#4A4A4A] rounded-full col-start-5 col-end-8 bg-white h-[40px] p-[5px]">
-        {/* <input
-          type="text"
-          placeholder="search student's name"
-          className="w-[80%] focus:outline-none"
-        />
-        <AiOutlineSearch size={25} className="text-[#4A4A4A]" /> */}
+      <div className="flex justify-center items-center w-[300px]  col-start-5 col-end-8  h-[40px] p-[5px]">
         <ReactSearchBox
           placeholder="Search student"
           value="Doe"
           data={searchBoxDataArray}
-          className="w-[100%] bg-red-400"
+          inputBorderColor="#bbbbbb"
           onSelect={(valueObject) =>
             setStudentProfile(
               studentsBioArray,

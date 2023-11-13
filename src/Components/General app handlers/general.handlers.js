@@ -185,6 +185,7 @@ const verifyAdminEmail = (dispatch, values) => {
   });
 };
 
+// Get permission requests
 const getPermissionRequests = (dispatch) => {
   const permissionsRef = ref(rdb, "admindashboard/permissions");
 
@@ -193,6 +194,15 @@ const getPermissionRequests = (dispatch) => {
 
     dispatch(setPermissions(permissionsArray));
   });
+};
+
+// Extract user's unique permission requests
+const extractUserPermissionRequests = (userId, permissionsArray) => {
+  const userPermissions = permissionsArray.filter(
+    (permissionObject) => permissionObject.userId === userId
+  );
+
+  return userPermissions;
 };
 
 export {
@@ -209,4 +219,5 @@ export {
   cleanUpPreviousWeekData,
   calcNumWorkingDaysOfTheMonth,
   validateMembership,
+  extractUserPermissionRequests,
 };

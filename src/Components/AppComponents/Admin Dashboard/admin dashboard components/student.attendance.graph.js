@@ -39,8 +39,6 @@ function StudentAttendanceGraph() {
           <Tooltip />
           <Legend />
           <Bar dataKey="time" fill="#F78F1E" />
-          {/* <Bar dataKey="late" fill="#F9AC58" />
-          <Bar dataKey="absent" fill="#D85745" /> */}
         </BarChart>
       </ResponsiveContainer>
     </div>

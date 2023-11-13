@@ -75,11 +75,7 @@ function ClockLaunchCamera() {
       dispatch(showNetworkFeedback());
       return;
     }
-    // else if (locationInMeters >= 0 && locationInMeters <= 12000) {
-    //   navigate("/markAttendance");
-    // } else {
-    //   dispatch(showFeedback());
-    // }
+
     navigate("/markAttendance");
   }
 

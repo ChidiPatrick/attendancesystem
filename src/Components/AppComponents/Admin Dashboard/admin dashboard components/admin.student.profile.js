@@ -15,9 +15,10 @@ import {
   calcNumbDaysLate,
   calcNumbDeniedRequests,
 } from "../admin dashboard handlers/admin.attendance.report.handlers";
-import { setStudentGraphArray } from "../admin dashboard handlers/graph.handlers";
 import StudentAttendanceGraph from "./student.attendance.graph";
+import { extractUserPermissionRequests } from "../../../General app handlers/general.handlers";
 
+// Admin student profile component
 function AdminStudentProfile() {
   const dispatch = useDispatch();
 
@@ -46,11 +47,25 @@ function AdminStudentProfile() {
     (state) => state.attendanceReportSlice.currStudentAttendanceArray
   );
 
-  const userId = useSelector((state) => state.loginSlice.userId);
-
   const currStudentAttendanceGraphArray = useSelector(
     (state) => state.attendanceReportSlice.currStudentAttendanceGraphArray
   );
+
+  const userId = useSelector((state) => state.loginSlice.userId);
+
+  const selectedStudentBio = useSelector(
+    (state) => state.adminStudentsSlice.selectedStudentObj
+  );
+
+  console.log(selectedStudentBio);
+
+  // Variable declarations
+  const userUniquePermissionRequests = extractUserPermissionRequests(
+    selectedStudentBio.userId,
+    permissionsArray
+  );
+
+  console.log(userUniquePermissionRequests);
 
   return (
     <div className="w-full min-h-screen bg-user-profile p-[10px]">
@@ -169,7 +184,6 @@ function AdminStudentProfile() {
                 <button className="text-lp-primary py-[5px] font-semibold ">
                   This week
                 </button>
-                {/* <button>This Month</button> */}
               </div>
             </div>
             <div className="w-[100%] h-[80%]  mt-[30px] mx-auto font-bold text-[30] text-lp-primary">
@@ -180,7 +194,7 @@ function AdminStudentProfile() {
                     className="w-[100px] h-[100px]"
                   />
                   <div className="p-[10px]">
-                    It's the weekend, No record entered for the week yet
+                    No record entered for the week yet
                   </div>
                 </div>
               ) : (
@@ -192,10 +206,10 @@ function AdminStudentProfile() {
         <div className="w-[50%] p-[20px] h-screen overflow-scroll ">
           <h3 className="font-bold text-[20px] py-[10px]">Request History</h3>
           <div>
-            {permissionsArray.map((permissionObject, index) => {
+            {userUniquePermissionRequests.map((permissionObject, index) => {
               return (
                 <div
-                  className="w-[100%] p-[10px] overflow-auto h-[250px]  border  border-[2px] mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md"
+                  className="w-[100%] p-[10px] overflow-auto h-[250px] border-[2px] mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md"
                   key={index}
                 >
                   <h4 className="flex justify-between items-center">
