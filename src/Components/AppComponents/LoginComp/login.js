@@ -36,6 +36,7 @@ import {
 import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 import { persistor } from "../../Store/store";
+import { getStudentsBioArrayFromDatabase } from "./login.handlers";
 
 /**
  * TODOs:
@@ -129,6 +130,9 @@ const Signin = () => {
             dispatch(setLoginUserId(userId));
             persistor.purge();
             invokeAllThunks(userId, dispatch);
+          })
+          .then(() => {
+            getStudentsBioArrayFromDatabase(dispatch);
           })
           .then((userId) => {
             dispatch(setUserId(userId));

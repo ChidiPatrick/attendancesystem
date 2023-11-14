@@ -52,12 +52,12 @@ function UploadProfilePicture() {
   );
 
   const studentsBioArray = useSelector(
-    (state) => state.adminStudentsSlice.studentsBioArray
+    (state) => state.studentsSlice.studentsBioArray
   );
 
   const studentBioObject = getStudentBioObject(studentsBioArray, userId);
 
-  console.log(studentBioObject);
+  console.log(studentBioObject.rdbkey);
   /// Local states ////
   const [file, setFile] = useState(null);
   const [uploadPercentage, setUploadPercentage] = useState(0);

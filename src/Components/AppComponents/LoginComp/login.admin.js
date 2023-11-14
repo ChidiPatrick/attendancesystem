@@ -22,6 +22,7 @@ import {
 } from "../../Redux Slices/signupSlice";
 import { verifyAdminEmail } from "../../General app handlers/general.handlers";
 import {
+  setLoginUserId,
   setWrongAdminLoginMessage,
   showWrongAdminLoginMessage,
 } from "../../Redux Slices/login.slice";
@@ -106,7 +107,11 @@ const SigninAsAdmin = () => {
       if (navigator.onLine) {
         dispatch(showSpinner());
         await signInWithEmailAndPassword(auth, values.email, values.password)
-          .then((user) => verifyAdminEmail(dispatch, values))
+          .then((user) => {
+            console.log(user);
+            dispatch(setLoginUserId(user.user.uid));
+            verifyAdminEmail(dispatch, values);
+          })
           .then(() => {
             console.log(adminsEmail);
             const adminBioObject = adminsEmail.find(

@@ -122,6 +122,9 @@ function DashboardComponent() {
         <div className="flex just-between mt-[30px] px-[10px]">
           <AttendanceDisplayUI />
           <div className="bg-[#fff] p-[10px] w-[35%] ml-[20px] h-[380px] border rounded-[10px] overflow-y-scroll">
+            <h3 className="text-center font-bold text-lp-primary border border-transparent border-b-lp-secondary">
+              Permission Requests
+            </h3>
             {permissionsArray.map((permissionObject, index) => {
               return (
                 <div key={index}>

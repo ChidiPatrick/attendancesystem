@@ -18,6 +18,7 @@ import classSetupSlice from "../Redux Slices/classSetupSlice";
 import announcementSlice from "../Redux Slices/announcementSlice";
 import attendanceReportSlice from "../Redux Slices/attendanceReportSlice";
 import adminStudentsSlice from "../Redux Slices/adminStudentsSlice";
+import studentsSlice from "../Redux Slices/studentsSlice";
 
 // Configure redux persist
 const persistConfig = {
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
   classSetupSlice,
   announcementSlice,
   attendanceReportSlice,
+  studentsSlice,
 });
 
 export const persistedReducer = persistReducer(persistConfig, rootReducer);

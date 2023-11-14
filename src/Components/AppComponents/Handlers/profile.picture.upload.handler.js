@@ -9,18 +9,19 @@ import {
 } from "firebase/storage";
 import { setProfilePictureUrl } from "../../Redux Slices/profileSlice";
 import { rdb } from "../../Firebase/firebase";
-import { update } from "firebase/database";
+import { onValue, update } from "firebase/database";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
 import { toast } from "react-toastify";
+import { ref as rdbRef } from "firebase/database";
 
 // Update student's profile picture URL in admin database
 const updateStudentProfilePictureURLInAdminDatabase = (
   userBioObject,
   profilePictureURL
 ) => {
-  const studentBioRef = ref(
+  const studentBioRef = rdbRef(
     rdb,
-    `admindashboard/studentsBio/${userBioObject.rdbKey}`
+    `admindashboard/studentsBio/${userBioObject.rdbkey}`
   );
 
   update(studentBioRef, { ...userBioObject, profilePictureURL });
@@ -54,6 +55,7 @@ const uploadProfilePicture = (file, userId, dispatch, studentBioObject) => {
     () => {
       getDownloadURL(uploadTask.snapshot.ref)
         .then((downloadURL) => {
+          console.log(downloadURL);
           dispatch(setProfilePictureUrl(downloadURL));
           updateStudentProfilePictureURLInAdminDatabase(
             studentBioObject,
@@ -69,6 +71,7 @@ const uploadProfilePicture = (file, userId, dispatch, studentBioObject) => {
         })
 
         .catch((err) => {
+          console.log(err);
           toast(
             "Something went wrong, please try again with strong network connection",
             {
@@ -133,10 +136,11 @@ const changeProfilePictureHandler = async (
 
 // Get student's bio object
 const getStudentBioObject = (studentsBioArray, userId) => {
-  const studentBioObject = studentsBioArray.filter(
+  const studentBioObject = studentsBioArray.find(
     (bioObject) => bioObject.userId === userId
   );
 
+  console.log(studentBioObject);
   return studentBioObject;
 };
 
