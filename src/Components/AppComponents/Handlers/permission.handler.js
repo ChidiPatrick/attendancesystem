@@ -1,8 +1,45 @@
 import { onValue, ref, set, push } from "firebase/database";
 import { rdb } from "../../Firebase/firebase";
 import { toast } from "react-toastify";
+import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
 
-const sendPermissionRequestHandler = (permissionObject, permissionBodyRef) => {
+// Add permission to student's bio object
+const addPermissionRequestToStudentBio = (
+  permissionObject,
+  studentID,
+  studentsBioArray,
+  adminPermissionRDBKey
+) => {
+  const studentBioObject = studentsBioArray.find(
+    (studentBioObject) => studentBioObject.userId === studentID
+  );
+
+  const { rdbkey } = studentBioObject;
+
+  const studentPermissionsRef = ref(
+    rdb,
+    `admindashboard/studentsBio/${rdbkey}/permissionsArray`
+  );
+
+  const permissionReference = push(studentPermissionsRef);
+
+  set(permissionReference, {
+    ...permissionObject,
+    time: new Date().toLocaleTimeString(),
+    dateSent: new Date().toDateString(),
+    rdbKey: permissionReference.key,
+    isNotified: false,
+    adminPermissionRDBKey,
+  });
+};
+
+// Permission request sending algorithm handler
+const sendPermissionRequestHandler = (
+  permissionObject,
+  permissionBodyRef,
+  studentsBioArray,
+  dispatch
+) => {
   if (!navigator.onLine) {
     toast(
       "No internet connection😕. Please check your internet connection and try again",
@@ -39,8 +76,11 @@ const sendPermissionRequestHandler = (permissionObject, permissionBodyRef) => {
     return;
   }
 
+  dispatch(showSpinner());
+
   const permissionsRef = ref(rdb, "admindashboard/permissions");
   const permissionReference = push(permissionsRef);
+
   set(permissionReference, {
     ...permissionObject,
     time: new Date().toLocaleTimeString(),
@@ -49,6 +89,15 @@ const sendPermissionRequestHandler = (permissionObject, permissionBodyRef) => {
     isNotified: false,
   })
     .then(() => {
+      addPermissionRequestToStudentBio(
+        permissionObject,
+        permissionObject.userId,
+        studentsBioArray,
+        permissionReference.key
+      );
+    })
+    .then(() => {
+      dispatch(hideSpinner());
       toast("Permission request successfully sent 🎊🎊🎉", {
         type: "success",
         autoClose: 3000,

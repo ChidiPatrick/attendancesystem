@@ -38,6 +38,7 @@ import {
   setProgramEndingDateState,
   setProgramStartingDateState,
 } from "../../../Redux Slices/classSetupSlice";
+import { ToastContainer, toast } from "react-toastify";
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -78,7 +79,6 @@ function Session() {
     (state) => state.classSetupSlice.latenessStartTime
   );
   const lectureDays = useSelector((state) => state.classSetupSlice.lectureDays);
-  console.log(lectureDays);
   //////////////////////////////////////////////////////////////////////
 
   /////////////// SETTINGS RESETTING OBJECT //////////////////////
@@ -94,8 +94,6 @@ function Session() {
     latenessTimeFrame: { startTime: latenessStartingTime },
     lectureDays: lectureDays,
   };
-
-  console.log(settingsObject);
 
   /////////// SETTINGS OBJECT UPDATING HANDLERS //////////////
   const setProgramStartingDate = (newDate) => {
@@ -126,28 +124,64 @@ function Session() {
 
   ////////// SAVE SETUP CHANGES TO DATABASE ///////////////////
   const saveChanges = async (settingsObject) => {
+    console.log(settingsObject);
+
     if (!navigator.onLine) {
       dispatch(showNetworkFeedback());
       return;
     }
 
-    dispatch(showSpinner());
-    updateProgramDurationSettings(settingsObject)
-      .then(() => {
-        updateEarlinessTimeDuration(settingsObject);
-      })
-      .then(() => {
-        updateLatenessTimeFrame(settingsObject);
-      })
-      .then(() => {
-        updateLectureDays(settingsObject);
-        dispatch(hideSpinner());
-        alert("Settings saved");
-      })
-      .catch((err) => {
-        dispatch(hideSpinner());
-        dispatch(showFeedback());
+    if (new Date(settingsObject.sessionDuration.startDate) < new Date()) {
+      console.log(
+        "Program starting date can not be in the past. Select future date"
+      );
+      toast(
+        "Program starting date can not be in the past or present day. Select future date",
+        {
+          autoClose: 3000,
+          type: "error",
+        }
+      );
+      return;
+    }
+
+    if (new Date(settingsObject.sessionDuration.endDate) < new Date()) {
+      console.log(
+        "Program ending date can not be in the past or present day. Select future date"
+      );
+
+      toast("Program ending date can not be in the past. Select future date", {
+        autoClose: 3000,
+        type: "error",
       });
+      return;
+    }
+
+    if (
+      new Date(settingsObject.sessionDuration.startDate) >= new Date() &&
+      new Date(settingsObject.sessionDuration.endDate) >= new Date()
+    ) {
+      dispatch(showSpinner());
+      updateProgramDurationSettings(settingsObject)
+        .then(() => {
+          updateEarlinessTimeDuration(settingsObject);
+        })
+        .then(() => {
+          updateLatenessTimeFrame(settingsObject);
+        })
+        .then(() => {
+          updateLectureDays(settingsObject);
+          dispatch(hideSpinner());
+          toast("Session settings saved successfully", {
+            type: "success",
+            autoClose: 3000,
+          });
+        })
+        .catch((err) => {
+          dispatch(hideSpinner());
+          dispatch(showFeedback());
+        });
+    }
   };
 
   return (
@@ -187,6 +221,7 @@ function Session() {
               />
             </div>
           </fieldset>
+          <ToastContainer style={{ width: "100%", textAlign: "center" }} />
           <fieldset className="hover:border-black p-[20px] mb-4 w-[48%] border-2 border-solid border-signup-gray rounded py-2">
             <legend className="text-lp-primary">To</legend>
             <div className="flex justify-between items-center">

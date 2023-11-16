@@ -27,12 +27,23 @@ const loopDate = (programStartingDate, programEndingDate) => {
   return totalWorkDays;
 };
 
-const calcProgramDaysUsed = (programStartingDate, endDate) => {
+const calcProgramDaysUsed = (
+  programStartingDate,
+  currDate,
+  programEndingDate
+) => {
+  console.log("calcProgramDaysUsed called!");
+
+  if (new Date(currDate) > new Date(programEndingDate)) {
+    return "Program completed";
+  }
+
   let totalWorkDays = 0,
-    startDate = new Date(programStartingDate);
+    startDate = new Date(programStartingDate),
+    endDate = new Date(currDate);
 
   while (startDate <= endDate) {
-    console.log(new Date(startDate).getDay());
+    console.log("LOOP IS RUNNING");
 
     const workDay = new Date(startDate).getDay();
     if (workDay !== 0 && workDay !== 6) {

@@ -16,6 +16,7 @@ import Menu from "./menu";
 import { sendPermissionRequestHandler } from "../Handlers/permission.handler";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router";
+import SpinnerSmall from "../Loading spinners/spinnerSmall";
 
 /////////////// PERMISSION COMPONENT/////////////
 function Permission() {
@@ -32,9 +33,19 @@ function Permission() {
 
   //////////////// Redux states //////////////////////////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
+
   const userId = useSelector((state) => state.loginSlice.userId);
+
   const userProfileData = useSelector(
     (state) => state.profileSlice.userProfileData
+  );
+
+  const studentsBioArray = useSelector(
+    (state) => state.studentsSlice.studentsBioArray
+  );
+
+  const displaySpinner = useSelector(
+    (state) => state.signupSlice.displaySpinner
   );
 
   /////////////// User credentials //////////////
@@ -132,7 +143,12 @@ function Permission() {
         <div className="flex justify-between  gap-3 items-center w-full">
           <ButtonFull
             handleClick={() =>
-              sendPermissionRequestHandler(permissionObject, permissionBodyRef)
+              sendPermissionRequestHandler(
+                permissionObject,
+                permissionBodyRef,
+                studentsBioArray,
+                dispatch
+              )
             }
           >
             Send request
@@ -143,6 +159,7 @@ function Permission() {
         </div>
         <ToastContainer style={{ width: "100%", textAlign: "center" }} />
       </div>
+      {displaySpinner === true ? <SpinnerSmall /> : null}
     </div>
   );
 }

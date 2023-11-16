@@ -79,7 +79,7 @@ function SideNavigation() {
             className="flex w-full my-[10px] p-[10px]"
             activeClassName="bg-[#E9EFFC]"
           >
-            <NavLink className="flex w-[200px] items-center">
+            <NavLink to="adminProfile" className="flex w-[200px] items-center">
               <HiOutlineUser className="mr-[10px]" />
               <span>Profile</span>
             </NavLink>

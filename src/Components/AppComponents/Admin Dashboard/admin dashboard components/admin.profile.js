@@ -3,7 +3,6 @@ import React from "react";
 // Third-party imports
 import { BiUpload } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 import { BsFillPersonFill } from "react-icons/bs";
 
 //Local imports
@@ -12,6 +11,9 @@ import AdminNotification from "./admin.notification";
 import AdminEditProfile from "./admin.edit.profile";
 import ProfilePictureUI from "./profile.pictureUI";
 import { showAdminEditUI } from "../../../Redux Slices/adminSlice";
+import customCss from "../../../Custom CSS/admin.profile.css";
+
+// import
 // TODOs
 /**
  * Implement profile picture logic
@@ -19,7 +21,6 @@ import { showAdminEditUI } from "../../../Redux Slices/adminSlice";
  */
 function AdminProfile() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   // Redux states
   const displayAdminEditUI = useSelector(
@@ -44,15 +45,11 @@ function AdminProfile() {
     (state) => state.permissionSlice.permissionsArray
   );
 
-  const selectedPermissionRequest = useSelector(
-    (state) => state.permissionSlice.selectedPermissionRequest
-  );
-
   return (
-    <div className="w-[100%] relative h-screen flex justify-between  ">
+    <div className="w-screen relative h-screen flex justify-between">
       <div className="w-[50%] h-[100%] overflow-y-scroll">
-        <figure className="p-[10px] relative bg-custom-image flex-col   w-[100%] h-[300px]  flex justify-center items-center">
-          <div className="w-[100%] h-[100%] flex justify-center items-center">
+        <figure className=" p-[10px] relative bg-custom-image flex-col   w-[100%] h-[300px]  flex justify-center items-center">
+          <div className=" w-[100%] h-[100%] flex justify-center items-center">
             {adminProfilePictureURL === "" || navigator.onLine === false ? (
               <BsFillPersonFill
                 size={150}

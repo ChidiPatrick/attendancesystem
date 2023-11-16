@@ -3,6 +3,7 @@ import React from "react";
 //Third-party imports
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
+import { BsFillPersonFill } from "react-icons/bs";
 
 // Local directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
@@ -75,12 +76,21 @@ function AdminStudentProfile() {
       <div className="w-full flex justify-center h-screen">
         <div className="w-[50%] h-[100%] overflow-scroll border border-tansparent border-r-gray-300">
           <div className="w-[100%] mx-auto flex flex-col mt-[20px] p-[10px] justify-center items-center">
-            <figure className="w-[200px] h-[200px] border-transparent border-solid border-[5px] border-gray-200 rounded-full">
-              <img
-                src="images/skalo.jpg"
-                alt="profile picture"
-                className="w-[100%] h-[100%] border border-transparent rounded-full"
-              />
+            <figure className="w-[200px] h-[200px] flex justify-center items-center border-transparent border-solid border-[5px] border-gray-200 rounded-full">
+              {studentProfileObject.profilePictureURL === "" ||
+              studentProfileObject.profilePictureURL === undefined ||
+              navigator.onLine === false ? (
+                <BsFillPersonFill
+                  size={70}
+                  className="w-[100%] h-[100%] border border-lp-primary text-gray-600 rounded-full"
+                />
+              ) : (
+                <img
+                  src={studentProfileObject.profilePictureURL}
+                  alt="profile picture"
+                  className="w-[100%] h-[100%] border border-transparent rounded-full"
+                />
+              )}
             </figure>
             <div className="mb-[5px] mt-[20px] font-bold text-[20px]">
               {`${studentProfileObject?.firstName} ${studentProfileObject?.lastName} (${studentProfileObject?.userName})`}

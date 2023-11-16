@@ -38,7 +38,6 @@ const setStudentProfile = (
       const studentProfileObject = studentsBioArray.find(
         (studentBioObject) => studentBioObject.userId === studentId
       );
-      console.log(studentProfileObject);
 
       return studentProfileObject;
     })

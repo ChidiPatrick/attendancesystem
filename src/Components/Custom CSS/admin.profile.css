@@ -1,0 +1,10 @@
+.adminProfilePicture {
+  /* background-image: url("/public/images/skalo.jpg"); */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(100px);
+  background-blend-mode: overlay;
+  -webkit-backdrop-filter: blur(100px);
+  /* background-color: aqua; */
+}

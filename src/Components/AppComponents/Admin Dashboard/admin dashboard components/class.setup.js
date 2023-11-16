@@ -24,7 +24,10 @@ import {
   setProgramStartingDateState,
 } from "../../../Redux Slices/classSetupSlice";
 import { rdb } from "../../../Firebase/firebase";
-import { setBreakDays } from "../admin dashboard handlers/admin.session.setting";
+import {
+  calcProgramDurationMonth,
+  setBreakDays,
+} from "../admin dashboard handlers/admin.session.setting";
 
 //CLASS SET UP COMPONENT
 function ClassSetup() {
@@ -62,9 +65,12 @@ function ClassSetup() {
     (state) => state.classSetupSlice.latenessStartTime
   );
 
-  const month1 = new Date(programStartingDate).getMonth();
-  const month2 = new Date(programEndingDate).getMonth();
-  const programMonths = month2 - month1;
+  const programMonths = calcProgramDurationMonth(
+    programStartingDate,
+    programEndingDate
+  );
+
+  console.log(programMonths);
 
   const breakObject = {
     breakStartingDate: date,
@@ -289,7 +295,7 @@ function ClassSetup() {
             </div>
             <div className="w-[100%] p-[10px] flex justify-end items-center text-lp-primary">
               <Link
-                to="#"
+                to="/adminDashboard/classSetup/sessionSettings"
                 className="p-[5px] font-bold border border-transparent border-b-lp-primary"
               >
                 Edit session
@@ -357,14 +363,11 @@ function ClassSetup() {
                     From
                   </legend>
                   <div className="flex justify-between items-center">
-                    {/* <span>{new Date().toDateString()}</span> */}
                     <DatePicker
                       value={date}
                       onChange={getBreakStartingDate}
-                      // calendarClassName="border border-red text-green-300"
                       className=""
                     />
-                    {/* <BsCalendar4 /> */}
                   </div>
                 </fieldset>
                 <fieldset className=" p-[20px] mb-4 w-[200px] border-2 border-solid border-lp-primary rounded py-2">
@@ -372,11 +375,7 @@ function ClassSetup() {
                     To
                   </legend>
                   <div className="flex justify-between items-center">
-                    <DatePicker
-                      value={date}
-                      // onChange={getProgramEndingDate}
-                      className=""
-                    />
+                    <DatePicker value={date} className="" />
                   </div>
                 </fieldset>
               </div>
@@ -387,7 +386,6 @@ function ClassSetup() {
           </div>
         </div>
       </div>
-      <Session />
     </div>
   );
 }

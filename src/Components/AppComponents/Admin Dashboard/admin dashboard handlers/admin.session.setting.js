@@ -147,6 +147,21 @@ const setBreakDays = (breakObject, dispatch, toastObject) => {
   });
 };
 
+// Calculate program duration month(s)
+const calcProgramDurationMonth = (programStartingDate, programEndingDate) => {
+  const yearDifference =
+    new Date(programEndingDate).getFullYear() -
+    new Date(programStartingDate).getFullYear();
+
+  const monthsDifference =
+    new Date(programEndingDate).getMonth() -
+    new Date(programStartingDate).getMonth();
+
+  const programMonths = yearDifference * 12 + monthsDifference;
+
+  return programMonths;
+};
+
 export {
   updateProgramStartingDate,
   updateProgramEndingDate,
@@ -156,4 +171,5 @@ export {
   updateLectureDays,
   setBreakDays,
   emmitToast,
+  calcProgramDurationMonth,
 };

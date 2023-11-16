@@ -34,7 +34,7 @@ function DashboardNavigationComponent({ title }) {
   );
 
   const studentsBioArray = useSelector(
-    (state) => state.adminSlice.studentsBioArray
+    (state) => state.adminStudentsSlice.studentsBioArray
   );
 
   const permissionsArray = useSelector(
