@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 // Third-party imports
 import { HiOutlineAcademicCap, HiOutlineCircleStack } from "react-icons/hi2";
 import { IoNotificationsOutline } from "react-icons/io5";
-import { AiOutlineSearch } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { BsFillPersonFill } from "react-icons/bs";
 import ReactSearchBox from "react-search-box";

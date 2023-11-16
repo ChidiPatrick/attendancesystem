@@ -2,6 +2,7 @@ import { onValue, ref, set, push } from "firebase/database";
 import { rdb } from "../../Firebase/firebase";
 import { toast } from "react-toastify";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
+import { setUnreadResponses } from "../../Redux Slices/permission.slice";
 
 // Add permission to student's bio object
 const addPermissionRequestToStudentBio = (
@@ -108,4 +109,39 @@ const sendPermissionRequestHandler = (
     });
 };
 
-export { sendPermissionRequestHandler };
+// Get student bio object
+const getStudentPermissionRequests = (studentsBioArray, studentID) => {
+  const studentBiObejct = studentsBioArray.find(
+    (studentBiObejct) => studentBiObejct.userId === studentID
+  );
+
+  const permissionsArray = Object.values(studentBiObejct.permissionsArray);
+
+  console.log(permissionsArray);
+
+  return permissionsArray;
+};
+
+// Get unread responses
+const getUnreadResponseNumber = (studentsBioArray, dispatch, userId) => {
+  let unreadResponses = 0;
+
+  const studentPermissionsArray = getStudentPermissionRequests(
+    studentsBioArray,
+    userId
+  );
+
+  studentPermissionsArray.map((permissionObject) => {
+    if (permissionObject.isNotified === false) {
+      unreadResponses = unreadResponses + 1;
+    }
+  });
+
+  dispatch(setUnreadResponses(unreadResponses));
+};
+
+export {
+  sendPermissionRequestHandler,
+  getStudentPermissionRequests,
+  getUnreadResponseNumber,
+};

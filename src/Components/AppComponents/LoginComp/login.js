@@ -37,6 +37,7 @@ import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 import { persistor } from "../../Store/store";
 import { getStudentsBioArrayFromDatabase } from "./login.handlers";
+import { getUnreadResponseNumber } from "../Handlers/permission.handler";
 
 /**
  * TODOs:
@@ -53,8 +54,6 @@ const Signin = () => {
 
   const date = new Date();
   console.log(date.getDay());
-
-  const [showWrongMessage, setShowWrongMessage] = useState(false);
 
   ///// Store state retreivals /////////////
   const displaySpinner = useSelector(
@@ -79,7 +78,11 @@ const Signin = () => {
     (state) => state.loginSlice.wrongLoginMessage
   );
 
-  console.log(studentsEmail);
+  const studentsBioArray = useSelector(
+    (state) => state.studentsSlice.studentsBioArray
+  );
+
+  const currUserId = useSelector((state) => state.loginSlice.userId);
 
   // console.log(verifyStudentEmail());
 
@@ -133,6 +136,9 @@ const Signin = () => {
           })
           .then(() => {
             getStudentsBioArrayFromDatabase(dispatch);
+          })
+          .then(() => {
+            getUnreadResponseNumber(studentsBioArray, dispatch, currUserId);
           })
           .then((userId) => {
             dispatch(setUserId(userId));

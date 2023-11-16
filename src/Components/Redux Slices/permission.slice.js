@@ -6,6 +6,7 @@ const initialState = {
   selectedPermissionRequest: {},
   displayPermissionModal: false,
   currStudentPermissionRequests: [],
+  unreadResponses: 0,
 };
 
 const permissionSlice = createSlice({
@@ -27,6 +28,9 @@ const permissionSlice = createSlice({
     setCurrStudentPermissionsArray(state, action) {
       state.currStudentPermissionRequests = action.payload;
     },
+    setUnreadResponses(state, action) {
+      state.unreadResponses = action.payload;
+    },
   },
 });
 
@@ -36,6 +40,7 @@ export const {
   showPermissionModal,
   hidePermissionModal,
   setCurrStudentPermissionsArray,
+  setUnreadResponses,
 } = permissionSlice.actions;
 
 export default permissionSlice.reducer;
