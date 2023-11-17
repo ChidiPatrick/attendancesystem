@@ -8,20 +8,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { calcNumWorkingDaysOfTheMonth } from "../../General app handlers/general.handlers";
 import { BsFillPersonFill } from "react-icons/bs";
+import StudentNotificationBar from "./student.notification.bar";
+import StudentPermissionResponseUI from "./student.permission.responseUI";
 
 function UserProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   /// Redux states //////////////
-  //
   const userProfileData = useSelector(
     (state) => state.profileSlice.userProfileData
   );
 
+  const permissionsArray = useSelector(
+    (state) => state.permissionSlice.permissionsArray
+  );
+
+  const displayPermissionResponseUI = useSelector(
+    (state) => state.permissionSlice.displayPermissionResponseUI
+  );
+
   const { firstName, lastName, userName, profilePictureURL, currMonthRecord } =
     userProfileData;
-  console.log(currMonthRecord.totalDaysPresent);
+  console.log(permissionsArray);
 
   // Navigation function
   const navigateBack = () => {
@@ -40,10 +49,10 @@ function UserProfile() {
   );
 
   return (
-    <div className="w-full   py-6 ">
+    <div className="w-full   py-6 relative">
       <div className="min-w-[400px] sm:w-[60%] mx-auto  md:pb-32 lg:pb-20 pb-12 bg-[#FFFDFA] relative">
-        <div className="mx-auto fixed top-0 sm:w-[100%]">
-          <div className="h-[270px] md:h-[350px] rounded-br-3xl rounded-bl-3xl overflow-hidden ">
+        <div className=" sm:w-[100%]">
+          <div className="h-[170px] md:h-[350px]  ">
             <figure className="h-[100%] w-[100%] bg-[#FFFDFA]">
               {profilePictureURL === "" || !navigator.onLine ? (
                 <BsFillPersonFill className=" text-gray-500 h-[100%] w-[100%]" />
@@ -51,12 +60,12 @@ function UserProfile() {
                 <img
                   src={profilePictureURL}
                   alt="pics_profile"
-                  className=" object-center object-fit h-[100%] w-[100%] relative"
+                  className="  h-[100%] w-[100%] relative"
                 />
               )}
             </figure>
 
-            <div className="absolute bottom-0  top-0 flex flex-col justify-between text-white w-full ">
+            <div className=" text-white w-full ">
               <div className=" flex items-center text-black bg-mywhite py-2 px-2  ">
                 <span>
                   <FaArrowLeft size={20} onClick={navigateBack} />
@@ -89,7 +98,7 @@ function UserProfile() {
           </div>
         </div>
 
-        <div className=" w-[90%] mx-auto md:w-full  mt-[270px]  md:mt-[360px]">
+        <div className=" w-[90%] mx-auto md:w-full   mt-[270px]  md:mt-[360px]">
           <div className=" flex gap-4">
             <div className=" w-[70%] md:w-[60%] p-3 bg-white shadow-md rounded-md">
               <div className=" flex justify-between items-center">
@@ -129,13 +138,15 @@ function UserProfile() {
               </div>
               <div className="h-3 text-user-pc w-3 ml-2 border font-bold rounded  bg-gradient-to-br from-absent-pc-start from-75% to-absent-pc-end via-absent-pc-middle via-40%"></div>
             </div>
-            <div className=" text-[14px]">sent</div>
-            <div className=" font-bold text-[18px] md:text-[20px]">0</div>
-            <div className=" text-[14px]">Approved</div>
-            <div className=" font-bold text-[18px] md:text-[20px]">0</div>
+            {permissionsArray.map((permissionObject) => (
+              <StudentNotificationBar permissionObject={permissionObject} />
+            ))}
           </div>
         </div>
       </div>
+      {displayPermissionResponseUI === true ? (
+        <StudentPermissionResponseUI />
+      ) : null}
     </div>
   );
 }

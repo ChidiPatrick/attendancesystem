@@ -19,7 +19,7 @@ function Menu() {
 
   /// Menu slice state access ///
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
-  console.log(displayMenu);
+
   return (
     <div
       onClick={() => toggleMenu(dispatch, hideMenu)}
