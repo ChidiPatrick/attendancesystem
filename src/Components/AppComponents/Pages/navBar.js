@@ -50,21 +50,23 @@ function NavBar({ children }) {
         )}
         <h3 className="text-xl col-start-3 col-end-12 font-bold  text-center flex justify-between items-center ">
           <div className="w-[75%]"> {children}</div>
-          <Link
-            to="/userprofile"
-            className={
-              unreadResponses === 0
-                ? "flex justify-center relative items-center text-[#4A4A4A] w-[50px] h-[50px] border border-tranparent rounded-full bg-[#FF52521A]"
-                : `w-[50px] flex relative animate-pulse text-[#CC0000] justify-center items-center h-[50px] border border-tranparent rounded-full bg-[#FF52521A]`
-            }
-          >
-            {unreadResponses === 0 ? null : (
-              <div className="w-[20px] h-[20px] flex justify-center items-center rounded-full bg-[#CC0000] text-[12px] absolute top-[-10%] right-[-5%] text-[#fff]">
-                {unreadResponses}
-              </div>
-            )}
-            <IoNotificationsOutline size={30} />
-          </Link>
+          {unreadResponses === 0 ? null : (
+            <Link
+              to="/userprofile"
+              className={
+                unreadResponses === 0
+                  ? "flex justify-center relative items-center text-[#4A4A4A] w-[50px] h-[50px] border border-tranparent rounded-full bg-[#FF52521A]"
+                  : `w-[50px] flex relative animate-pulse text-[#CC0000] justify-center items-center h-[50px] border border-tranparent rounded-full bg-[#FF52521A]`
+              }
+            >
+              {unreadResponses === 0 ? null : (
+                <div className="w-[20px] h-[20px] flex justify-center items-center rounded-full bg-[#CC0000] text-[12px] absolute top-[-10%] right-[-5%] text-[#fff]">
+                  {unreadResponses}
+                </div>
+              )}
+              <IoNotificationsOutline size={30} />
+            </Link>
+          )}
         </h3>
       </div>
     </nav>

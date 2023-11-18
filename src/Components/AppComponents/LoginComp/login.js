@@ -37,7 +37,10 @@ import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 import { persistor } from "../../Store/store";
 import { getStudentsBioArrayFromDatabase } from "./login.handlers";
-import { getUnreadResponseNumber } from "../Handlers/permission.handler";
+import {
+  getUnreadResponseNumber,
+  getUserPermissionsArray,
+} from "../Handlers/permission.handler";
 
 /**
  * TODOs:
@@ -138,7 +141,7 @@ const Signin = () => {
             getStudentsBioArrayFromDatabase(dispatch);
           })
           .then(() => {
-            getUnreadResponseNumber(studentsBioArray, dispatch, currUserId);
+            getUserPermissionsArray(studentsBioArray, currUserId, dispatch);
           })
           .then((userId) => {
             dispatch(setUserId(userId));

@@ -44,10 +44,9 @@ function UserProfile() {
   // Extract student's bio object
   const studentBioObject = extractStudentBioObject(studentsBioArray, userId);
 
-  const permissionObject = studentBioObject.permissionsArray;
+  const permissionObject = studentBioObject?.permissions;
 
-  const permissionsArray = Object.values(permissionObject);
-  console.log(permissionsArray);
+  const permissionsArray = permissionObject?.permissions;
 
   // Navigation function
   const navigateBack = () => {
@@ -157,7 +156,7 @@ function UserProfile() {
               </div>
               <div className="h-3 text-user-pc w-3 ml-2 border font-bold rounded  bg-gradient-to-br from-absent-pc-start from-75% to-absent-pc-end via-absent-pc-middle via-40%"></div>
             </div>
-            {permissionsArray.map((permissionObject, index) => (
+            {permissionsArray?.map((permissionObject, index) => (
               <StudentNotificationBar
                 permissionObject={permissionObject}
                 index={index}

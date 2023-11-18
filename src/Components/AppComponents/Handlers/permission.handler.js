@@ -10,6 +10,7 @@ import {
 } from "../../Redux Slices/permission.slice";
 import { getStudentBioObject } from "./profile.picture.upload.handler";
 import { extractStudentBioObject } from "../../General app handlers/general.handlers";
+import { useId } from "react";
 
 //Project TODOs:
 /**
@@ -112,6 +113,18 @@ const sendPermissionRequestHandler = (
   })
     .then(() => {
       set(studentPermissionObjectRef, {
+        ...permissionObject,
+        timeSent: new Date().toLocaleTimeString(),
+        dateSent: new Date().toDateString(),
+        rdbKey: permissionReference.key,
+        isNotified: false,
+      });
+    })
+    .then(() => {
+      const studentBioObjectIndex = studentsBioArray.findIndex(
+        (bioObject) => bioObject.userId === userId
+      );
+      studentsBioArray[studentBioObjectIndex].permissions.push({
         ...permissionObject,
         timeSent: new Date().toLocaleTimeString(),
         dateSent: new Date().toDateString(),
@@ -243,6 +256,9 @@ const updatePermissionNotification = (
 const getUserPermissionsArray = (studentBioArray, userId, dispatch) => {
   const studentBioObject = extractStudentBioObject(studentBioArray, userId);
   const { rdbkey } = studentBioObject;
+
+  if (studentBioObject.permissions === undefined) return;
+
   const permissionsObjectRef = ref(
     rdb,
     `admindashboard/studentsBio/${rdbkey}/permissions`
@@ -251,12 +267,18 @@ const getUserPermissionsArray = (studentBioArray, userId, dispatch) => {
   let permissionsArray = "";
 
   onValue(permissionsObjectRef, (snapshot) => {
+    // if (snapshot.val() === undefined || snapshot.val() === null) return;
     permissionsArray = Object.values(snapshot.val());
+    studentBioObject.permissions = permissionsArray;
+
+    const studentBioIndex = studentBioArray.findIndex(
+      (bioObject) => bioObject.userId === userId
+    );
+
+    studentBioArray[studentBioIndex] = studentBioObject;
+
+    getUnreadResponseNumber(studentBioArray, dispatch, userId);
   });
-
-  dispatch(setPermissions(permissionsArray));
-
-  getUnreadResponseNumber(studentBioArray, dispatch, userId);
 };
 
 export {
