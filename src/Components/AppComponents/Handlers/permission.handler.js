@@ -1,11 +1,20 @@
-import { onValue, ref, set, push } from "firebase/database";
+import { onValue, ref, set, push, update } from "firebase/database";
 import { rdb } from "../../Firebase/firebase";
 import { toast } from "react-toastify";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
 import {
   setPermissions,
+  setStudentUISelectedPermissionObject,
   setUnreadResponses,
+  showRequestResponseUI,
 } from "../../Redux Slices/permission.slice";
+import { getStudentBioObject } from "./profile.picture.upload.handler";
+import { extractStudentBioObject } from "../../General app handlers/general.handlers";
+
+//Project TODOs:
+/**
+ * Make unreadResponse calculation a realtime computation
+ */
 
 // Add permission to student's bio object
 const addPermissionRequestToStudentBio = (
@@ -22,7 +31,7 @@ const addPermissionRequestToStudentBio = (
 
   const studentPermissionsRef = ref(
     rdb,
-    `admindashboard/studentsBio/${rdbkey}/permissionsArray`
+    `admindashboard/studentsBio/${rdbkey}/permissions`
   );
 
   const permissionReference = push(studentPermissionsRef);
@@ -42,7 +51,8 @@ const sendPermissionRequestHandler = (
   permissionObject,
   permissionBodyRef,
   studentsBioArray,
-  dispatch
+  dispatch,
+  userId
 ) => {
   if (!navigator.onLine) {
     toast(
@@ -85,13 +95,33 @@ const sendPermissionRequestHandler = (
   const permissionsRef = ref(rdb, "admindashboard/permissions");
   const permissionReference = push(permissionsRef);
 
+  const studentBioObject = extractStudentBioObject(studentsBioArray, userId);
+  const { rdbkey } = studentBioObject;
+
+  const studentPermissionObjectRef = ref(
+    rdb,
+    `admindashboard/studentsBio/${rdbkey}/permissions`
+  );
+
   set(permissionReference, {
     ...permissionObject,
-    time: new Date().toLocaleTimeString(),
+    timeSent: new Date().toLocaleTimeString(),
     dateSent: new Date().toDateString(),
     rdbKey: permissionReference.key,
     isNotified: false,
   })
+    .then(() => {
+      set(studentPermissionObjectRef, {
+        ...permissionObject,
+        timeSent: new Date().toLocaleTimeString(),
+        dateSent: new Date().toDateString(),
+        rdbKey: permissionReference.key,
+        isNotified: false,
+      });
+    })
+    .then(() => {
+      getUserPermissionsArray(studentsBioArray, userId, dispatch);
+    })
     .then(() => {
       addPermissionRequestToStudentBio(
         permissionObject,
@@ -122,11 +152,15 @@ const getStudentPermissionRequests = (
     (studentBiObejct) => studentBiObejct.userId === studentID
   );
 
-  const permissionsArray = Object.values(studentBiObejct.permissionsArray);
+  const { permissionsArray } = studentBiObejct;
 
-  dispatch(setPermissions(permissionsArray));
+  if (permissionsArray === null || permissionsArray === undefined) return;
 
-  return permissionsArray;
+  const studentPermissionsArray = Object.values(permissionsArray);
+
+  dispatch(setPermissions(studentPermissionsArray));
+
+  return studentPermissionsArray;
 };
 
 // Get unread responses
@@ -139,6 +173,9 @@ const getUnreadResponseNumber = (studentsBioArray, dispatch, userId) => {
     dispatch
   );
 
+  if (studentPermissionsArray === undefined || studentPermissionsArray === null)
+    return;
+
   studentPermissionsArray.map((permissionObject) => {
     if (permissionObject.isNotified === false) {
       unreadResponses = unreadResponses + 1;
@@ -148,8 +185,84 @@ const getUnreadResponseNumber = (studentsBioArray, dispatch, userId) => {
   dispatch(setUnreadResponses(unreadResponses));
 };
 
+// Update permission notification to change isNotified property to true
+const updatePermissionNotification = (
+  permissionsArray,
+  permissionObjectIndex,
+  studentBioObject,
+  dispatch
+) => {
+  const newPermissionsArray = [...permissionsArray];
+  const permissionObject = newPermissionsArray[permissionObjectIndex];
+
+  const updatedPermissionObject = { ...permissionObject, isNotified: true };
+  newPermissionsArray[permissionObjectIndex] = updatedPermissionObject;
+
+  if (
+    permissionObject.status !== "Pending" &&
+    permissionObject.isNotified === true
+  ) {
+    dispatch(setStudentUISelectedPermissionObject(permissionObject));
+    // dispatch(setPermissions({ ...permissionsArray }));
+    dispatch(showRequestResponseUI());
+    return;
+  }
+
+  if (
+    permissionObject.status === "Pending" &&
+    permissionObject.isNotified === false &&
+    !navigator.onLine
+  ) {
+    dispatch(setStudentUISelectedPermissionObject(permissionObject));
+    // dispatch(setPermissions({ ...permissionsArray }));
+    dispatch(showRequestResponseUI());
+    return;
+  }
+
+  if (
+    permissionObject.status !== "Pending" &&
+    permissionObject.isNotified === false
+  ) {
+    const { rdbkey } = studentBioObject;
+    const permissionObjectRef = ref(
+      rdb,
+      `admindashboard/studentsBio/${rdbkey}/permissions/${permissionObject.rdbkey}`
+    );
+
+    update(permissionObjectRef, { ...permissionObject, isNotified: true }).then(
+      () => {
+        dispatch(setStudentUISelectedPermissionObject(permissionObject));
+        dispatch(setPermissions(permissionsArray));
+        dispatch(showRequestResponseUI());
+      }
+    );
+  }
+};
+
+// Listen for change in user bio database
+const getUserPermissionsArray = (studentBioArray, userId, dispatch) => {
+  const studentBioObject = extractStudentBioObject(studentBioArray, userId);
+  const { rdbkey } = studentBioObject;
+  const permissionsObjectRef = ref(
+    rdb,
+    `admindashboard/studentsBio/${rdbkey}/permissions`
+  );
+
+  let permissionsArray = "";
+
+  onValue(permissionsObjectRef, (snapshot) => {
+    permissionsArray = Object.values(snapshot.val());
+  });
+
+  dispatch(setPermissions(permissionsArray));
+
+  getUnreadResponseNumber(studentBioArray, dispatch, userId);
+};
+
 export {
   sendPermissionRequestHandler,
   getStudentPermissionRequests,
   getUnreadResponseNumber,
+  updatePermissionNotification,
+  getUserPermissionsArray,
 };

@@ -6,10 +6,14 @@ import { FaArrowLeft } from "react-icons/fa";
 /// Local directory imports /////
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { calcNumWorkingDaysOfTheMonth } from "../../General app handlers/general.handlers";
+import {
+  calcNumWorkingDaysOfTheMonth,
+  extractStudentBioObject,
+} from "../../General app handlers/general.handlers";
 import { BsFillPersonFill } from "react-icons/bs";
 import StudentNotificationBar from "./student.notification.bar";
 import StudentPermissionResponseUI from "./student.permission.responseUI";
+import { getUserPermissionsArray } from "../Handlers/permission.handler";
 
 function UserProfile() {
   const dispatch = useDispatch();
@@ -20,9 +24,15 @@ function UserProfile() {
     (state) => state.profileSlice.userProfileData
   );
 
-  const permissionsArray = useSelector(
-    (state) => state.permissionSlice.permissionsArray
+  // const permissionsArray = useSelector(
+  //   (state) => state.permissionSlice.permissionsArray
+  // );
+
+  const studentsBioArray = useSelector(
+    (state) => state.studentsSlice.studentsBioArray
   );
+
+  const userId = useSelector((state) => state.loginSlice.userId);
 
   const displayPermissionResponseUI = useSelector(
     (state) => state.permissionSlice.displayPermissionResponseUI
@@ -30,6 +40,13 @@ function UserProfile() {
 
   const { firstName, lastName, userName, profilePictureURL, currMonthRecord } =
     userProfileData;
+
+  // Extract student's bio object
+  const studentBioObject = extractStudentBioObject(studentsBioArray, userId);
+
+  const permissionObject = studentBioObject.permissionsArray;
+
+  const permissionsArray = Object.values(permissionObject);
   console.log(permissionsArray);
 
   // Navigation function
@@ -47,6 +64,8 @@ function UserProfile() {
     date.getFullYear(),
     date.getMonth()
   );
+
+  getUserPermissionsArray(studentsBioArray, userId, dispatch);
 
   return (
     <div className="w-full   py-6 relative">
@@ -132,14 +151,17 @@ function UserProfile() {
             </div>
           </div>
           <div className=" mt-4 w-full p-3 bg-white shadow-md rounded-md">
-            <div className=" flex justify-between items-center  border-b-[0.5px] border-[#444]">
+            <div className=" flex justify-between items-center mb-[10px]  border-b-[0.5px] border-[#444]">
               <div className=" text-my-grey font-semibold">
                 Permission Requests
               </div>
               <div className="h-3 text-user-pc w-3 ml-2 border font-bold rounded  bg-gradient-to-br from-absent-pc-start from-75% to-absent-pc-end via-absent-pc-middle via-40%"></div>
             </div>
-            {permissionsArray.map((permissionObject) => (
-              <StudentNotificationBar permissionObject={permissionObject} />
+            {permissionsArray.map((permissionObject, index) => (
+              <StudentNotificationBar
+                permissionObject={permissionObject}
+                index={index}
+              />
             ))}
           </div>
         </div>

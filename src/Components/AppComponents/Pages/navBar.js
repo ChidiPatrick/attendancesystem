@@ -11,30 +11,33 @@ import { toggleMenu } from "../Handlers/menu.handlers";
 import { showMenu, hideMenu } from "../../Redux Slices/menu.slice";
 import Menu from "./menu";
 import { getStudentsBioArray } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
-import { getStudentPermissionRequests } from "../Handlers/permission.handler";
+import {
+  getStudentPermissionRequests,
+  getUnreadResponseNumber,
+} from "../Handlers/permission.handler";
+import { Link } from "react-router-dom";
 
 function NavBar({ children }) {
   const dispatch = useDispatch();
 
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
 
-  const studentBioArray = useSelector(
+  const studentsBioArray = useSelector(
     (state) => state.studentsSlice.studentsBioArray
   );
 
   const userId = useSelector((state) => state.loginSlice.userId);
 
-  // const studentBioObject = getStudentPermissionRequests(
-  //   studentBioArray,
-  //   userId
-  // );
+  const unreadResponses = useSelector(
+    (state) => state.permissionSlice.unreadResponses
+  );
 
-  // // const {}
-  // console.log(studentBioObject);
+  // Get number of unread notifications
+  getUnreadResponseNumber(studentsBioArray, dispatch, userId);
 
   return (
-    <nav className="z-[999] relative">
-      <div className="grid grid-cols-12 justify-center w-full">
+    <nav className="z-[999] relative p-[10px]">
+      <div className="grid grid-cols-12 justify-center items-center w-full">
         {displayMenu !== true ? (
           <div>
             <HiMenu
@@ -47,11 +50,21 @@ function NavBar({ children }) {
         )}
         <h3 className="text-xl col-start-3 col-end-12 font-bold  text-center flex justify-between items-center ">
           <div className="w-[75%]"> {children}</div>
-          <div
-            className={`flex justify-center relative items-center text-[#4A4A4A] w-[50px] h-[50px] border border-tranparent rounded-full bg-[#FF52521A]`}
+          <Link
+            to="/userprofile"
+            className={
+              unreadResponses === 0
+                ? "flex justify-center relative items-center text-[#4A4A4A] w-[50px] h-[50px] border border-tranparent rounded-full bg-[#FF52521A]"
+                : `w-[50px] flex relative animate-pulse text-[#CC0000] justify-center items-center h-[50px] border border-tranparent rounded-full bg-[#FF52521A]`
+            }
           >
+            {unreadResponses === 0 ? null : (
+              <div className="w-[20px] h-[20px] flex justify-center items-center rounded-full bg-[#CC0000] text-[12px] absolute top-[-10%] right-[-5%] text-[#fff]">
+                {unreadResponses}
+              </div>
+            )}
             <IoNotificationsOutline size={30} />
-          </div>
+          </Link>
         </h3>
       </div>
     </nav>

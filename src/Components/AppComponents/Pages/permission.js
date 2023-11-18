@@ -147,7 +147,8 @@ function Permission() {
                 permissionObject,
                 permissionBodyRef,
                 studentsBioArray,
-                dispatch
+                dispatch,
+                userId
               )
             }
           >

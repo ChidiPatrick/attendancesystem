@@ -205,6 +205,15 @@ const extractUserPermissionRequests = (userId, permissionsArray) => {
   return userPermissions;
 };
 
+// Extract student bio object
+const extractStudentBioObject = (studentsBioArray, userId) => {
+  const studentBioObject = studentsBioArray.find(
+    (studentBioObject) => studentBioObject.userId === userId
+  );
+
+  return studentBioObject;
+};
+
 export {
   firestoreRefCreator,
   firestoreAdminRefCreatore,
@@ -220,4 +229,5 @@ export {
   calcNumWorkingDaysOfTheMonth,
   validateMembership,
   extractUserPermissionRequests,
+  extractStudentBioObject,
 };

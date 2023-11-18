@@ -74,6 +74,7 @@ const getNumberOfStudentsInClass = (dispatch) => {
 const getPermissionRequests = (dispatch) => {
   const permissionsRef = ref(rdb, "admindashboard/permissions");
   onValue(permissionsRef, (snapshot) => {
+    if (snapshot.val() === undefined || snapshot.val() === null) return;
     dispatch(setPermissions(Object.values(snapshot.val())));
   });
 };

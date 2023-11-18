@@ -87,6 +87,8 @@ const updatePermissionStatus = (permissionObject, response, adminBioObject) => {
     status: response,
     isNotified: true,
     approvedBy: `${adminBioObject.firstName} ${adminBioObject.lastName}`,
+    adminResponseDate: new Date().toLocaleDateString(),
+    adminResponseTime: new Date().toLocaleTimeString(),
   };
 
   update(currPermissionRef, newPermissionObject).then(() => {
@@ -104,6 +106,7 @@ const newAnnouncementAddedEventHandler = (dispatch) => {
   dispatch(resetNotificationCounter());
 
   onValue(announcementsRef, (snapshot) => {
+    if (snapshot.val() === undefined || snapshot.val() === null) return;
     const announcementsArray = Object.values(snapshot.val());
     let counter = 0;
     announcementsArray.forEach((announcementObject, index) => {
