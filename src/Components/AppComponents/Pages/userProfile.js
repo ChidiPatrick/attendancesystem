@@ -46,7 +46,9 @@ function UserProfile() {
 
   const permissionObject = studentBioObject?.permissions;
 
-  const permissionsArray = permissionObject?.permissions;
+  // const permissionsArray = Object.values(permissionObject?.permissions);
+
+  const permissionsArray = Object.values(permissionObject);
 
   // Navigation function
   const navigateBack = () => {
@@ -64,7 +66,7 @@ function UserProfile() {
     date.getMonth()
   );
 
-  getUserPermissionsArray(studentsBioArray, userId, dispatch);
+  // getUserPermissionsArray(studentsBioArray, userId, dispatch);
 
   return (
     <div className="w-full   py-6 relative">

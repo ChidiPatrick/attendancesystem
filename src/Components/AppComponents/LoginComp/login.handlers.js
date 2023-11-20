@@ -12,6 +12,7 @@ const getStudentsBioArrayFromDatabase = (dispatch) => {
 
   onValue(studentsBioArrayRef, (snapshot) => {
     const studentsBioArray = Object.values(snapshot.val());
+    console.log(studentsBioArray);
     dispatch(setStudentBioArray(studentsBioArray));
   });
 };
