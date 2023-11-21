@@ -1,4 +1,4 @@
-import { onValue, ref, set, push, update } from "firebase/database";
+import { onValue, ref, set, push, update, remove } from "firebase/database";
 import { rdb } from "../../Firebase/firebase";
 import { toast } from "react-toastify";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
@@ -236,6 +236,8 @@ const getUnreadResponseNumber = (studentsBioArray, dispatch, userId) => {
   if (studentPermissionsArray === undefined || studentPermissionsArray === null)
     return;
 
+  console.log(studentPermissionsArray);
+
   studentPermissionsArray.map((permissionObject) => {
     if (permissionObject.isNotified === false) {
       unreadResponses = unreadResponses + 1;
@@ -251,8 +253,10 @@ const updatePermissionNotification = (
   permissionsArray,
   permissionObjectIndex,
   studentBioObject,
-  dispatch
+  dispatch,
+  studentsBioArray
 ) => {
+  console.log("Notification bar clicked!");
   const newPermissionsArray = [...permissionsArray];
   const permissionObject = newPermissionsArray[permissionObjectIndex];
 
@@ -281,22 +285,73 @@ const updatePermissionNotification = (
   }
 
   if (
-    permissionObject.status !== "Pending" &&
+    permissionObject.status === "Pending" &&
     permissionObject.isNotified === false
   ) {
     const { rdbkey } = studentBioObject;
+
+    console.log(permissionObject.rdbKey);
+
     const permissionObjectRef = ref(
       rdb,
-      `admindashboard/studentsBio/${rdbkey}/permissions/${permissionObject.rdbkey}`
+      `admindashboard/studentsBio/${rdbkey}/permissions`
     );
 
-    update(permissionObjectRef, { ...permissionObject, isNotified: true }).then(
-      () => {
-        dispatch(setStudentUISelectedPermissionObject(permissionObject));
-        dispatch(setIndividualStudentPermissionsArray(permissionsArray));
-        dispatch(showRequestResponseUI());
-      }
-    );
+    onValue(permissionObjectRef, (snapshot) => {
+      const permissionsObjects = { ...snapshot.val() };
+      console.log(permissionsObjects[`${permissionObject.rdbKey}`]);
+
+      permissionsObjects[`${permissionObject.rdbKey}`] = {
+        ...permissionObject,
+        isNotified: true,
+      };
+
+      update(permissionObjectRef, permissionsObjects)
+        .then(() => {
+          dispatch(setStudentUISelectedPermissionObject(permissionObject));
+          dispatch(setIndividualStudentPermissionsArray(permissionsArray));
+          dispatch(showRequestResponseUI());
+        })
+        .then(() => {
+          updateStudentSlice(dispatch);
+        })
+        .then(() => {
+          getUnreadResponseNumber(
+            studentsBioArray,
+            dispatch,
+            permissionObject.userId,
+            studentsBioArray
+          );
+        });
+
+      // const permissionsArray = Object.values(snapshot.val());
+
+      // const newPermissionsArray = permissionsArray.filter(
+      //   (permissionData) => permissionData.rdbKey !== permissionObject.rdbKey
+      // );
+
+      // newPermissionsArray.push({ ...permissionObject, isNotified: true });
+
+      // set(permissionObjectRef);
+    });
+
+    // update(permissionObjectRef, { ...permissionObject, isNotified: true })
+    //   .then(() => {
+    //     dispatch(setStudentUISelectedPermissionObject(permissionObject));
+    //     dispatch(setIndividualStudentPermissionsArray(permissionsArray));
+    //     dispatch(showRequestResponseUI());
+    //   })
+    //   .then(() => {
+    //     updateStudentSlice(dispatch);
+    //   })
+    //   .then(() => {
+    //     getUnreadResponseNumber(
+    //       studentsBioArray,
+    //       dispatch,
+    //       permissionObject.userId,
+    //       studentsBioArray
+    //     );
+    //   });
   }
 };
 
@@ -369,6 +424,9 @@ const getIndividualStudentPermissionRequests = (
 
   studentBioObject.permissions = permissionsArray;
 };
+
+//Listen for permission response from admin
+// const
 
 export {
   sendPermissionRequestHandler,

@@ -36,7 +36,8 @@ function StudentNotificationBar({ permissionObject, index }) {
           permissionsArray,
           index,
           studentBioObject,
-          dispatch
+          dispatch,
+          studentsBioArray
         )
       }
       className="w-[100%] mb-[10px] p-[10px] bg-[#F6F9FE]"
