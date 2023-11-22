@@ -19,6 +19,8 @@ import NotificationBar from "./notification.bar";
 import { ToastContainer } from "react-toastify";
 import AreaCharts from "./area.charts";
 import TimeDistributionGraph from "./time.distribution.graph";
+import PermissionSlice from "../../../Redux Slices/permission.slice";
+import PermissionModal from "./permission.modal";
 
 /**
  * Modify announcement UI component such that sent announcements appears great
@@ -44,7 +46,9 @@ function DashboardComponent() {
     (state) => state.permissionSlice.permissionsArray
   );
 
-  console.log(programDurationStartDate);
+  const showPermissionModal = useSelector(
+    (state) => state.permissionSlice.displayPermissionModal
+  );
 
   useEffect(() => {
     getPermissionRequests(dispatch);
@@ -152,6 +156,7 @@ function DashboardComponent() {
           </div>
         </div>
       </div>
+      {showPermissionModal === true ? <PermissionModal /> : null}
     </div>
   );
 }

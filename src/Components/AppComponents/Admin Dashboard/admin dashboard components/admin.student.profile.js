@@ -230,12 +230,12 @@ function AdminStudentProfile() {
                       {new Date().toDateString()}
                     </span>
                   </h4>
-                  <p className="mt-[20px] ">
+                  <p className="mt-[20px]   ">
                     {permissionObject.permissionBody}
                   </p>
-                  <div className="mt-[20px] flex justify-between items-center">
-                    <span className="text-black ">Duration</span>
-                    <div className="text-[14px] font-semibold w-[47%] flex justify-between items-center text-gray-800">
+                  <div className="mt-[50px] flex justify-between items-center border  border-transparent border-b border-black">
+                    <span className="text-black ">Duration of absent(s)</span>
+                    <div className="text-[14px] font-semibold w-[35%] flex justify-between items-center text-gray-800">
                       {permissionObject.startingDate} <HiArrowNarrowRight />{" "}
                       {permissionObject.endingDate}
                     </div>

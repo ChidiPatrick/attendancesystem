@@ -33,7 +33,7 @@ function NavBar({ children }) {
   );
 
   // Get number of unread notifications
-  getUnreadResponseNumber(studentsBioArray, dispatch, userId);
+  getUnreadResponseNumber(dispatch, userId);
 
   return (
     <nav className="z-[999] relative p-[10px]">

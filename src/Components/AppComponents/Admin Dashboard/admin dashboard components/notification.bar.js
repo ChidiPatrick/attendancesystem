@@ -113,6 +113,7 @@ function NotificationBar({
   return (
     // <div className="z-1000 relative">
     <div
+      // onClick={}
       key={keyIndex}
       className={`w-[${width}]  z-1000 relative my-[10px] text-[${fontSize}] flex items-center bg-[${backgroundColor}] p-[${padding}] border border-transparent rounded-md`}
     >
@@ -214,7 +215,12 @@ function NotificationBar({
           >
             Deny
           </button>
-          <button className="p-[10px]">View Details</button>
+          <button
+            onClick={() => dispatch(showPermissionModal())}
+            className="p-[10px]"
+          >
+            View Details
+          </button>
         </div>
       </div>
     </div>

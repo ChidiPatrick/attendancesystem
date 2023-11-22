@@ -28,27 +28,25 @@ function UserProfile() {
   //   (state) => state.permissionSlice.permissionsArray
   // );
 
-  const studentsBioArray = useSelector(
-    (state) => state.studentsSlice.studentsBioArray
-  );
-
-  const userId = useSelector((state) => state.loginSlice.userId);
-
   const displayPermissionResponseUI = useSelector(
     (state) => state.permissionSlice.displayPermissionResponseUI
+  );
+
+  const permissionsArray = useSelector(
+    (state) => state.permissionSlice.permissionsArray
   );
 
   const { firstName, lastName, userName, profilePictureURL, currMonthRecord } =
     userProfileData;
 
   // Extract student's bio object
-  const studentBioObject = extractStudentBioObject(studentsBioArray, userId);
+  // const studentBioObject = extractStudentBioObject(studentsBioArray, userId);
 
-  const permissionObject = studentBioObject?.permissions;
+  // const permissionObject = studentBioObject?.permissions;
 
   // const permissionsArray = Object.values(permissionObject?.permissions);
 
-  const permissionsArray = Object.values(permissionObject);
+  // const permissionsArray = Object.values(permissionObject);
 
   // Navigation function
   const navigateBack = () => {

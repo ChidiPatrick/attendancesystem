@@ -35,7 +35,6 @@ function StudentNotificationBar({ permissionObject, index }) {
         updatePermissionNotification(
           permissionsArray,
           index,
-          studentBioObject,
           dispatch,
           studentsBioArray
         )
@@ -45,15 +44,17 @@ function StudentNotificationBar({ permissionObject, index }) {
       <h3 className="p-[4px] text-lp-primary font-semibold">
         Permission Request
       </h3>
+
       <div className="flex justify-between items-center">
-        {permissionObject.isNotified === true ? null : (
+        {permissionObject.isNotified !== true &&
+        permissionObject.status !== "Pending" ? (
           <div className="w-[20px] h-[20px] p-[2px]  animate-pulse bg-lp-secondary border border-transparent rounded-full flex justify-center items-center">
             <IoNotificationsOutline
               className={`text-[20px] text-white `}
               size={20}
             />
           </div>
-        )}
+        ) : null}
 
         <div className="p-[10px] w-[90%] flex justify-between items-center">
           <p>

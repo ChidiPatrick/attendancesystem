@@ -138,7 +138,7 @@ const Signin = () => {
             getStudentsBioArrayFromDatabase(dispatch);
           })
           .then(() => {
-            getUnreadResponseNumber(studentsBioArray, dispatch, currUserId);
+            getUnreadResponseNumber(dispatch, currUserId);
           })
           .then((userId) => {
             dispatch(setUserId(userId));
