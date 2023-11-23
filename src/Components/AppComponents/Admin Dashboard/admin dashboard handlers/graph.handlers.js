@@ -78,8 +78,10 @@ const getClockinsArray = (dispatch) => {
   const clockinListRef = ref(rdb, "admindashboard/clockInList");
 
   onValue(clockinListRef, (snapshot) => {
+    if (snapshot.val() === null || snapshot.val() === undefined) return;
+
     const clockinsArray = Object.values(snapshot.val());
-    console.log(Object.values(snapshot.val()));
+
     dispatch(setClockinList(clockinsArray));
   });
 };
@@ -202,12 +204,9 @@ const getStundentCurrWeekAttendanceArray = (currStudentAttendanceArray) => {
 
 // Get student's attendance record
 const getStudentAttendanceRecord = (attendanceArray, studentId) => {
-  console.log(studentId);
   const currStudentAttendanceArray = attendanceArray.filter(
     (attendanceObject, index) => attendanceObject.userId === studentId
   );
-
-  console.log(currStudentAttendanceArray);
 
   return currStudentAttendanceArray;
 };

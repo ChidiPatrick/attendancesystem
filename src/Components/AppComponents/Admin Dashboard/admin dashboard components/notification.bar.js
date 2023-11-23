@@ -16,7 +16,7 @@ import { setStudentGraphArray } from "../admin dashboard handlers/graph.handlers
 /**
  *# Create a function to dispatch selected student's requests array
  *# Implement routing to student's profile to complete and populate the students profile UI with the students data
- *  Complete the student's permissions algorithm you were working on
+ *# Complete the student's permissions algorithm you were working on
  *  Finish up the student's profile algorithm
  */
 
@@ -178,7 +178,6 @@ function NotificationBar({
         >
           <button
             onClick={() => {
-              console.log("Called setStudentProfile");
               setStudentProfile(
                 studentsArray,
                 permissionsArray,

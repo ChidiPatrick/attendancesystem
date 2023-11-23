@@ -58,15 +58,13 @@ function AdminStudentProfile() {
     (state) => state.adminStudentsSlice.selectedStudentObj
   );
 
-  console.log(selectedStudentBio);
-
   // Variable declarations
   const userUniquePermissionRequests = extractUserPermissionRequests(
     selectedStudentBio.userId,
     permissionsArray
   );
 
-  console.log(userUniquePermissionRequests);
+  console.log(clockinArray);
 
   return (
     <div className="w-full min-h-screen bg-user-profile p-[10px]">

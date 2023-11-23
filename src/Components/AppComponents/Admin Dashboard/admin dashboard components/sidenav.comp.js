@@ -25,7 +25,7 @@ function SideNavigation() {
 
   return (
     <div className="bg-[#F6F9FE] flex flex-col justify-between  items-center p-[20px] min-h-screen w-[260px]">
-      <div>
+      <div className="min-h-screen">
         <figure className="w-full">
           <img src="images/logo.svg" />
         </figure>

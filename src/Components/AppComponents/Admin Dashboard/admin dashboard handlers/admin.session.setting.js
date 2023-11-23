@@ -1,6 +1,6 @@
 // Third-party imports
-import { update, ref } from "firebase/database";
-import { ToastContainer, toast } from "react-toastify";
+import { update, ref, remove } from "firebase/database";
+import { toast } from "react-toastify";
 import { push, set } from "firebase/database";
 
 // Local directory imports
@@ -162,6 +162,13 @@ const calcProgramDurationMonth = (programStartingDate, programEndingDate) => {
   return programMonths;
 };
 
+// Clear clockins in admin dashboard
+const clearStudentsClockins = () => {
+  const clockinsRef = ref(rdb, "admindashboard/clockInList");
+
+  remove(clockinsRef);
+};
+
 export {
   updateProgramStartingDate,
   updateProgramEndingDate,
@@ -172,4 +179,5 @@ export {
   setBreakDays,
   emmitToast,
   calcProgramDurationMonth,
+  clearStudentsClockins,
 };

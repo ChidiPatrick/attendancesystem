@@ -19,6 +19,7 @@ import {
   updateLatenessTimeFrame,
   updateProgramDurationSettings,
   updateLectureDays,
+  clearStudentsClockins,
 } from "../admin dashboard handlers/admin.session.setting";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -162,6 +163,7 @@ function Session() {
       new Date(settingsObject.sessionDuration.endDate) >= new Date()
     ) {
       dispatch(showSpinner());
+
       updateProgramDurationSettings(settingsObject)
         .then(() => {
           updateEarlinessTimeDuration(settingsObject);
@@ -176,6 +178,9 @@ function Session() {
             type: "success",
             autoClose: 3000,
           });
+        })
+        .then(() => {
+          clearStudentsClockins();
         })
         .catch((err) => {
           dispatch(hideSpinner());

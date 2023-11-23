@@ -46,7 +46,7 @@ function StudentNotificationBar({ permissionObject, index }) {
       </h3>
 
       <div className="flex justify-between items-center">
-        {permissionObject.isNotified !== true &&
+        {permissionObject.isNotified === false &&
         permissionObject.status !== "Pending" ? (
           <div className="w-[20px] h-[20px] p-[2px]  animate-pulse bg-lp-secondary border border-transparent rounded-full flex justify-center items-center">
             <IoNotificationsOutline

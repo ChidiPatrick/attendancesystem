@@ -85,7 +85,6 @@ const updatePermissionStatus = (permissionObject, response, adminBioObject) => {
   const newPermissionObject = {
     ...permissionObject,
     status: response,
-    isNotified: true,
     approvedBy: `${adminBioObject.firstName} ${adminBioObject.lastName}`,
     adminResponseDate: new Date().toLocaleDateString(),
     adminResponseTime: new Date().toLocaleTimeString(),

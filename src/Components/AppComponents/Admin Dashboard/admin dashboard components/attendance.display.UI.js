@@ -16,9 +16,11 @@ function AttendanceDisplayUI() {
 
   const clockInDatabaseRef = ref(rdb, `admindashboard/clockInList`);
 
-  let curAttendance = "No value";
+  let curAttendance = "";
 
   onValue(clockInDatabaseRef, (snapshot) => {
+    if (snapshot.val() === null || snapshot.val() === undefined) return;
+
     curAttendance = snapshot.val();
   });
 
@@ -30,7 +32,7 @@ function AttendanceDisplayUI() {
 
   return (
     <div className="w-full bg-white border border-tranparent rounded-md p-[20px] h-[380px]">
-      <h3 className="font-bold flex justify-between w-[25%] items-center">
+      <h3 className="font-bold flex justify-between w-[30%] items-center">
         <span>Today's attendance</span>
         <div className="flex justify-between items-center">
           <HiOutlineUser className="mr-[10px] font-bold" />
@@ -39,41 +41,47 @@ function AttendanceDisplayUI() {
           </div>
         </div>
       </h3>
-      <table className="w-full mt-[20px] p-[10px]">
-        <thead className="bg-[#F6F9FE]">
-          <tr>
-            <th className="w-[40px]">S/N</th>
-            <th className="w-[200px]">Full name</th>
-            <th className="w-24">Clock in</th>
-            <th className="w-24">Remark</th>
-            <th className="w-24">Clock out</th>
-          </tr>
-        </thead>
-
-        {currAttendanceArray?.map((item, index) => {
-          return (
-            <tr className="even:bg-gray-100 odd:bg-white" key={index}>
-              <td className="text-center p-[10px]">
-                {index < 10 ? `00${index + 1}` : index + 1}
-              </td>
-              <td className="text-center p-[10px]">{item?.name}</td>
-              <td className="text-center p-[10px]">{item?.time}</td>
-              <td
-                className={
-                  item?.isOnTime === true
-                    ? `text-center p-[10px] text-green-400`
-                    : `text-center p-[10px] text-lp-secondary`
-                }
-              >
-                {item.isOnTime === false ? "Late" : "Early"}
-              </td>
-              <td className="text-center p-[10px]">
-                {item?.clockoutObject?.time}
-              </td>
+      {currAttendanceArray.length === 0 ? (
+        <div className="w-[100%] h-[50%] flex items-center font-bold text-lp-primary justify-center bg-gray-200">
+          <p>NO CURRENT CLOCKIN DATA FOR TODAY YET</p>
+        </div>
+      ) : (
+        <table className="w-full mt-[20px] p-[10px]">
+          <thead className="bg-[#F6F9FE]">
+            <tr>
+              <th className="w-[40px]">S/N</th>
+              <th className="w-[200px]">Full name</th>
+              <th className="w-24">Clock in</th>
+              <th className="w-24">Remark</th>
+              <th className="w-24">Clock out</th>
             </tr>
-          );
-        })}
-      </table>
+          </thead>
+
+          {currAttendanceArray?.map((item, index) => {
+            return (
+              <tr className="even:bg-gray-100 odd:bg-white" key={index}>
+                <td className="text-center p-[10px]">
+                  {index < 10 ? `00${index + 1}` : index + 1}
+                </td>
+                <td className="text-center p-[10px]">{item?.name}</td>
+                <td className="text-center p-[10px]">{item?.time}</td>
+                <td
+                  className={
+                    item?.isOnTime === true
+                      ? `text-center p-[10px] text-green-400`
+                      : `text-center p-[10px] text-lp-secondary`
+                  }
+                >
+                  {item.isOnTime === false ? "Late" : "Early"}
+                </td>
+                <td className="text-center p-[10px]">
+                  {item?.clockoutObject?.time}
+                </td>
+              </tr>
+            );
+          })}
+        </table>
+      )}
     </div>
   );
 }

@@ -8,6 +8,7 @@ import { setCurrStudentPermissionsArray } from "../../../Redux Slices/permission
 const addStudentBioToAdminDatabase = async (valuesObject, userId) => {
   const databaseRef = ref(rdb, `admindashboard/studentsBio`);
   const studentsBioRef = push(databaseRef);
+
   await set(studentsBioRef, {
     ...valuesObject,
     userId,
@@ -30,6 +31,7 @@ const getStudentsArray = (dispatch) => {
 const addAdminBioDataToDatabase = async (valuesObject) => {
   const adminsBioDatabaseRef = ref(rdb, "admindashboard/adminsBioDatabase");
   const adminRefNumber = push(adminsBioDatabaseRef);
+
   await set(adminRefNumber, {
     ...valuesObject,
     rdbKey: adminRefNumber.key,
