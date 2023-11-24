@@ -3,9 +3,10 @@ import React, { useRef, useState } from "react";
 // Third-pary imports
 import { HiDotsVertical } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   setSelectedPermissionRequest,
+  showPermissionDenialUI,
   showPermissionModal,
 } from "../../../Redux Slices/permission.slice";
 import { updatePermissionStatus } from "../admin dashboard handlers/admin.announcement.handler";
@@ -13,6 +14,7 @@ import { setSelectedStudent } from "../../../Redux Slices/adminStudentsSlice";
 import { setCurrStudentPermissionRequests } from "../admin dashboard handlers/admin.handlers";
 import { getCurrStudentAttendanceArray } from "../admin dashboard handlers/admin.attendance.report.handlers";
 import { setStudentGraphArray } from "../admin dashboard handlers/graph.handlers";
+import DenyReequestUI from "./deny.request.UI";
 /**
  *# Create a function to dispatch selected student's requests array
  *# Implement routing to student's profile to complete and populate the students profile UI with the students data
@@ -38,20 +40,12 @@ function NotificationBar({
   const permissionRef = useRef();
 
   ///////// Redux states //////////////////////////
-  const studentsBioArray = useSelector(
-    (state) => state.adminSlice.studentsBioArray
-  );
-
   const permissionsArray = useSelector(
     (state) => state.permissionSlice.permissionsArray
   );
 
   const selectedPermissionRequest = useSelector(
     (state) => state.permissionSlice.selectedPermissionRequest
-  );
-
-  const notificationCounter = useSelector(
-    (state) => state.announcementSlice.notificationCounter
   );
 
   const adminBioObject = useSelector((state) => state.adminSlice.adminData);
@@ -64,7 +58,9 @@ function NotificationBar({
     (state) => state.attendanceReportSlice.clockinList
   );
 
-  console.log(clockinList);
+  const displayPermissionDenialUI = useSelector(
+    (state) => state.permissionSlice.displayPermissionDenialUI
+  );
 
   //View student's profile handler
   const setStudentProfile = (
@@ -96,6 +92,7 @@ function NotificationBar({
   // Permission UI Toggling handler
   const toggleUI = (e) => {
     if (e.target.id === "popUpWrapper" || e.target.id === "icon") {
+      console.log(e);
       const selectedPermissionRequestObject =
         permissionsArray[parseFloat(e.target.parentElement.id)];
 
@@ -111,7 +108,6 @@ function NotificationBar({
   };
 
   return (
-    // <div className="z-1000 relative">
     <div
       // onClick={}
       key={keyIndex}
@@ -195,7 +191,8 @@ function NotificationBar({
               updatePermissionStatus(
                 selectedPermissionRequest,
                 "Approved",
-                adminBioObject
+                adminBioObject,
+                dispatch
               )
             }
             className="p-[10px]"
@@ -203,13 +200,7 @@ function NotificationBar({
             Approve
           </button>
           <button
-            onClick={() =>
-              updatePermissionStatus(
-                selectedPermissionRequest,
-                "Denied",
-                adminBioObject
-              )
-            }
+            onClick={() => dispatch(showPermissionDenialUI())}
             className="p-[10px]"
           >
             Deny
@@ -222,6 +213,13 @@ function NotificationBar({
           </button>
         </div>
       </div>
+      {/* {displayPermissionDenialUI === true ? (
+        <DenyReequestUI
+          permissionRequest={selectedPermissionRequest}
+          response="Denied"
+          adminBioObject={adminBioObject}
+        />
+      ) : null} */}
     </div>
   );
 }

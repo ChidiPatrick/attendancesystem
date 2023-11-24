@@ -10,6 +10,7 @@ const initialState = {
   displayPermissionResponseUI: false,
   studentUISelectedPermissionObject: {},
   individualStudentPermissionsArray: [],
+  displayPermissionDenialUI: true,
 };
 
 const permissionSlice = createSlice({
@@ -47,6 +48,12 @@ const permissionSlice = createSlice({
     setIndividualStudentPermissionsArray(state, action) {
       state.individualStudentPermissionsArray = action.payload;
     },
+    showPermissionDenialUI(state, action) {
+      state.displayPermissionDenialUI = true;
+    },
+    hidePermissionDenialUI(state, action) {
+      state.displayPermissionDenialUI = false;
+    },
   },
 });
 
@@ -61,6 +68,8 @@ export const {
   showRequestResponseUI,
   setIndividualStudentPermissionsArray,
   setStudentUISelectedPermissionObject,
+  hidePermissionDenialUI,
+  showPermissionDenialUI,
 } = permissionSlice.actions;
 
 export default permissionSlice.reducer;

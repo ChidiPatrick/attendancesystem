@@ -60,6 +60,7 @@ function Permission() {
     status: "Pending",
     name: `${firstName} ${lastName}`,
     userId,
+    responseBody: "",
   };
 
   /// Get permission type value //////

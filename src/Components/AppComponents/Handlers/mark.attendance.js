@@ -1,5 +1,8 @@
+// Third-party imports
 import { arrayUnion, increment, updateDoc } from "firebase/firestore";
 import { db } from "../../Firebase/firebase";
+
+// Local directory imports
 import {
   firestoreRefCreator,
   getStudentDocumentRef,
@@ -19,13 +22,7 @@ import {
 import { getWeekNumber } from "./get.current.week";
 import { toast } from "react-toastify";
 
-/* 
-TODOs:
-   Walk through the attendance marking process again
-   Implement attendance updating logic to add clockout data
-
-*/
-
+/////// HANDLERS ///////////////
 const navigateToClockIn = (navigate, clockinPage) => {
   navigate(`/${clockinPage}`);
 };
@@ -38,7 +35,6 @@ const updateAttendanceRecord = async (
   clockInAttendanceArray
 ) => {
   try {
-    //Create document reference
     const attendanceRef = firestoreRefCreator(
       db,
       userId,
@@ -171,7 +167,6 @@ const updateAttendanceRecord = async (
           });
       } else {
         console.log("Calling the else statement");
-        // await deletePreviousDayImage(clockInAttendanceArray, userId)
         await updateDoc(attendanceRef, data)
           .then(async () => {
             await updateDoc(userProfileDocumentRef, userProfileData);
@@ -231,58 +226,6 @@ const updateClockOutData = async (
       dispatch(showNetworkFeedback());
       return;
     }
-
-    // console.log(attendanceData);
-    // if (attendanceData.length === 0) {
-    //   await updateDoc(attendanceDocumentRef, data)
-    //     .then(async () => {
-    //       console.log("Adding clock out data to admin database");
-    //       addClockOutDataToAdminDatabase(clockOutData);
-    //     })
-
-    //     .then(() => {
-    //       console.log("Uploaded...");
-    //       getAttendanceRecords(userId, dispatch);
-    //     })
-
-    //     .then(() => {
-    //       dispatch(hideSpinner());
-    //     });
-
-    //   return;
-    // }
-
-    // console.log(attendanceData);
-    // const clockOutsArray = [...attendanceData];
-    // const lastClockOutObj = clockOutsArray[clockOutsArray.length - 1];
-    // console.log(clockOutData);
-
-    // if (
-    //   clockOutsArray.length > 0 &&
-    //   lastClockOutObj.date === new Date().toDateString()
-    // ) {
-    //   alert("Already clocked out for today!");
-
-    //   dispatch(hideSpinner());
-
-    //   return;
-    // } else if (
-    //   clockOutsArray === 0 ||
-    //   lastClockOutObj.date !== new Date().toDateString()
-    // ) {
-    //   await updateDoc(attendanceDocumentRef, data)
-    //     .then(async () => {
-    //       console.log("Adding clock out data to admin database");
-    //       addClockOutDataToAdminDatabase(clockOutData);
-    //     })
-    //     .then(() => {
-    //       console.log("Uploaded...");
-    //       dispatch(getAttendanceRecords(userId));
-    //     })
-    //     .then(() => {
-    //       dispatch(hideSpinner());
-    //     });
-    // }
 
     ///////////////////////////////////////////////////////
     await updateDoc(attendanceDocumentRef, data)

@@ -11,6 +11,7 @@ import {
 } from "../../../Redux Slices/announcementSlice";
 import { rdb } from "../../../Firebase/firebase";
 import { setAnnouncementArray } from "../../../Redux Slices/announcementSlice";
+import { hidePermissionDenialUI } from "../../../Redux Slices/permission.slice";
 
 const publishAnnouncement = async (announcementObject, dispatch) => {
   if (!navigator.onLine) {
@@ -68,12 +69,29 @@ const fetchAnnouncements = async (dispatch) => {
 };
 
 //////// Approve Permission ///////
-const updatePermissionStatus = (permissionObject, response, adminBioObject) => {
+const updatePermissionStatus = (
+  permissionObject,
+  response,
+  adminBioObject,
+  dispatch,
+  responseBody
+) => {
   if (permissionObject.status !== "Pending") {
     toast("Sorry, permission can not be responded to more than once", {
       type: "waring",
       autoClose: 3000,
     });
+    return;
+  }
+
+  if (response === "Denied" && responseBody === "") {
+    toast(
+      "Permission denial must be accompanied with a reason, the text field can not be left empty",
+      {
+        type: "warning",
+        autoClose: 3000,
+      }
+    );
     return;
   }
 
@@ -88,14 +106,17 @@ const updatePermissionStatus = (permissionObject, response, adminBioObject) => {
     approvedBy: `${adminBioObject.firstName} ${adminBioObject.lastName}`,
     adminResponseDate: new Date().toLocaleDateString(),
     adminResponseTime: new Date().toLocaleTimeString(),
+    responseBody,
   };
 
-  update(currPermissionRef, newPermissionObject).then(() => {
-    toast("Response sent successfully", {
-      type: "success",
-      autoClose: 3000,
-    });
-  });
+  update(currPermissionRef, newPermissionObject)
+    .then(() => {
+      toast("Response sent successfully", {
+        type: "success",
+        autoClose: 3000,
+      });
+    })
+    .then(() => dispatch(hidePermissionDenialUI()));
 };
 
 ///// New announcement added event listern //////

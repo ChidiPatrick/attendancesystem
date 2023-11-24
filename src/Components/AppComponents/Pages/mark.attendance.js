@@ -66,8 +66,8 @@ function MarkUser() {
     const time = date.toLocaleTimeString("en-US");
     const currHour = date.getHours();
     setTime(time);
-
     setCurrDate(date.toLocaleDateString());
+
     //CHECK TO SEE IF THIS BUG HAS BEEN FIXED
     if (currHour < latenessHour) {
       setUserIsOnTime(true);

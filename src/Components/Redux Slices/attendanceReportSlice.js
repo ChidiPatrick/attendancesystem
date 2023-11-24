@@ -8,6 +8,7 @@ const initialState = {
   attendanceGraphArray: null,
   displayBigGraph: false,
   currStudentAttendanceGraphArray: [],
+  latenssStartTime: 0,
 };
 
 const attendanceReportSlice = createSlice({
@@ -46,6 +47,7 @@ export const {
   showBigGraph,
   hideBigGraph,
   setCurrStudentGraphAttendanceArray,
+  setLateHour,
 } = attendanceReportSlice.actions;
 
 export default attendanceReportSlice.reducer;

@@ -21,6 +21,7 @@ import AreaCharts from "./area.charts";
 import TimeDistributionGraph from "./time.distribution.graph";
 import PermissionSlice from "../../../Redux Slices/permission.slice";
 import PermissionModal from "./permission.modal";
+import DenyReequestUI from "./deny.request.UI";
 
 /**
  * Modify announcement UI component such that sent announcements appears great
@@ -48,6 +49,16 @@ function DashboardComponent() {
 
   const showPermissionModal = useSelector(
     (state) => state.permissionSlice.displayPermissionModal
+  );
+
+  const adminBioObject = useSelector((state) => state.adminSlice.adminData);
+
+  const selectedPermissionRequest = useSelector(
+    (state) => state.permissionSlice.selectedPermissionRequest
+  );
+
+  const displayPermissionDenialUI = useSelector(
+    (state) => state.permissionSlice.displayPermissionDenialUI
   );
 
   useEffect(() => {
@@ -156,6 +167,13 @@ function DashboardComponent() {
           </div>
         </div>
       </div>
+      {displayPermissionDenialUI === true ? (
+        <DenyReequestUI
+          permissionRequest={selectedPermissionRequest}
+          response="Denied"
+          adminBioObject={adminBioObject}
+        />
+      ) : null}
       {showPermissionModal === true ? <PermissionModal /> : null}
     </div>
   );

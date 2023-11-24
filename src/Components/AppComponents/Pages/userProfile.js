@@ -13,7 +13,8 @@ import {
 import { BsFillPersonFill } from "react-icons/bs";
 import StudentNotificationBar from "./student.notification.bar";
 import StudentPermissionResponseUI from "./student.permission.responseUI";
-import { getUserPermissionsArray } from "../Handlers/permission.handler";
+import { getLatenessHour } from "../Handlers/clockin.handler";
+import { setLateHour } from "../../Redux Slices/attendanceReportSlice";
 
 function UserProfile() {
   const dispatch = useDispatch();
@@ -39,14 +40,9 @@ function UserProfile() {
   const { firstName, lastName, userName, profilePictureURL, currMonthRecord } =
     userProfileData;
 
-  // Extract student's bio object
-  // const studentBioObject = extractStudentBioObject(studentsBioArray, userId);
+  console.log(getLatenessHour());
 
-  // const permissionObject = studentBioObject?.permissions;
-
-  // const permissionsArray = Object.values(permissionObject?.permissions);
-
-  // const permissionsArray = Object.values(permissionObject);
+  dispatch(setLateHour(getLatenessHour()));
 
   // Navigation function
   const navigateBack = () => {
