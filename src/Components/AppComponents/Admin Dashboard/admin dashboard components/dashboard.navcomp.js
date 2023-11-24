@@ -14,6 +14,7 @@ import {
   setStudentProfile,
 } from "../admin dashboard handlers/navigation.comp.handlers";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 function DashboardNavigationComponent({ title }) {
   const dispatch = useDispatch();
@@ -87,9 +88,12 @@ function DashboardNavigationComponent({ title }) {
             )}
             <IoNotificationsOutline size={30} />
           </div>
-          <div className="text-[#4A4A4A] bg-[#ecf0f1] flex items-center justify-center border rounded-full w-[50px] h-[50px]">
+          <Link
+            to="/"
+            className="text-[#4A4A4A] bg-[#ecf0f1] flex items-center justify-center border rounded-full w-[50px] h-[50px]"
+          >
             <HiOutlineAcademicCap size={30} />
-          </div>
+          </Link>
           <div className="bg-[#ecf0f1] flex items-center justify-center border rounded-full w-[50px] h-[50px]">
             <HiOutlineCircleStack size={30} />
           </div>

@@ -70,10 +70,7 @@ function App() {
         <Route path="/editProfile" element={<EditProfile />} />
         <Route path="/adminDashboard" element={<AdminDashboardLayout />}>
           <Route index element={<DashboardComponent />} />
-          <Route
-            path="/adminDashboard/adminStudentsBio"
-            element={<StudentsBio />}
-          />
+          <Route path="/adminDashboard/StudentsBio" element={<StudentsBio />} />
           <Route
             path="/adminDashboard/adminDashboard"
             element={<DashboardComponent />}
@@ -94,6 +91,10 @@ function App() {
           <Route
             path="/adminDashboard/classSetup/sessionSettings"
             element={<Session />}
+          />
+          <Route
+            path="/adminDashboard/classSetup/sessionSettings"
+            element={<StudentsBio />}
           />
         </Route>
         <Route path="/adminStudentProfile" element={<AdminStudentProfile />} />

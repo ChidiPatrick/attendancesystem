@@ -10,7 +10,10 @@ import {
 } from "react-icons/hi2";
 import { GrAnnounce } from "react-icons/gr";
 import { BiLogIn } from "react-icons/bi";
+import { MdDashboard } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+
+// Local directory imports
 import { logout } from "../../../General app handlers/general.handlers";
 import { auth } from "../../../Firebase/firebase";
 import { hideMenu } from "../../../Redux Slices/menu.slice";
@@ -38,7 +41,7 @@ function SideNavigation() {
               className="flex w-[200px] items-center"
               to="/adminDashboard/adminDashboard"
             >
-              <HiOutlineAcademicCap className="mr-[10px]" />
+              <MdDashboard className="mr-[10px]" />
               <span>Dashboard</span>
             </NavLink>
           </li>
@@ -52,6 +55,18 @@ function SideNavigation() {
             >
               <GrAnnounce className="mr-[10px]" />
               <span>Announcement</span>
+            </NavLink>
+          </li>
+          <li
+            className="flex w-full my-[10px] p-[10px]"
+            activeClassName="bg-[#E9EFFC]"
+          >
+            <NavLink
+              className="flex w-[200px] items-center"
+              to="/adminDashboard/StudentsBio"
+            >
+              <HiOutlineAcademicCap className="mr-[10px]" />
+              <span>Students</span>
             </NavLink>
           </li>
           <li

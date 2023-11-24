@@ -12,10 +12,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { storage } from "../../Firebase/firebase";
-import {
-  firestoreRefCreator,
-  invokeAllThunks,
-} from "../../General app handlers/general.handlers";
+import { firestoreRefCreator } from "../../General app handlers/general.handlers";
 import { setProfilePictureUrl } from "../../Redux Slices/profileSlice";
 import { useNavigate } from "react-router";
 import { updateDoc } from "firebase/firestore";

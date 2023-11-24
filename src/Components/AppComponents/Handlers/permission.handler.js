@@ -4,14 +4,11 @@ import { toast } from "react-toastify";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
 import {
   setIndividualStudentPermissionsArray,
-  setPermissions,
   setStudentUISelectedPermissionObject,
   setUnreadResponses,
   showRequestResponseUI,
 } from "../../Redux Slices/permission.slice";
-import { getStudentBioObject } from "./profile.picture.upload.handler";
-import { extractStudentBioObject } from "../../General app handlers/general.handlers";
-import { useId } from "react";
+
 import { setStudentBioArray } from "../../Redux Slices/studentsSlice";
 
 // Add permission to student's bio object

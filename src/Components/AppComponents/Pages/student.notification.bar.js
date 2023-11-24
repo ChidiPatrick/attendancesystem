@@ -4,13 +4,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { IoNotificationsOutline } from "react-icons/io5";
-import { showRequestResponseUI } from "../../Redux Slices/permission.slice";
 import { updatePermissionNotification } from "../Handlers/permission.handler";
 import { extractStudentBioObject } from "../../General app handlers/general.handlers";
 
 function StudentNotificationBar({ permissionObject, index }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   // Redux states
   const permissionsArray = useSelector(
@@ -24,8 +22,6 @@ function StudentNotificationBar({ permissionObject, index }) {
   const userId = useSelector((state) => state.loginSlice.userId);
 
   console.log(userId);
-
-  const studentBioObject = extractStudentBioObject(studentsBioArray, userId);
 
   // View permission reponse
   return (

@@ -6,10 +6,16 @@ import { BiDownload } from "react-icons/bi";
 
 // Local directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
+import { useSelector } from "react-redux";
 
 function StudentsBio() {
+  // Redux states
+  const studentsBioArray = useSelector(
+    (state) => state.studentsSlice.studentsBioArray
+  );
+
   return (
-    <div className="bg-[#F6F9FE] px-[20px]">
+    <div className=" px-[10px]">
       <div className="w-full border border-b-black p">
         <DashboardNavigationComponent title="Students bio" />
       </div>
@@ -21,9 +27,10 @@ function StudentsBio() {
             <HiArrowLongRight size={20} />
             <div>August 05,2023</div>
           </div>
-          <button className="hover:bg-lp-secondary flex justify-between items-center hover:text-white p-[10px] border border-[2px] border-lp-secondary rounded-full font-bold text-lp-secondary bg-white">
-            <BiDownload className="mr-[10px]" size={20} /> Download students
-            list
+          <button className="text-white w-[200px] flex justify-between items-center  p-[10px] border-[2px] rounded-md font-bold bg-lp-secondary ">
+            <div className="flex justify-center items-center w-[80%] mx-auto">
+              <BiDownload className="mr-[10px]" size={20} /> Download
+            </div>
           </button>
         </div>
       </div>
@@ -38,22 +45,26 @@ function StudentsBio() {
             <th className="w-24">Email</th>
           </tr>
         </thead>
-        <tr className="odd:bg-white p-[10px] mb-2 even:bg-gray-100  border-b border-border-signup-gray my-2 ">
-          <td className="text-center p-[10px]">001</td>
-          <td className="text-center p-[10px]">Patrick</td>
-          <td className="text-center p-[10px]">Chidi</td>
-          <td className="text-center p-[10px]">Patrick</td>
-          <td className="text-center p-[10px]">08133953948</td>
-          <td className="text-center p-[10px]">chidowest@gmail.com</td>
-        </tr>
-        <tr className="odd:bg-white p-[10px] mb-2 even:bg-gray-100  border-b border-border-signup-gray my-2 ">
-          <td className="text-center p-[10px]">002</td>
-          <td className="text-center p-[10px]">Dubem</td>
-          <td className="text-center p-[10px]">Emmanuel</td>
-          <td className="text-center p-[10px]">Capelo</td>
-          <td className="text-center p-[10px]">08133783948</td>
-          <td className="text-center p-[10px]">capelo@gmail.com</td>
-        </tr>
+        {studentsBioArray.map((studentBioObject, index) => {
+          return (
+            <tr className="odd:bg-white p-[10px] mb-2 even:bg-gray-100  border-b border-border-signup-gray my-2 ">
+              <td className="text-center p-[10px]">
+                {index <= 9 ? `00${index}` : `0${index}`}
+              </td>
+              <td className="text-center p-[10px]">
+                {studentBioObject.firstName}
+              </td>
+              <td className="text-center p-[10px]">
+                {studentBioObject.lastName}
+              </td>
+              <td className="text-center p-[10px]">
+                {studentBioObject.userName}
+              </td>
+              <td className="text-center p-[10px]">{studentBioObject.tel}</td>
+              <td className="text-center p-[10px]">{studentBioObject.email}</td>
+            </tr>
+          );
+        })}
       </table>
     </div>
   );

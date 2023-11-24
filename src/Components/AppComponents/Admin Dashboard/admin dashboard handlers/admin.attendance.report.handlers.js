@@ -7,10 +7,6 @@ import {
 } from "../../../Redux Slices/attendanceReportSlice";
 import { toast } from "react-toastify";
 
-/**
- * Complete the implementation of  days absent with/without permission functions
- */
-
 /// Fetch current clockin array
 const fetchCurrClockinArray = (dispatch) => {
   if (!navigator.onLine) {

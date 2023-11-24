@@ -6,15 +6,12 @@ import { FaArrowLeft } from "react-icons/fa";
 /// Local directory imports /////
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import {
-  calcNumWorkingDaysOfTheMonth,
-  extractStudentBioObject,
-} from "../../General app handlers/general.handlers";
+import { calcNumWorkingDaysOfTheMonth } from "../../General app handlers/general.handlers";
 import { BsFillPersonFill } from "react-icons/bs";
 import StudentNotificationBar from "./student.notification.bar";
 import StudentPermissionResponseUI from "./student.permission.responseUI";
 import { getLatenessHour } from "../Handlers/clockin.handler";
-import { setLateHour } from "../../Redux Slices/attendanceReportSlice";
+import { setLateHour } from "../../Redux Slices/attendanceSlice";
 
 function UserProfile() {
   const dispatch = useDispatch();
@@ -24,10 +21,6 @@ function UserProfile() {
   const userProfileData = useSelector(
     (state) => state.profileSlice.userProfileData
   );
-
-  // const permissionsArray = useSelector(
-  //   (state) => state.permissionSlice.permissionsArray
-  // );
 
   const displayPermissionResponseUI = useSelector(
     (state) => state.permissionSlice.displayPermissionResponseUI
@@ -96,7 +89,7 @@ function UserProfile() {
                   </span>
                 </div>
                 <div className=" flex w-[100%] px-6 md:px-8 pt-3 pb-2 justify-between  bg-myshade  rounded-br-3xl rounded-bl-3xl ">
-                  <div className=" tracking-wide text-[13px] md:text-base">
+                  <div className=" tracking-wide text-lp-primary text-[13px] md:text-base">
                     <p>
                       {firstName} {lastName},{userName}
                     </p>
@@ -119,7 +112,7 @@ function UserProfile() {
                 <div className=" text-my-grey font-semibold text-[15px] md:text-base">
                   Total days present for the month
                 </div>
-                <div className="w-3 h-3 ml-1 border border-blue-100 bg-gradient-to-br from-profile-design-primary1 from-10% from-20% to-profile-design-primary2    via-profile-design-middle via-50% border rounded"></div>
+                <div className="w-3 h-3 ml-1 border border-blue-100 bg-gradient-to-br from-profile-design-primary1 from-10% from-20% to-profile-design-primary2    via-profile-design-middle via-50% rounded"></div>
               </div>
               <div className=" h-full flex items-center font-bold text-[18px] md:text-[20px]">
                 {userProfileData !== undefined

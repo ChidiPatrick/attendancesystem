@@ -19,9 +19,9 @@ import NotificationBar from "./notification.bar";
 import { ToastContainer } from "react-toastify";
 import AreaCharts from "./area.charts";
 import TimeDistributionGraph from "./time.distribution.graph";
-import PermissionSlice from "../../../Redux Slices/permission.slice";
 import PermissionModal from "./permission.modal";
 import DenyReequestUI from "./deny.request.UI";
+import StudentsBio from "./students.bio";
 
 /**
  * Modify announcement UI component such that sent announcements appears great

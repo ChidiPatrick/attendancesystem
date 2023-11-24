@@ -1,5 +1,5 @@
 // Third-party imports
-import { arrayUnion, increment, updateDoc } from "firebase/firestore";
+import { increment, updateDoc } from "firebase/firestore";
 import { db } from "../../Firebase/firebase";
 
 // Local directory imports
