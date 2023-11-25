@@ -18,7 +18,6 @@ const permissionSlice = createSlice({
   initialState,
   reducers: {
     setPermissions(state, action) {
-      // if (action.payload === undefined || action.payload === null) return [];
       state.permissionsArray = action.payload?.reverse();
     },
     setSelectedPermissionRequest(state, action) {

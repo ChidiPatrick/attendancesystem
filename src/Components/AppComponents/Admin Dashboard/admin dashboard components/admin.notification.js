@@ -80,6 +80,8 @@ function AdminNotification({ permissionObject, keyIndex }) {
   // Open permission Request
   const openPermissionRequest = (e) => {
     const permissionIndex = e.target.id;
+    console.log(permissionIndex);
+
     dispatch(setSelectedPermissionRequest(permissionsArray[permissionIndex]));
     dispatch(showPermissionModal());
   };
@@ -89,7 +91,7 @@ function AdminNotification({ permissionObject, keyIndex }) {
       key={keyIndex}
       className={`w-[100%]  z-1000 relative my-[10px] text-[16px] flex items-center bg-[#EDEDED] p-[10px] border border-transparent rounded-md`}
     >
-      <div className={`w-[100%] `}>
+      <div className={`w-[100%]`}>
         <div className="font-bold flex justify-between items-center mb-[10px]">
           <figure
             id={`${keyIndex}`}

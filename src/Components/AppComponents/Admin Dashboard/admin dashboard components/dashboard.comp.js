@@ -22,6 +22,7 @@ import TimeDistributionGraph from "./time.distribution.graph";
 import PermissionModal from "./permission.modal";
 import DenyReequestUI from "./deny.request.UI";
 import StudentsBio from "./students.bio";
+import { useParams } from "react-router";
 
 /**
  * Modify announcement UI component such that sent announcements appears great

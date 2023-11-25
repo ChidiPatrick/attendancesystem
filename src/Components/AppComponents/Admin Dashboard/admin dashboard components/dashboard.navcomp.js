@@ -89,15 +89,21 @@ function DashboardNavigationComponent({ title }) {
             <IoNotificationsOutline size={30} />
           </div>
           <Link
-            to="/"
+            to="/adminDashboard/StudentsBio"
             className="text-[#4A4A4A] bg-[#ecf0f1] flex items-center justify-center border rounded-full w-[50px] h-[50px]"
           >
             <HiOutlineAcademicCap size={30} />
           </Link>
-          <div className="bg-[#ecf0f1] flex items-center justify-center border rounded-full w-[50px] h-[50px]">
+          <Link
+            to="/adminDashboard/classSetup"
+            className="bg-[#ecf0f1] flex items-center justify-center border rounded-full w-[50px] h-[50px]"
+          >
             <HiOutlineCircleStack size={30} />
-          </div>
-          <figure className="w-[50px] h-[50px] border flex justify-center items-center rounded-full bg-gray-50">
+          </Link>
+          <Link
+            to="/adminDashboard/adminProfile"
+            className="w-[50px] h-[50px] border flex justify-center items-center rounded-full bg-gray-50"
+          >
             {adminProfilePictureURL === "" || navigator.onLine === false ? (
               <BsFillPersonFill size={30} />
             ) : (
@@ -106,7 +112,7 @@ function DashboardNavigationComponent({ title }) {
                 className="w-[100%] h-[100%] border rounded-full"
               />
             )}
-          </figure>
+          </Link>
         </div>
       </div>
     </div>

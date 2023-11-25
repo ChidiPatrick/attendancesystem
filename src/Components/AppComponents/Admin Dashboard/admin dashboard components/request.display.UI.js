@@ -18,7 +18,7 @@ function RequestDisplayUI() {
   console.log(adminBioObject);
 
   return (
-    <div className="w-[70%] mx-auto p-[10px] overflow-auto min-h-[250px] border mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md">
+    <div className="lg:w-[50%] w-[70%] mx-auto p-[10px] overflow-auto min-h-[250px] border mb-[20px] rounded-xl bg-[#FBFCFE] shadow-md">
       <h4 className="flex justify-between items-center">
         <span className="font-bold text-[18px]">
           Permission to be {selectedPermissionRequest?.permissionType}

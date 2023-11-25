@@ -9,11 +9,11 @@ import "react-clock/dist/Clock.css";
 import { ToastContainer } from "react-toastify";
 import { Margin, usePDF, Resolution } from "react-to-pdf";
 import { HiArrowNarrowRight } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
 
 // Local directory imports
 import DashboardNavigationComponent from "./dashboard.navcomp";
 import AttendanceRecordSummary from "./attendance.record.summary";
-import { useDispatch, useSelector } from "react-redux";
 import { getStudentsNumber } from "../admin dashboard handlers/admin.handlers";
 import {
   fetchCurrClockinArray,
@@ -32,8 +32,6 @@ function AttendanceReport({ marginTop }) {
   );
   const [attendanceArray, setAttendanceArray] = useState(null);
 
-  console.log(attendanceRangeStartingDate < attendanceRangeEndingDate);
-
   // Redux states
   const clockinLList = useSelector(
     (state) => state.attendanceReportSlice.clockinList
@@ -46,7 +44,11 @@ function AttendanceReport({ marginTop }) {
   // Set pdf converter
   const { toPDF, targetRef } = usePDF({
     method: "save",
-    filename: "usepdf-example.pdf",
+    filename: `Attendance report ${new Date(
+      attendanceRangeStartingDate
+    ).toLocaleDateString()} - ${new Date(
+      attendanceRangeEndingDate
+    ).toLocaleDateString()}`,
     page: { margin: Margin.MEDIUM },
     resolution: Resolution.HIGH,
   });

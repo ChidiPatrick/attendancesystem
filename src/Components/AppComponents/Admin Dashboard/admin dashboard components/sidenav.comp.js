@@ -1,5 +1,4 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
 
 // Third-party imports
 import {
@@ -8,6 +7,8 @@ import {
   HiListBullet,
   HiOutlineUser,
 } from "react-icons/hi2";
+import { Link, useNavigate } from "react-router-dom";
+
 import { GrAnnounce } from "react-icons/gr";
 import { BiLogIn } from "react-icons/bi";
 import { MdDashboard } from "react-icons/md";
@@ -37,67 +38,70 @@ function SideNavigation() {
             className="flex w-full my-[10px] p-[10px]"
             activeClassName="bg-[#E9EFFC]"
           >
-            <NavLink
+            <Link
               className="flex w-[200px] items-center"
               to="/adminDashboard/adminDashboard"
             >
               <MdDashboard className="mr-[10px]" />
               <span>Dashboard</span>
-            </NavLink>
+            </Link>
           </li>
           <li
             className="flex w-full my-[10px] p-[10px]"
             activeClassName="bg-[#E9EFFC]"
           >
-            <NavLink
+            <Link
               className="flex w-[200px] items-center"
               to="/adminDashboard/adminAnnouncements"
             >
               <GrAnnounce className="mr-[10px]" />
               <span>Announcement</span>
-            </NavLink>
+            </Link>
           </li>
           <li
             className="flex w-full my-[10px] p-[10px]"
             activeClassName="bg-[#E9EFFC]"
           >
-            <NavLink
+            <Link
               className="flex w-[200px] items-center"
               to="/adminDashboard/StudentsBio"
             >
               <HiOutlineAcademicCap className="mr-[10px]" />
               <span>Students</span>
-            </NavLink>
+            </Link>
           </li>
           <li
             className="flex w-full my-[10px] p-[10px]"
             activeClassName="bg-[#E9EFFC]"
           >
-            <NavLink className="flex w-[200px] items-center" to="classSetup">
+            <Link
+              className="flex w-[200px] items-center"
+              to="/adminDashboard/classSetup"
+            >
               <HiOutlineCircleStack className="mr-[10px]" />
               <span>Class setup</span>
-            </NavLink>
+            </Link>
           </li>
           <li
             className="flex w-full my-[10px] p-[10px]"
             activeClassName="bg-[#E9EFFC]"
           >
-            <NavLink
+            <Link
               className="flex w-[200px] items-center"
-              to="attendanceDispalyUI"
+              to="/adminDashboard/attendanceDispalyUI"
             >
               <HiListBullet className="mr-[10px]" />
               <span>Attendance</span>
-            </NavLink>
+            </Link>
           </li>
           <li
             className="flex w-full my-[10px] p-[10px]"
             activeClassName="bg-[#E9EFFC]"
           >
-            <NavLink to="adminProfile" className="flex w-[200px] items-center">
+            <Link to="adminProfile" className="flex w-[200px] items-center">
               <HiOutlineUser className="mr-[10px]" />
               <span>Profile</span>
-            </NavLink>
+            </Link>
           </li>
         </ul>
       </div>

@@ -17,10 +17,10 @@ const fetchCurrClockinArray = (dispatch) => {
     });
   }
 
-  console.log("fetching clockin array");
   const clockinRef = ref(rdb, "admindashboard/clockInList");
 
   onValue(clockinRef, (snapshot) => {
+    if (snapshot.val() === null || snapshot.val() === undefined) return;
     const clockinList = Object.values(snapshot.val());
     dispatch(setClockinList(clockinList));
   });
@@ -36,15 +36,12 @@ const fetchAttendanceWithinRange = (startDate, endDate, setAttendanceArray) => {
     return;
   }
 
-  console.log(startDate < endDate);
-
   if (endDate < startDate) {
-    console.log("Checking date");
     toast(
       "Attendance history ending date can not be less than the starting date 🙄",
       {
-        theme: "dark",
         type: "info",
+        autoClose: 3000,
       }
     );
     return;
@@ -56,6 +53,8 @@ const fetchAttendanceWithinRange = (startDate, endDate, setAttendanceArray) => {
     attendanceArray = "";
 
   onValue(clockinListRef, (snapshot) => {
+    if (snapshot.val() === null || snapshot.val() === undefined) return;
+
     generalAttendanceArray = Object.values(snapshot.val());
 
     // Filter general attendance Array for attendance objects within range
@@ -71,7 +70,6 @@ const fetchAttendanceWithinRange = (startDate, endDate, setAttendanceArray) => {
     });
 
     if (attendanceArray.length === 0) {
-      console.log("Executed first case!");
       toast("No attendance data within the specified date range 🙁", {
         theme: "dark",
         type: "warning",

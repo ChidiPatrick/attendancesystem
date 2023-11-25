@@ -78,7 +78,7 @@ function AdminAnnouncement() {
       <div className="border border-transparent border-b-gray-600">
         <DashboardNavigationComponent title="Announcement" />
       </div>
-      <div className="flex justify-between  mt-[10px] ">
+      <div className=" flex justify-between  mt-[10px] ">
         <div className="w-[48%] min-h-[500px] bg-[#FFFDFA] p-[10px]">
           <div className="w-[100%] h-[500px] bg-[#f1f1f1] border border-transparent rounded-xl p-[10px]">
             <h2 className="font-bold text-[19px]">Type Announcement</h2>
