@@ -175,94 +175,96 @@ const Signin = () => {
   });
 
   const componentBody = (
-    <div className="relative h-screen p-2 bg-gray-50 w-[400px] my-[20px] mx-auto ">
-      <HiChevronLeft
-        className="text-3xl text-start"
-        onClick={() => navigate("/")}
-      />
-      <h3 className="my-5  flex flex-col justify-start item-start">
-        <span className="font-bold text-xl text-lp-primary">Hello Techie!</span>
-        <span className="text-lg mt-2">Welcome Back</span>
-      </h3>
-      <form onSubmit={formik.handleSubmit}>
-        <fieldset className="px-2 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">Email</legend>
-          <input
-            className="w-full h-full focus:outline-none"
-            type="text"
-            id="email"
-            name="email"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.email}
-          />
-          {formik.errors.email ? (
-            <div className="text-red-800">{formik.errors.email}</div>
-          ) : null}
-        </fieldset>
-        <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">Password</legend>
-          <input
-            className="w-full h-full focus:outline-none"
-            type="password"
-            id="password"
-            name="password"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
-          {formik.errors.password ? (
-            <div className="text-red-800">{formik.errors.password}</div>
-          ) : null}
-        </fieldset>
-        <div className="w-3/2 mt-4 flex place-content-center">
-          <button
-            type="submit"
-            className="text-white mt-8 font-bold p-4 w-3/4 border rounded-2xl bg-lp-secondary"
-          >
-            Login
-          </button>
-        </div>
-        <ul className="mt-7">
-          <li className="py-2">
-            <Link
-              to={"/adminLogin"}
-              className="text-lp-primary border-b border-lp-primary"
-            >
-              Login as admin
-            </Link>
-          </li>
-          <li className="py-2">
+    <div className="w-full h-screen  bg-gray-100 flex justify-center items-center">
+      <div className="relative h-[500px] border border-gray-200 shadow-lg rounded-md p-2 bg-white  w-[500px] my-[20px] mx-auto ">
+        <HiChevronLeft
+          className="text-3xl text-start"
+          onClick={() => navigate("/")}
+        />
+        <h3 className="my-5  flex flex-col justify-start item-start">
+          <span className="font-bold text-xl text-lp-primary">
+            Hello Techie!
+          </span>
+          <span className="text-lg mt-2">Welcome Back</span>
+        </h3>
+        <form onSubmit={formik.handleSubmit}>
+          <fieldset className="px-2 mb-4 border-2 border-solid border-lp-primary rounded py-2">
+            <legend className="text-lp-primary">Email</legend>
+            <input
+              className="w-full h-full focus:outline-none "
+              type="text"
+              id="email"
+              name="email"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.email}
+            />
+            {formik.errors.email ? (
+              <div className="text-red-800">{formik.errors.email}</div>
+            ) : null}
+          </fieldset>
+          <fieldset className="px-4 mb-4 border-2 border-solid border-lp-primary rounded py-2">
+            <legend className="text-lp-primary">Password</legend>
+            <input
+              className="w-full h-full focus:outline-none"
+              type="password"
+              id="password"
+              name="password"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.password}
+            />
+            {formik.errors.password ? (
+              <div className="text-red-800">{formik.errors.password}</div>
+            ) : null}
+          </fieldset>
+          <div className="w-3/2 mt-4 flex place-content-center">
             <button
-              onClick={() => navigate("/signup")}
-              className="text-lp-primary border-b border-lp-primary"
+              type="submit"
+              className="text-white mt-8 font-bold p-4 w-3/4 border rounded-2xl bg-lp-secondary"
             >
-              Create account
+              Login
             </button>
-          </li>
-          <li className="py-2">
+          </div>
+          <ul className="mt-[20px] w-[50%] mx-auto flex justify-between">
+            <li className="py-2">
+              <Link to={"/adminLogin"} className="text-lp-primary ">
+                Login as admin
+              </Link>
+            </li>
+            <li className="py-2">
+              <button
+                onClick={() => navigate("/signup")}
+                className="text-lp-primary "
+              >
+                Create account
+              </button>
+            </li>
+          </ul>
+          <div className="w-[100%] flex items-center justify-center">
             <Link
               to={"/resetpassword"}
               className="text-lp-primary border-b border-lp-primary"
             >
               Reset Password
             </Link>
-          </li>
-        </ul>
-      </form>
-      {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
-      {displayFeedback === true ? (
-        <FeedbackModal handleClick={cancleBtnHandler}>
-          Please enter correct email and password. If you're a not registered
-          student, you can easily setup your account in few minutes.
-        </FeedbackModal>
-      ) : null}
-      {displayWrongLoginCategoryMessage === true ? (
-        <FeedbackModal handleClick={() => dispatch(hideWrongLoginCategory())}>
-          {wrongLoginMessage}
-        </FeedbackModal>
-      ) : null}
-      {displaySpinner === true ? <SpinnerSmall /> : null}
+          </div>
+        </form>
+        {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
+        {displayFeedback === true ? (
+          <FeedbackModal handleClick={cancleBtnHandler}>
+            Please enter correct email and password. If you're a not registered
+            student, you can easily setup your account in few minutes.
+          </FeedbackModal>
+        ) : null}
+        {displayWrongLoginCategoryMessage === true ? (
+          <FeedbackModal handleClick={() => dispatch(hideWrongLoginCategory())}>
+            {wrongLoginMessage}
+          </FeedbackModal>
+        ) : null}
+
+        {displaySpinner === true ? <SpinnerSmall /> : null}
+      </div>
     </div>
   );
 

@@ -146,132 +146,139 @@ const SignUp = () => {
   });
 
   const comp = (
-    <div className=" h-screen relative w-[400px] bg-gray-50 my-[10%] mx-auto">
-      <HiChevronLeft
-        className="text-3xl text-start"
-        onClick={() => navigate(-1)}
-      />
-      <h3 className="my-5 px-4 flex flex-col justify-start item-start">
-        <span className="font-bold text-xl text-lp-primary">Hello Techie!</span>
-        <span className="text-lg mt-2">Welcome to LM Tech Hub</span>
-      </h3>
-      <form onSubmit={formik.handleSubmit} className="px-4">
-        <fieldset className="px-2 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">First Name</legend>
-          <label htmlFor="firstName">
+    <div className="w-full h-screen flex justify-center items-start ">
+      <div className=" h-screen relative sm:w-screen w-[50%]  bg-gray-50 my-[10%] mx-auto">
+        <HiChevronLeft
+          className="text-3xl text-start"
+          onClick={() => navigate(-1)}
+        />
+        <h3 className="my-5 px-4 flex flex-col justify-start item-start">
+          <span className="font-bold text-xl text-lp-primary">
+            Hello Techie!
+          </span>
+          <span className="text-lg mt-2">Welcome to LM Tech Hub</span>
+        </h3>
+        <form
+          onSubmit={formik.handleSubmit}
+          className="px-4 grid gap-[10px] grid-cols-2"
+        >
+          <fieldset className="px-2 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+            <legend className="text-lp-primary">First Name</legend>
+            <label htmlFor="firstName">
+              <input
+                id="firstName"
+                className="w-full h-full focus:outline-none"
+                type="text"
+                name="firstName"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.firstName}
+              />
+            </label>
+            {formik.errors.firstName ? (
+              <div className="text-red-800">{formik.errors.firstName}</div>
+            ) : null}
+          </fieldset>
+
+          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+            <legend className="text-lp-primary">Last Name</legend>
             <input
-              id="firstName"
+              id="lastName"
               className="w-full h-full focus:outline-none"
               type="text"
-              name="firstName"
+              name="lastName"
+              value={formik.values.lastName}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.firstName}
             />
-          </label>
-          {formik.errors.firstName ? (
-            <div className="text-red-800">{formik.errors.firstName}</div>
-          ) : null}
-        </fieldset>
+            {formik.errors.lastName ? (
+              <div className="text-red-800">{formik.errors.lastName}</div>
+            ) : null}
+          </fieldset>
 
-        <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">Last Name</legend>
-          <input
-            id="lastName"
-            className="w-full h-full focus:outline-none"
-            type="text"
-            name="lastName"
-            value={formik.values.lastName}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.lastName ? (
-            <div className="text-red-800">{formik.errors.lastName}</div>
-          ) : null}
-        </fieldset>
+          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+            <legend className="text-lp-primary">User Name</legend>
+            <input
+              id="userName"
+              className="w-full h-full focus:outline-none"
+              type="text"
+              name="userName"
+              value={formik.values.userName}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+            {formik.errors.userName ? (
+              <div className="text-red-800">{formik.errors.userName}</div>
+            ) : null}
+          </fieldset>
 
-        <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">User Name</legend>
-          <input
-            id="userName"
-            className="w-full h-full focus:outline-none"
-            type="text"
-            name="userName"
-            value={formik.values.userName}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.userName ? (
-            <div className="text-red-800">{formik.errors.userName}</div>
-          ) : null}
-        </fieldset>
+          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+            <legend className="text-lp-primary">Email</legend>
+            <input
+              id="email"
+              className="w-full h-full focus:outline-none"
+              type="email"
+              name="email"
+              value={formik.values.email}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+            {formik.errors.email ? (
+              <div className="text-red-800">{formik.errors.email}</div>
+            ) : null}
+          </fieldset>
 
-        <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">Email</legend>
-          <input
-            id="email"
-            className="w-full h-full focus:outline-none"
-            type="email"
-            name="email"
-            value={formik.values.email}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.email ? (
-            <div className="text-red-800">{formik.errors.email}</div>
-          ) : null}
-        </fieldset>
+          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+            <legend className="text-lp-primary">Password</legend>
+            <input
+              id="password"
+              className="w-full h-full focus:outline-none"
+              type="password"
+              name="password"
+              value={formik.values.password}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+            {formik.errors.password ? (
+              <div className="text-red-800">{formik.errors.password}</div>
+            ) : null}
+          </fieldset>
 
-        <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">Password</legend>
-          <input
-            id="password"
-            className="w-full h-full focus:outline-none"
-            type="password"
-            name="password"
-            value={formik.values.password}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.password ? (
-            <div className="text-red-800">{formik.errors.password}</div>
-          ) : null}
-        </fieldset>
+          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+            <legend className="text-lp-primary">Tel</legend>
+            <input
+              id="tel"
+              className="w-full h-full focus:outline-none"
+              type="tel"
+              name="tel"
+              value={formik.values.tel}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+            {formik.errors.tel ? (
+              <div className="text-red-800">{formik.errors.tel}</div>
+            ) : null}
+          </fieldset>
 
-        <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">Tel</legend>
-          <input
-            id="tel"
-            className="w-full h-full focus:outline-none"
-            type="tel"
-            name="tel"
-            value={formik.values.tel}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.tel ? (
-            <div className="text-red-800">{formik.errors.tel}</div>
-          ) : null}
-        </fieldset>
-
-        <div className="w-3/2 mt-8 flex place-content-center">
-          <button
-            type="submit"
-            onClick={() => firestoreRefCreator(db, userId, "mycoll", "docs")}
-            className=" hover:bg-lp-secondary-dark text-white font-bold p-4 w-3/4 border rounded-2xl bg-lp-secondary"
-          >
-            Submit
-          </button>
+          <div className="w-3/2 mt-8 flex place-content-center">
+            <button
+              type="submit"
+              onClick={() => firestoreRefCreator(db, userId, "mycoll", "docs")}
+              className=" hover:bg-lp-secondary-dark text-white font-bold p-4 w-3/4 border rounded-2xl bg-lp-secondary"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+        <div className="p-2 mt-[30px] text-lp-primary ">
+          <Link to={"/signUpAsAdmin"}>
+            <span className="border border-transparent border-b-lp-primary ">
+              Signup as Admin
+            </span>
+          </Link>
         </div>
-      </form>
-      <div className="p-2 mt-[30px] text-lp-primary ">
-        <Link to={"/signUpAsAdmin"}>
-          <span className="border border-transparent border-b-lp-primary ">
-            Signup as Admin
-          </span>
-        </Link>
+        {displaySpinner === true ? <SpinnerSmall /> : null}
       </div>
-      {displaySpinner === true ? <SpinnerSmall /> : null}
     </div>
   );
   return displayNetworkFeedback === true ? <NetworkFeedback /> : comp;

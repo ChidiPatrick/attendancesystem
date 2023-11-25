@@ -7,7 +7,7 @@ const SpinnerSmall = () => {
   return (
     <div
       className={
-        "absolute top-0 left-0 w-screen h-screen flex justify-center item-center flex-col bg-black bg-opacity-20"
+        "absolute top-0 left-0 w-[100%] h-[100%] flex justify-center item-center flex-col bg-black bg-opacity-20"
       }
     >
       <ColorRing

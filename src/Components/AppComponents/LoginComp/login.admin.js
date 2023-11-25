@@ -194,87 +194,94 @@ const SigninAsAdmin = () => {
   });
 
   const componentBody = (
-    <div className="relative h-screen bg-[#F6F9FE] max-w-[450px] mx-auto p-2">
-      <HiChevronLeft
-        className="text-3xl text-start"
-        onClick={() => navigate("/")}
-      />
-      <h3 className="my-5  flex flex-col justify-start item-start">
-        <span className="font-bold text-xl text-lp-primary">Hello Admin!</span>
-        <span className="text-lg mt-2">Welcome Back</span>
-      </h3>
-      <form onSubmit={formik.handleSubmit}>
-        <fieldset className="px-2 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">Email</legend>
-          <input
-            className="w-full h-full focus:outline-none"
-            type="text"
-            id="email"
-            name="email"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.email}
-          />
-          {formik.errors.email ? (
-            <div className="text-red-800">{formik.errors.email}</div>
-          ) : null}
-        </fieldset>
-        <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">Password</legend>
-          <input
-            className="w-full h-full focus:outline-none"
-            type="password"
-            id="password"
-            name="password"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
-          {formik.errors.password ? (
-            <div className="text-red-800">{formik.errors.password}</div>
-          ) : null}
-        </fieldset>
-        <div className="w-3/2 mt-4 flex place-content-center">
-          <button
-            type="submit"
-            className="text-white mt-8 font-bold p-4 w-3/4 border rounded-2xl bg-lp-secondary"
-          >
-            Login
-          </button>
-        </div>
-        <ul className="mt-7">
-          <li className="py-2">
+    <div className="w-full h-screen flex justify-center items-center bg-gray-100">
+      <div className="relative h-[500px] shadow-lg border border-gray-200 rounded-lg bg-white w-[500px]  mx-auto p-2">
+        <HiChevronLeft
+          className="text-3xl text-start"
+          onClick={() => navigate("/")}
+        />
+        <h3 className="my-5  flex flex-col justify-start item-start">
+          <span className="font-bold text-xl text-lp-primary">
+            Hello Admin!
+          </span>
+          <span className="text-lg mt-2">Welcome Back</span>
+        </h3>
+        <form onSubmit={formik.handleSubmit}>
+          <fieldset className="px-2 mb-4 border-2 border-solid border-lp-primary rounded py-2">
+            <legend className="text-lp-primary">Email</legend>
+            <input
+              className="w-full h-full focus:outline-none"
+              type="text"
+              id="email"
+              name="email"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.email}
+            />
+            {formik.errors.email ? (
+              <div className="text-red-800">{formik.errors.email}</div>
+            ) : null}
+          </fieldset>
+          <fieldset className="px-4 mb-4 border-2 border-solid border-lp-primary rounded py-2">
+            <legend className="text-lp-primary">Password</legend>
+            <input
+              className="w-full h-full focus:outline-none"
+              type="password"
+              id="password"
+              name="password"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.password}
+            />
+            {formik.errors.password ? (
+              <div className="text-red-800">{formik.errors.password}</div>
+            ) : null}
+          </fieldset>
+          <div className="w-3/2 mt-4 flex place-content-center">
             <button
-              onClick={() => navigate("/signupAsAdmin")}
-              className="text-lp-primary border-b border-lp-primary"
+              type="submit"
+              className="text-white mt-8 font-bold p-4 w-3/4 border rounded-2xl bg-lp-secondary"
             >
-              Create account
+              Login
             </button>
-          </li>
-          <li className="py-2">
-            <Link
-              to={"/resetpassword"}
-              className="text-lp-primary border-b border-lp-primary"
-            >
-              Reset Password
-            </Link>
-          </li>
-        </ul>
-      </form>
-      {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
-      {displayFeedback === true ? (
-        <FeedbackModal handleClick={cancleBtnHandler}>
-          Please enter correct email and password. If you're not registered
-          user, you can easily setup your account in few minutes
-        </FeedbackModal>
-      ) : null}
+          </div>
+          <div className="w-[100%] flex items-center justify-center">
+            <ul className="mt-[20px] w-[50%] flex items-center justify-between">
+              <li className="py-2">
+                <button
+                  onClick={() => navigate("/signupAsAdmin")}
+                  className="text-lp-primary border-b border-lp-primary"
+                >
+                  Create account
+                </button>
+              </li>
+              <li className="py-2">
+                <Link
+                  to={"/resetpassword"}
+                  className="text-lp-primary border-b border-lp-primary"
+                >
+                  Reset Password
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </form>
+        {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
+        {displayFeedback === true ? (
+          <FeedbackModal handleClick={cancleBtnHandler}>
+            Please enter correct email and password. If you're not registered
+            user, you can easily setup your account in few minutes
+          </FeedbackModal>
+        ) : null}
 
-      {showWrongMessage === true ? (
-        <FeedbackModal handleClick={() => setShowWrongMessage(false)}>
-          {wrongAdminLoginMessage}
-        </FeedbackModal>
-      ) : null}
-      {displaySpinner === true ? <SpinnerSmall /> : null}
+        {showWrongMessage === true ? (
+          <FeedbackModal handleClick={() => setShowWrongMessage(false)}>
+            {wrongAdminLoginMessage}
+          </FeedbackModal>
+        ) : null}
+
+        {displaySpinner === true ? <SpinnerSmall /> : null}
+      </div>
     </div>
   );
 
