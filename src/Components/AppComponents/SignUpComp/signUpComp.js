@@ -146,8 +146,8 @@ const SignUp = () => {
   });
 
   const comp = (
-    <div className="w-full h-screen flex justify-center items-start ">
-      <div className=" h-screen relative sm:w-screen w-[50%]  bg-gray-50 my-[10%] mx-auto">
+    <div className="w-full bg-gray-100 h-screen flex justify-center items-start ">
+      <div className="sm:h-[90%] sm:shadow-lg border border-gray-200 sm:my-auto h-screen relative w-screen sm:w-[80%] md:w-[70%] sm:mx-auto bg-gray-50 mx-auto">
         <HiChevronLeft
           className="text-3xl text-start"
           onClick={() => navigate(-1)}
@@ -160,9 +160,9 @@ const SignUp = () => {
         </h3>
         <form
           onSubmit={formik.handleSubmit}
-          className="px-4 grid gap-[10px] grid-cols-2"
+          className="px-[10px] sm:grid sm:grid-cols-2 gap-[10px]"
         >
-          <fieldset className="px-2 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+          <fieldset className="px-2 mb-4 border-2 border-solid border-lp-primary rounded py-2">
             <legend className="text-lp-primary">First Name</legend>
             <label htmlFor="firstName">
               <input
@@ -180,7 +180,7 @@ const SignUp = () => {
             ) : null}
           </fieldset>
 
-          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+          <fieldset className="px-4 mb-4 border-2 border-solid border-lp-primary rounded py-2">
             <legend className="text-lp-primary">Last Name</legend>
             <input
               id="lastName"
@@ -196,7 +196,7 @@ const SignUp = () => {
             ) : null}
           </fieldset>
 
-          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+          <fieldset className="px-4 mb-4 border-2 border-solid border-lp-primary rounded py-2">
             <legend className="text-lp-primary">User Name</legend>
             <input
               id="userName"
@@ -212,7 +212,7 @@ const SignUp = () => {
             ) : null}
           </fieldset>
 
-          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+          <fieldset className="px-4 mb-4 border-2 border-solid border-lp-primary rounded py-2">
             <legend className="text-lp-primary">Email</legend>
             <input
               id="email"
@@ -228,7 +228,7 @@ const SignUp = () => {
             ) : null}
           </fieldset>
 
-          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+          <fieldset className="px-4 mb-4 border-2 border-solid border-lp-primary rounded py-2">
             <legend className="text-lp-primary">Password</legend>
             <input
               id="password"
@@ -244,7 +244,7 @@ const SignUp = () => {
             ) : null}
           </fieldset>
 
-          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+          <fieldset className="px-4 mb-4 border-2 border-solid border-lp-primary rounded py-2">
             <legend className="text-lp-primary">Tel</legend>
             <input
               id="tel"
@@ -260,7 +260,7 @@ const SignUp = () => {
             ) : null}
           </fieldset>
 
-          <div className="w-3/2 mt-8 flex place-content-center">
+          <div className="w-[100%] mt-[20px] sm:col-span-full flex flex-col justify-center items-center">
             <button
               type="submit"
               onClick={() => firestoreRefCreator(db, userId, "mycoll", "docs")}
@@ -268,15 +268,21 @@ const SignUp = () => {
             >
               Submit
             </button>
+            <Link to={"/signUpAsAdmin"} className="mt-[20px]  mb-[10px]">
+              <span className="border  border-transparent border-b-lp-primary text-lp-primary">
+                Signup as Admin
+              </span>
+            </Link>
           </div>
+          {/* <div className="p-2 mt-[10px] sm:w-full sm:flex justify-center items-center text-lp-primary ">
+            <Link to={"/signUpAsAdmin"}>
+              <span className="border border-transparent border-b-lp-primary ">
+                Signup as Admin
+              </span>
+            </Link>
+          </div> */}
         </form>
-        <div className="p-2 mt-[30px] text-lp-primary ">
-          <Link to={"/signUpAsAdmin"}>
-            <span className="border border-transparent border-b-lp-primary ">
-              Signup as Admin
-            </span>
-          </Link>
-        </div>
+
         {displaySpinner === true ? <SpinnerSmall /> : null}
       </div>
     </div>

@@ -48,7 +48,7 @@ const initialState = {
   linkToClockOut: false,
   clockInImage: null,
   currClockinObj: null,
-  latenssStartTime: 0,
+  latenessStartTime: 0,
 };
 
 const attendanceSlice = createSlice({
@@ -134,7 +134,7 @@ const attendanceSlice = createSlice({
     },
     setLateHour(state, action) {
       console.log(action.payload);
-      state.latenssStartTime = action.payload;
+      state.latenessStartTime = action.payload;
     },
   },
 });

@@ -20,7 +20,7 @@ import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import FeedbackModal from "../Modal/feedbackModal";
 import NetworkFeedback from "../Modal/networkFeedback";
 import { getWeekNumber } from "../Handlers/get.current.week";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 function MarkUser() {
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ function MarkUser() {
     (state) => state.signupSlice.displaySpinner
   );
   const latenessHour = useSelector(
-    (state) => state.attendanceRecord.latenessHour
+    (state) => state.attendanceRecord.latenessStartTime
   );
 
   const userProfile = useSelector(
@@ -53,7 +53,7 @@ function MarkUser() {
   );
 
   const { profilePictureURL, firstName, lastName } = userProfile;
-  console.log(firstName);
+  console.log(latenessHour);
 
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
@@ -65,8 +65,18 @@ function MarkUser() {
     const date = new Date();
     const time = date.toLocaleTimeString("en-US");
     const currHour = date.getHours();
+
     setTime(time);
     setCurrDate(date.toLocaleDateString());
+
+    if (currHour < 9) {
+      toast("Sorry, you can't clock in until it is 9:00am 🧭", {
+        autoClose: 3000,
+        type: "Warning",
+      });
+
+      return;
+    }
 
     //CHECK TO SEE IF THIS BUG HAS BEEN FIXED
     if (currHour < latenessHour) {
@@ -78,8 +88,8 @@ function MarkUser() {
 
     const data = {
       date: date.toDateString(),
-      isOnTime: currHour < latenessHour === false ? true : false,
-      time,
+      isOnTime: userIsOnTime,
+      time: date.toLocaleTimeString("en-US"),
       name: `${firstName} ${lastName}`,
     };
 

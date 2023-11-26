@@ -4,6 +4,7 @@ import { onValue, ref } from "firebase/database";
 //Local directory imports
 import { rdb } from "../../Firebase/firebase";
 import { setLatenessStartingTimeState } from "../../Redux Slices/classSetupSlice";
+import { setLateHour } from "../../Redux Slices/attendanceSlice";
 
 //Geolocation retrieval options ///
 const options = {
@@ -27,12 +28,12 @@ function error(err) {
 }
 
 // Get lateness hours
-const getLatenessHour = () => {
+const getLatenessHour = (dispatch) => {
   const latenessHourRef = ref(
     rdb,
     "admindashboard/classSetupDatabase/latenessStartingTime"
   );
-  let latenessHour = "";
+  let latenessHour = "Lateness Time";
 
   onValue(latenessHourRef, (snapshot) => {
     if (snapshot.val === null || snapshot.val() === undefined) return;
@@ -40,9 +41,8 @@ const getLatenessHour = () => {
     console.log(snapshot.val());
 
     latenessHour = parseInt(snapshot.val().startTime.split(":")[0]);
+    dispatch(setLateHour(latenessHour));
   });
-
-  return latenessHour;
 };
 
 export { success, error, options, getLatenessHour };
