@@ -21,6 +21,7 @@ import {
 import NavBar from "./navBar";
 import { setLinkToClockIn } from "../../Redux Slices/attendanceSlice";
 import { getStudentsLogins } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
+import AttendanceFeedback from "./attendance.feedback";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -66,8 +67,8 @@ function MarkAttendance() {
   // console.log(currTime);
 
   return (
-    <div className="w-full">
-      <div className="min-w-[400px] mx-auto px-[10px] sm:w-[70%] bg-gray-50 relative">
+    <div className="w-full h-screen">
+      <div className="min-w-[400px] min-h-screen mx-auto px-[10px] sm:w-[70%] bg-gray-50 relative">
         <div className=" flex justify-between items-center bg-mywhite sticky  z-[999]">
           <div className="w-[90%]">
             <NavBar>Home</NavBar>
@@ -127,17 +128,15 @@ function MarkAttendance() {
             <div className=" font-semibold text-[14px] md:text-base"></div>
           </div>
         </div>
-
         <div className=" w-[150px] h-[150px] flex justify-center items-center mx-auto pt-8 z-10">
           <Clock value={value} />
         </div>
-        <div className="my-[30px] flex justify-between md:justify-center items-center gap-3">
+        <div className="mt-[40px] mb-[50px] flex justify-between md:justify-center items-center gap-3">
           <ButtonFull handleClick={navigateToClockIn}>Clock in</ButtonFull>
           <ButtonLight handleClick={navigateToClockOut}>Clock out</ButtonLight>
         </div>
-
         {studentsClockInList === undefined ? null : (
-          <div className=" rounded-tl-md rounded-tr-md shadow-lg px-[10px] h-[100px] md:h-[200px] relative overflow-y-scroll  mt-3">
+          <div className="rounded-tl-md rounded-tr-md shadow-lg px-[10px] h-[100px] md:h-[200px] relative overflow-y-scroll  mt-[20px]">
             <div className="sticky top-0 left-0 right-0 h-6 bg-white"></div>
 
             {studentsClockInList?.map((clockinObj) => (

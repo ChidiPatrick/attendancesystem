@@ -33,16 +33,17 @@ const getLatenessHour = (dispatch) => {
     rdb,
     "admindashboard/classSetupDatabase/latenessStartingTime"
   );
-  let latenessHour = "Lateness Time";
+  let latenessHour = "";
 
   onValue(latenessHourRef, (snapshot) => {
     if (snapshot.val === null || snapshot.val() === undefined) return;
-
     console.log(snapshot.val());
-
     latenessHour = parseInt(snapshot.val().startTime.split(":")[0]);
-    dispatch(setLateHour(latenessHour));
+    // console.log(latenessHour);
   });
+
+  console.log(latenessHour);
+  dispatch(setLateHour(latenessHour));
 };
 
 export { success, error, options, getLatenessHour };

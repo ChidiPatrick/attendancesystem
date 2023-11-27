@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import NavBar from "./navBar";
 import { Link, useNavigate } from "react-router-dom";
 
 // Local directory imports ///
-import Menu from "./menu";
 import { useDispatch, useSelector } from "react-redux";
-import { setTime, setCurrDate } from "../../Redux Slices/attendanceSlice";
 import { BsFillPersonFill } from "react-icons/bs";
+import Lottie from "lottie-web";
+import animationData from "../../../Assets/AnimationData.json";
 
 /// Attendance feedback component ///
 function AttendanceFeedback() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const animationContainerRef = useRef();
 
   //////// Redux state //////
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
@@ -48,11 +49,31 @@ function AttendanceFeedback() {
   const dateNow = new Date();
   console.log(dateNow.getHours());
 
+  useEffect(() => {
+    const animation = Lottie.loadAnimation({
+      container: animationContainerRef.current,
+      loop: true,
+      autoplay: true,
+      animationData,
+      renderer: "svg",
+      rendererSettings: {
+        preserveAspectRation: "xMidYMid meet",
+      },
+    });
+
+    return () => animation.destroy();
+  }, []);
+
   return (
-    <div className="p-2 bg-user-profile h-screen w-full" on>
+    <div className="p-2 bg-user-profile h-screen w-full">
       <NavBar>Welcome</NavBar>
       <figure className="w-full flex justify-center items-center ">
-        {profilePictureURL === "" || !navigator.onLine ? (
+        <div
+          ref={animationContainerRef}
+          className="sm:w-[200px] sm:[200px] w-[100px] h-[100px]"
+        ></div>
+
+        {/* {profilePictureURL === "" || !navigator.onLine ? (
           <BsFillPersonFill size={40} className="w-[50%] h-[50%]" />
         ) : (
           <img
@@ -60,7 +81,7 @@ function AttendanceFeedback() {
             alt="user"
             className="w-[300px] h-[300px] border rounded-3xl"
           />
-        )}
+        )} */}
       </figure>
       <div className="mt-5 flex justify-center items-center flex-col">
         <div className="text-lp-primary font-bold text-xl">
@@ -80,7 +101,7 @@ function AttendanceFeedback() {
           ></div>
 
           <div className=" ml-5 text-lp-primary font-bold text-l">
-            {currHour > 11 ? "Late" : "Early"}
+            {isOnTime === true ? "Early" : "Late"}
           </div>
 
           <div className="w-[250px] text-lp-primary font-bold text-l flex flex-col items-end mr-2">

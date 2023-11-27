@@ -33,9 +33,11 @@ function UserProfile() {
   const { firstName, lastName, userName, profilePictureURL, currMonthRecord } =
     userProfileData;
 
-  console.log(getLatenessHour());
+  console.log(getLatenessHour(dispatch));
 
-  dispatch(setLateHour(getLatenessHour()));
+  // const latenessHour = getLatenessHour(dispatch)
+
+  // dispatch(setLateHour(late));
 
   // Navigation function
   const navigateBack = () => {
@@ -56,7 +58,7 @@ function UserProfile() {
   // getUserPermissionsArray(studentsBioArray, userId, dispatch);
 
   return (
-    <div className="w-full   py-6 relative">
+    <div className="w-full py-6 relative">
       <div className="min-w-[400px] sm:w-[60%] mx-auto  md:pb-32 lg:pb-20 pb-12 bg-[#FFFDFA] relative">
         <div className=" sm:w-[100%]">
           <div className="h-[170px] md:h-[350px]  ">

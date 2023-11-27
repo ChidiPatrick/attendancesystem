@@ -19,7 +19,6 @@ import { hideFeedback } from "../../Redux Slices/signupSlice";
 import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import FeedbackModal from "../Modal/feedbackModal";
 import NetworkFeedback from "../Modal/networkFeedback";
-import { getWeekNumber } from "../Handlers/get.current.week";
 import { ToastContainer, toast } from "react-toastify";
 
 function MarkUser() {
@@ -53,12 +52,13 @@ function MarkUser() {
   );
 
   const { profilePictureURL, firstName, lastName } = userProfile;
-  console.log(latenessHour);
 
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
   const [currDate, setCurrDate] = useState(date);
   const [userIsOnTime, setUserIsOnTime] = useState(isOnTime);
+
+  console.log(userIsOnTime);
 
   /// Mark attendance ///
   const markAttendance = async (userId, latenessHour) => {
@@ -79,31 +79,56 @@ function MarkUser() {
     }
 
     //CHECK TO SEE IF THIS BUG HAS BEEN FIXED
-    if (currHour < latenessHour) {
+    if (currHour >= 9 && currHour < latenessHour) {
+      console.log("First case called");
+
       setUserIsOnTime(true);
       dispatch(setOnTime(true));
+      const data = {
+        date: date.toDateString(),
+        isOnTime: userIsOnTime,
+        time: date.toLocaleTimeString("en-US"),
+        name: `${firstName} ${lastName}`,
+      };
+
+      dispatch(updateWeeklyAttendance(data));
+      dispatch(showClockInDetails());
+      dispatch(setCurrHour(currHour));
+
+      updateAttendanceRecord(
+        data,
+        userId,
+        dispatch,
+        navigate,
+        dailyClockInsArray
+      );
+
+      return;
     } else {
+      console.log("Second case called");
+
+      setUserIsOnTime(false);
       dispatch(setOnTime(false));
+
+      const data = {
+        date: date.toDateString(),
+        isOnTime: userIsOnTime,
+        time: date.toLocaleTimeString("en-US"),
+        name: `${firstName} ${lastName}`,
+      };
+
+      dispatch(updateWeeklyAttendance(data));
+      dispatch(showClockInDetails());
+      dispatch(setCurrHour(currHour));
+
+      updateAttendanceRecord(
+        data,
+        userId,
+        dispatch,
+        navigate,
+        dailyClockInsArray
+      );
     }
-
-    const data = {
-      date: date.toDateString(),
-      isOnTime: userIsOnTime,
-      time: date.toLocaleTimeString("en-US"),
-      name: `${firstName} ${lastName}`,
-    };
-
-    dispatch(updateWeeklyAttendance(data));
-    dispatch(showClockInDetails());
-    dispatch(setCurrHour(currHour));
-
-    updateAttendanceRecord(
-      data,
-      userId,
-      dispatch,
-      navigate,
-      dailyClockInsArray
-    );
   };
   /**
    * UI LAYOUT TODOs
