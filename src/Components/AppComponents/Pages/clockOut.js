@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 // Third-party imports ///
 import { updateDoc, doc } from "firebase/firestore";
+import { FcInspection } from "react-icons/fc";
+import { HiChevronLeft } from "react-icons/hi";
 
 /// Local directory imports ///
 import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
@@ -24,6 +26,8 @@ import {
   getCurrentClockinAttendanceObj,
   updateAddClockinDataToAdminDatabaseWithClockoutObj,
 } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
+import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 function ClockOut() {
   const dispatch = useDispatch();
@@ -91,39 +95,21 @@ function ClockOut() {
       lastClockin.date !== new Date().toDateString()
     ) {
       dispatch(hideSpinner());
-      alert("You can not clock out without clocking in first");
+      toast("You can not clock out without clocking in first", {
+        autoClose: 3000,
+        type: "warning",
+      });
       return;
     }
 
-    // if (attendanceData.length === 0) {
-    //   //Check array length
-    //   const dailyClockOuts = [...attendanceData];
-
-    //   setClockOutData(data);
-
-    //   await updateClockOutData(data, userId, dispatch, attendanceData)
-    //     .then(() => {
-    //       getAttendanceRecords(userId, dispatch);
-    //     })
-    //     .then(() => {
-    //       setShowBack(true);
-    //       dispatch(hideSpinner());
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       dispatch(hideSpinner());
-    //     });
-
-    //   return;
-    // }
-
-    // const dailyClockOuts = [...attendanceData];
-    // const lastClockOut = dailyClockOuts.pop();
-
     if (lastClockin.clockoutObj !== null) {
       dispatch(hideSpinner());
-      alert(
-        "You have already clocked  out for today, you can't clockout twice!"
+      toast(
+        "You have already clocked out for today, you can't clockout twice!",
+        {
+          autoClose: 3000,
+          type: "warning",
+        }
       );
       return;
     }
@@ -142,8 +128,6 @@ function ClockOut() {
             userId,
             getCurrentClockinAttendanceObj
           );
-
-        console.log(attendanceData);
       })
       .then(() => {
         setShowBack(true);
@@ -156,31 +140,39 @@ function ClockOut() {
   };
 
   return (
-    <div className="w-full relative p-2 shadow-md h-screen flex flex-col  border border-bg-lp-secondary ">
-      <NavBar>Clock out</NavBar>
-      <h2 className="my-[50px] text-lg">
-        Clock out to mark the end of your hub's activities for today, and also
-        signify the time you left the hub
-      </h2>
-      {showFeedback === true ? (
-        <div className="w-full">
-          <h2 className="text-lp-primary text-center font-bold text-xl">
-            Clocked out successfully
-          </h2>
-          <div className="flex text-lg border border-lp-secondary rounded-xl p-2 font-bold justify-between items-center w-[80%] my-[50px] mx-auto p-2">
-            <span className="">Clock out time:</span>
-            <span className="text-lp-primary">{clockOutData?.time}</span>
-          </div>
+    <div className="w-full h-screen flex justify-center items-center">
+      <div className="w-full relative flex justify-between flex-col items-center p-2 shadow-md h-[100%] sm:h-[80%] max-w-[620px] bg-user-profile sm:my-auto border border-bg-lp-secondary ">
+        <Link to={-1} className="w-[100%] flex">
+          <HiChevronLeft size={30} />
+        </Link>
+        <div className="w-[100%] flex justify-center items-center">
+          <FcInspection size={100} />
         </div>
-      ) : null}
-      <div className="w-full flex justify-center">
-        <ButtonFull handleClick={() => clockOutUser(dailyClockInsArray)}>
-          Clock out
-        </ButtonFull>
-      </div>
-      {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
+        <h2 className="my-[10px] text-lg text-center text-lp-primary w-[80%] mx-auto">
+          Clock out to mark the end of your hub's activities for today, and also
+          signify the time you left the hub
+        </h2>
+        <ToastContainer style={{ width: "100%", textAlign: "center" }} />
+        {showFeedback === true ? (
+          <div className="w-full">
+            <h2 className="text-lp-primary text-center font-bold text-xl">
+              Clocked out successfully
+            </h2>
+            <div className="flex text-lg border border-lp-secondary rounded-xl p-2 font-bold justify-between items-center w-[80%] my-[50px] mx-auto p-2">
+              <span className="">Clock out time:</span>
+              <span className="text-lp-primary">{clockOutData?.time}</span>
+            </div>
+          </div>
+        ) : null}
+        <div className="w-full flex justify-center">
+          <ButtonFull handleClick={() => clockOutUser(dailyClockInsArray)}>
+            Clock out
+          </ButtonFull>
+        </div>
+        {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
 
-      {displaySpinner === true ? <SpinnerSmall /> : null}
+        {displaySpinner === true ? <SpinnerSmall /> : null}
+      </div>
     </div>
   );
 }

@@ -67,8 +67,8 @@ function MarkAttendance() {
   // console.log(currTime);
 
   return (
-    <div className="w-full h-screen">
-      <div className="min-w-[400px] min-h-screen mx-auto px-[10px] sm:w-[70%] bg-gray-50 relative">
+    <div className="w-full min-h-screen  sm:flex sm:flex-col sm:justify-center sm:items-center">
+      <div className="min-w-[400px] max-w-[640px] h-[100%] mx-auto px-[10px] sm:w-[70%] bg-user-profile border  relative">
         <div className=" flex justify-between items-center bg-mywhite sticky  z-[999]">
           <div className="w-[90%]">
             <NavBar>Home</NavBar>
@@ -131,9 +131,19 @@ function MarkAttendance() {
         <div className=" w-[150px] h-[150px] flex justify-center items-center mx-auto pt-8 z-10">
           <Clock value={value} />
         </div>
-        <div className="mt-[40px] mb-[50px] flex justify-between md:justify-center items-center gap-3">
-          <ButtonFull handleClick={navigateToClockIn}>Clock in</ButtonFull>
-          <ButtonLight handleClick={navigateToClockOut}>Clock out</ButtonLight>
+        <div className="mt-[40px] mb-[50px] w-[80%] flex justify-center items-center mx-auto  ">
+          <button
+            className="p-[10px] bg-lp-secondary mr-[40px] border rounded-lg w-[150px] text-white font-bold text-[20px]"
+            onClick={navigateToClockIn}
+          >
+            Clock in
+          </button>
+          <button
+            className="p-[10px] bg-white border rounded-lg w-[150px] text-lp-secondary border-lp-secondary font-bold text-[20px]"
+            onClick={navigateToClockOut}
+          >
+            Clock out
+          </button>
         </div>
         {studentsClockInList === undefined ? null : (
           <div className="rounded-tl-md rounded-tr-md shadow-lg px-[10px] h-[100px] md:h-[200px] relative overflow-y-scroll  mt-[20px]">

@@ -65,15 +65,16 @@ function AttendanceFeedback() {
   }, []);
 
   return (
-    <div className="p-2 bg-user-profile h-screen w-full">
-      <NavBar>Welcome</NavBar>
-      <figure className="w-full flex justify-center items-center ">
-        <div
-          ref={animationContainerRef}
-          className="sm:w-[200px] sm:[200px] w-[100px] h-[100px]"
-        ></div>
+    <div className="w-full h-screen flex justify-center items-center">
+      <div className="p-2 bg-user-profile h-screen sm:h-[80%] sm:my-auto shadow-lg w-full sm:w-[80%] max-w-[640px]">
+        <NavBar>Welcome</NavBar>
+        <figure className="w-full flex justify-center items-center ">
+          <div
+            ref={animationContainerRef}
+            className="sm:w-[200px] sm:[200px] w-[100px] h-[100px]"
+          ></div>
 
-        {/* {profilePictureURL === "" || !navigator.onLine ? (
+          {/* {profilePictureURL === "" || !navigator.onLine ? (
           <BsFillPersonFill size={40} className="w-[50%] h-[50%]" />
         ) : (
           <img
@@ -82,49 +83,52 @@ function AttendanceFeedback() {
             className="w-[300px] h-[300px] border rounded-3xl"
           />
         )} */}
-      </figure>
-      <div className="mt-5 flex justify-center items-center flex-col">
-        <div className="text-lp-primary font-bold text-xl">
-          Attendance Recorded
-        </div>
-        <div className="font-md">You look good today</div>
-        <div className="text-xs">Happy learning</div>
-      </div>
-      {displayClockInDetails === true ? (
-        <div className="w-full p-2 border  border-gray-300 my-10 flex bg-gray-100  justify-between items-center">
-          <div
-            className={
-              isOnTime === true
-                ? "w-[20px] h-[20px] border rounded-full bg-green-600"
-                : "w-[20px] h-[20px] border rounded-full bg-red-500"
-            }
-          ></div>
-
-          <div className=" ml-5 text-lp-primary font-bold text-l">
-            {isOnTime === true ? "Early" : "Late"}
+        </figure>
+        <div className="mt-5 flex justify-center items-center flex-col">
+          <div className="text-lp-primary font-bold text-xl">
+            Attendance Recorded
           </div>
-
-          <div className="w-[250px] text-lp-primary font-bold text-l flex flex-col items-end mr-2">
-            <div> {currAttendanceData.time}</div>
-            <div> {currAttendanceData.currDate}</div>
-          </div>
+          <div className="font-md">You look good today</div>
+          <div className="text-xs">Happy learning</div>
         </div>
-      ) : null}
-      <div className="flex flex-col">
-        <Link
-          className="text-lp-primary border-b border-lp-primary p-1 w-24"
-          to={"/home"}
-        >
-          View profile
-        </Link>
-        <Link
-          className="text-lp-primary border-b border-lp-primary p-1 w-24"
-          to={"/history"}
-        >
-          View history
-        </Link>
+        <div className="w-[100%] sm:w-[80%] sm:mx-auto">
+          {displayClockInDetails === true ? (
+            <div className="w-full p-2 border  border-gray-300 my-10 flex bg-gray-100  justify-between items-center">
+              <div
+                className={
+                  isOnTime === true
+                    ? "w-[20px] h-[20px] border rounded-full bg-green-600"
+                    : "w-[20px] h-[20px] border rounded-full bg-red-500"
+                }
+              ></div>
+
+              <div className=" ml-5 text-lp-primary font-bold text-l">
+                {isOnTime === true ? "Early" : "Late"}
+              </div>
+
+              <div className="w-[250px] text-lp-primary font-bold text-l flex flex-col items-end mr-2">
+                <div> {currAttendanceData.time}</div>
+                <div> {currAttendanceData.currDate}</div>
+              </div>
+            </div>
+          ) : null}
+        </div>
+        <div className="flex flex-col">
+          <Link
+            className="text-lp-primary border-b border-lp-primary p-1 w-24"
+            to={"/userprofile"}
+          >
+            View profile
+          </Link>
+          <Link
+            className="text-lp-primary border-b border-lp-primary p-1 w-24"
+            to={"/history"}
+          >
+            View history
+          </Link>
+        </div>
+        {/* {displayMenu === true ? <Menu /> : null} */}
       </div>
-      {/* {displayMenu === true ? <Menu /> : null} */}
     </div>
   );
 }
