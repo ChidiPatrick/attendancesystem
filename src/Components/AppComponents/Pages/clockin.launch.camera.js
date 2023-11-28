@@ -2,7 +2,8 @@ import React, { useState } from "react";
 
 /// Third-party imports ////
 import { useDispatch, useSelector } from "react-redux";
-import { LuCamera } from "react-icons/lu";
+import { FcGlobe } from "react-icons/fc";
+import { HiChevronLeft } from "react-icons/hi";
 
 /// Local directory imports /////
 import haversine from "../Handlers/haversine";
@@ -11,11 +12,10 @@ import NetworkFeedback from "../Modal/networkFeedback";
 import FeedbackModal from "../Modal/feedbackModal";
 import {
   showNetworkFeedback,
-  showFeedback,
   hideFeedback,
 } from "../../Redux Slices/signupSlice";
 import { useNavigate } from "react-router";
-import { HiLocationMarker } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 /// Clock in component
 function ClockLaunchCamera() {
@@ -86,21 +86,26 @@ function ClockLaunchCamera() {
   /// Web camera settings ////
 
   return (
-    <div className="w-full   py-6 h-auto  mx-auto">
-      <div className="mx-auto max-w-[650px] w-[90%] md:w-full relative">
+    <div className="w-full h-screen sm:flex sm:flex-col sm:justify-center sm:items-center">
+      <div className="bg-user-profile p-[10px] mx-auto max-w-[640px] sm:border sm:border-gray-100 sm:shadow-lg flex flex-col justify-between  h-[100%] sm:h-[80%]  w-full sm:w-[80%] sm:mx-auto relative">
         {/* <div className=" flex items-center text-black bg-mywhite py-2 px-2  ">
           <span>
             <FaArrowLeft size={20} onClick={navigateBack} />
           </span>
           <p className=" mx-auto font-semibold text-[18px]">Clock In</p>
         </div> */}
-        <h2 className="font-bold text-lp-primary text-lg md:text-xl text-center mt-6">
-          Ensure you have strong internet connectivity and you're in the hub's
-          proximity
-        </h2>
-        <figure className=" mt-4 md:mt-10  w-[80px] h-[80px] mx-auto ">
-          <HiLocationMarker className="w-[80px] h-[80px]" />
-        </figure>
+        <Link to={-1}>
+          <HiChevronLeft size={30} />
+        </Link>
+        <div>
+          <h2 className="font-bold text-lp-primary text-lg md:text-xl text-center mt-6">
+            Ensure you have strong internet connectivity and you're in the hub's
+            proximity
+          </h2>
+          <figure className=" mt-4 md:mt-10  w-[80px] h-[80px] mx-auto ">
+            <FcGlobe className="w-[100px] h-[100px]" />
+          </figure>
+        </div>
         {/* <div className="font-bold text-lg md:text-xl mt-4 md:mt-10 text-center">
           Launch Camera
         </div> */}
@@ -112,14 +117,14 @@ function ClockLaunchCamera() {
           <button
             onClick={() => checkProximity(location)}
             className={
-              "px-1 py-2 md:px-[16] font-semibold md:py-2 w-40 bg-lp-secondary text-white text-lg border rounded-3xl"
+              "px-1 py-2 md:px-[16] font-semibold md:py-2 w-40 bg-lp-secondary text-white text-lg border rounded-md"
             }
           >
             Proceed
           </button>
           <button
             onClick={navigateBack}
-            className="px-1 py-2 md:px-2 md:py-3 shad font-semibold w-40 bg-white text-lp-secondary text-lg border-[0.5] border-solid border-lp-secondary rounded-3xl"
+            className="px-1 py-2 md:px-2 md:py-3  font-semibold w-40 bg-white text-lp-secondary text-lg border border-solid border-lp-secondary rounded-md"
           >
             Cancel
           </button>

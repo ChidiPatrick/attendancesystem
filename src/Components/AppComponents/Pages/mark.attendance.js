@@ -3,7 +3,8 @@ import React, { useState } from "react";
 //// Third-party imports ////
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { BsFillPersonFill } from "react-icons/bs";
+import { FcInspection } from "react-icons/fc";
+import { HiChevronLeft } from "react-icons/hi";
 
 /// Local directory imports ///
 import {
@@ -20,6 +21,7 @@ import { ButtonFull } from "../../LandingPageComponents/Buttons/buttons";
 import FeedbackModal from "../Modal/feedbackModal";
 import NetworkFeedback from "../Modal/networkFeedback";
 import { ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 function MarkUser() {
   const dispatch = useDispatch();
@@ -136,8 +138,8 @@ function MarkUser() {
    *
    */
   return (
-    <div className="w-full relative p-2 shadow-md h-screen flex flex-col justify-center border border-bg-lp-secondary items-center">
-      {profilePictureURL === "" || !navigator.onLine ? (
+    <div className="w-full relative h-screen flex flex-col justify-between border border-bg-lp-secondary items-center">
+      {/* {profilePictureURL === "" || !navigator.onLine ? (
         <BsFillPersonFill
           size={50}
           className="w-[200px] h-[40%] border rounded"
@@ -148,22 +150,34 @@ function MarkUser() {
           src={profilePictureURL}
           alt="user"
         />
-      )}
-      <div className="mb-[50px] mt-[20px] text-center text-lp-primary font-bold">
-        Click the "Mark Attendance" button to clock in
+      )} */}
+      <div className="bg-user-profile p-[10px] flex flex-col justify-between w-full sm:shadow-md sm:max-w-[640px] h-screen sm:h-[80%] sm:my-auto">
+        <Link to={-1} className="w-full flex ">
+          <HiChevronLeft size={30} />
+        </Link>
+        <div className="flex flex-col justify-between items-center">
+          <div>
+            <FcInspection size={100} />
+          </div>
+          <div className="mb-[50px] mt-[40px] text-center text-lp-primary font-bold">
+            Click the "Mark Attendance" button to clock in
+          </div>
+        </div>
+        <ToastContainer style={{ width: "100%", textAlign: "center" }} />
+        <div className="mb-[20px] w-[100%] flex justify-center items-center">
+          <ButtonFull handleClick={() => markAttendance(userId, latenessHour)}>
+            Mark attendance
+          </ButtonFull>
+        </div>
+        {displaySpinner === true ? <SpinnerSmall /> : null}
+        {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
+        {displayFeedback === true ? (
+          <FeedbackModal handleClick={() => dispatch(hideFeedback())}>
+            Something went wrong, please login out and log in again
+          </FeedbackModal>
+        ) : null}
+        {/* <ClockOut /> */}
       </div>
-      <ToastContainer style={{ width: "100%", textAlign: "center" }} />
-      <ButtonFull handleClick={() => markAttendance(userId, latenessHour)}>
-        Mark attendance
-      </ButtonFull>
-      {displaySpinner === true ? <SpinnerSmall /> : null}
-      {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
-      {displayFeedback === true ? (
-        <FeedbackModal handleClick={() => dispatch(hideFeedback())}>
-          Something went wrong, please login out and log in again
-        </FeedbackModal>
-      ) : null}
-      {/* <ClockOut /> */}
     </div>
   );
 }
