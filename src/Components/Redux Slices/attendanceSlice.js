@@ -49,6 +49,7 @@ const initialState = {
   clockInImage: null,
   currClockinObj: null,
   latenessStartTime: 0,
+  studentNumClockins: 0,
 };
 
 const attendanceSlice = createSlice({
@@ -136,6 +137,9 @@ const attendanceSlice = createSlice({
       console.log(action.payload);
       state.latenessStartTime = action.payload;
     },
+    setStudentNumClockins(state, action) {
+      state.studentNumClockins = action.payload;
+    },
   },
 });
 
@@ -161,6 +165,7 @@ export const {
   resetClockInImage,
   setCurrClockinObj,
   setLateHour,
+  setStudentNumClockins,
 } = attendanceSlice.actions;
 
 export default attendanceSlice.reducer;

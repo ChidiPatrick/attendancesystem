@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 /// Third-party imports ///
 import { useDispatch, useSelector } from "react-redux";
+import { FcCompactCamera } from "react-icons/fc";
 
 /// Local directory imports ///
-import NavBar from "./navBar";
 import Menu from "./menu";
 import {
   ref as rRef,
@@ -139,27 +139,13 @@ function UploadProfilePicture() {
 
   return (
     <div className="w-full relative h-screen bg-user-profile p-4">
-      <div className="flex justify-end items-center">
-        {isVisible === true ? (
-          <button
-            onClick={() =>
-              changeProfilePictureHandler(
-                file,
-                userId,
-                dispatch,
-                studentBioObject
-              )
-            }
-            className="w-[100px] border rounded-md border-lp-secondary p-1 text-lp-secondary"
-          >
-            Upload
-          </button>
-        ) : null}
-      </div>
       <div className="my-[100px] flex flex-col justify-center items-center">
         <h3 className="font-bold text-xl my-5">Set Profile Picture</h3>
-        <p className="text-center">
-          Please upload a clear picture of you for your profile
+        <div className="">
+          <FcCompactCamera size={100} />
+        </div>
+        <p className="text-center text-lp-primary font-semibold">
+          Please upload a clear picture of yourself
         </p>
 
         <div className={`my-10 flex items-center`}>
@@ -188,6 +174,23 @@ function UploadProfilePicture() {
             className="hidden"
             id="inputFile"
           />
+        </div>
+        <div className="flex justify-end items-center">
+          {isVisible === true ? (
+            <button
+              onClick={() =>
+                changeProfilePictureHandler(
+                  file,
+                  userId,
+                  dispatch,
+                  studentBioObject
+                )
+              }
+              className="w-[100px] border rounded-md border-lp-secondary p-1 text-lp-secondary"
+            >
+              Upload
+            </button>
+          ) : null}
         </div>
       </div>
       <ToastContainer style={{ width: "100%", textAlign: "center" }} />

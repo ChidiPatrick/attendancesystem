@@ -13,6 +13,8 @@ const initialState = {
   wrongLoginMessage: "",
   wrongAdminLoginMessage: "",
   displayWrongAdminMessage: false,
+  programStartingDate: "",
+  programEndingDate: "",
 };
 
 const loginSlice = createSlice({
@@ -53,6 +55,12 @@ const loginSlice = createSlice({
       state.displayWrongAdminMessage = false;
       console.log("Hide admin message fully executed!");
     },
+    setProgramStartingDate(state, action) {
+      state.programStartingDate = action.payload;
+    },
+    setProgramEndingDate(state, action) {
+      state.programEndingDate = action.payload;
+    },
   },
 });
 
@@ -68,6 +76,8 @@ export const {
   showWrongAdminLoginMessage,
   hideWrongAdminLoginMessage,
   setWrongAdminLoginMessage,
+  setProgramEndingDate,
+  setProgramStartingDate,
 } = loginSlice.actions;
 
 export default loginSlice.reducer;

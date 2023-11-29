@@ -39,6 +39,11 @@ import { persistor } from "../../Store/store";
 import { getStudentsBioArrayFromDatabase } from "./login.handlers";
 import { getUnreadResponseNumber } from "../Handlers/permission.handler";
 import { getLatenessHour } from "../Handlers/clockin.handler";
+import {
+  getProgramEndingDate,
+  getProgramStartingDate,
+  getTotalClockins,
+} from "../Handlers/user.profile.handlers";
 
 /**
  * TODOs:
@@ -108,6 +113,7 @@ const Signin = () => {
 
             return user;
           })
+
           .then((user) => {
             const userEmail = studentsEmail.find(
               (user) => user.email === values.email
@@ -128,6 +134,7 @@ const Signin = () => {
 
             return user;
           })
+
           .then(async (user) => {
             let userId = user.user.uid;
             dispatch(setUser(user));
@@ -135,13 +142,27 @@ const Signin = () => {
             persistor.purge();
             invokeAllThunks(userId, dispatch);
           })
+
           .then(() => {
             getStudentsBioArrayFromDatabase(dispatch);
           })
+
           .then(() => {
             getUnreadResponseNumber(dispatch, currUserId);
           })
+
+          .then(() => {
+            getProgramStartingDate(dispatch);
+          })
+
+          .then(() => {
+            getProgramEndingDate(dispatch);
+          })
+
           .then(() => getLatenessHour(dispatch))
+
+          .then(() => getTotalClockins(currUserId, dispatch))
+
           .then((userId) => {
             dispatch(setUserId(userId));
             dispatch(hideSpinner());

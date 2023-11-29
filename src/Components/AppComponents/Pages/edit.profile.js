@@ -66,93 +66,98 @@ function EditProfie() {
   });
 
   return (
-    <div className="w-full relative p-2 h-screen bg-user-profile ">
-      <NavBar>Edit Profile</NavBar>
-      <figure className="w-full relative h-[300px]  border rounded-xl">
-        {profilePictureURL === "" || !navigator.onLine ? (
-          <BsFillPersonFill className="w-full h-[300px] text-gray-500" />
-        ) : (
-          <img
-            src={userProfile.profilePictureURL}
-            className="w-full h-[300px] bg-blue-300 border rounded-xl"
-          />
-        )}
-        <div className="bg-myshade z-[1000] absolute top-[84%] h-[50px] w-full flex justify-end items-center">
-          <Link
-            to={"/uploadProfilePicture"}
-            className=" w-[40px] flex justify-center items-center h-[40px] p-2 bg-gray-100 border rounded-full"
-          >
-            <GoUpload size={20} className="" />
-          </Link>
-        </div>
-      </figure>
+    <div className="w-full relative flex justify-center items-center p-2 min-h-screen bg-white ">
+      <div className="w-[100%] p-[10px] h-[100%] max-w-[620px] bg-user-profile ">
+        <NavBar>Edit Profile</NavBar>
+        <figure className="w-[100%] flex justify-center items-center relative h-[300px]  border rounded-xl">
+          {profilePictureURL === "" || !navigator.onLine ? (
+            <BsFillPersonFill className="w-full h-[300px] text-gray-500" />
+          ) : (
+            <img
+              src={userProfile.profilePictureURL}
+              className="w-full h-[300px] bg-blue-300 border rounded-xl"
+            />
+          )}
+          <div className="bg-myshade z-[1000] absolute top-[84%] h-[50px] w-full flex justify-center items-center">
+            <Link
+              to={"/uploadProfilePicture"}
+              className=" w-[40px] flex justify-center items-center h-[40px] p-2 bg-gray-100 border rounded-full"
+            >
+              <GoUpload size={20} className="" />
+            </Link>
+          </div>
+        </figure>
 
-      <form onSubmit={formik.handleSubmit} className="mt-[50px]">
-        <fieldset className="px-2 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">First Name</legend>
-          <label htmlFor="firstName">
+        <form onSubmit={formik.handleSubmit} className="mt-[50px]">
+          <fieldset className="px-2 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+            <legend className="text-lp-primary">First Name</legend>
+            <label htmlFor="firstName">
+              <input
+                id="firstName"
+                className="w-full h-full focus:outline-none"
+                type="text"
+                name="firstName"
+                placeholder="First name"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.firstName}
+              />
+            </label>
+            {formik.errors.firstName ? (
+              <div className="text-red-800">{formik.errors.firstName}</div>
+            ) : null}
+          </fieldset>
+
+          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+            <legend className="text-lp-primary">Last Name</legend>
             <input
-              id="firstName"
+              id="lastName"
               className="w-full h-full focus:outline-none"
               type="text"
-              name="firstName"
+              name="lastName"
+              placeholder="Last name"
+              value={formik.values.lastName}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.firstName}
             />
-          </label>
-          {formik.errors.firstName ? (
-            <div className="text-red-800">{formik.errors.firstName}</div>
-          ) : null}
-        </fieldset>
+            {formik.errors.lastName ? (
+              <div className="text-red-800">{formik.errors.lastName}</div>
+            ) : null}
+          </fieldset>
 
-        <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">Last Name</legend>
-          <input
-            id="lastName"
-            className="w-full h-full focus:outline-none"
-            type="text"
-            name="lastName"
-            value={formik.values.lastName}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.lastName ? (
-            <div className="text-red-800">{formik.errors.lastName}</div>
-          ) : null}
-        </fieldset>
-
-        <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
-          <legend className="text-lp-primary">User Name</legend>
-          <input
-            id="userName"
-            className="w-full h-full focus:outline-none"
-            type="text"
-            name="userName"
-            value={formik.values.userName}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.userName ? (
-            <div className="text-red-800">{formik.errors.userName}</div>
-          ) : null}
-        </fieldset>
-        <div className="w-full mt-[50px] flex justify-center items-center">
-          <button
-            type="submit"
-            className="p-2 w-3/4  bg-lp-secondary text-white text-lg border rounded-full"
-          >
-            Save changes
-          </button>
-        </div>
-      </form>
-      {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
-      {displaySpinner === true ? <SpinnerSmall /> : null}
-      {displayFeedback === true ? (
-        <FeedbackModal handleClick={() => dispatch(hideFeedback())}>
-          Profile updated successfully
-        </FeedbackModal>
-      ) : null}
+          <fieldset className="px-4 mb-4 border-2 border-solid border-signup-gray rounded py-2">
+            <legend className="text-lp-primary">User Name</legend>
+            <input
+              id="userName"
+              className="w-full h-full focus:outline-none"
+              type="text"
+              name="userName"
+              placeholder="Username"
+              value={formik.values.userName}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+            {formik.errors.userName ? (
+              <div className="text-red-800">{formik.errors.userName}</div>
+            ) : null}
+          </fieldset>
+          <div className="w-full mt-[50px] flex justify-center items-center">
+            <button
+              type="submit"
+              className="p-2 w-3/4  bg-lp-secondary text-white text-lg border rounded-full"
+            >
+              Save changes
+            </button>
+          </div>
+        </form>
+        {displayNetWorkFeedback === true ? <NetworkFeedback /> : null}
+        {displaySpinner === true ? <SpinnerSmall /> : null}
+        {displayFeedback === true ? (
+          <FeedbackModal handleClick={() => dispatch(hideFeedback())}>
+            Profile updated successfully
+          </FeedbackModal>
+        ) : null}
+      </div>
     </div>
   );
 }
