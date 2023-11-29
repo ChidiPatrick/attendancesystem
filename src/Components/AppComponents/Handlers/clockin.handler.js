@@ -40,10 +40,10 @@ const getLatenessHour = (dispatch) => {
     console.log(snapshot.val());
     latenessHour = parseInt(snapshot.val().startTime.split(":")[0]);
     // console.log(latenessHour);
+    dispatch(setLateHour(latenessHour));
   });
 
   console.log(latenessHour);
-  dispatch(setLateHour(latenessHour));
 };
 
 export { success, error, options, getLatenessHour };

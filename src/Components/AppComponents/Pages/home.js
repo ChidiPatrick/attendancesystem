@@ -1,8 +1,4 @@
 import React, { useEffect, useState, progress } from "react";
-import {
-  CircularProgressbarWithChildren,
-  buildStyles,
-} from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 /// Third party imports ///////////
@@ -14,14 +10,12 @@ import Clock from "react-clock";
 import "react-clock/dist/Clock.css";
 
 // Local directory imports /////
-import {
-  ButtonFull,
-  ButtonLight,
-} from "../../LandingPageComponents/Buttons/buttons";
 import NavBar from "./navBar";
-import { setLinkToClockIn } from "../../Redux Slices/attendanceSlice";
+import {
+  setLinkToClockIn,
+  setOnTime,
+} from "../../Redux Slices/attendanceSlice";
 import { getStudentsLogins } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
-import AttendanceFeedback from "./attendance.feedback";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -145,6 +139,7 @@ function MarkAttendance() {
             Clock out
           </button>
         </div>
+
         {studentsClockInList === undefined ? null : (
           <div className="rounded-tl-md rounded-tr-md shadow-lg px-[10px] h-[100px] md:h-[200px] relative overflow-y-scroll  mt-[20px]">
             <div className="sticky top-0 left-0 right-0 h-6 bg-white"></div>

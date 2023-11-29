@@ -48,7 +48,7 @@ const initialState = {
   linkToClockOut: false,
   clockInImage: null,
   currClockinObj: null,
-  latenessStartTime: 0,
+  latenessStartTime: null,
   studentNumClockins: 0,
 };
 

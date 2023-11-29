@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BsFillPersonFill } from "react-icons/bs";
 import Lottie from "lottie-web";
 import animationData from "../../../Assets/AnimationData.json";
+import { setOnTime } from "../../Redux Slices/attendanceSlice";
 
 /// Attendance feedback component ///
 function AttendanceFeedback() {
@@ -15,7 +16,6 @@ function AttendanceFeedback() {
   const animationContainerRef = useRef();
 
   //////// Redux state //////
-  const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
   const userImage = useSelector((state) => state.attendanceRecord.image);
   const isOnTime = useSelector((state) => state.attendanceRecord.isOnTime);
   const currTime = useSelector((state) => state.attendanceRecord.currTime);
@@ -29,13 +29,6 @@ function AttendanceFeedback() {
   const displayClockInDetails = useSelector(
     (state) => state.attendanceRecord.displayClockInDetails
   );
-  const currHour = useSelector((state) => state.attendanceRecord.currHour);
-
-  const userProfile = useSelector(
-    (state) => state.profileSlice.userProfileData
-  );
-
-  const { profilePictureURL } = userProfile;
 
   const currAttendanceData = attendanceData[attendanceData.length - 1];
   console.log(isOnTime);
@@ -45,7 +38,6 @@ function AttendanceFeedback() {
   const [time, setCurrTime] = useState(currTime);
   const [currDate, setCurrDate] = useState(date);
 
-  console.log(latenessHour);
   const dateNow = new Date();
   console.log(dateNow.getHours());
 
@@ -64,6 +56,8 @@ function AttendanceFeedback() {
     return () => animation.destroy();
   }, []);
 
+  // dispatch(setOnTime(!isOnTime));
+  console.log(isOnTime);
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="p-2 bg-user-profile h-screen sm:h-[80%] sm:my-auto shadow-lg w-full sm:w-[80%] max-w-[640px]">

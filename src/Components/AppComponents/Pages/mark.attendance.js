@@ -29,7 +29,6 @@ function MarkUser() {
 
   // Redux states ///
   const isOnTime = useSelector((state) => state.attendanceRecord.isOnTime);
-  const userImage = useSelector((state) => state.attendanceRecord.image);
   const currTime = useSelector((state) => state.attendanceRecord.currTime);
   const date = useSelector((state) => state.attendanceRecord.date);
   const userId = useSelector((state) => state.loginSlice.userId);
@@ -60,7 +59,7 @@ function MarkUser() {
   const [currDate, setCurrDate] = useState(date);
   const [userIsOnTime, setUserIsOnTime] = useState(isOnTime);
 
-  console.log(userIsOnTime);
+  console.log(latenessHour);
 
   /// Mark attendance ///
   const markAttendance = async (userId, latenessHour) => {
@@ -107,8 +106,7 @@ function MarkUser() {
 
       return;
     } else {
-      console.log("Second case called");
-
+      console.log("Second called");
       setUserIsOnTime(false);
       dispatch(setOnTime(false));
 
@@ -132,11 +130,7 @@ function MarkUser() {
       );
     }
   };
-  /**
-   * UI LAYOUT TODOs
-   * Add a back button to navigate user back to the previous page
-   *
-   */
+
   return (
     <div className="w-full relative h-screen flex flex-col justify-between border border-bg-lp-secondary items-center">
       {/* {profilePictureURL === "" || !navigator.onLine ? (

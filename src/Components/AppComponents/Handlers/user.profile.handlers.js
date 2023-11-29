@@ -4,7 +4,6 @@ import {
   setProgramEndingDate,
   setProgramStartingDate,
 } from "../../Redux Slices/login.slice";
-import { snapshotEqual } from "firebase/firestore";
 import { setStudentNumClockins } from "../../Redux Slices/attendanceSlice";
 
 // Get program starting date from admin database
@@ -43,6 +42,8 @@ const getTotalClockins = (studentID, dispatch) => {
     const studentClockinArray = allClockinArray.filter(
       (clockObject) => clockObject.userId === studentID
     );
+
+    console.log(studentClockinArray);
 
     console.log(studentClockinArray.length);
 
