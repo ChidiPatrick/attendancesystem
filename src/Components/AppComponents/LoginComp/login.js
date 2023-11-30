@@ -45,14 +45,6 @@ import {
   getTotalClockins,
 } from "../Handlers/user.profile.handlers";
 
-/**
- * TODOs:
- * Display custome error message for admin trying to sign in as a student
- * Configure admin login logic to prevent students trying to log in as an admin
- *
- *
- */
-
 const Signin = () => {
   ///// Initialisations////////
   const dispatch = useDispatch();

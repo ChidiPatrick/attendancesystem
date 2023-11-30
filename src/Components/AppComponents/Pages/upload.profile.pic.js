@@ -3,19 +3,22 @@ import React, { useState } from "react";
 /// Third-party imports ///
 import { useDispatch, useSelector } from "react-redux";
 import { FcCompactCamera } from "react-icons/fc";
-
-/// Local directory imports ///
-import Menu from "./menu";
 import {
   ref as rRef,
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import { useNavigate } from "react-router";
+import { updateDoc } from "firebase/firestore";
+import { FaArrowLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+
+/// Local directory imports ///
+import Menu from "./menu";
 import { storage } from "../../Firebase/firebase";
 import { firestoreRefCreator } from "../../General app handlers/general.handlers";
 import { setProfilePictureUrl } from "../../Redux Slices/profileSlice";
-import { useNavigate } from "react-router";
-import { updateDoc } from "firebase/firestore";
 import { db } from "../../Firebase/firebase";
 import { getUserProfileData } from "../../Redux Slices/profileSlice";
 import {
@@ -29,7 +32,6 @@ import {
   changeProfilePictureHandler,
   getStudentBioObject,
 } from "../Handlers/profile.picture.upload.handler";
-import { ToastContainer } from "react-toastify";
 
 /// Main component ////
 function UploadProfilePicture() {
@@ -54,7 +56,6 @@ function UploadProfilePicture() {
 
   const studentBioObject = getStudentBioObject(studentsBioArray, userId);
 
-  console.log(studentBioObject.rdbkey);
   /// Local states ////
   const [file, setFile] = useState(null);
   const [uploadPercentage, setUploadPercentage] = useState(0);
@@ -138,8 +139,11 @@ function UploadProfilePicture() {
   };
 
   return (
-    <div className="w-full relative h-screen bg-user-profile p-4">
-      <div className="my-[100px] flex flex-col justify-center items-center">
+    <div className="w-full relative h-screen flex justify-center items-center bg-white ">
+      <div className="my-[100px] w-[100%] h-[100%]  p-[10px] sm:h-[400px] sm:shadow-lg max-w-[620px] flex flex-col bg-user-profile justify-between items-center">
+        <Link to={-1} className="w-[100%]">
+          <FaArrowLeft />
+        </Link>
         <h3 className="font-bold text-xl my-5">Set Profile Picture</h3>
         <div className="">
           <FcCompactCamera size={100} />
@@ -160,37 +164,39 @@ function UploadProfilePicture() {
               : null}
           </div>
         </div>
-        <div className="w-full flex justify-between items-center my-20">
-          <label
-            className="w-[80%] my-0 mx-auto bg-lp-secondary border rounded-xl flex justify-center items-center text-white p-2"
-            htmlFor="inputFile"
-          >
-            Select picture
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleChange}
-            className="hidden"
-            id="inputFile"
-          />
-        </div>
-        <div className="flex justify-end items-center">
-          {isVisible === true ? (
-            <button
-              onClick={() =>
-                changeProfilePictureHandler(
-                  file,
-                  userId,
-                  dispatch,
-                  studentBioObject
-                )
-              }
-              className="w-[100px] border rounded-md border-lp-secondary p-1 text-lp-secondary"
+        <div className="w-[100%] ">
+          <div className="w-full flex justify-between items-center mb-[20px]">
+            <label
+              className="w-[80%] my-0 mx-auto bg-lp-secondary border rounded-xl flex justify-center items-center text-white p-2"
+              htmlFor="inputFile"
             >
-              Upload
-            </button>
-          ) : null}
+              Select picture
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleChange}
+              className="hidden"
+              id="inputFile"
+            />
+          </div>
+          <div className="flex justify-center items-center">
+            {isVisible === true ? (
+              <button
+                onClick={() =>
+                  changeProfilePictureHandler(
+                    file,
+                    userId,
+                    dispatch,
+                    studentBioObject
+                  )
+                }
+                className="w-[80%] mx-auto border rounded-md border-lp-secondary p-1 text-lp-secondary"
+              >
+                Upload
+              </button>
+            ) : null}
+          </div>
         </div>
       </div>
       <ToastContainer style={{ width: "100%", textAlign: "center" }} />

@@ -11,6 +11,7 @@ import { hideMenu } from "../../Redux Slices/menu.slice";
 import { toggleMenu } from "../Handlers/menu.handlers";
 import { logout } from "../../General app handlers/general.handlers";
 import { auth } from "../../Firebase/firebase";
+import customeCSS from "../../Custom CSS/admin.profile.css";
 
 function Menu() {
   /// Initial invocations ///
@@ -23,23 +24,23 @@ function Menu() {
   return (
     <div
       onClick={() => toggleMenu(dispatch, hideMenu)}
-      className="w-full z-1200 absolute top-0 left-0 h-full bg-blue-300 bg-opacity-20"
+      className="w-full z-1200 absolute top-0 left-0 h-screen bg-opacity-20"
     >
-      <ul className="w-full bg-gray-100 cursor-pointer flex flex-col ">
-        <li className="p-2 font-bold">
+      <ul className="w-[100%] bg-[#f5f6fa] h-[100%] cursor-pointer flex flex-col">
+        <li className="p-2  font-bold">
           <HiX
             className="text-2xl"
             onClick={() => toggleMenu(dispatch, hideMenu)}
           />
         </li>
         <li
-          className="p-2 font-bold"
+          className="p-2 border-b border-black font-bold"
           onClick={() => handleNavigation(navigate, "home", dispatch, hideMenu)}
         >
           Home
         </li>
         <li
-          className="p-2 font-bold"
+          className="p-2 border-b border-black font-bold"
           onClick={() =>
             handleNavigation(navigate, "userprofile", dispatch, hideMenu)
           }
@@ -47,7 +48,7 @@ function Menu() {
           My Profile
         </li>
         <li
-          className="p-2 font-bold"
+          className="p-2 border-b border-black font-bold"
           onClick={() =>
             handleNavigation(navigate, "permission", dispatch, hideMenu)
           }
@@ -55,7 +56,7 @@ function Menu() {
           Seek Permission
         </li>
         <li
-          className="p-2 font-bold"
+          className="p-2 border-b border-black font-bold"
           onClick={() =>
             handleNavigation(navigate, "history", dispatch, hideMenu)
           }

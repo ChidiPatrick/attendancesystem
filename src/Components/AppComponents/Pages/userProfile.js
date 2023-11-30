@@ -10,13 +10,12 @@ import { useNavigate } from "react-router";
 import { calcNumWorkingDaysOfTheMonth } from "../../General app handlers/general.handlers";
 import StudentNotificationBar from "./student.notification.bar";
 import StudentPermissionResponseUI from "./student.permission.responseUI";
-import { getLatenessHour } from "../Handlers/clockin.handler";
 import { calcProgramDaysUsed } from "../Admin Dashboard/admin dashboard handlers/dashboard.summary.comp";
 import {
-  getProgramEndingDate,
   getProgramStartingDate,
   getTotalClockins,
 } from "../Handlers/user.profile.handlers";
+import { getStudentBioObject } from "../Handlers/profile.picture.upload.handler";
 
 /// User profile
 function UserProfile() {
@@ -24,8 +23,8 @@ function UserProfile() {
   const navigate = useNavigate();
 
   /// Redux states //////////////
-  const userProfileData = useSelector(
-    (state) => state.profileSlice.userProfileData
+  const studentBioArray = useSelector(
+    (state) => state.studentsSlice.studentsBioArray
   );
 
   const displayPermissionResponseUI = useSelector(
@@ -49,8 +48,12 @@ function UserProfile() {
     (state) => state.attendanceRecord.studentNumClockins
   );
 
-  const { firstName, lastName, userName, profilePictureURL, currMonthRecord } =
-    userProfileData;
+  const studentBioObject = getStudentBioObject(studentBioArray, userId);
+  console.log(studentBioObject);
+
+  const { firstName, lastName, userName, profilePictureURL } = studentBioObject;
+
+  console.log(profilePictureURL);
 
   // Navigation function
   const navigateBack = () => {
@@ -85,15 +88,15 @@ function UserProfile() {
           <h2 className=" mx-auto font-semibold text-[25px]">Profile</h2>
         </div>
         <div className=" sm:w-[100%]">
-          <div className="h-[170px] md:h-[350px]">
-            <figure className="h-[100%] w-[100%] relative bg-[#FFFDFA]">
+          <div className="h-[100%] md:h-[100%] flex justify-center items-center flex-col">
+            <figure className="h-[200px] w-[200px]  relative bg-[#FFFDFA]">
               {profilePictureURL === "" || !navigator.onLine ? (
                 <BsFillPersonFill className=" text-gray-500 h-[100%] w-[100%]" />
               ) : (
                 <img
                   src={profilePictureURL}
                   alt="pics_profile"
-                  className="h-[100%] w-[100%] relative"
+                  className="h-[100%] w-[100%] border rounded-full relative"
                 />
               )}
               <div className=" flex absolute top-[50%] translate-x-[-50%]  left-[50%] justify-center pb-8 ">
@@ -107,7 +110,7 @@ function UserProfile() {
               </div>
             </figure>
 
-            <div className=" text-white w-full ">
+            <div className=" text-white w-[100%] ">
               <div>
                 <div className=" flex w-[100%] px-6 md:px-8 pt-3 pb-2 justify-between  bg-myshade  rounded-br-3xl rounded-bl-3xl ">
                   <div className=" tracking-wide text-lp-primary text-[13px] md:text-base">

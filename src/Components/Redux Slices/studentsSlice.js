@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   studentsBioArray: [],
+  studentBio: "",
 };
 
 const studentsSlice = createSlice({
@@ -11,9 +12,12 @@ const studentsSlice = createSlice({
     setStudentBioArray(state, action) {
       state.studentsBioArray = action.payload;
     },
+    setStudentBio(state, action) {
+      state.studentBio = action.payload;
+    },
   },
 });
 
-export const { setStudentBioArray } = studentsSlice.actions;
+export const { setStudentBioArray, setStudentBio } = studentsSlice.actions;
 
 export default studentsSlice.reducer;

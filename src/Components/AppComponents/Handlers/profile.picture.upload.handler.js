@@ -13,6 +13,7 @@ import { onValue, update } from "firebase/database";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
 import { toast } from "react-toastify";
 import { ref as rdbRef } from "firebase/database";
+import { getStudentsBioArrayFromDatabase } from "../LoginComp/login.handlers";
 
 // Update student's profile picture URL in admin database
 const updateStudentProfilePictureURLInAdminDatabase = (
@@ -36,8 +37,6 @@ const uploadProfilePicture = (file, userId, dispatch, studentBioObject) => {
   );
 
   const studentRef = ref(storage, `userProfilePicture/${userId}`);
-  console.log(studentRef);
-
   const uploadTask = uploadBytesResumable(studentProfilePictureRef, file);
 
   uploadTask.on(
@@ -62,7 +61,7 @@ const uploadProfilePicture = (file, userId, dispatch, studentBioObject) => {
             downloadURL
           );
         })
-
+        .then(() => getStudentsBioArrayFromDatabase(dispatch))
         .then(() => {
           toast("Uploaded successfully🎉😃", {
             type: "success",
@@ -131,7 +130,13 @@ const changeProfilePictureHandler = async (
     .then(() => {
       uploadProfilePicture(file, userId, dispatch, studentBioObject);
     })
-    .then(() => dispatch(hideSpinner()));
+    .then(() => dispatch(hideSpinner()))
+    .then(() => {
+      toast("Profile picture successfully uploaded", {
+        autoClose: 3000,
+        type: "success",
+      });
+    });
 };
 
 // Get student's bio object
@@ -140,7 +145,6 @@ const getStudentBioObject = (studentsBioArray, userId) => {
     (bioObject) => bioObject.userId === userId
   );
 
-  console.log(studentBioObject);
   return studentBioObject;
 };
 

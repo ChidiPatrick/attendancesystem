@@ -61,7 +61,7 @@ function MarkAttendance() {
   // console.log(currTime);
 
   return (
-    <div className="w-full min-h-screen  sm:flex sm:flex-col sm:justify-center sm:items-center">
+    <div className="w-[100%] min-h-screen relative  sm:flex sm:flex-col sm:justify-center sm:items-center">
       <div className="min-w-[400px] max-w-[640px] h-[100%] mx-auto px-[10px] sm:w-[70%] bg-user-profile border  relative">
         <div className=" flex justify-between items-center bg-mywhite sticky  z-[999]">
           <div className="w-[90%]">
@@ -75,7 +75,7 @@ function MarkAttendance() {
               <img
                 src={profilePictureURL}
                 alt="pics_profile"
-                className=" w-full h-full"
+                className=" w-[100%] h-[100%]"
               />
             )}
           </figure>
