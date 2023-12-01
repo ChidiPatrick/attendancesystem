@@ -195,7 +195,7 @@ const SigninAsAdmin = () => {
 
   const componentBody = (
     <div className="w-full h-screen flex justify-center items-center bg-gray-100">
-      <div className="relative h-[500px] shadow-lg border border-gray-200 rounded-lg bg-white w-[500px]  mx-auto p-2">
+      <div className="relative h-[100%] sm:h-[500px] sm:shadow-lg sm:border sm:border-gray-200 sm:rounded-lg bg-white w-[100%] mobile_large:w-[500px] mx-auto p-2">
         <HiChevronLeft
           className="text-3xl text-start"
           onClick={() => navigate("/")}
