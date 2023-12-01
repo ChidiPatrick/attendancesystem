@@ -82,7 +82,7 @@ function AttendanceFeedback() {
           <div className="text-lp-primary font-bold text-xl">
             Attendance Recorded
           </div>
-          <div className="font-md">You look good today</div>
+          {/* <div className="font-md">You look good today</div> */}
           <div className="text-xs">Happy learning</div>
         </div>
         <div className="w-[100%] sm:w-[80%] sm:mx-auto">

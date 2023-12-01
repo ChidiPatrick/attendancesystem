@@ -16,6 +16,7 @@ import {
   setOnTime,
 } from "../../Redux Slices/attendanceSlice";
 import { getStudentsLogins } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
+import { getStudentBioObject } from "../Handlers/profile.picture.upload.handler";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -31,12 +32,17 @@ function MarkAttendance() {
     (state) => state.profileSlice.userProfileData
   );
 
+  const userId = useSelector((state) => state.loginSlice.userId);
+
+  const studentBioArray = useSelector(
+    (state) => state.studentsSlice.studentsBioArray
+  );
+
   const { firstName, profilePictureURL, lastName, currMonthRecord } =
     userProfileData;
-  console.log(currMonthRecord?.totalDaysPresent);
+  console.log(studentBioArray);
 
   const studentsClockInList = getStudentsLogins();
-  console.log(studentsClockInList);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -47,18 +53,18 @@ function MarkAttendance() {
     };
   });
 
-  // Clock in handler ///
+  // Clock in page navigator handler ///
   const navigateToClockIn = async () => {
     navigate("/clockIn");
   };
 
-  // Clock out handler ///
+  // Clock out page navigator handler //
   const navigateToClockOut = () => {
     dispatch(setLinkToClockIn(false));
     navigate("/clockOut");
   };
 
-  // console.log(currTime);
+  const studentBioObject = getStudentBioObject(studentBioArray, userId);
 
   return (
     <div className="w-[100%] min-h-screen relative  sm:flex sm:flex-col sm:justify-center sm:items-center">
@@ -73,7 +79,7 @@ function MarkAttendance() {
               <BsFillPersonFill size={"100%"} />
             ) : (
               <img
-                src={profilePictureURL}
+                src={studentBioObject.profilePictureURL}
                 alt="pics_profile"
                 className=" w-[100%] h-[100%]"
               />

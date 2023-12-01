@@ -17,6 +17,7 @@ import { sendPermissionRequestHandler } from "../Handlers/permission.handler";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router";
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
+import { getStudentBioObject } from "../Handlers/profile.picture.upload.handler";
 
 /////////////// PERMISSION COMPONENT/////////////
 function Permission() {
@@ -47,6 +48,8 @@ function Permission() {
   const displaySpinner = useSelector(
     (state) => state.signupSlice.displaySpinner
   );
+
+  const studentBioObject = getStudentBioObject(studentsBioArray, userId);
 
   /////////////// User credentials //////////////
   const { firstName, lastName, userName, profilePictureURL, email } =
@@ -83,7 +86,7 @@ function Permission() {
               <BsFillPersonFill size={"100%"} />
             ) : (
               <img
-                src={profilePictureURL}
+                src={studentBioObject.profilePictureURL}
                 alt="pics_profile"
                 className=" w-full h-full"
               />

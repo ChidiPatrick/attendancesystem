@@ -26,7 +26,7 @@ function Menu() {
       onClick={() => toggleMenu(dispatch, hideMenu)}
       className="w-full z-1200 absolute top-0 left-0 h-screen bg-opacity-20"
     >
-      <ul className="w-[100%] bg-[#f5f6fa] h-[100%] cursor-pointer flex flex-col">
+      <ul className="w-[100%] bg-user-profile h-[100%] cursor-pointer flex flex-col">
         <li className="p-2  font-bold">
           <HiX
             className="text-2xl"
@@ -34,13 +34,13 @@ function Menu() {
           />
         </li>
         <li
-          className="p-2 border-b border-black font-bold"
+          className="p-2 font-bold"
           onClick={() => handleNavigation(navigate, "home", dispatch, hideMenu)}
         >
           Home
         </li>
         <li
-          className="p-2 border-b border-black font-bold"
+          className="p-2 font-bold"
           onClick={() =>
             handleNavigation(navigate, "userprofile", dispatch, hideMenu)
           }
@@ -48,7 +48,7 @@ function Menu() {
           My Profile
         </li>
         <li
-          className="p-2 border-b border-black font-bold"
+          className="p-2 font-bold"
           onClick={() =>
             handleNavigation(navigate, "permission", dispatch, hideMenu)
           }
@@ -56,7 +56,7 @@ function Menu() {
           Seek Permission
         </li>
         <li
-          className="p-2 border-b border-black font-bold"
+          className="p-2 font-bold"
           onClick={() =>
             handleNavigation(navigate, "history", dispatch, hideMenu)
           }

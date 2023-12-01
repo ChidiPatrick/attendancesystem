@@ -16,6 +16,8 @@ import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import FeedbackModal from "../Modal/feedbackModal";
 import { hideFeedback } from "../../Redux Slices/signupSlice";
 import { Link } from "react-router-dom";
+import { getStudentBioObject } from "../Handlers/profile.picture.upload.handler";
+import { getStudentsBioArray } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 
 function EditProfie() {
   const dispatch = useDispatch();
@@ -38,13 +40,15 @@ function EditProfie() {
     (state) => state.signupSlice.displayFeedback
   );
 
-  const userId = useSelector((state) => state.loginSlice.userId);
-
-  const userProfileData = useSelector(
-    (state) => state.profileSlice.userProfileData
+  const studentsBioArray = useSelector(
+    (state) => state.studentsSlice.studentsBioArray
   );
 
-  const { firstName, profilePictureURL } = userProfileData;
+  const userId = useSelector((state) => state.loginSlice.userId);
+
+  const studentBioObject = getStudentBioObject(studentsBioArray, userId);
+
+  const { firstName, lastName, profilePictureURL } = studentBioObject;
 
   console.log(userProfile);
 
@@ -69,13 +73,13 @@ function EditProfie() {
     <div className="w-full relative flex justify-center items-center p-2 min-h-screen bg-white ">
       <div className="w-[100%] p-[10px] h-[100%] max-w-[620px] bg-user-profile ">
         <NavBar>Edit Profile</NavBar>
-        <figure className="w-[100%] flex justify-center items-center relative h-[300px]  border rounded-xl">
+        <figure className="w-[100%] flex justify-center items-center relative h-[300px]">
           {profilePictureURL === "" || !navigator.onLine ? (
             <BsFillPersonFill className="w-full h-[300px] text-gray-500" />
           ) : (
             <img
-              src={userProfile.profilePictureURL}
-              className="w-full h-[300px] bg-blue-300 border rounded-xl"
+              src={profilePictureURL}
+              className="w-[300px] h-[300px] bg-blue-300 border rounded-full"
             />
           )}
           <div className="bg-myshade z-[1000] absolute top-[84%] h-[50px] w-full flex justify-center items-center">

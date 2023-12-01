@@ -79,15 +79,14 @@ function MarkUser() {
       return;
     }
 
-    //CHECK TO SEE IF THIS BUG HAS BEEN FIXED
     if (currHour >= 9 && currHour < latenessHour) {
       console.log("First case called");
-
       setUserIsOnTime(true);
       dispatch(setOnTime(true));
+
       const data = {
         date: date.toDateString(),
-        isOnTime: userIsOnTime,
+        isOnTime: currHour < latenessHour,
         time: date.toLocaleTimeString("en-US"),
         name: `${firstName} ${lastName}`,
       };
@@ -112,7 +111,7 @@ function MarkUser() {
 
       const data = {
         date: date.toDateString(),
-        isOnTime: userIsOnTime,
+        isOnTime: currHour < latenessHour,
         time: date.toLocaleTimeString("en-US"),
         name: `${firstName} ${lastName}`,
       };

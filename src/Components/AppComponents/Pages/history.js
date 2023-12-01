@@ -19,9 +19,11 @@ function History() {
   );
 
   return (
-    <div className="min-w-[400px] sm:w-full relative p-2  h-auto  mx-auto ">
-      <div className="w-full h-screen bg-user-profile  bg-white">
-        <NavBar>Attendance History</NavBar>
+    <div className="min-w-[400px] h-screen sm:w-full flex justify-center items-center relative bg-user-profile">
+      <div className="w-[100%] max-w-[620px] h-[100%] sm:max-h-[500px] overflow-y-scroll shadow-lg sm:w-[80%] p-2 mx-auto bg-white">
+        <div className="w-[100%]">
+          <NavBar>Attendance History</NavBar>
+        </div>
         <div className="flex justify-center items-center w-full ">
           <table className=" mt-10 w-[90%] mx-auto">
             <thead>
