@@ -44,6 +44,7 @@ import {
   getProgramStartingDate,
   getTotalClockins,
 } from "../Handlers/user.profile.handlers";
+import custom from "../../Custom CSS/admin.profile.css";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -190,8 +191,8 @@ const Signin = () => {
   });
 
   const componentBody = (
-    <div className="w-full h-screen  bg-gray-100 flex justify-center items-center">
-      <div className="relative h-[500px] border border-gray-200 shadow-lg rounded-md p-2 bg-white  w-[500px] my-[20px] mx-auto ">
+    <div className="w-full h-screen bg-gray-100 sm:flex sm:justify-center sm:items-center">
+      <div className="relative h-[100%] sm:h-[500px] sm:border sm:border-gray-200 sm:shadow-lg sm:rounded-md p-2 bg-white  sm:w-[500px] sm:my-[20px] sm:mx-auto ">
         <HiChevronLeft
           className="text-3xl text-start"
           onClick={() => navigate("/")}
@@ -241,7 +242,7 @@ const Signin = () => {
               Login
             </button>
           </div>
-          <ul className="mt-[20px] w-[50%] mx-auto flex justify-between">
+          <ul className="mobile_large:w-[70%] tablet:w-[60%] mt-[20px]  w-[90%] sm:w-[50%] mx-auto flex justify-between">
             <li className="py-2">
               <Link to={"/adminLogin"} className="text-lp-primary ">
                 Login as admin

@@ -1,8 +1,11 @@
 import React from "react";
 import { ButtonFull } from "../Buttons/buttons";
 import { FaBars } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 const LandingPageNavbar = () => {
+  const navigate = useNavigate();
+
   const constants = [
     { name: "Home", link: "home", id: "001" },
     { name: "How it works", link: "works", id: "002" },
@@ -44,7 +47,9 @@ const LandingPageNavbar = () => {
           </ul>
         </div>
         <div className="hidden md:block">
-          <ButtonFull>Get Started</ButtonFull>
+          <ButtonFull handleClick={() => navigate("/signup")}>
+            Get Started
+          </ButtonFull>
         </div>
       </div>
     </nav>

@@ -4,6 +4,10 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      screens: {
+        mobile_large: "400px",
+        tablet: "500px",
+      },
       colors: {
         "lp-primary": "#1946A6",
         "lp-secondary": "#F78F1E",

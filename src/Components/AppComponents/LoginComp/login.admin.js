@@ -246,7 +246,7 @@ const SigninAsAdmin = () => {
             </button>
           </div>
           <div className="w-[100%] flex items-center justify-center">
-            <ul className="mt-[20px] w-[50%] flex items-center justify-between">
+            <ul className="mt-[20px] mobile_large:w-[70%] tablet:w-[60%] w-[90%] flex items-center justify-between">
               <li className="py-2">
                 <button
                   onClick={() => navigate("/signupAsAdmin")}
