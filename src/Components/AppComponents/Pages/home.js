@@ -17,6 +17,7 @@ import {
 } from "../../Redux Slices/attendanceSlice";
 import { getStudentsLogins } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 import { getStudentBioObject } from "../Handlers/profile.picture.upload.handler";
+import BreakDaysUI from "./breakDaysUI";
 
 function MarkAttendance() {
   const dispatch = useDispatch();

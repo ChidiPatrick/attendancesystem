@@ -142,7 +142,7 @@ function AttendanceReport({ marginTop }) {
               <th className="w-[100px]">Clock in</th>
               <th className="w-[100px]">Remark</th>
               <th className="w-[100px]">Clock out</th>
-              <th className="w-[100px]">Total</th>
+              <th className="w-[100px]">Date</th>
             </tr>
           </thead>
           {attendanceArray === null ? (

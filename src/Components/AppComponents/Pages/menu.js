@@ -63,6 +63,14 @@ function Menu() {
         >
           History
         </li>
+        <li
+          className="p-2 font-bold"
+          onClick={() =>
+            handleNavigation(navigate, "breakDays", dispatch, hideMenu)
+          }
+        >
+          Holidays / Breaks
+        </li>
         {/* <li
           className="p-2 font-bold"
           onClick={() => handleNavigation(navigate, "", dispatch, hideMenu)}

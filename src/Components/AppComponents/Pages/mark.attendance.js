@@ -22,6 +22,8 @@ import FeedbackModal from "../Modal/feedbackModal";
 import NetworkFeedback from "../Modal/networkFeedback";
 import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { setPassedAndFutureBreakDays } from "../Admin Dashboard/admin dashboard handlers/admin.session.setting";
+import { checkHolidayDates } from "../Handlers/break.days";
 
 function MarkUser() {
   const dispatch = useDispatch();
@@ -52,6 +54,10 @@ function MarkUser() {
     (state) => state.profileSlice.userProfileData
   );
 
+  const breakDaysArray = useSelector(
+    (state) => state.attendanceRecord.breakDaysArray
+  );
+
   const { profilePictureURL, firstName, lastName } = userProfile;
 
   // Local states ////
@@ -59,7 +65,11 @@ function MarkUser() {
   const [currDate, setCurrDate] = useState(date);
   const [userIsOnTime, setUserIsOnTime] = useState(isOnTime);
 
-  console.log(latenessHour);
+  const holidaysObject = setPassedAndFutureBreakDays(breakDaysArray);
+
+  const { futureHolidaysArray } = holidaysObject;
+
+  const isBreakDay = checkHolidayDates(futureHolidaysArray);
 
   /// Mark attendance ///
   const markAttendance = async (userId, latenessHour) => {
@@ -76,6 +86,11 @@ function MarkUser() {
         type: "Warning",
       });
 
+      return;
+    }
+
+    if (isBreakDay === true) {
+      toast("We are on break, you can't clock in today.Bye 🤭");
       return;
     }
 

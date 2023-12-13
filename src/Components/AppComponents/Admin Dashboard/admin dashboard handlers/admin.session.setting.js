@@ -172,14 +172,12 @@ const setPassedAndFutureBreakDays = (breakDaysArray) => {
 
   breakDaysArray.forEach((breakObject, index) => {
     if (
-      new Date(breakObject.breakStartingDate).valueOf() < new Date().valueOf()
+      new Date(breakObject.breakStartingDate).valueOf() <
+        new Date().valueOf() &&
+      new Date(breakObject.breakEndingDate).valueOf() < new Date().valueOf()
     ) {
       passedHolidaysArray.push(breakObject);
-    }
-
-    if (
-      new Date(breakObject.breakStartingDate).valueOf() > new Date().valueOf()
-    ) {
+    } else {
       futureHolidaysArray.push(breakObject);
     }
   });

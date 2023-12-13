@@ -50,6 +50,7 @@ const initialState = {
   currClockinObj: null,
   latenessStartTime: null,
   studentNumClockins: 0,
+  breakDaysArray: [],
 };
 
 const attendanceSlice = createSlice({
@@ -140,6 +141,9 @@ const attendanceSlice = createSlice({
     setStudentNumClockins(state, action) {
       state.studentNumClockins = action.payload;
     },
+    setBreakDaysArray(state, action) {
+      state.breakDaysArray = action.payload;
+    },
   },
 });
 
@@ -166,6 +170,7 @@ export const {
   setCurrClockinObj,
   setLateHour,
   setStudentNumClockins,
+  setBreakDaysArray,
 } = attendanceSlice.actions;
 
 export default attendanceSlice.reducer;

@@ -11,6 +11,7 @@ const getStudentsTotalNumber = async (dispatch) => {
   });
 };
 
+// Loop date
 const loopDate = (programStartingDate, programEndingDate) => {
   let totalWorkDays = 0;
   const currDate = new Date(programStartingDate);
@@ -32,8 +33,6 @@ const calcProgramDaysUsed = (
   currDate,
   programEndingDate
 ) => {
-  console.log("calcProgramDaysUsed called!");
-
   if (new Date(currDate) > new Date(programEndingDate)) {
     return "Program completed";
   }

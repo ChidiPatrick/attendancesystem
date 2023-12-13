@@ -142,7 +142,6 @@ function DashboardComponent() {
             </div>
             <TimeDistributionGraph />
           </div>
-          {/* <StudentsInclass /> */}
         </div>
         <div className="flex just-between mt-[30px] px-[10px]">
           <AttendanceDisplayUI />

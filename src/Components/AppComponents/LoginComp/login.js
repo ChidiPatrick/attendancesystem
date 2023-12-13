@@ -45,6 +45,7 @@ import {
   getTotalClockins,
 } from "../Handlers/user.profile.handlers";
 import custom from "../../Custom CSS/admin.profile.css";
+import { getBreakDays } from "../Handlers/break.days";
 
 const Signin = () => {
   ///// Initialisations////////
@@ -155,6 +156,8 @@ const Signin = () => {
           .then(() => getLatenessHour(dispatch))
 
           .then(() => getTotalClockins(currUserId, dispatch))
+
+          .then(() => getBreakDays(dispatch))
 
           .then((userId) => {
             dispatch(setUserId(userId));

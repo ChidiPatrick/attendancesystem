@@ -33,6 +33,7 @@ import AttendanceReport from "./Components/AppComponents/Admin Dashboard/admin d
 import AdminStudentProfile from "./Components/AppComponents/Admin Dashboard/admin dashboard components/admin.student.profile";
 import Session from "./Components/AppComponents/Admin Dashboard/admin dashboard components/Session";
 import AdminProfile from "./Components/AppComponents/Admin Dashboard/admin dashboard components/admin.profile";
+import BreakDaysUI from "./Components/AppComponents/Pages/breakDaysUI";
 
 //// Root component ///
 function App() {
@@ -63,6 +64,7 @@ function App() {
         <Route path="/clockOut" element={<ClockOut />} />
         <Route path="/resetpassword" element={<ResetEmailAndPassword />} />
         <Route path="/previewImage" element={<ImagePreview />} />
+        <Route path="/breakDays" element={<BreakDaysUI />} />
         <Route
           path="/uploadProfilePicture"
           element={<UploadProfilePicture />}
