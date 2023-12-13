@@ -30,9 +30,11 @@ import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 import {
   setAdminData,
+  setSearchBoxDataArray,
   setStudentsBioArray,
 } from "../../Redux Slices/adminSlice";
 import {
+  createSearchBoxArray,
   getStudentsArray,
   getStudentsBioArray,
 } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
@@ -43,6 +45,7 @@ import {
 } from "../Admin Dashboard/admin dashboard handlers/graph.handlers";
 import { setClockinList } from "../../Redux Slices/attendanceReportSlice";
 import { getStudentsNameArray } from "../Admin Dashboard/admin dashboard handlers/navigation.comp.handlers";
+import { getBreakDays } from "../Admin Dashboard/admin dashboard handlers/admin.session.setting";
 
 //Signin TODOs:
 /**
@@ -149,6 +152,13 @@ const SigninAsAdmin = () => {
 
           .then(() => {
             getStudentsBioArray(dispatch);
+          })
+
+          .then(() => {
+            createSearchBoxArray(studentsBioArray, dispatch);
+          })
+          .then(() => {
+            getBreakDays(dispatch);
           })
           .then((userId) => {
             dispatch(setUserId(userId));

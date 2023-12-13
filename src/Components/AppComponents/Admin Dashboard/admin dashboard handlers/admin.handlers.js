@@ -1,6 +1,9 @@
 import { rdb } from "../../../Firebase/firebase";
 import { set, ref, onValue, push, update } from "firebase/database";
-import { setStudentsBioArray } from "../../../Redux Slices/adminSlice";
+import {
+  setSearchBoxDataArray,
+  setStudentsBioArray,
+} from "../../../Redux Slices/adminSlice";
 import { setStudentsArray } from "../../../Redux Slices/adminStudentsSlice";
 import { setCurrStudentPermissionsArray } from "../../../Redux Slices/permission.slice";
 
@@ -179,6 +182,23 @@ const setCurrStudentPermissionRequests = async (
   dispatch(setCurrStudentPermissionsArray(studentPermissions));
 };
 
+// Create searchbox data array
+const createSearchBoxArray = (studentsBioArray, dispatch) => {
+  const data = [];
+
+  studentsBioArray.forEach((bioObject) => {
+    let fullName = `${bioObject.firstName} ${bioObject.lastName}`;
+    data.push({
+      key: bioObject.firstName,
+      value: fullName,
+      userId: bioObject.userId,
+    });
+  });
+
+  // dispatch(setSearchBoxDataArray(data));
+  return data;
+};
+
 export {
   addStudentBioToAdminDatabase,
   addClockInDataToAdminDatabase,
@@ -192,4 +212,5 @@ export {
   getStudentsArray,
   setCurrStudentPermissionRequests,
   upadateAdminProfilePictureURL,
+  createSearchBoxArray,
 };

@@ -38,7 +38,7 @@ function History() {
             </thead>
             {clockIns?.map((clockInObj, index) => {
               return (
-                <tr className="odd:bg-white mb-2 even:bg-gray-100 p-[10px] h-[50px] border-b border-border-signup-gray p-2 my-2 ">
+                <tr className="odd:bg-white even:bg-gray-100 mb-2  p-[10px] h-[50px] border-b border-border-signup-gray my-2 ">
                   <td className="text-center">
                     {new Intl.DateTimeFormat("en-US").format(
                       new Date(clockInObj.date)

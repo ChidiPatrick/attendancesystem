@@ -49,6 +49,8 @@ const fetchAttendanceWithinRange = (startDate, endDate, setAttendanceArray) => {
 
   const clockinListRef = ref(rdb, "admindashboard/clockInList");
 
+  console.log(startDate, endDate);
+
   let generalAttendanceArray = "",
     attendanceArray = "";
 
@@ -57,17 +59,22 @@ const fetchAttendanceWithinRange = (startDate, endDate, setAttendanceArray) => {
 
     generalAttendanceArray = Object.values(snapshot.val());
 
+    console.log(generalAttendanceArray);
+
     // Filter general attendance Array for attendance objects within range
     attendanceArray = generalAttendanceArray.filter((attendanceObj) => {
       if (
-        attendanceObj.date >= new Date(startDate).toDateString() &&
-        attendanceObj.date <= new Date(endDate).toDateString()
+        new Date(attendanceObj.date).valueOf() >=
+          new Date(startDate).valueOf() &&
+        new Date(attendanceObj.date).valueOf() <= new Date(endDate).valueOf()
       ) {
         return true;
       } else {
         return false;
       }
     });
+
+    console.log(attendanceArray);
 
     if (attendanceArray.length === 0) {
       toast("No attendance data within the specified date range 🙁", {

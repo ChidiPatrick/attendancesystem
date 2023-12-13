@@ -74,13 +74,13 @@ function AdminAnnouncement() {
   };
 
   return (
-    <div className="w-full relative bg-[#FFFDFA] min-h-screen p-[10px]">
+    <div className="w-full relative bg-[#F7F7F7] min-h-screen p-[10px]">
       <div className="border border-transparent border-b-gray-600">
         <DashboardNavigationComponent title="Announcement" />
       </div>
       <div className=" flex justify-between  mt-[10px] ">
-        <div className="w-[48%] min-h-[500px] bg-[#FFFDFA] p-[10px]">
-          <div className="w-[100%] h-[500px] bg-[#f1f1f1] border border-transparent rounded-xl p-[10px]">
+        <div className="w-[48%] min-h-[500px]  p-[10px]">
+          <div className="w-[100%] h-[500px] shadow-lg bg-[#FBFCFE] border border-transparent rounded-xl p-[10px]">
             <h2 className="font-bold text-[19px]">Type Announcement</h2>
             <div className="w-full mt-[20px]">
               <h4 className="text-[20px] pb-[10px]">Title</h4>
@@ -116,13 +116,15 @@ function AdminAnnouncement() {
           <ToastContainer
             style={{ width: "100%", textAlign: "center", color: "green" }}
           />
-          <div className="w-[100%] my-[30px]">
-            <h3 className="font-bold text-[18px]">Announcements History</h3>
-            <div>
+          <div className="w-[100%] my-[30px] bg-gray-50 shadow-lg h-[320px] overflow-y-visible">
+            <h3 className="font-bold text-[18px] p-[10px]">
+              Announcements History
+            </h3>
+            <div className="p-[10px] ">
               {announcementArray.length !== 0 ? (
                 announcementArray.map((announcement) => {
                   return (
-                    <div>
+                    <div className="odd:bg-white even:bg-gray-100 px-[10px] my-[10px]">
                       <h4 className="font-bold py-[10px]">
                         {announcement.announcementTitle}
                       </h4>
@@ -147,7 +149,7 @@ function AdminAnnouncement() {
             </div>
           </div>
         </div>
-        <div className="w-[48%] min-h-screen bg-[#FFFDFA] p-[10px]">
+        <div className="w-[48%] min-h-screen  p-[10px]">
           <h3 className="font-bold text-[20px]">Notifications</h3>
           {/* <div>
             <h4 className="font-bold py-[10px] mt-[10px]">Today</h4>

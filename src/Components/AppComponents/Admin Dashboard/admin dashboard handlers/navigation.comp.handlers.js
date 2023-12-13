@@ -31,7 +31,6 @@ const setStudentProfile = (
   navigate
 ) => {
   const execPromise = Promise.resolve("Done");
-  console.log(studentId);
 
   execPromise
     .then(() => {
@@ -42,7 +41,6 @@ const setStudentProfile = (
       return studentProfileObject;
     })
     .then((studentProfileObject) => {
-      console.log(studentProfileObject);
       dispatch(setSelectedStudent(studentProfileObject));
     })
 

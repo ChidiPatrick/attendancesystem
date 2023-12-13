@@ -75,7 +75,7 @@ function AttendanceReport({ marginTop }) {
             <legend>From</legend>
             <DatePicker
               onChange={setAttendanceRangeStartingDate}
-              value={attendanceRangeStartingDate}
+              value={new Date(attendanceRangeStartingDate).toLocaleDateString()}
               className="w-[100%]"
             />
           </fieldset>
@@ -84,7 +84,7 @@ function AttendanceReport({ marginTop }) {
             <div className=" flex justify-between items-center">
               <DatePicker
                 onChange={setAttendanceRangeEndingDate}
-                value={attendanceRangeEndingDate}
+                value={new Date(attendanceRangeEndingDate).toLocaleDateString()}
                 className="w-[100%]"
               />
             </div>
@@ -197,9 +197,11 @@ function AttendanceReport({ marginTop }) {
                     {attendanceObject.isOntime === true ? `Early` : "Late"}
                   </td>
                   <td className="text-center p-[10px]">
-                    {attendanceObject.clockoutObject.time}
+                    {attendanceObject?.clockoutObject?.time}
                   </td>
-                  <td className="text-center p-[10px]">20/20</td>
+                  <td className="text-center p-[10px]">
+                    {new Date(attendanceObject.date).toLocaleDateString()}
+                  </td>
                 </tr>
               );
             })

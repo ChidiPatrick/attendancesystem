@@ -13,10 +13,9 @@ function AttendanceRecordSummary({
     totalOnBoardedStudents
   );
 
-  console.log(attendanceSummaryArray);
   return (
     <div className="bg-white shadow-md w-[20%]  p-[10px] border rounded-xl">
-      <h3 className="font-bold text-[20px] ">Attendance Summary</h3>
+      <h3 className="font-bold text-[20px]">Attendance Summary</h3>
       <div className="">
         <div className="py-[10px]">
           From

@@ -27,7 +27,10 @@ import { rdb } from "../../../Firebase/firebase";
 import {
   calcProgramDurationMonth,
   setBreakDays,
+  getBreakDays,
+  setPassedAndFutureBreakDays,
 } from "../admin dashboard handlers/admin.session.setting";
+import { FaRoad } from "react-icons/fa";
 
 //CLASS SET UP COMPONENT
 function ClassSetup() {
@@ -51,7 +54,6 @@ function ClassSetup() {
   );
 
   const lectureDays = useSelector((state) => state.classSetupSlice.lectureDays);
-  console.log(lectureDays);
 
   const earlinessStartingTime = useSelector(
     (state) => state.classSetupSlice.earlinessStartingTime
@@ -70,7 +72,15 @@ function ClassSetup() {
     programEndingDate
   );
 
-  console.log(programMonths);
+  const breakDaysArray = useSelector(
+    (state) => state.classSetupSlice.breakDaysArray
+  );
+
+  // getBreakDays(dispatch);
+
+  const holidaysObject = setPassedAndFutureBreakDays(breakDaysArray);
+
+  const { passedHolidaysArray, futureHolidaysArray } = holidaysObject;
 
   const breakObject = {
     breakStartingDate: date,
@@ -216,7 +226,6 @@ function ClassSetup() {
               </div>
             </div>
             <div className="w-[100%]">
-              <div>Checking toastify</div>
               <ToastContainer
                 style={{
                   width: "100%",
@@ -343,8 +352,6 @@ function ClassSetup() {
               <div className="w-[100%] flex mt-[30px] p-[10px] items-center">
                 <ButtonFullLong
                   handleClick={() =>
-                    // updateProgramDurationSettings(date, endingDate)
-                    // console.log(breakObject)
                     setBreakDays(breakObject, dispatch, toastObject)
                   }
                 >
@@ -352,7 +359,7 @@ function ClassSetup() {
                 </ButtonFullLong>
               </div>
             </div>
-            <div className="border mt-[30px] border-transparent border-b-gray-300 pb-[50px]">
+            {/* <div className="border mt-[30px] border-transparent border-b-gray-300 pb-[50px]">
               <h4 className="font-bold text-[20px]">Update Class time</h4>
               <p className="py-[10px]">
                 Set attendance marker schedule for classes
@@ -381,6 +388,53 @@ function ClassSetup() {
               </div>
               <div className="w-[100%] flex mt-[30px] p-[10px] items-center">
                 <ButtonFullLong>Update</ButtonFullLong>
+              </div>
+            </div> */}
+            <div className="border mt-[30px] border-transparent border-b-gray-300 pb-[50px]">
+              <h2 className="text-center font-bold text-[20px]">
+                Passed And Future Holidays
+              </h2>
+              <div className="h-[100px] overflow-y-scroll">
+                <h3 className="font-semibold text-[18px] text-lp-primary">
+                  Passed Holidays
+                </h3>
+                {passedHolidaysArray.map((holidayObject, index) => (
+                  <div className="p-[10px] odd:bg-white mb-[10px] even:bg-gray-100">
+                    <div>
+                      <span className="font-semibold">Break title</span>:{" "}
+                      {holidayObject.breakTitle}
+                    </div>
+                    <div className="flex">
+                      <span className="font-semibold">Duration</span>:{" "}
+                      <div className="flex ml-[10px] justify-between w-[50%] items-center">
+                        <span>{holidayObject.breakStartingDate}</span>{" "}
+                        <HiArrowNarrowRight />{" "}
+                        <span>{holidayObject.breakEndingDate}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="h-[100px] overflow-y-scroll">
+                <h3 className="font-semibold text-[18px] text-lp-primary">
+                  Future Holidays
+                </h3>
+                {futureHolidaysArray.map((holidayObject, index) => (
+                  <div className="p-[10px] odd:bg-white mb-[10px] even:bg-gray-100">
+                    <div>
+                      <span className="font-semibold">Break title</span>:{" "}
+                      {holidayObject.breakTitle}
+                    </div>
+                    <div className="flex">
+                      <span className="font-semibold">Duration</span>:{" "}
+                      <div className="flex ml-[10px] justify-between w-[50%] items-center">
+                        <span>{holidayObject.breakStartingDate}</span>{" "}
+                        <HiArrowNarrowRight />{" "}
+                        <span>{holidayObject.breakEndingDate}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

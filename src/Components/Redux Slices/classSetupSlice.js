@@ -8,6 +8,9 @@ const initialState = {
   latenessStartTime: "",
   lectureDays: [],
   breakObjects: [],
+  breakDaysArray: [],
+  passedHolidays: [],
+  futureHolidays: [],
 };
 
 const classSetupSlice = createSlice({
@@ -49,6 +52,15 @@ const classSetupSlice = createSlice({
     addBreakObject(state, action) {
       state.breakObjects.push(action.payload);
     },
+    setFetchedBreakDays(state, action) {
+      state.breakDaysArray = action.payload;
+    },
+    setPassedHolidays(state, action) {
+      state.passedHolidays = action.payload;
+    },
+    setFutureHolidays(state, action) {
+      state.futureHolidays = action.payload;
+    },
   },
 });
 
@@ -62,6 +74,9 @@ export const {
   addLectureDay,
   removeLectureDay,
   addBreakObject,
+  setFetchedBreakDays,
+  setPassedHolidays,
+  setFutureHolidays,
 } = classSetupSlice.actions;
 
 export default classSetupSlice.reducer;

@@ -15,6 +15,7 @@ import {
 } from "../admin dashboard handlers/navigation.comp.handlers";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { createSearchBoxArray } from "../admin dashboard handlers/admin.handlers";
 
 function DashboardNavigationComponent({ title }) {
   const dispatch = useDispatch();
@@ -34,18 +35,44 @@ function DashboardNavigationComponent({ title }) {
   );
 
   const studentsBioArray = useSelector(
-    (state) => state.adminStudentsSlice.studentsBioArray
-  );
-
-  const permissionsArray = useSelector(
-    (state) => state.permissionSlice.permissionsArray
+    (state) => state.studentsSlice.studentsBioArray
   );
 
   const attendanceArray = useSelector(
     (state) => state.attendanceReportSlice.clockinList
   );
 
-  console.log(studentsBioArray);
+  const permissionsArray = useSelector(
+    (state) => state.permissionSlice.permissionsArray
+  );
+
+  const userId = useSelector((state) => state.loginSlice.userId);
+
+  const data = [
+    {
+      key: "john",
+      value: "John Doe",
+    },
+    {
+      key: "jane",
+      value: "Jane Doe",
+    },
+    {
+      key: "mary",
+      value: "Mary Phillips",
+    },
+    {
+      key: "robert",
+      value: "Robert",
+    },
+    {
+      key: "karius",
+      value: "Karius",
+    },
+  ];
+
+  // console.log();
+  const studentsQickSearchArray = createSearchBoxArray(studentsBioArray);
 
   useEffect(() => {
     newAnnouncementAddedEventHandler(dispatch);
@@ -57,9 +84,10 @@ function DashboardNavigationComponent({ title }) {
       <div className="flex justify-center items-center w-[300px]  col-start-5 col-end-8  h-[40px] p-[5px]">
         <ReactSearchBox
           placeholder="Search student"
-          value="Doe"
-          data={searchBoxDataArray}
+          value=""
+          data={studentsQickSearchArray}
           inputBorderColor="#bbbbbb"
+          onChange={(object) => console.log(object)}
           onSelect={(valueObject) =>
             setStudentProfile(
               studentsBioArray,

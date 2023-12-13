@@ -7,7 +7,6 @@ import Header from "../../LandingPageComponents/Header/header";
 import Description from "../../LandingPageComponents/Description/description";
 import Features from "../../LandingPageComponents/LandingPageFeatures/features";
 import Footer from "../../LandingPageComponents/Footer/footer";
-import DashboardComponent from "../Admin Dashboard/admin dashboard components/dashboard.comp";
 
 const LandingPage = () => {
   return (
@@ -17,7 +16,6 @@ const LandingPage = () => {
       <Description />
       <Features />
       <Footer />
-      <DashboardComponent />
     </div>
   );
 };

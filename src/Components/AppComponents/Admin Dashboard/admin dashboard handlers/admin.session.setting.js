@@ -1,11 +1,14 @@
 // Third-party imports
-import { update, ref, remove } from "firebase/database";
+import { update, ref, remove, onValue } from "firebase/database";
 import { toast } from "react-toastify";
 import { push, set } from "firebase/database";
 
 // Local directory imports
 import { rdb } from "../../../Firebase/firebase";
-import { addBreakObject } from "../../../Redux Slices/classSetupSlice";
+import {
+  addBreakObject,
+  setFetchedBreakDays,
+} from "../../../Redux Slices/classSetupSlice";
 
 ///////////////////////////////////////////////////////////////////
 // PROGRAM DURATION UPDATING HANDLERS
@@ -147,6 +150,43 @@ const setBreakDays = (breakObject, dispatch, toastObject) => {
   });
 };
 
+//Get Break days
+const getBreakDays = (dispatch) => {
+  const classSetupRef = ref(
+    rdb,
+    "admindashboard/classSetupDatabase/breakDaysArray"
+  );
+
+  onValue(classSetupRef, (snapshot) => {
+    const breakDaysArray = Object.values(snapshot.val());
+    console.log(breakDaysArray);
+
+    dispatch(setFetchedBreakDays(breakDaysArray));
+  });
+};
+
+// Set passed and future break days
+const setPassedAndFutureBreakDays = (breakDaysArray) => {
+  const passedHolidaysArray = [];
+  const futureHolidaysArray = [];
+
+  breakDaysArray.forEach((breakObject, index) => {
+    if (
+      new Date(breakObject.breakStartingDate).valueOf() < new Date().valueOf()
+    ) {
+      passedHolidaysArray.push(breakObject);
+    }
+
+    if (
+      new Date(breakObject.breakStartingDate).valueOf() > new Date().valueOf()
+    ) {
+      futureHolidaysArray.push(breakObject);
+    }
+  });
+
+  return { passedHolidaysArray, futureHolidaysArray };
+};
+
 // Calculate program duration month(s)
 const calcProgramDurationMonth = (programStartingDate, programEndingDate) => {
   const yearDifference =
@@ -180,4 +220,6 @@ export {
   emmitToast,
   calcProgramDurationMonth,
   clearStudentsClockins,
+  getBreakDays,
+  setPassedAndFutureBreakDays,
 };
