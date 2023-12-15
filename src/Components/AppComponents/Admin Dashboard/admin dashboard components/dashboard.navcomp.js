@@ -79,7 +79,7 @@ function DashboardNavigationComponent({ title }) {
   }, []);
 
   return (
-    <div className="w-full bg-[#F6F9FE] grid grid-cols-12 items-center p-[10px] h-[100px]">
+    <div className="w-full border border-transparent  border-b-gray-300 grid grid-cols-12 items-center p-[10px] h-[100px]">
       <div className="font-bold text-xl col-start-1 col-end-3">{title}</div>
       <div className="flex justify-center items-center w-[300px]  col-start-5 col-end-8  h-[40px] p-[5px]">
         <ReactSearchBox

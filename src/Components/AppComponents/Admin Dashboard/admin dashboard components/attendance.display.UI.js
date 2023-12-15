@@ -42,7 +42,7 @@ function AttendanceDisplayUI() {
         </div>
       </h3>
       {currAttendanceArray.length === 0 ? (
-        <div className="w-[100%] h-[50%] flex items-center font-bold text-lp-primary justify-center bg-gray-200">
+        <div className="w-[100%] h-[100%] flex items-center font-bold text-lp-primary justify-center ">
           <p>NO CURRENT CLOCKIN DATA FOR TODAY YET</p>
         </div>
       ) : (

@@ -126,6 +126,7 @@ const emmitToast = (toastString, toastObject) => {
   toast(toastString, { ...toastObject });
 };
 
+// Add break / holiday dates to database
 const setBreakDays = (breakObject, dispatch, toastObject) => {
   if (!navigator.onLine) {
     console.log("Called...");
@@ -136,11 +137,49 @@ const setBreakDays = (breakObject, dispatch, toastObject) => {
     return;
   }
 
+  if (breakObject.breakTitle === "") {
+    toast("Break title field cannot be empty", {
+      type: "error",
+      autoClose: 3000,
+    });
+    return;
+  }
+
+  if (breakObject.breakStartingDate === "") {
+    toast("Break starting date must be selected", {
+      type: "error",
+      autoClose: 3000,
+    });
+
+    return;
+  }
+
+  if (breakObject.breakEndingDate === "") {
+    toast("Break ending date must be selected", {
+      type: "error",
+      autoClose: 3000,
+    });
+
+    return;
+  }
+
+  if (
+    new Date(breakObject.breakStartingDate).valueOf() < new Date().valueOf()
+  ) {
+    toast("Sorry, break day(s) cannot be in the past", {
+      type: "error",
+      autoClose: 3000,
+    });
+    return;
+  }
+
   const breakSettingObject = {
-    breakStartingDate: breakObject.breakStartingDate,
-    breakEndingDate: breakObject.breakEndingDate,
+    breakStartingDate: new Date(breakObject.breakStartingDate).toDateString(),
+    breakEndingDate: new Date(breakObject.breakEndingDate).toDateString(),
     breakTitle: breakObject.breakTitle,
   };
+
+  console.log(breakSettingObject);
 
   updateBreakDaysArray(breakSettingObject).then(() => {
     dispatch(addBreakObject(breakSettingObject));

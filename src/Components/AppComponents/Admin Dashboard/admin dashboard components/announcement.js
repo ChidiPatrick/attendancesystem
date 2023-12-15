@@ -75,7 +75,7 @@ function AdminAnnouncement() {
 
   return (
     <div className="w-full relative bg-[#F7F7F7] min-h-screen p-[10px]">
-      <div className="border border-transparent border-b-gray-600">
+      <div className="border border-transparent border-b-gray-300">
         <DashboardNavigationComponent title="Announcement" />
       </div>
       <div className=" flex justify-between  mt-[10px] ">

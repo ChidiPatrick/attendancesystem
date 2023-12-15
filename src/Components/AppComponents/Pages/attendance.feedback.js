@@ -4,10 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 // Local directory imports ///
 import { useDispatch, useSelector } from "react-redux";
-import { BsFillPersonFill } from "react-icons/bs";
 import Lottie from "lottie-web";
 import animationData from "../../../Assets/AnimationData.json";
-import { setOnTime } from "../../Redux Slices/attendanceSlice";
 
 /// Attendance feedback component ///
 function AttendanceFeedback() {
@@ -67,16 +65,6 @@ function AttendanceFeedback() {
             ref={animationContainerRef}
             className="sm:w-[200px] sm:[200px] w-[100px] h-[100px]"
           ></div>
-
-          {/* {profilePictureURL === "" || !navigator.onLine ? (
-          <BsFillPersonFill size={40} className="w-[50%] h-[50%]" />
-        ) : (
-          <img
-            src={image}
-            alt="user"
-            className="w-[300px] h-[300px] border rounded-3xl"
-          />
-        )} */}
         </figure>
         <div className="mt-5 flex justify-center items-center flex-col">
           <div className="text-lp-primary font-bold text-xl">

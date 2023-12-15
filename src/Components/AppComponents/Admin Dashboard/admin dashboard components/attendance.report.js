@@ -166,7 +166,7 @@ function AttendanceReport({ marginTop }) {
                       {clockinObject.isOntime === true ? `Early` : "Late"}
                     </td>
                     <td className="text-center p-[10px]">
-                      {clockinObject.clockoutObject.time}
+                      {clockinObject?.clockoutObject?.time}
                     </td>
                     <td className="text-center p-[10px]">20/20</td>
                   </tr>

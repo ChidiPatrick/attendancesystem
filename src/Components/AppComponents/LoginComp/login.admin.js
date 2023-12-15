@@ -8,6 +8,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { HiChevronLeft } from "react-icons/hi";
 import { useNavigate } from "react-router";
+import { useMediaQuery } from "react-responsive";
 
 ////// Local directory Imports ///////////////
 import { auth } from "../../Firebase/firebase";
@@ -47,23 +48,16 @@ import { setClockinList } from "../../Redux Slices/attendanceReportSlice";
 import { getStudentsNameArray } from "../Admin Dashboard/admin dashboard handlers/navigation.comp.handlers";
 import { getBreakDays } from "../Admin Dashboard/admin dashboard handlers/admin.session.setting";
 
-//Signin TODOs:
-/**
- * Add a logic to check each user's signin credentials in order to determine the route to navigate them to
- *
- *
- */
-
 // Signin as Admin component
 const SigninAsAdmin = () => {
   ///// Initialisations////////
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //Local states
   const [showWrongMessage, setShowWrongMessage] = useState(false);
 
   const date = new Date();
-  console.log(date.getDay());
 
   ///// Store state retreivals /////////////
   const displaySpinner = useSelector(
@@ -92,7 +86,9 @@ const SigninAsAdmin = () => {
     (state) => state.adminSlice.studentsBioArray
   );
 
-  console.log(clockinList);
+  const isSmallScreen = useMediaQuery({ query: "(max-width: 530px)" });
+  console.log(isSmallScreen);
+
   ///////// HANDLER FUNCTIONS ////////////////////
   const cancleBtnHandler = () => {
     console.log("BTN HANDLER CALLED");
@@ -104,8 +100,12 @@ const SigninAsAdmin = () => {
   const signinHandler = async (values) => {
     try {
       // let userId;
-      console.log("Verifying admin email...");
       dispatch(showWrongAdminLoginMessage());
+
+      if (isSmallScreen === true) {
+        navigate("/screenSizeFeedback");
+        return;
+      }
 
       if (navigator.onLine) {
         dispatch(showSpinner());

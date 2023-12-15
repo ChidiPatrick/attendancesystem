@@ -33,7 +33,7 @@ function StudentsBio() {
 
   return (
     <div className=" px-[10px]">
-      <div className="w-full border border-b-black p">
+      <div className="w-full ">
         <DashboardNavigationComponent title="Students bio" />
       </div>
       <div className="">

@@ -30,7 +30,6 @@ import {
   getBreakDays,
   setPassedAndFutureBreakDays,
 } from "../admin dashboard handlers/admin.session.setting";
-import { FaRoad } from "react-icons/fa";
 
 //CLASS SET UP COMPONENT
 function ClassSetup() {
@@ -351,9 +350,13 @@ function ClassSetup() {
               </div>
               <div className="w-[100%] flex mt-[30px] p-[10px] items-center">
                 <ButtonFullLong
-                  handleClick={() =>
-                    setBreakDays(breakObject, dispatch, toastObject)
-                  }
+                  handleClick={() => {
+                    Promise.resolve()
+                      .then(() => {
+                        setBreakDays(breakObject, dispatch, toastObject);
+                      })
+                      .then(() => (breakTitleRef.current.value = ""));
+                  }}
                 >
                   Update
                 </ButtonFullLong>
@@ -394,27 +397,7 @@ function ClassSetup() {
               <h2 className="text-center font-bold text-[20px]">
                 Passed And Future Holidays
               </h2>
-              <div className="h-[100px] overflow-y-scroll">
-                <h3 className="font-semibold text-[18px] text-lp-primary">
-                  Passed Holidays
-                </h3>
-                {passedHolidaysArray.map((holidayObject, index) => (
-                  <div className="p-[10px] odd:bg-white mb-[10px] even:bg-gray-100">
-                    <div>
-                      <span className="font-semibold">Break title</span>:{" "}
-                      {holidayObject.breakTitle}
-                    </div>
-                    <div className="flex">
-                      <span className="font-semibold">Duration</span>:{" "}
-                      <div className="flex ml-[10px] justify-between w-[50%] items-center">
-                        <span>{holidayObject.breakStartingDate}</span>{" "}
-                        <HiArrowNarrowRight />{" "}
-                        <span>{holidayObject.breakEndingDate}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+
               <div className="h-[100px] overflow-y-scroll">
                 <h3 className="font-semibold text-[18px] text-lp-primary">
                   Future Holidays
@@ -428,9 +411,46 @@ function ClassSetup() {
                     <div className="flex">
                       <span className="font-semibold">Duration</span>:{" "}
                       <div className="flex ml-[10px] justify-between w-[50%] items-center">
-                        <span>{holidayObject.breakStartingDate}</span>{" "}
+                        <span>
+                          {new Date(
+                            holidayObject.breakStartingDate
+                          ).toLocaleDateString()}
+                        </span>{" "}
                         <HiArrowNarrowRight />{" "}
-                        <span>{holidayObject.breakEndingDate}</span>
+                        <span>
+                          {new Date(
+                            holidayObject.breakEndingDate
+                          ).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="h-[100px] overflow-y-scroll">
+                <h3 className="font-semibold text-[18px] text-lp-primary">
+                  Passed Holidays
+                </h3>
+                {passedHolidaysArray.map((holidayObject, index) => (
+                  <div className="p-[10px] odd:bg-white mb-[10px] even:bg-gray-100">
+                    <div>
+                      <span className="font-semibold">Break title</span>:{" "}
+                      {holidayObject.breakTitle}
+                    </div>
+                    <div className="flex">
+                      <span className="font-semibold">Duration</span>:{" "}
+                      <div className="flex ml-[10px] justify-between w-[50%] items-center">
+                        <span>
+                          {new Date(
+                            holidayObject.breakStartingDate
+                          ).toLocaleDateString()}
+                        </span>{" "}
+                        <HiArrowNarrowRight />{" "}
+                        <span>
+                          {new Date(
+                            holidayObject.breakEndingDate
+                          ).toLocaleDateString()}
+                        </span>
                       </div>
                     </div>
                   </div>

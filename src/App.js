@@ -1,6 +1,10 @@
 import React from "react";
 
+//Third-party imports
 import { Routes, Route, useNavigate } from "react-router";
+import { useMediaQuery } from "react-responsive";
+
+import Style from "./App.css";
 
 // import Header from "./Components/LandingPageComponents/Header/header";
 import LandingPage from "./Components/AppComponents/Pages/landingPage";
@@ -34,6 +38,7 @@ import AdminStudentProfile from "./Components/AppComponents/Admin Dashboard/admi
 import Session from "./Components/AppComponents/Admin Dashboard/admin dashboard components/Session";
 import AdminProfile from "./Components/AppComponents/Admin Dashboard/admin dashboard components/admin.profile";
 import BreakDaysUI from "./Components/AppComponents/Pages/breakDaysUI";
+import ScreenSizeFeedback from "./Components/AppComponents/Admin Dashboard/admin dashboard components/screen.size.feedback";
 
 //// Root component ///
 function App() {
@@ -43,6 +48,8 @@ function App() {
   const user = useSelector((state) => state.loginSlice.user);
 
   const navigate = useNavigate();
+
+  const smallScreenFeedbackUI = <div className="w-full h-screen"></div>;
 
   return (
     <div className="relative">
@@ -70,6 +77,8 @@ function App() {
           element={<UploadProfilePicture />}
         />
         <Route path="/editProfile" element={<EditProfile />} />
+        <Route path="/screenSizeFeedback" element={<ScreenSizeFeedback />} />
+
         <Route path="/adminDashboard" element={<AdminDashboardLayout />}>
           <Route index element={<DashboardComponent />} />
           <Route path="/adminDashboard/StudentsBio" element={<StudentsBio />} />

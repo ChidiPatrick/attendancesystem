@@ -21,18 +21,6 @@ import AreaCharts from "./area.charts";
 import TimeDistributionGraph from "./time.distribution.graph";
 import PermissionModal from "./permission.modal";
 import DenyReequestUI from "./deny.request.UI";
-import StudentsBio from "./students.bio";
-import { useParams } from "react-router";
-
-/**
- * Modify announcement UI component such that sent announcements appears great
- * Implement permission notification in student's app
- * Add links to all the icons on the navigation UI
- * Link class setup settings with student's app
- * Make the permission display UI to be accessible anywhere the permission UI is
- * Modify admin profile picture uploading UI
- *
- */
 
 function DashboardComponent() {
   const dispatch = useDispatch();

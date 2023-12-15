@@ -18,6 +18,7 @@ import {
 import { getStudentsLogins } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 import { getStudentBioObject } from "../Handlers/profile.picture.upload.handler";
 import BreakDaysUI from "./breakDaysUI";
+import ScreenSizeFeedback from "../Admin Dashboard/admin dashboard components/screen.size.feedback";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -162,6 +163,7 @@ function MarkAttendance() {
           </div>
         )}
       </div>
+      <ScreenSizeFeedback />
     </div>
   );
 }
