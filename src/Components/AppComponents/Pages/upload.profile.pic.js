@@ -82,14 +82,12 @@ function UploadProfilePicture() {
     await updateDoc(userProfileRef, data)
       .then(() => {
         getUserProfileData(userId);
-        // invokeAllThunks(userId, dispatch);
       })
       .then(() => {
         navigate("/home");
       })
       .catch((err) => {
         console.log(err);
-        // dispatch(showNetworkFeedback());
       });
   };
 

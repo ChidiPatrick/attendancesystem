@@ -52,23 +52,12 @@ function ClockOut() {
     (state) => state.signupSlice.displayNetWorkFeedback
   );
 
-  console.log(dailyClockInsArray);
-
   // Local states ///
   const [showFeedback, setShowBack] = useState(false);
   const [clockOutData, setClockOutData] = useState(null);
 
   /// Clock out handler ///
   const clockOutUser = async (dailyClockInsArray) => {
-    /**
-     * TODOs:
-     * Check internet connectivity
-     * Check if user has already clocked in
-     * Check if user has already clocked out
-     * Add clockout data to the day's clockin object
-     * Block double clockouts
-     */
-
     dispatch(showSpinner());
 
     const date = new Date().toDateString();
@@ -134,7 +123,6 @@ function ClockOut() {
         dispatch(hideSpinner());
       })
       .catch((err) => {
-        console.log(err);
         dispatch(hideSpinner());
       });
   };

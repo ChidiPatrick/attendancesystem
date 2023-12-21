@@ -31,7 +31,6 @@ import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 import {
   setAdminData,
-  setSearchBoxDataArray,
   setStudentsBioArray,
 } from "../../Redux Slices/adminSlice";
 import {
@@ -44,7 +43,6 @@ import {
   getClockinsArray,
   getNumbStudentsPresentDaily,
 } from "../Admin Dashboard/admin dashboard handlers/graph.handlers";
-import { setClockinList } from "../../Redux Slices/attendanceReportSlice";
 import { getStudentsNameArray } from "../Admin Dashboard/admin dashboard handlers/navigation.comp.handlers";
 import { getBreakDays } from "../Admin Dashboard/admin dashboard handlers/admin.session.setting";
 
@@ -87,11 +85,9 @@ const SigninAsAdmin = () => {
   );
 
   const isSmallScreen = useMediaQuery({ query: "(max-width: 530px)" });
-  console.log(isSmallScreen);
 
   ///////// HANDLER FUNCTIONS ////////////////////
   const cancleBtnHandler = () => {
-    console.log("BTN HANDLER CALLED");
     navigate(0);
     dispatch(hideFeedback());
   };
@@ -111,26 +107,19 @@ const SigninAsAdmin = () => {
         dispatch(showSpinner());
         await signInWithEmailAndPassword(auth, values.email, values.password)
           .then((user) => {
-            console.log(user);
             dispatch(setLoginUserId(user.user.uid));
             verifyAdminEmail(dispatch, values);
           })
           .then(() => {
-            console.log(adminsEmail);
             const adminBioObject = adminsEmail.find(
               (item) => item.email === values.email
             );
-
-            console.log(adminBioObject);
-
             if (adminBioObject === undefined) {
-              console.log("Email not found!!");
               dispatch(
                 setWrongAdminLoginMessage(
                   "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
                 )
               );
-
               throw new Error(
                 "Please check your login details and try again. If you're not a registered admin, please go through the required process to get your admin account setup"
               );
@@ -174,12 +163,8 @@ const SigninAsAdmin = () => {
       if (displayFeedback) {
         dispatch(hideSpinner());
         dispatch(showFeedback());
-        console.log(err);
       } else {
-        console.log(err);
-
         dispatch(hideSpinner());
-        // dispatch(showWrongAdminLoginMessage());
         setShowWrongMessage(true);
       }
     }
@@ -198,7 +183,6 @@ const SigninAsAdmin = () => {
         .required("Required"),
     }),
     onSubmit: (values) => {
-      console.log("Submit called");
       signinHandler(values);
     },
   });

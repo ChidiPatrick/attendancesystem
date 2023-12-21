@@ -42,11 +42,6 @@ const getTotalClockins = (studentID, dispatch) => {
     const studentClockinArray = allClockinArray.filter(
       (clockObject) => clockObject.userId === studentID
     );
-
-    console.log(studentClockinArray);
-
-    console.log(studentClockinArray.length);
-
     dispatch(setStudentNumClockins(studentClockinArray.length));
   });
 };

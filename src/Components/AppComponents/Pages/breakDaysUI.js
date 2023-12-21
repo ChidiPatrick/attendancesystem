@@ -18,8 +18,6 @@ function BreakDaysUI() {
 
   const { futureHolidaysArray, passedHolidaysArray } = holidayObject;
 
-  console.log(futureHolidaysArray);
-
   return (
     <div className="w-full h-screen flex bg-user-profile">
       <div className="min-w-[400px] max-w-[640px] bg-white h-[100%] mx-auto px-[10px] sm:w-[70%]  border  relative">

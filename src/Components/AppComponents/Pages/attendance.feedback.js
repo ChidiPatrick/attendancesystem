@@ -18,9 +18,6 @@ function AttendanceFeedback() {
   const isOnTime = useSelector((state) => state.attendanceRecord.isOnTime);
   const currTime = useSelector((state) => state.attendanceRecord.currTime);
   const date = useSelector((state) => state.attendanceRecord.date);
-  const latenessHour = useSelector(
-    (state) => state.attendanceRecord.latenessHour
-  );
   const attendanceData = useSelector(
     (state) => state.attendanceRecord.weeklyAttendance
   );
@@ -29,7 +26,6 @@ function AttendanceFeedback() {
   );
 
   const currAttendanceData = attendanceData[attendanceData.length - 1];
-  console.log(isOnTime);
 
   //////  Local states  ////
   const [image, setImage] = useState(userImage);
@@ -37,7 +33,6 @@ function AttendanceFeedback() {
   const [currDate, setCurrDate] = useState(date);
 
   const dateNow = new Date();
-  console.log(dateNow.getHours());
 
   useEffect(() => {
     const animation = Lottie.loadAnimation({

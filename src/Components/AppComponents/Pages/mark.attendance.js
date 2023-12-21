@@ -118,7 +118,6 @@ function MarkUser() {
     }
 
     if (currHour >= 9 && currHour < latenessHour) {
-      console.log("First case called");
       setUserIsOnTime(true);
       dispatch(setOnTime(true));
 
@@ -143,7 +142,6 @@ function MarkUser() {
 
       return;
     } else {
-      console.log("Second called");
       setUserIsOnTime(false);
       dispatch(setOnTime(false));
 

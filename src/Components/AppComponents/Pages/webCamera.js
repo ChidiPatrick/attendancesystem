@@ -34,8 +34,6 @@ function WebCam() {
     (state) => state.attendanceRecord.linkToClockOut
   );
 
-  console.log(linkToClockIn);
-
   const [image, setImage] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
   const [showDoneBtn, setShowDoneBtn] = useState(false);
@@ -50,9 +48,6 @@ function WebCam() {
   ///Capture user ///
   const captureUser = (getScreenshot, setImage) => {
     const image = getScreenshot();
-    // setImage(image);
-    // setShowPreview(true);
-    // setShowDoneBtn(true);
     dispatch(setUserImage(image));
     navigate("/previewImage");
   };

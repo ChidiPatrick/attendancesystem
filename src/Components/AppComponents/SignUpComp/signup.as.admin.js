@@ -20,12 +20,7 @@ import {
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
 import { addAdminBioDataToDatabase } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
-
-///////////////////////////////////////////////////////////////
-/**
- * Substitute the alart implementation with pop-up or toastify
- *
- */
+import { toast } from "react-toastify";
 
 ////////////////Sign up component//////////////////////////////
 const SignUpAsAdmin = () => {
@@ -78,10 +73,20 @@ const SignUpAsAdmin = () => {
             navigate("/adminDashboard");
           });
       } else {
-        alert("You're not a recognised admin member");
+        toast(
+          "Please go through the pre-registration process before you sign up",
+          {
+            type: "info",
+            autoClose: 3000,
+          }
+        );
+        return;
       }
     } catch (err) {
-      prompt("Email already in use");
+      toast("Email already in use", {
+        type: "info",
+        autoClose: 3000,
+      });
     }
   };
 

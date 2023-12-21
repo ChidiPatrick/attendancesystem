@@ -42,7 +42,6 @@ const saveProfileEdit = async (userDataObject, userId, dispatch) => {
       });
     } catch (err) {
       dispatch(hideSpinner());
-      console.error(err);
     }
   });
 };

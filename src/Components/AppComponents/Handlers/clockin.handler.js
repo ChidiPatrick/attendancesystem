@@ -37,13 +37,9 @@ const getLatenessHour = (dispatch) => {
 
   onValue(latenessHourRef, (snapshot) => {
     if (snapshot.val === null || snapshot.val() === undefined) return;
-    console.log(snapshot.val());
     latenessHour = parseInt(snapshot.val().startTime.split(":")[0]);
-    // console.log(latenessHour);
     dispatch(setLateHour(latenessHour));
   });
-
-  console.log(latenessHour);
 };
 
 export { success, error, options, getLatenessHour };

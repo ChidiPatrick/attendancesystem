@@ -2,10 +2,8 @@ import React from "react";
 
 //Third-party imports
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { updatePermissionNotification } from "../Handlers/permission.handler";
-import { extractStudentBioObject } from "../../General app handlers/general.handlers";
 
 function StudentNotificationBar({ permissionObject, index }) {
   const dispatch = useDispatch();
@@ -14,14 +12,9 @@ function StudentNotificationBar({ permissionObject, index }) {
   const permissionsArray = useSelector(
     (state) => state.permissionSlice.permissionsArray
   );
-
   const studentsBioArray = useSelector(
     (state) => state.studentsSlice.studentsBioArray
   );
-
-  const userId = useSelector((state) => state.loginSlice.userId);
-
-  console.log(userId);
 
   // View permission reponse
   return (

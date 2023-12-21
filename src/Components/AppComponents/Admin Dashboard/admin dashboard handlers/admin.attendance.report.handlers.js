@@ -144,7 +144,6 @@ const CalcDaysAbsentWithoutPermission = (
 
   const numbDaysAbsentWithoutPermission =
     totalNumbAbsentDays - numbDaysAbsentWithPermission;
-  console.log(studentPermissionsArray);
   return numbDaysAbsentWithoutPermission;
 };
 
@@ -167,11 +166,6 @@ const calcNumbDaysAbsentWithPermission = (
 
   const numbDaysAbsentWithPermission =
     totalNumbAbsentDays - numbDaysAbsentWithOutPermission;
-  console.log(`Total absent days: ${totalNumbAbsentDays}`);
-  console.log(
-    `Days absent without permission: ${numbDaysAbsentWithOutPermission}`
-  );
-  console.log(`Days absent with permission: ${numbDaysAbsentWithPermission}`);
 
   return numbDaysAbsentWithPermission;
 };

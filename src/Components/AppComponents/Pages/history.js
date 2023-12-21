@@ -6,17 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 /// Local Directory imports ///////////
 import NavBar from "./navBar";
-import Menu from "./menu";
 
 function History() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
   const clockIns = useSelector((state) => state.attendanceRecord.dailyClockIns);
-  const dailyClockOuts = useSelector(
-    (state) => state.attendanceRecord.dailyClockOuts
-  );
 
   return (
     <div className="min-w-[400px] h-screen sm:w-full flex justify-center items-center relative bg-user-profile">

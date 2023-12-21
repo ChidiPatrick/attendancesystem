@@ -45,9 +45,7 @@ const addPermissionRequestToStudentBio = (
 const sendPermissionRequestHandler = (
   permissionObject,
   permissionBodyRef,
-  studentsBioArray,
-  dispatch,
-  userId
+  dispatch
 ) => {
   if (!navigator.onLine) {
     toast(
@@ -161,7 +159,6 @@ const getUnreadResponseNumber = (dispatch, userId) => {
   });
 
   dispatch(setUnreadResponses(unreadResponses));
-  console.log("get unreadResponseNumber() function call Terminated!");
 };
 
 // Update permission notification to change isNotified property to true
@@ -171,7 +168,6 @@ const updatePermissionNotification = (
   dispatch,
   studentsBioArray
 ) => {
-  console.log("Notification bar clicked!");
   const newPermissionsArray = [...permissionsArray];
   const permissionObject = newPermissionsArray[permissionObjectIndex];
 
@@ -228,7 +224,6 @@ const updatePermissionNotification = (
         );
       });
   } else {
-    console.log("NO RULE!!!");
   }
 };
 

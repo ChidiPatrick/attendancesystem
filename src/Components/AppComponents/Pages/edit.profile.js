@@ -17,7 +17,6 @@ import FeedbackModal from "../Modal/feedbackModal";
 import { hideFeedback } from "../../Redux Slices/signupSlice";
 import { Link } from "react-router-dom";
 import { getStudentBioObject } from "../Handlers/profile.picture.upload.handler";
-import { getStudentsBioArray } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 
 function EditProfie() {
   const dispatch = useDispatch();
@@ -50,8 +49,6 @@ function EditProfie() {
 
   const { firstName, lastName, profilePictureURL } = studentBioObject;
 
-  console.log(userProfile);
-
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -65,7 +62,6 @@ function EditProfie() {
     }),
     onSubmit: (values) => {
       saveProfileEdit(values, userId, dispatch);
-      console.log(values);
     },
   });
 

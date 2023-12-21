@@ -31,9 +31,8 @@ import {
   setUser,
   setWrongLoginMessage,
   showWrongAdminLoginMessage,
-  showWrongLoginCategory,
 } from "../../Redux Slices/login.slice";
-import { setOnTime, setUserId } from "../../Redux Slices/attendanceSlice";
+import { setUserId } from "../../Redux Slices/attendanceSlice";
 import { Link } from "react-router-dom";
 import { persistor } from "../../Store/store";
 import { getStudentsBioArrayFromDatabase } from "./login.handlers";
@@ -53,7 +52,6 @@ const Signin = () => {
   const navigate = useNavigate();
 
   const date = new Date();
-  console.log(date.getDay());
 
   ///// Store state retreivals /////////////
   const displaySpinner = useSelector(
@@ -84,11 +82,8 @@ const Signin = () => {
 
   const currUserId = useSelector((state) => state.loginSlice.userId);
 
-  // console.log(verifyStudentEmail());
-
   ///////// HANDLER FUNCTIONS ////////////////////
   const cancleBtnHandler = () => {
-    console.log("BTN HANDLER CALLED");
     // navigate(0);
     dispatch(hideFeedback());
   };
@@ -104,7 +99,6 @@ const Signin = () => {
         await signInWithEmailAndPassword(auth, values.email, values.password)
           .then((user) => {
             verifyStudentEmail(dispatch);
-
             return user;
           })
 
@@ -171,7 +165,6 @@ const Signin = () => {
     } catch (err) {
       dispatch(hideSpinner());
       dispatch(showFeedback());
-      console.log(err);
     }
   };
 
@@ -188,7 +181,6 @@ const Signin = () => {
         .required("Required"),
     }),
     onSubmit: (values) => {
-      console.log("Submit called");
       signinHandler(values);
     },
   });

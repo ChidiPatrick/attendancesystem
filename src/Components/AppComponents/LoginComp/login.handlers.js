@@ -3,10 +3,7 @@ import { onValue } from "firebase/database";
 import { ref } from "firebase/database";
 
 // Local directory imports
-import {
-  setStudentBio,
-  setStudentBioArray,
-} from "../../Redux Slices/studentsSlice";
+import { setStudentBioArray } from "../../Redux Slices/studentsSlice";
 import { rdb } from "../../Firebase/firebase";
 
 // Get students bio array from database

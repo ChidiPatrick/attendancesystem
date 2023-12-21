@@ -23,7 +23,5 @@ let lat1 = 51.5007;
 let lon1 = 0.1246;
 let lat2 = 40.6892;
 let lon2 = 74.0445;
-// document.write(haversine(lat1, lon1, lat2, lon2) + " K.M.");
 
-// This code is contributed by avanitrachhadiya2155
 export default haversine;

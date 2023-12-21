@@ -33,8 +33,7 @@ function MarkAttendance() {
     (state) => state.studentsSlice.studentsBioArray
   );
 
-  const { firstName, profilePictureURL, lastName, currMonthRecord } =
-    userProfileData;
+  const { firstName, profilePictureURL } = userProfileData;
 
   const studentsClockInList = getStudentsLogins();
 

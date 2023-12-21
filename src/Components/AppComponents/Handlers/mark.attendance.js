@@ -80,7 +80,6 @@ const updateAttendanceRecord = async (
 
     if (new Date().getDay() === 6 || new Date().getDay() === 0) {
       dispatch(hideSpinner());
-
       toast("You can't clockin on weekends 😒", {
         autoClose: 3000,
         type: "warning",
@@ -91,7 +90,6 @@ const updateAttendanceRecord = async (
 
     // if user is new to the system or it's a new week
     if (clockInAttendanceArray.length === 0) {
-      console.log("Calling the first case...");
       const data = {
         dailyClockIns: [...clockInAttendanceArray, userAttendanceData],
       };
@@ -105,7 +103,6 @@ const updateAttendanceRecord = async (
           await updateDoc(userProfileDocumentRef, userProfileData);
         })
         .then(async () => {
-          console.log("Calling addClockInDataToAdminDatabase...");
           addClockInDataToAdminDatabase(adminData);
         })
         .then(async () => {
@@ -126,7 +123,10 @@ const updateAttendanceRecord = async (
 
     // if last clockin date equals current date, return
     if (lastClockInObj.date === new Date().toDateString()) {
-      alert("You have already clocked in today");
+      toast("You have already clocked in today", {
+        type: "warning",
+        autoClose: 3000,
+      });
       dispatch(hideSpinner());
       return;
     }
@@ -166,7 +166,6 @@ const updateAttendanceRecord = async (
             navigate("/attendanceSuccessful");
           });
       } else {
-        console.log("Calling the else statement");
         await updateDoc(attendanceRef, data)
           .then(async () => {
             await updateDoc(userProfileDocumentRef, userProfileData);
@@ -182,7 +181,6 @@ const updateAttendanceRecord = async (
 
           .then(() => {
             dispatch(hideSpinner());
-
             navigate("/attendanceSuccessful");
           });
       }
@@ -190,7 +188,6 @@ const updateAttendanceRecord = async (
   } catch (err) {
     dispatch(hideSpinner());
     dispatch(showFeedback());
-    console.log(err);
   }
 };
 
@@ -230,7 +227,6 @@ const updateClockOutData = async (
     ///////////////////////////////////////////////////////
     await updateDoc(attendanceDocumentRef, data)
       .then(async () => {
-        console.log("Adding clock out data to admin database");
         addClockOutDataToAdminDatabase(clockOutData);
       })
       .then(() => {

@@ -8,26 +8,16 @@ import { useDispatch } from "react-redux";
 
 // Local directory imports ///
 import { toggleMenu } from "../Handlers/menu.handlers";
-import { showMenu, hideMenu } from "../../Redux Slices/menu.slice";
+import { showMenu } from "../../Redux Slices/menu.slice";
 import Menu from "./menu";
-import { getStudentsBioArray } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
-import {
-  getStudentPermissionRequests,
-  getUnreadResponseNumber,
-} from "../Handlers/permission.handler";
+import { getUnreadResponseNumber } from "../Handlers/permission.handler";
 import { Link } from "react-router-dom";
 
 function NavBar({ children }) {
   const dispatch = useDispatch();
 
   const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
-
-  const studentsBioArray = useSelector(
-    (state) => state.studentsSlice.studentsBioArray
-  );
-
   const userId = useSelector((state) => state.loginSlice.userId);
-
   const unreadResponses = useSelector(
     (state) => state.permissionSlice.unreadResponses
   );

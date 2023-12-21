@@ -41,11 +41,8 @@ const uploadProfilePicture = (file, userId, dispatch, studentBioObject) => {
 
   uploadTask.on(
     "state_changed",
-    (snapshot) => {
-      console.log(snapshot);
-    },
+    (snapshot) => {},
     (error) => {
-      console.log(error);
       toast("Something went wrong. Please try again later", {
         type: "warning",
         autoClose: 3000,
@@ -70,7 +67,6 @@ const uploadProfilePicture = (file, userId, dispatch, studentBioObject) => {
         })
 
         .catch((err) => {
-          console.log(err);
           toast(
             "Something went wrong, please try again with strong network connection",
             {

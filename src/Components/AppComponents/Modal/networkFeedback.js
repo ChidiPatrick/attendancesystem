@@ -8,14 +8,11 @@ import { hideNetworkFeedback } from "../../Redux Slices/signupSlice";
 import { useDispatch } from "react-redux";
 
 function NetworkFeedback({ children }) {
-  console.log(navigator.onLine);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   ///Close modal /////
   const closeModel = () => {
-    console.log("modal closing...");
     dispatch(hideNetworkFeedback());
   };
 

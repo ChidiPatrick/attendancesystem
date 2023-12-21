@@ -4,7 +4,6 @@ import { rdb } from "../../Firebase/firebase";
 
 // Third-party imports
 import { onValue, ref } from "firebase/database";
-import { toast } from "react-toastify";
 
 // Get holiday / break days
 const getBreakDays = (dispatch) => {

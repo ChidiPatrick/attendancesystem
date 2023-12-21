@@ -49,11 +49,8 @@ function UserProfile() {
   );
 
   const studentBioObject = getStudentBioObject(studentBioArray, userId);
-  console.log(studentBioObject);
 
   const { firstName, lastName, userName, profilePictureURL } = studentBioObject;
-
-  console.log(profilePictureURL);
 
   // Navigation function
   const navigateBack = () => {
@@ -72,11 +69,8 @@ function UserProfile() {
   );
 
   console.log(getProgramStartingDate(dispatch));
-  console.log(numberOfBusinessDays);
 
   getTotalClockins(userId, dispatch);
-
-  // getUserPermissionsArray(studentsBioArray, userId, dispatch);
 
   return (
     <div className="w-full py-6 relative">

@@ -161,11 +161,9 @@ const ProtectedRoute = ({ component }) => {
 };
 
 const verifyStudentEmail = (dispatch) => {
-  console.log("VerifyEmail function called!");
   const studentsBioRef = ref(rdb, "admindashboard/studentsBio");
   onValue(studentsBioRef, (snapshot) => {
     const studentsBioData = snapshot.val();
-    console.log(studentsBioData);
     dispatch(setStudentsEmail([...Object.values(studentsBioData)]));
   });
 };
@@ -177,10 +175,7 @@ const verifyAdminEmail = (dispatch, values) => {
 
   onValue(adminsBioRef, (snapshot) => {
     const adminsBioData = snapshot.val();
-
     adminsBioDataArray = Object.values(adminsBioData);
-    console.log(adminsBioDataArray);
-
     dispatch(setAdminsEmails(adminsBioDataArray));
   });
 };

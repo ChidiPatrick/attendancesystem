@@ -69,7 +69,6 @@ function ResetEmailAndPassword() {
         .required("Required"),
     }),
     onSubmit: (values) => {
-      console.log("Submit called");
       resetPassword(values);
     },
   });
