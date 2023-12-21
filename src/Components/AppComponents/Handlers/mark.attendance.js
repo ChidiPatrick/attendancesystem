@@ -234,7 +234,6 @@ const updateClockOutData = async (
         addClockOutDataToAdminDatabase(clockOutData);
       })
       .then(() => {
-        console.log("Uploaded...");
         dispatch(getAttendanceRecords(userId));
       })
       .then(() => {

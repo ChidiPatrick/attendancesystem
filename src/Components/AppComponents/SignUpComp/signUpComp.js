@@ -28,7 +28,8 @@ import {
 import SpinnerSmall from "../Loading spinners/spinnerSmall";
 import { hideSpinner, showSpinner } from "../../Redux Slices/signupSlice";
 import { addStudentBioToAdminDatabase } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
-// import { getStudentsArray } from "../Admin Dashboard/admin.handlers";
+import { useRef } from "react";
+import { toast } from "react-toastify";
 
 ////////////////Sign up component//////////////////////////////
 const SignUp = () => {
@@ -114,7 +115,10 @@ const SignUp = () => {
         dispatch(showNetworkFeedback());
       }
     } catch (err) {
-      prompt("Email already in use");
+      toast("Email is already in use", {
+        type: "warning",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -140,7 +144,6 @@ const SignUp = () => {
       tel: Yup.number().required("Required"),
     }),
     onSubmit: (values) => {
-      console.log("Submit called");
       signUpUserHandler(values);
     },
   });

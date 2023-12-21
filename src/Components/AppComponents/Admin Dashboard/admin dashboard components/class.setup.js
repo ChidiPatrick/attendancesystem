@@ -7,7 +7,7 @@ import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { ref as rdbRef, onValue } from "firebase/database";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 //Local imports
@@ -15,7 +15,6 @@ import DashboardNavigationComponent from "./dashboard.navcomp";
 import { Link } from "react-router-dom";
 import { ButtonFullLong } from "../../../LandingPageComponents/Buttons/buttons";
 import { useDispatch, useSelector } from "react-redux";
-import Session from "./Session";
 import {
   setEarlinessEndingTimeState,
   setEarlinessStartingTimeState,
@@ -27,7 +26,6 @@ import { rdb } from "../../../Firebase/firebase";
 import {
   calcProgramDurationMonth,
   setBreakDays,
-  getBreakDays,
   setPassedAndFutureBreakDays,
 } from "../admin dashboard handlers/admin.session.setting";
 
@@ -75,8 +73,6 @@ function ClassSetup() {
     (state) => state.classSetupSlice.breakDaysArray
   );
 
-  // getBreakDays(dispatch);
-
   const holidaysObject = setPassedAndFutureBreakDays(breakDaysArray);
 
   const { passedHolidaysArray, futureHolidaysArray } = holidaysObject;
@@ -100,9 +96,6 @@ function ClassSetup() {
         return () => {};
       } else {
         const setupSettings = Object.values(snapshot.val());
-
-        console.log(snapshot.val().programEndingDate.endDate);
-
         dispatch(
           setProgramStartingDateState(snapshot.val().programStartingDate.date)
         );
@@ -130,16 +123,18 @@ function ClassSetup() {
 
   // Get programe starting date from calendar
   const getBreakStartingDate = (newDate) => {
-    console.log(newDate);
-
     setDate(new Date(newDate).toDateString());
-    // dispatch(updateProgramStartingDateState(new Date(newDate).toDateString()));
   };
 
   const getBreakEndingDate = (newDate) => {
-    console.log(newDate);
     setEndingDate(new Date(newDate).toDateString());
-    // dispatch(updateProgramEndingDateState(new Date(newDate).toDateString()));
+  };
+
+  const newSessionHandler = () => {
+    toast("This feature is yet to be implemented, it will soon be ready", {
+      type: "info",
+      autoClose: 4000,
+    });
   };
 
   const toastObject = {
@@ -148,33 +143,6 @@ function ClassSetup() {
     type: "success",
     theme: "light",
   };
-
-  // Update program duration in database
-  // const updateProgramDurationSettings = (startingDate, endingDate) => {
-  //   // Update program starting date
-  //   updateProgramStartingDate(startingDate).then(() => {
-  //     const programStartingRef = rdbRef(
-  //       rdb,
-  //       "admindashboard/classSetupDatabase/programStartingDate"
-  //     );
-
-  //     onValue(programStartingRef, (snapshot) => {
-  //       dispatch(updateProgramStartingDateState(snapshot.val()));
-  //     });
-  //   });
-
-  //   //Update program ending date
-  //   updateProgramEndingDate(endingDate).then(() => {
-  //     const programEndingRef = rdbRef(
-  //       rdb,
-  //       "admindashboard/classSetupDatabase/programEndingDate"
-  //     );
-
-  //     onValue(programEndingRef, (snapshot) => {
-  //       dispatch(updateProgramEndingDateState(snapshot.val()));
-  //     });
-  //   });
-  // };
 
   return (
     <div className="bg-user-profile min-h-screen w-full p-[10px]">
@@ -196,7 +164,10 @@ function ClassSetup() {
                   : programEndingDate}
               </span>
             </div>
-            <button className="w-[200px] hover:bg-[#163a87] flex justify-center items-center  p-[10px] bg-lp-primary border rounded-2xl text-white font-bold">
+            <button
+              onClick={newSessionHandler}
+              className="w-[200px] hover:bg-[#163a87] flex justify-center items-center  p-[10px] bg-lp-primary border rounded-2xl text-white font-bold"
+            >
               <AiOutlineUserAdd className="mr-[10px]" size={20} /> New session
             </button>
           </div>

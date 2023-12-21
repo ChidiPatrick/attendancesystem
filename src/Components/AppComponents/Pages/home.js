@@ -1,4 +1,4 @@
-import React, { useEffect, useState, progress } from "react";
+import React, { useEffect, useState } from "react";
 import "react-circular-progressbar/dist/styles.css";
 
 /// Third party imports ///////////
@@ -11,14 +11,9 @@ import "react-clock/dist/Clock.css";
 
 // Local directory imports /////
 import NavBar from "./navBar";
-import {
-  setLinkToClockIn,
-  setOnTime,
-} from "../../Redux Slices/attendanceSlice";
+import { setLinkToClockIn } from "../../Redux Slices/attendanceSlice";
 import { getStudentsLogins } from "../Admin Dashboard/admin dashboard handlers/admin.handlers";
 import { getStudentBioObject } from "../Handlers/profile.picture.upload.handler";
-import BreakDaysUI from "./breakDaysUI";
-import ScreenSizeFeedback from "../Admin Dashboard/admin dashboard components/screen.size.feedback";
 
 function MarkAttendance() {
   const dispatch = useDispatch();
@@ -28,8 +23,6 @@ function MarkAttendance() {
   const [value, setValue] = useState(new Date());
 
   /// Redux states /////
-  const displayMenu = useSelector((state) => state.menuSlice.displayMenu);
-
   const userProfileData = useSelector(
     (state) => state.profileSlice.userProfileData
   );
@@ -42,7 +35,6 @@ function MarkAttendance() {
 
   const { firstName, profilePictureURL, lastName, currMonthRecord } =
     userProfileData;
-  console.log(studentBioArray);
 
   const studentsClockInList = getStudentsLogins();
 
@@ -81,7 +73,7 @@ function MarkAttendance() {
               <BsFillPersonFill size={"100%"} />
             ) : (
               <img
-                src={studentBioObject.profilePictureURL}
+                src={studentBioObject?.profilePictureURL}
                 alt="pics_profile"
                 className=" w-[100%] h-[100%]"
               />
@@ -163,7 +155,6 @@ function MarkAttendance() {
           </div>
         )}
       </div>
-      <ScreenSizeFeedback />
     </div>
   );
 }

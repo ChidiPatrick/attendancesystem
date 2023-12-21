@@ -16,6 +16,10 @@ const loopDate = (programStartingDate, programEndingDate) => {
   let totalWorkDays = 0;
   const currDate = new Date(programStartingDate);
 
+  if (new Date().valueOf() > new Date(programEndingDate).valueOf()) {
+    return "Program ended";
+  }
+
   while (currDate <= programEndingDate) {
     const dayOfWeek = currDate.getDay();
 

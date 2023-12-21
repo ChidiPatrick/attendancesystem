@@ -49,16 +49,20 @@ function MarkUser() {
   const latenessHour = useSelector(
     (state) => state.attendanceRecord.latenessStartTime
   );
-
   const userProfile = useSelector(
     (state) => state.profileSlice.userProfileData
   );
-
+  const programStartingDate = useSelector(
+    (state) => state.loginSlice.programStartingDate
+  );
+  const programEndingDate = useSelector(
+    (state) => state.loginSlice.programEndingDate
+  );
   const breakDaysArray = useSelector(
     (state) => state.attendanceRecord.breakDaysArray
   );
 
-  const { profilePictureURL, firstName, lastName } = userProfile;
+  const { firstName, lastName } = userProfile;
 
   // Local states ////
   const [time, setCurrTime] = useState(currTime);
@@ -86,6 +90,25 @@ function MarkUser() {
         type: "Warning",
       });
 
+      return;
+    }
+
+    if (new Date().valueOf() < new Date(programStartingDate).valueOf()) {
+      toast("Sorry, you can not clock in before the start of the program", {
+        type: "warning",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    if (new Date().valueOf() > new Date(programEndingDate).valueOf()) {
+      toast(
+        "Sorry, you can not clock in after the end of the program duration",
+        {
+          type: "warning",
+          autoClose: 3000,
+        }
+      );
       return;
     }
 
@@ -147,18 +170,6 @@ function MarkUser() {
 
   return (
     <div className="w-full relative h-screen flex flex-col justify-between border border-bg-lp-secondary items-center">
-      {/* {profilePictureURL === "" || !navigator.onLine ? (
-        <BsFillPersonFill
-          size={50}
-          className="w-[200px] h-[40%] border rounded"
-        />
-      ) : (
-        <img
-          className="w-[200px] h-[40%] mb-[100px]   border rounded-xl  border-lp-secondary"
-          src={profilePictureURL}
-          alt="user"
-        />
-      )} */}
       <div className="bg-user-profile p-[10px] flex flex-col justify-between w-full sm:shadow-md sm:max-w-[640px] h-screen sm:h-[80%] sm:my-auto">
         <Link to={-1} className="w-full flex ">
           <HiChevronLeft size={30} />
@@ -184,7 +195,6 @@ function MarkUser() {
             Something went wrong, please login out and log in again
           </FeedbackModal>
         ) : null}
-        {/* <ClockOut /> */}
       </div>
     </div>
   );
